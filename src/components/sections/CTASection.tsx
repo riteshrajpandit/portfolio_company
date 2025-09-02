@@ -34,7 +34,7 @@ const CTASection = () => {
               Let's work together to bring your vision to life. 
               Get in touch and discover how we can help your business grow.
             </Text>
-            <Link to="/contact" style={{ textDecoration: 'none' }}>
+            <Link to="/products" style={{ textDecoration: 'none' }}>
               <Button
                 size="lg"
                 bg="white"

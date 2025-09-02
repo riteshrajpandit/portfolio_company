@@ -5,11 +5,20 @@ import { useState } from 'react'
 const MotionBox = motion(Box)
 
 interface WaterDropletTextProps {
-  text: string
+  children?: React.ReactNode
+  text?: string
   fontSize?: string
+  fontWeight?: string
+  color?: string
 }
 
-const WaterDropletText = ({ text, fontSize = "4xl" }: WaterDropletTextProps) => {
+const WaterDropletText = ({ 
+  children, 
+  text, 
+  fontSize = "4xl", 
+  fontWeight = "bold", 
+  color = "blue.400" 
+}: WaterDropletTextProps) => {
   const [isHovered, setIsHovered] = useState(false)
   const mouseX = useMotionValue(0)
   const mouseY = useMotionValue(0)
@@ -42,6 +51,8 @@ const WaterDropletText = ({ text, fontSize = "4xl" }: WaterDropletTextProps) => 
     y.set(0)
   }
   
+  const displayText = children || text || ""
+  
   return (
     <Box
       position="relative"
@@ -53,13 +64,14 @@ const WaterDropletText = ({ text, fontSize = "4xl" }: WaterDropletTextProps) => 
     >
       <Text
         fontSize={fontSize}
-        fontWeight="bold"
+        fontWeight={fontWeight}
         bgGradient="linear(to-r, blue.400, purple.500)"
         bgClip="text"
         position="relative"
         zIndex={2}
+        color={color}
       >
-        {text}
+        {displayText}
       </Text>
       
       <MotionBox

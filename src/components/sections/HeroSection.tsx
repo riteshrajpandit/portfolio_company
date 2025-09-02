@@ -142,7 +142,7 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
                 mb={{ base: 6, md: 8 }}
                 width="full"
               >
-                <Link to="/contact" style={{ textDecoration: 'none', width: '100%' }}>
+                <Link to="/products" style={{ textDecoration: 'none', width: '100%' }}>
                   <Button
                     size={{ base: "md", md: "lg" }}
                     colorScheme="primary"
@@ -163,7 +163,7 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
                   </Button>
                 </Link>
                 
-                <Link to="/portfolio" style={{ textDecoration: 'none', width: '100%' }}>
+                <Link to="/resources" style={{ textDecoration: 'none', width: '100%' }}>
                   <Button
                     size={{ base: "md", md: "lg" }}
                     variant="outline"
@@ -181,7 +181,7 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
                     }}
                     transition="all 0.3s ease"
                   >
-                    View Our Work
+                    View Our Resources
                   </Button>
                 </Link>
               </Flex>

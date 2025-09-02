@@ -1,363 +1,677 @@
-import {
-  Box,
-  Flex,
-  Button,
-  useDisclosure,
-  Text,
-  Stack,
-  IconButton,
-  Container,
-} from "@chakra-ui/react"
-import { Link, useLocation } from "react-router-dom"
-import { HiMenu, HiX, HiChevronDown } from "react-icons/hi"
-import { useState } from "react"
+import { useState, useEffect } from 'react'
+import { 
+  Box, 
+  Flex, 
+  Text, 
+  Button, 
+  VStack,
+  HStack,
+  useBreakpointValue,
+  Container
+} from '@chakra-ui/react'
+import { Link, useLocation } from 'react-router-dom'
+import { HiMenu, HiX, HiChevronDown } from 'react-icons/hi'
+import { motion, AnimatePresence } from 'framer-motion'
 
-interface NavItem {
-  label: string
-  href?: string
-  children?: Array<NavItem>
+interface NavLink {
+  name: string
+  path: string
+  description?: string
+  children?: NavLink[]
 }
 
-const NAV_ITEMS: Array<NavItem> = [
-  {
-    label: "Home",
-    href: "/",
-  },
-  {
-    label: "About",
-    href: "/about",
+const navLinks: NavLink[] = [
+  { name: 'Home', path: '/' },
+  { 
+    name: 'Products', 
+    path: '/products',
     children: [
-      { label: "Our Story", href: "/about/story" },
-      { label: "Mission & Vision", href: "/about/mission" },
-      { label: "Team", href: "/about/team" },
-      { label: "Careers", href: "/about/careers" },
-    ],
+      { 
+        name: 'ERP', 
+        path: '/products#erp',
+        description: 'Enterprise Resource Planning solutions for streamlined business operations'
+      },
+      { 
+        name: 'Solutions', 
+        path: '/products#solutions',
+        description: 'Custom business solutions tailored to your specific needs'
+      },
+      { 
+        name: 'Amigaa', 
+        path: '/products#amigaa',
+        description: 'Advanced AI-powered platform for intelligent automation'
+      }
+    ]
   },
-  {
-    label: "Services",
-    href: "/services",
+  { 
+    name: 'Services', 
+    path: '/services',
     children: [
-      { label: "Web Development", href: "/services/web-development" },
-      { label: "Mobile Apps", href: "/services/mobile-apps" },
-      { label: "Consulting", href: "/services/consulting" },
-      { label: "Support", href: "/services/support" },
-    ],
+      { 
+        name: 'IT Consulting', 
+        path: '/services#it-consulting',
+        description: 'Strategic technology guidance for digital transformation'
+      },
+      { 
+        name: 'Workshop & Training', 
+        path: '/services#workshop-training',
+        description: 'Professional development and skill enhancement programs'
+      }
+    ]
   },
-  {
-    label: "Portfolio",
-    href: "/portfolio",
+  { 
+    name: 'Resources', 
+    path: '/resources',
     children: [
-      { label: "Web Projects", href: "/portfolio/web" },
-      { label: "Mobile Projects", href: "/portfolio/mobile" },
-      { label: "Case Studies", href: "/portfolio/case-studies" },
-    ],
+      { 
+        name: 'Trusted Center', 
+        path: '/resources#trusted-center',
+        description: 'Security certifications, compliance and trust information'
+      },
+      { 
+        name: 'Tools', 
+        path: '/resources#tools',
+        description: 'Free tools and utilities to boost your productivity'
+      }
+    ]
   },
-  {
-    label: "Blog",
-    href: "/blog",
-  },
-  {
-    label: "Contact",
-    href: "/contact",
-  },
+  { 
+    name: 'About Us', 
+    path: '/about',
+    children: [
+      { 
+        name: 'Career', 
+        path: '/about#career',
+        description: 'Join our growing team and build the future together'
+      }
+    ]
+  }
 ]
 
-const DesktopNavItem = ({ navItem }: { navItem: NavItem }) => {
+const Navbar = () => {
+  const [isVisible, setIsVisible] = useState(true)
+  const [lastScrollY, setLastScrollY] = useState(0)
+  const [scrolled, setScrolled] = useState(false)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const location = useLocation()
-  const [isHovered, setIsHovered] = useState(false)
+  const isMobile = useBreakpointValue({ base: true, lg: false })
 
-  const isActive = location.pathname === navItem.href || 
-    (navItem.children && navItem.children.some(child => child.href === location.pathname))
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false)
+  }, [location.pathname])
 
-  if (!navItem.children) {
-    return (
-      <Link to={navItem.href!} style={{ textDecoration: 'none' }}>
-        <Text
-          px={4}
-          py={2}
-          rounded="md"
-          color={isActive ? "primary.500" : "neutral.700"}
-          fontWeight="medium"
-          fontSize="sm"
-          _hover={{
-            color: "primary.500",
-          }}
-          cursor="pointer"
-          transition="all 0.2s"
-        >
-          {navItem.label}
-        </Text>
-      </Link>
-    )
-  }
-
-  return (
-    <Box
-      position="relative"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <Flex align="center" cursor="pointer">
-        <Text
-          px={4}
-          py={2}
-          rounded="md"
-          color={isActive ? "primary.500" : "neutral.700"}
-          fontWeight="medium"
-          fontSize="sm"
-          _hover={{
-            color: "primary.500",
-          }}
-          transition="all 0.2s"
-        >
-          {navItem.label}
-        </Text>
-        <HiChevronDown 
-          style={{
-            color: isActive ? "var(--chakra-colors-primary-500)" : "var(--chakra-colors-neutral-600)",
-            transform: isHovered ? "rotate(180deg)" : "rotate(0deg)",
-            transition: "transform 0.2s",
-            fontSize: "12px",
-            marginLeft: "4px"
-          }}
-        />
-      </Flex>
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY
       
-      {isHovered && (
+      // Show/hide navbar based on scroll direction
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false)
+      } else {
+        setIsVisible(true)
+      }
+      
+      // Add background when scrolled
+      setScrolled(currentScrollY > 20)
+      setLastScrollY(currentScrollY)
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [lastScrollY])
+
+  const NavItem = ({ link, isMobile = false }: { link: NavLink; isMobile?: boolean }) => {
+    const [isHovered, setIsHovered] = useState(false)
+    const [hoveredChild, setHoveredChild] = useState<string | null>(null)
+    const [globalTimeout, setGlobalTimeout] = useState<number | null>(null)
+    const isActive = location.pathname === link.path || location.pathname.startsWith(link.path + '/')
+
+    // Universal hover management - keeps everything connected
+    const handleEnterHoverZone = () => {
+      if (globalTimeout) {
+        clearTimeout(globalTimeout)
+        setGlobalTimeout(null)
+      }
+      setIsHovered(true)
+    }
+
+    const handleLeaveHoverZone = () => {
+      const timeout = setTimeout(() => {
+        setIsHovered(false)
+        setHoveredChild(null)
+      }, 150)
+      setGlobalTimeout(timeout)
+    }
+
+    // Child-specific hover (for showing detail panels)
+    const handleChildHover = (childName: string) => {
+      if (globalTimeout) {
+        clearTimeout(globalTimeout)
+        setGlobalTimeout(null)
+      }
+      setIsHovered(true) // Keep main menu open
+      setHoveredChild(childName)
+    }
+
+    // Get detailed content for each submenu item
+    const getChildDetails = (childName: string, parentName: string) => {
+      const details: { [key: string]: { [key: string]: { title: string; description: string; features: string[] } } } = {
+        Products: {
+          'ERP': {
+            title: 'Enterprise Resource Planning',
+            description: 'Comprehensive ERP solutions that integrate all your business processes into a unified system for improved efficiency and data-driven decision making.',
+            features: ['Financial Management', 'Supply Chain Integration', 'Human Resources', 'Real-time Analytics']
+          },
+          'Solutions': {
+            title: 'Custom Business Solutions',
+            description: 'Tailored software solutions designed specifically for your business needs, ensuring perfect alignment with your processes and objectives.',
+            features: ['Custom Development', 'Process Automation', 'Third-party Integrations', 'Scalable Architecture']
+          },
+          'Amigaa': {
+            title: 'AI-Powered Automation Platform',
+            description: 'Revolutionary AI platform that transforms how businesses operate through intelligent automation and advanced machine learning capabilities.',
+            features: ['Machine Learning Models', 'Process Intelligence', 'Predictive Analytics', 'Automated Workflows']
+          }
+        },
+        Services: {
+          'IT Consulting': {
+            title: 'Strategic IT Consulting',
+            description: 'Expert guidance to help you navigate digital transformation, optimize your technology stack, and achieve your business objectives.',
+            features: ['Digital Strategy', 'Technology Assessment', 'Architecture Design', 'Implementation Planning']
+          },
+          'Workshop & Training': {
+            title: 'Professional Development',
+            description: 'Comprehensive training programs and workshops designed to upskill your team and maximize the value of your technology investments.',
+            features: ['Technical Workshops', 'Best Practices Training', 'Certification Programs', 'Ongoing Support']
+          }
+        },
+        Resources: {
+          'Trusted Center': {
+            title: 'Security & Compliance Hub',
+            description: 'Comprehensive security documentation, compliance certifications, and trust resources to ensure your confidence in our solutions.',
+            features: ['Security Certifications', 'Compliance Documentation', 'Privacy Policies', 'Audit Reports']
+          },
+          'Tools': {
+            title: 'Productivity Tools',
+            description: 'Free tools and utilities designed to enhance your productivity and streamline your daily workflows.',
+            features: ['Calculators & Converters', 'Planning Templates', 'Assessment Tools', 'Resource Libraries']
+          }
+        },
+        'About Us': {
+          'Career': {
+            title: 'Join Our Team',
+            description: 'Discover exciting career opportunities at IOXET. Be part of an innovative company that values creativity, collaboration, and professional growth.',
+            features: ['Remote-first culture', 'Competitive compensation', 'Learning & development budget', 'Flexible working hours']
+          }
+        }
+      }
+      
+      return details[parentName]?.[childName] || {
+        title: childName,
+        description: 'Learn more about this offering',
+        features: []
+      }
+    }
+
+    if (link.children && !isMobile) {
+      return (
         <Box
-          position="absolute"
-          top="100%"
-          left={0}
-          mt={2}
-          bg="white"
-          boxShadow="xl"
-          rounded="lg"
-          p={3}
-          minW="220px"
-          zIndex={1000}
-          border="1px"
-          borderColor="neutral.100"
+          position="relative"
+          onMouseEnter={handleEnterHoverZone}
+          onMouseLeave={handleLeaveHoverZone}
         >
-          <Stack gap={1}>
-            {navItem.children.map((child) => (
-              <Link key={child.label} to={child.href!} style={{ textDecoration: 'none' }}>
-                <Text
-                  px={3}
-                  py={2}
-                  rounded="md"
-                  fontSize="sm"
-                  color="neutral.600"
-                  _hover={{
-                    color: "primary.500",
-                    bg: "neutral.50"
-                  }}
-                  transition="all 0.2s"
-                >
-                  {child.label}
-                </Text>
-              </Link>
-            ))}
-          </Stack>
-        </Box>
-      )}
-    </Box>
-  )
-}
+          <HStack
+            gap={1}
+            py={2}
+            px={4}
+            borderRadius="full"
+            color={isActive ? "primary.500" : "text"}
+            fontWeight={isActive ? "600" : "500"}
+            cursor="pointer"
+            transition="all 0.3s ease"
+            _hover={{ 
+              bg: "primary.50",
+              color: "primary.500"
+            }}
+          >
+            <Text fontSize="sm">{link.name}</Text>
+            <motion.div
+              animate={{ rotate: isHovered ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <HiChevronDown size={14} />
+            </motion.div>
+          </HStack>
 
-const MobileNavItem = ({ navItem }: { navItem: NavItem }) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const location = useLocation()
-
-  const isActive = location.pathname === navItem.href
-
-  if (!navItem.children) {
-    return (
-      <Link to={navItem.href!} style={{ textDecoration: 'none' }}>
-        <Text
-          py={2}
-          px={4}
-          color={isActive ? "primary.500" : "neutral.600"}
-          fontWeight={isActive ? "semibold" : "medium"}
-          _hover={{ color: "primary.500" }}
-        >
-          {navItem.label}
-        </Text>
-      </Link>
-    )
-  }
-
-  return (
-    <Box>
-      <Flex
-        align="center"
-        justify="space-between"
-        py={2}
-        px={4}
-        cursor="pointer"
-        onClick={() => setIsOpen(!isOpen)}
-      >
-        <Text
-          color={isActive ? "primary.500" : "neutral.600"}
-          fontWeight={isActive ? "semibold" : "medium"}
-        >
-          {navItem.label}
-        </Text>
-        <HiChevronDown
-          style={{
-            transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
-            transition: "transform 0.2s"
-          }}
-        />
-      </Flex>
-      
-      {isOpen && (
-        <Stack ml={4} gap={1}>
-          {navItem.children.map((child) => (
-            <Link key={child.label} to={child.href!} style={{ textDecoration: 'none' }}>
-              <Text
-                py={2}
-                px={4}
-                fontSize="sm"
-                color="neutral.500"
-                _hover={{ color: "primary.500" }}
+          {/* Complete Hover Zone Container */}
+          <AnimatePresence>
+            {isHovered && (
+              <Box
+                position="absolute"
+                top="100%"
+                left="0"
+                zIndex={1000}
+                marginTop="8px"
+                onMouseEnter={handleEnterHoverZone}
+                onMouseLeave={handleLeaveHoverZone}
               >
-                {child.label}
-              </Text>
-            </Link>
-          ))}
-        </Stack>
-      )}
-    </Box>
-  )
-}
+                <Flex align="start" gap={3}>
+                  {/* Primary Submenu Panel */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.2, ease: "easeOut" }}
+                  >
+                    <Box
+                      bg="white"
+                      borderRadius="xl"
+                      shadow="xl"
+                      border="1px solid"
+                      borderColor="gray.100"
+                      backdropFilter="blur(20px)"
+                      overflow="hidden"
+                      minW="200px"
+                      position="relative"
+                    >
+                      {/* Arrow pointer - positioned relative to the menu button */}
+                      <Box
+                        position="absolute"
+                        top="-6px"
+                        left="32px"
+                        width="12px"
+                        height="12px"
+                        bg="white"
+                        borderTop="1px solid"
+                        borderLeft="1px solid"
+                        borderColor="gray.100"
+                        borderRadius="2px"
+                        style={{ rotate: '45deg' }}
+                      />
 
-export const Navbar = () => {
-  const { open, onToggle } = useDisclosure()
+                      {/* Menu Items */}
+                      <VStack gap={0} p={2}>
+                        {link.children.map((child, index) => (
+                          <motion.div
+                            key={child.path}
+                            initial={{ opacity: 0, x: -20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ 
+                              duration: 0.3, 
+                              delay: index * 0.05,
+                              ease: "easeOut"
+                            }}
+                            style={{ width: '100%' }}
+                          >
+                            <Box
+                              px={4}
+                              py={3}
+                              borderRadius="lg"
+                              transition="all 0.2s ease"
+                              bg={hoveredChild === child.name ? "primary.50" : "transparent"}
+                              _hover={{ 
+                                bg: "primary.50",
+                                transform: "translateX(4px)"
+                              }}
+                              cursor="pointer"
+                              width="100%"
+                              onMouseEnter={() => handleChildHover(child.name)}
+                            >
+                              <Link to={child.path} style={{ textDecoration: 'none', width: '100%' }}>
+                                <Text
+                                  fontSize="sm"
+                                  fontWeight="600"
+                                  color="text"
+                                >
+                                  {child.name}
+                                </Text>
+                              </Link>
+                            </Box>
+                          </motion.div>
+                        ))}
+                      </VStack>
+                    </Box>
+                  </motion.div>
+
+                  {/* Detailed Content Panel */}
+                  <AnimatePresence mode="wait">
+                    {hoveredChild && (
+                      <motion.div
+                        key={hoveredChild}
+                        initial={{ opacity: 0, x: 20, scale: 0.95 }}
+                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                        exit={{ opacity: 0, x: 20, scale: 0.95 }}
+                        transition={{ duration: 0.2, ease: "easeOut" }}
+                      >
+                        <Box
+                          bg="white"
+                          borderRadius="2xl"
+                          shadow="2xl"
+                          border="1px solid"
+                          borderColor="gray.100"
+                          backdropFilter="blur(20px)"
+                          overflow="hidden"
+                          w="350px"
+                        >
+                          {(() => {
+                            const details = getChildDetails(hoveredChild, link.name)
+                            return (
+                              <>
+                                {/* Header */}
+                                <Box
+                                  px={6}
+                                  py={4}
+                                  bg="primary.50"
+                                  borderBottom="1px solid"
+                                  borderColor="gray.100"
+                                >
+                                  <Text
+                                    fontSize="lg"
+                                    fontWeight="700"
+                                    color="primary.600"
+                                    mb={1}
+                                  >
+                                    {details.title}
+                                  </Text>
+                                </Box>
+
+                                {/* Content */}
+                                <VStack align="start" p={6} gap={4}>
+                                  <Text
+                                    fontSize="sm"
+                                    color="muted"
+                                    lineHeight="1.6"
+                                  >
+                                    {details.description}
+                                  </Text>
+
+                                  {details.features.length > 0 && (
+                                    <Box>
+                                      <Text
+                                        fontSize="xs"
+                                        fontWeight="600"
+                                        color="text"
+                                        mb={2}
+                                        textTransform="uppercase"
+                                        letterSpacing="wide"
+                                      >
+                                        Key Features
+                                      </Text>
+                                      <VStack align="start" gap={1}>
+                                        {details.features.map((feature, idx) => (
+                                          <HStack key={idx} gap={2} align="start">
+                                            <Box
+                                              width="4px"
+                                              height="4px"
+                                              bg="primary.500"
+                                              borderRadius="full"
+                                              mt="6px"
+                                              flexShrink={0}
+                                            />
+                                            <Text
+                                              fontSize="xs"
+                                              color="muted"
+                                              lineHeight="1.4"
+                                            >
+                                              {feature}
+                                            </Text>
+                                          </HStack>
+                                        ))}
+                                      </VStack>
+                                    </Box>
+                                  )}
+
+                                  {/* CTA */}
+                                  <Link to={link.children?.find(c => c.name === hoveredChild)?.path || '#'} style={{ textDecoration: 'none' }}>
+                                    <Button
+                                      size="sm"
+                                      colorScheme="primary"
+                                      variant="ghost"
+                                      _hover={{
+                                        bg: "primary.50"
+                                      }}
+                                    >
+                                      Learn More →
+                                    </Button>
+                                  </Link>
+                                </VStack>
+                              </>
+                            )
+                          })()}
+                        </Box>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </Flex>
+              </Box>
+            )}
+          </AnimatePresence>
+        </Box>
+      )
+    }
+
+    return (
+      <Link to={link.path} style={{ textDecoration: 'none' }}>
+        <Text
+          py={2}
+          px={4}
+          borderRadius="full"
+          color={isActive ? "primary.500" : "text"}
+          fontWeight={isActive ? "600" : "500"}
+          fontSize="sm"
+          transition="all 0.3s ease"
+          _hover={{ 
+            color: "primary.500",
+            bg: "primary.50",
+            transform: "translateY(-1px)"
+          }}
+          onClick={isMobile ? () => setIsMobileMenuOpen(false) : undefined}
+        >
+          {link.name}
+        </Text>
+      </Link>
+    )
+  }
 
   return (
-    <Box
-      position="fixed"
-      top={0}
-      left={0}
-      right={0}
-      zIndex={1000}
-      bg="rgba(255, 255, 255, 0.95)"
-      backdropFilter="blur(10px)"
-      borderBottom="1px"
-      borderColor="whiteAlpha.200"
-      transition="all 0.3s ease"
-    >
-      <Container maxW="7xl" px={{ base: 4, md: 8 }}>
-        <Flex
-          h={16}
-          align="center"
-          justify="space-between"
-        >
-          {/* Logo */}
-          <Link to="/" style={{ textDecoration: 'none' }}>
-            <Text
-              fontSize="2xl"
-              fontWeight="bold"
-              color="neutral.900"
-              fontFamily="heading"
-            >
-              sintra
-            </Text>
-          </Link>
-
-          {/* Desktop Navigation */}
+    <>
+      <Box
+        as="nav"
+        position="fixed"
+        top={0}
+        left={0}
+        right={0}
+        zIndex={1000}
+        transition="all 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
+        transform={isVisible ? "translateY(0)" : "translateY(-100%)"}
+        bg={scrolled ? "card" : "transparent"}
+        backdropFilter={scrolled ? "blur(20px)" : "none"}
+        borderBottom={scrolled ? "1px solid" : "none"}
+        borderColor="border"
+        shadow={scrolled ? "xl" : "none"}
+      >
+        <Container maxW="7xl">
           <Flex
-            display={{ base: "none", md: "flex" }}
             align="center"
-            gap={8}
-            flex={1}
-            justify="center"
+            justify="space-between"
+            py={4}
           >
-            {NAV_ITEMS.map((navItem) => (
-              <DesktopNavItem key={navItem.label} navItem={navItem} />
-            ))}
+            {/* Logo */}
+            <Link to="/" style={{ textDecoration: 'none' }}>
+              <HStack gap={3} alignItems="center">
+                <Box
+                  width="40px"
+                  height="40px"
+                  bg="primary.500"
+                  borderRadius="lg"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  color="white"
+                  fontWeight="800"
+                  fontSize="lg"
+                  transition="all 0.3s ease"
+                  _hover={{ 
+                    transform: "scale(1.05)",
+                    shadow: "lg"
+                  }}
+                >
+                  IO
+                </Box>
+                <Text
+                  fontSize="xl"
+                  fontWeight="700"
+                  color="text"
+                  _hover={{ 
+                    color: "primary.500"
+                  }}
+                  transition="all 0.3s ease"
+                >
+                  IOXET
+                </Text>
+              </HStack>
+            </Link>
+
+            {/* Desktop Navigation */}
+            {!isMobile && (
+              <HStack gap={2}>
+                {navLinks.map((link) => (
+                  <NavItem key={link.path} link={link} />
+                ))}
+              </HStack>
+            )}
+
+            {/* Right side controls */}
+            <HStack gap={3}>
+              <Link to="/products" style={{ textDecoration: 'none' }}>
+                <Button
+                  variant="solid"
+                  colorScheme="primary"
+                  size="sm"
+                  borderRadius="full"
+                  px={6}
+                  fontWeight="600"
+                  display={{ base: 'none', md: 'flex' }}
+                  _hover={{ 
+                    transform: "translateY(-2px)",
+                    shadow: "lg"
+                  }}
+                  transition="all 0.3s ease"
+                >
+                  Get Started
+                </Button>
+              </Link>
+
+              {isMobile && (
+                <Button
+                  aria-label="Open menu"
+                  variant="ghost"
+                  color="text"
+                  size="sm"
+                  borderRadius="full"
+                  onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  _hover={{ 
+                    bg: "primary.50",
+                    color: "primary.500"
+                  }}
+                  transition="all 0.3s ease"
+                  minW="auto"
+                  px={2}
+                >
+                  {isMobileMenuOpen ? <HiX size={20} /> : <HiMenu size={20} />}
+                </Button>
+              )}
+            </HStack>
           </Flex>
+        </Container>
+      </Box>
 
-          {/* Desktop CTA */}
-          <Flex display={{ base: "none", md: "flex" }} gap={4} align="center">
-            <Text
-              fontSize="sm"
-              fontWeight="medium"
-              color="neutral.600"
-              cursor="pointer"
-              _hover={{ color: "primary.500" }}
-            >
-              Log in
-            </Text>
-            <Button
-              bg="primary.500"
-              color="white"
-              _hover={{ bg: "primary.600", transform: "translateY(-1px)" }}
-              size="sm"
-              borderRadius="lg"
-              px={6}
-              fontWeight="semibold"
-              transition="all 0.2s ease"
-            >
-              Get Started
-            </Button>
-          </Flex>
-
-          {/* Mobile Menu Button */}
-          <IconButton
-            display={{ md: "none" }}
-            variant="ghost"
-            aria-label="Open menu"
-            onClick={onToggle}
-            color="neutral.700"
-            _hover={{ bg: "neutral.100" }}
-          >
-            {open ? <HiX /> : <HiMenu />}
-          </IconButton>
-        </Flex>
-      </Container>
-
-      {/* Mobile Navigation */}
-      {open && (
+      {/* Mobile Menu */}
+      {isMobile && isMobileMenuOpen && (
         <Box
-          display={{ md: "none" }}
-          bg="white"
-          borderTop="1px"
-          borderColor="neutral.200"
-          py={4}
-          shadow="lg"
+          position="fixed"
+          top="80px"
+          left={0}
+          right={0}
+          bg="card"
+          backdropFilter="blur(20px)"
+          border="1px solid"
+          borderColor="border"
+          borderRadius="0 0 xl xl"
+          shadow="xl"
+          zIndex={999}
+          p={6}
+          transition="all 0.3s ease"
         >
-          <Container maxW="7xl" px={{ base: 4 }}>
-            <Stack gap={4}>
-              {NAV_ITEMS.map((navItem) => (
-                <MobileNavItem key={navItem.label} navItem={navItem} />
-              ))}
-              <Box pt={4} borderTop="1px" borderColor="neutral.200">
-                <Stack gap={3}>
-                  <Text
-                    fontSize="sm"
-                    fontWeight="medium"
-                    color="neutral.600"
-                    cursor="pointer"
-                  >
-                    Log in
-                  </Text>
-                  <Button
-                    bg="primary.500"
-                    color="white"
-                    _hover={{ bg: "primary.600" }}
-                    size="md"
-                    w="full"
-                    borderRadius="lg"
-                  >
-                    Get Started
-                  </Button>
-                </Stack>
+          <VStack align="stretch" gap={2}>
+            {navLinks.map((link) => (
+              <Box key={link.path}>
+                <NavItem link={link} isMobile />
+                {link.children && (
+                  <VStack align="stretch" pl={4} mt={2} gap={1}>
+                    {link.children.map((child) => (
+                      <Link key={child.path} to={child.path} style={{ textDecoration: 'none' }}>
+                        <Text
+                          py={2}
+                          px={4}
+                          borderRadius="lg"
+                          fontSize="sm"
+                          color="muted"
+                          fontWeight="500"
+                          transition="all 0.2s ease"
+                          _hover={{ 
+                            color: "primary.500", 
+                            bg: "primary.50",
+                            transform: "translateX(4px)"
+                          }}
+                          onClick={() => setIsMobileMenuOpen(false)}
+                        >
+                          {child.name}
+                        </Text>
+                      </Link>
+                    ))}
+                  </VStack>
+                )}
               </Box>
-            </Stack>
-          </Container>
+            ))}
+            
+            <Link to="/products" style={{ textDecoration: 'none' }}>
+              <Button
+                variant="solid"
+                colorScheme="primary"
+                mt={6}
+                borderRadius="full"
+                fontWeight="600"
+                w="full"
+                onClick={() => setIsMobileMenuOpen(false)}
+                _hover={{ transform: "translateY(-2px)" }}
+                transition="all 0.3s ease"
+              >
+                Get Started
+              </Button>
+            </Link>
+          </VStack>
         </Box>
       )}
-    </Box>
+
+      {/* Animation keyframes */}
+      <style>
+        {`
+          @keyframes fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(10px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+        `}
+      </style>
+    </>
   )
 }
+
+export default Navbar

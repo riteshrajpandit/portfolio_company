@@ -1,8 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import { Box } from '@chakra-ui/react'
-import ModernNavbar from './components/ModernNavbar'
+import Navbar from './components/Navbar'
 import HomePage from './pages/HomePage'
 import AboutPage from './pages/AboutPage'
+import ProductsPage from './pages/ProductsPage'
+import ServicesPage from './pages/ServicesPage'
+import ResourcesPage from './pages/ResourcesPage'
 import ContactPage from './pages/ContactPage'
 import ScrollToTopButton from './components/ScrollToTopButton'
 import Footer from './components/Footer'
@@ -11,14 +14,14 @@ function App() {
   return (
     <Router>
       <Box minH="100vh" bg="background">
-        <ModernNavbar />
+        <Navbar />
         
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/about/*" element={<AboutPage />} />
-          <Route path="/services/*" element={<div>Services Page</div>} />
-          <Route path="/portfolio/*" element={<div>Portfolio Page</div>} />
-          <Route path="/blog" element={<div>Blog Page</div>} />
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/resources" element={<ResourcesPage />} />
+          <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
         </Routes>
         
