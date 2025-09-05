@@ -29,10 +29,10 @@ import {
 
 const teamMembers = [
   {
-    name: "John Smith",
+    name: "Ritesh Raj Pandit",
     role: "CEO & Founder",
-    bio: "With 15 years of experience in tech leadership, John founded our company to bridge the gap between innovative ideas and practical solutions.",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+    bio: "With 15 years of experience in tech leadership, Ritesh founded our company to bridge the gap between innovative ideas and practical solutions.",
+    image: "/teams/riteshraj.png",
     social: {
       linkedin: "https://linkedin.com",
       twitter: "https://twitter.com",
@@ -40,10 +40,10 @@ const teamMembers = [
     }
   },
   {
-    name: "Sarah Davis",
+    name: "Abiral",
     role: "CTO",
-    bio: "Sarah leads our technical vision with expertise in modern web technologies and scalable architecture design.",
-    image: "https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+    bio: "Abiral leads our technical vision with expertise in modern web technologies and scalable architecture design.",
+    image: "/teams/abiral.jpeg",
     social: {
       linkedin: "https://linkedin.com",
       twitter: "https://twitter.com",
@@ -51,10 +51,10 @@ const teamMembers = [
     }
   },
   {
-    name: "Michael Chen",
+    name: "Ashim",
     role: "Lead Designer",
-    bio: "Michael brings creative vision to life with user-centered design principles and a passion for beautiful, functional interfaces.",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+    bio: "Ashim brings creative vision to life with user-centered design principles and a passion for beautiful, functional interfaces.",
+    image: "/teams/ashim.jpeg",
     social: {
       linkedin: "https://linkedin.com",
       twitter: "https://twitter.com",
@@ -62,10 +62,109 @@ const teamMembers = [
     }
   },
   {
-    name: "Emily Johnson",
+    name: "Devbandhu",
     role: "Senior Developer",
-    bio: "Emily specializes in full-stack development and has a talent for turning complex requirements into elegant solutions.",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80",
+    bio: "Devbandhu specializes in full-stack development and has a talent for turning complex requirements into elegant solutions.",
+    image: "/teams/devbandhu.jpeg",
+    social: {
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com",
+      github: "https://github.com"
+    }
+  },
+  {
+    name: "Dipak Bohara",
+    role: "Software Engineer",
+    bio: "Dipak is passionate about building scalable applications and implementing best practices in software development.",
+    image: "/teams/dipakbohara.jpeg",
+    social: {
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com",
+      github: "https://github.com"
+    }
+  },
+  {
+    name: "Diwas",
+    role: "Frontend Developer",
+    bio: "Diwas creates engaging user interfaces with modern frameworks and has a keen eye for user experience design.",
+    image: "/teams/diwas.jpeg",
+    social: {
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com",
+      github: "https://github.com"
+    }
+  },
+  {
+    name: "Kaustuv",
+    role: "Backend Developer",
+    bio: "Kaustuv builds robust server-side solutions and ensures optimal performance and security of our applications.",
+    image: "/teams/kaustuv.jpeg",
+    social: {
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com",
+      github: "https://github.com"
+    }
+  },
+  {
+    name: "Laxmi",
+    role: "UI/UX Designer",
+    bio: "Laxmi crafts intuitive user experiences and beautiful interfaces that delight users and drive engagement.",
+    image: "/teams/laxmi.jpeg",
+    social: {
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com",
+      github: "https://github.com"
+    }
+  },
+  {
+    name: "Nibesh",
+    role: "DevOps Engineer",
+    bio: "Nibesh manages our infrastructure and deployment pipelines, ensuring reliable and scalable cloud solutions.",
+    image: "/teams/nibesh.jpeg",
+    social: {
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com",
+      github: "https://github.com"
+    }
+  },
+  {
+    name: "Shubham",
+    role: "Full Stack Developer",
+    bio: "Shubham works across the entire stack, bringing ideas from conception to deployment with modern technologies.",
+    image: "/teams/shubham.jpeg",
+    social: {
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com",
+      github: "https://github.com"
+    }
+  },
+  {
+    name: "Suresh",
+    role: "Software Architect",
+    bio: "Suresh designs scalable system architectures and guides technical decisions across our development teams.",
+    image: "/teams/suresh.jpeg",
+    social: {
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com",
+      github: "https://github.com"
+    }
+  },
+  {
+    name: "Suyog",
+    role: "Quality Assurance Engineer",
+    bio: "Suyog ensures our products meet the highest quality standards through comprehensive testing and quality processes.",
+    image: "/teams/suyog.jpeg",
+    social: {
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com",
+      github: "https://github.com"
+    }
+  },
+  {
+    name: "Tejash",
+    role: "Data Engineer",
+    bio: "Tejash builds data pipelines and analytics solutions that help drive data-driven decisions across the organization.",
+    image: "/teams/tejash.jpeg",
     social: {
       linkedin: "https://linkedin.com",
       twitter: "https://twitter.com",
@@ -98,7 +197,7 @@ const values = [
 ]
 
 const stats = [
-  { label: "Team Members", value: "50+", icon: HiUserGroup },
+  { label: "Team Members", value: "13+", icon: HiUserGroup },
   { label: "Years of Experience", value: "10+", icon: HiTrophy },
   { label: "Projects Delivered", value: "500+", icon: HiBriefcase },
   { label: "Client Satisfaction", value: "99%", icon: HiHeart }
@@ -374,7 +473,7 @@ export const AboutPage = () => {
             </Text>
           </MotionBox>
           
-          <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(4, 1fr)" }} gap={8}>
+          <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)", lg: "repeat(4, 1fr)", xl: "repeat(5, 1fr)" }} gap={8}>
             {teamMembers.map((member, index) => (
               <MotionBox
                 key={index}
