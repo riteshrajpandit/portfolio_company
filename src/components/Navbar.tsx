@@ -27,14 +27,9 @@ const navLinks: NavLink[] = [
     path: '/products',
     children: [
       { 
-        name: 'ERP', 
+        name: 'ERP Solutions', 
         path: '/products#erp',
         description: 'Enterprise Resource Planning solutions for streamlined business operations'
-      },
-      { 
-        name: 'Solutions', 
-        path: '/products#solutions',
-        description: 'Custom business solutions tailored to your specific needs'
       },
       { 
         name: 'Amigaa', 
@@ -158,15 +153,10 @@ const Navbar = () => {
     const getChildDetails = (childName: string, parentName: string) => {
       const details: { [key: string]: { [key: string]: { title: string; description: string; features: string[] } } } = {
         Products: {
-          'ERP': {
+          'ERP Solutions': {
             title: 'Enterprise Resource Planning',
             description: 'Comprehensive ERP solutions that integrate all your business processes into a unified system for improved efficiency and data-driven decision making.',
             features: ['Financial Management', 'Supply Chain Integration', 'Human Resources', 'Real-time Analytics']
-          },
-          'Solutions': {
-            title: 'Custom Business Solutions',
-            description: 'Tailored software solutions designed specifically for your business needs, ensuring perfect alignment with your processes and objectives.',
-            features: ['Custom Development', 'Process Automation', 'Third-party Integrations', 'Scalable Architecture']
           },
           'Amigaa': {
             title: 'AI-Powered Automation Platform',
@@ -559,7 +549,7 @@ const Navbar = () => {
                   }}
                   transition="all 0.3s ease"
                 >
-                  Get Started
+                  Let's Meet
                 </Button>
               </Link>
 

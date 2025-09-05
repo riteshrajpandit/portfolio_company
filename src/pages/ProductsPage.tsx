@@ -121,7 +121,7 @@ const ProductsPage = () => {
   return (
     <Box>
       {/* Hero Section */}
-      <Box bg="neutral.50" pt={20} pb={16}>
+      <Box bg="neutral.50" pt={40} pb={16}>
         <Container maxW="7xl">
           <MotionContainer
             initial={{ opacity: 0, y: 30 }}
@@ -131,18 +131,6 @@ const ProductsPage = () => {
             maxW="4xl"
             mx="auto"
           >
-            <Badge
-              colorScheme="primary"
-              variant="solid"
-              px={4}
-              py={2}
-              borderRadius="full"
-              fontSize="sm"
-              fontWeight="600"
-              mb={6}
-            >
-              ✨ Our Product Suite
-            </Badge>
             <Text
               fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
               fontWeight="700"

@@ -63,7 +63,7 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
           alignItems="center"
         >
           {/* Left Half - Content */}
-          <VStack align="start" gap={{ base: 2, md: 3 }} py={{ base: 8, lg: 16 }}>
+          <VStack align="start" gap={{ base: 2, md: 3 }} py={{ base: 8, lg: 32 }}>
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
@@ -79,9 +79,9 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
                 fontWeight="600"
                 bg="primary.500"
                 color="white"
-                mb={{ base: 4, md: 5 }}
+                mb={{ base: 4, md: 2 }}
               >
-                ✨ IOXET - Building Tomorrow's Digital Experiences
+                ✨ IOXET - AI Powered Solutions
               </Badge>
             </motion.div>
 
@@ -104,7 +104,7 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
                 Solutions That{" "}
                 <Text 
                   as="span" 
-                  bgGradient="linear(135deg, primary.500, purple.500)"
+                  bgGradient="to-r" gradientFrom="red.200" gradientTo="blue.200"
                   bgClip="text"
                 >
                   Transform
@@ -142,7 +142,7 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
                 mb={{ base: 6, md: 8 }}
                 width="full"
               >
-                <Link to="/products" style={{ textDecoration: 'none', width: '100%' }}>
+                <Link to="/contact" style={{ textDecoration: 'none', width: '100%' }}>
                   <Button
                     size={{ base: "md", md: "lg" }}
                     colorScheme="primary"
@@ -159,11 +159,11 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
                     }}
                     transition="all 0.3s ease"
                   >
-                    Start Your Project <HiArrowRight style={{ marginLeft: '8px' }} />
+                    Let's Meet <HiArrowRight style={{ marginLeft: '8px' }} />
                   </Button>
                 </Link>
                 
-                <Link to="/resources" style={{ textDecoration: 'none', width: '100%' }}>
+                <Link to="/products" style={{ textDecoration: 'none', width: '100%' }}>
                   <Button
                     size={{ base: "md", md: "lg" }}
                     variant="outline"
@@ -181,7 +181,7 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
                     }}
                     transition="all 0.3s ease"
                   >
-                    View Our Resources
+                    View Our Products
                   </Button>
                 </Link>
               </Flex>
@@ -225,7 +225,7 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
           {/* Right Half - Animated Bento Grid */}
           <Box 
             position="relative" 
-            height={{ base: "60vh", md: "70vh", lg: "100vh" }} 
+            height={{ base: "60vh", md: "70vh", lg: "90vh" }} 
             py={{ base: 8, lg: 16 }}
           >
             <motion.div

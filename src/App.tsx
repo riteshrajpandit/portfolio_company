@@ -8,11 +8,13 @@ import ServicesPage from './pages/ServicesPage'
 import ResourcesPage from './pages/ResourcesPage'
 import ContactPage from './pages/ContactPage'
 import ScrollToTopButton from './components/ScrollToTopButton'
+import ScrollToTop from './components/ScrollToTop'
 import Footer from './components/Footer'
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Box minH="100vh" bg="background">
         <Navbar />
         
