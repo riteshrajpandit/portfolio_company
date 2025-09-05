@@ -7,7 +7,8 @@ import {
   VStack,
   HStack,
   useBreakpointValue,
-  Container
+  Container,
+  Image
 } from '@chakra-ui/react'
 import { Link, useLocation } from 'react-router-dom'
 import { HiMenu, HiX, HiChevronDown } from 'react-icons/hi'
@@ -75,6 +76,11 @@ const navLinks: NavLink[] = [
     path: '/about',
     children: [
       { 
+        name: 'IOXET Overview', 
+        path: '/about',
+        description: 'Join our growing team and build the future together'
+      },
+      { 
         name: 'Career', 
         path: '/about#career',
         description: 'Join our growing team and build the future together'
@@ -88,12 +94,14 @@ const Navbar = () => {
   const [lastScrollY, setLastScrollY] = useState(0)
   const [scrolled, setScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [openMobileMenus, setOpenMobileMenus] = useState<string[]>([])
   const location = useLocation()
   const isMobile = useBreakpointValue({ base: true, lg: false })
 
-  // Close mobile menu when route changes
+  // Close mobile menu and reset submenus when route changes
   useEffect(() => {
     setIsMobileMenuOpen(false)
+    setOpenMobileMenus([])
   }, [location.pathname])
 
   useEffect(() => {
@@ -115,6 +123,12 @@ const Navbar = () => {
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [lastScrollY])
+
+  const toggleMobileMenu = (name: string) => {
+    setOpenMobileMenus(prev => 
+      prev.includes(name) ? prev.filter(n => n !== name) : [...prev, name]
+    )
+  }
 
   const NavItem = ({ link, isMobile = false }: { link: NavLink; isMobile?: boolean }) => {
     const [isHovered, setIsHovered] = useState(false)
@@ -189,6 +203,11 @@ const Navbar = () => {
           }
         },
         'About Us': {
+          'IOXET Overview': {
+            title: 'What We do',
+            description: 'Discover exciting career opportunities at IOXET. Be part of an innovative company that values creativity, collaboration, and professional growth.',
+            features: ['Remote-first culture', 'Competitive compensation', 'Learning & development budget', 'Flexible working hours']
+          },
           'Career': {
             title: 'Join Our Team',
             description: 'Discover exciting career opportunities at IOXET. Be part of an innovative company that values creativity, collaboration, and professional growth.',
@@ -489,39 +508,28 @@ const Navbar = () => {
           >
             {/* Logo */}
             <Link to="/" style={{ textDecoration: 'none' }}>
-              <HStack gap={3} alignItems="center">
-                <Box
-
-                  width="40px"
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
+                // transition="all 0.3s ease"
+                // _hover={{ 
+                //   transform: "scale(1.05)"
+                // }}
+              >
+                <Image
+                  src="/ioxet-labs.svg"
+                  alt="IOXET Labs"
+                  width="150px"
                   height="40px"
-                  bg="primary.500"
                   borderRadius="lg"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  color="white"
-                  fontWeight="800"
-                  fontSize="lg"
-                  transition="all 0.3s ease"
-                  _hover={{ 
-                    transform: "scale(1.05)",
-                    shadow: "lg"
-                  }}
-                >
-                  IO
-                </Box>
-                <Text
-                  fontSize="xl"
-                  fontWeight="700"
-                  color="text"
-                  _hover={{ 
-                    color: "primary.500"
-                  }}
-                  transition="all 0.3s ease"
-                >
-                  IOXET
-                </Text>
-              </HStack>
+                  bg="transparent"
+                  // transition="all 0.3s ease"
+                  // _hover={{ 
+                  //   shadow: "lg"
+                  // }}
+                />
+              </Box>
             </Link>
 
             {/* Desktop Navigation */}
@@ -538,6 +546,7 @@ const Navbar = () => {
               <Link to="/products" style={{ textDecoration: 'none' }}>
                 <Button
                   variant="solid"
+                  bg="primary.500"
                   colorScheme="primary"
                   size="sm"
                   borderRadius="full"
@@ -581,7 +590,6 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isMobile && isMobileMenuOpen && (
         <Box
-
           position="fixed"
           top="80px"
           left={0}
@@ -599,8 +607,39 @@ const Navbar = () => {
           <VStack align="stretch" gap={2}>
             {navLinks.map((link) => (
               <Box key={link.path}>
-                <NavItem link={link} isMobile />
-                {link.children && (
+                {link.children ? (
+                  <HStack
+                    justify="space-between"
+                    align="center"
+                    py={2}
+                    px={4}
+                    borderRadius="lg"
+                    cursor="pointer"
+                    onClick={() => toggleMobileMenu(link.name)}
+                    transition="all 0.2s ease"
+                    _hover={{ 
+                      bg: "primary.50",
+                      color: "primary.500"
+                    }}
+                  >
+                    <Text
+                      fontSize="sm"
+                      fontWeight="600"
+                      color="text"
+                    >
+                      {link.name}
+                    </Text>
+                    <motion.div
+                      animate={{ rotate: openMobileMenus.includes(link.name) ? 180 : 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <HiChevronDown size={16} />
+                    </motion.div>
+                  </HStack>
+                ) : (
+                  <NavItem link={link} isMobile />
+                )}
+                {link.children && openMobileMenus.includes(link.name) && (
                   <VStack align="stretch" pl={4} mt={2} gap={1}>
                     {link.children.map((child) => (
                       <Link key={child.path} to={child.path} style={{ textDecoration: 'none' }}>

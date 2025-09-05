@@ -1,141 +1,153 @@
 // Portfolio showcase images for bento grid with detailed information
 export const portfolioImages = [
   {
-    url: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop&auto=format",
-    title: "E-Commerce Platform",
-    category: "Web Development",
-    gradient: "linear(135deg, purple.500, blue.500)",
-    description: "A comprehensive e-commerce solution built with React and Node.js, featuring real-time inventory management, secure payment processing, and advanced analytics.",
-    technologies: ["React", "Node.js", "MongoDB", "Stripe API", "AWS"],
+    url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&auto=format",
+    title: "ERP Solutions",
+    category: "Enterprise Resource Planning",
+    gradient: "linear(135deg, blue.500, cyan.500)",
+    description: "Comprehensive ERP solutions that integrate all your business processes into a unified system for improved efficiency and data-driven decision making.",
+    technologies: ["React", "Node.js", "PostgreSQL", "Redis", "Docker"],
     features: [
-      "Real-time inventory tracking",
-      "Multi-vendor marketplace",
-      "Advanced search & filtering",
-      "Mobile-first responsive design",
-      "Secure payment gateway integration"
+      "Financial Management & Accounting",
+      "Supply Chain & Inventory Control", 
+      "Human Resources Management",
+      "Customer Relationship Management",
+      "Business Intelligence & Analytics",
+      "Multi-location Support"
     ],
     metrics: {
+      efficiency: "+40%",
       users: "50K+",
-      conversion: "18%",
-      performance: "98%"
+      uptime: "99.9%"
     },
-    link: "/portfolio/ecommerce-platform",
+    link: "/products#erp",
     status: "Live",
-    client: "RetailCorp Inc."
+    client: "Enterprise Solutions",
+    productId: "erp"
   },
   {
-    url: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop&auto=format",
-    title: "Mobile Banking App",
-    category: "Mobile Development",
-    gradient: "linear(135deg, green.500, teal.500)",
-    description: "A secure and intuitive mobile banking application with biometric authentication, real-time notifications, and comprehensive financial management tools.",
-    technologies: ["React Native", "Firebase", "Plaid API", "Node.js", "PostgreSQL"],
+    url: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=600&fit=crop&auto=format",
+    title: "Amigaa Platform",
+    category: "AI-Powered Automation",
+    gradient: "linear(135deg, orange.500, red.500)",
+    description: "Revolutionary AI platform that transforms business operations through intelligent automation, predictive analytics, and machine learning capabilities.",
+    technologies: ["Python", "TensorFlow", "React", "FastAPI", "Kubernetes"],
     features: [
-      "Biometric authentication",
-      "Real-time transaction alerts",
-      "Budget tracking & insights",
-      "Bill payment automation",
-      "Investment portfolio management"
+      "Machine Learning Models",
+      "Natural Language Processing",
+      "Computer Vision & Image Recognition",
+      "Predictive Analytics",
+      "Intelligent Process Automation",
+      "Real-time Decision Making"
     ],
     metrics: {
-      users: "125K+",
-      rating: "4.8/5",
-      downloads: "500K+"
+      automation: "+60%",
+      accuracy: "94%",
+      costSaving: "+50%"
     },
-    link: "/portfolio/banking-app",
+    link: "/products#amigaa",
     status: "Live",
-    client: "TechBank Solutions"
+    client: "AI Solutions",
+    productId: "amigaa"
   },
   {
     url: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=800&h=600&fit=crop&auto=format",
-    title: "AI Dashboard",
-    category: "Data Analytics",
-    gradient: "linear(135deg, orange.500, red.500)",
-    description: "An intelligent analytics dashboard powered by machine learning algorithms, providing real-time insights and predictive analytics for business intelligence.",
-    technologies: ["Python", "TensorFlow", "React", "D3.js", "FastAPI"],
+    title: "Analytics Dashboard",
+    category: "Business Intelligence",
+    gradient: "linear(135deg, purple.500, blue.500)",
+    description: "Advanced analytics platform providing real-time insights and comprehensive reporting for data-driven decision making.",
+    technologies: ["React", "D3.js", "Python", "Apache Kafka", "MongoDB"],
     features: [
       "Real-time data visualization",
-      "Predictive analytics engine",
-      "Custom report generation",
-      "Anomaly detection alerts",
-      "Interactive data exploration"
+      "Custom dashboard creation",
+      "Advanced reporting tools",
+      "Data export capabilities",
+      "Multi-source integration",
+      "Automated alerts & notifications"
     ],
     metrics: {
-      accuracy: "94%",
+      insights: "500+",
       dataPoints: "10M+",
-      insights: "500+"
+      performance: "98%"
     },
-    link: "/portfolio/ai-dashboard",
-    status: "Live",
-    client: "DataTech Enterprises"
+    link: "#",
+    status: "Coming Soon",
+    client: "Business Intelligence Suite",
+    productId: "analytics"
   },
   {
     url: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?w=800&h=600&fit=crop&auto=format",
-    title: "SaaS Platform",
-    category: "Enterprise Solution",
-    gradient: "linear(135deg, blue.500, cyan.500)",
-    description: "A scalable SaaS platform for project management and team collaboration, featuring advanced workflow automation and integration capabilities.",
-    technologies: ["Vue.js", "Laravel", "Redis", "Docker", "Kubernetes"],
+    title: "Collaboration Platform",
+    category: "Team Management",
+    gradient: "linear(135deg, green.500, teal.500)",
+    description: "Modern collaboration platform for remote teams with advanced project management and communication tools.",
+    technologies: ["Vue.js", "Node.js", "WebRTC", "Redis", "AWS"],
     features: [
-      "Advanced project planning",
-      "Team collaboration tools",
-      "Workflow automation",
-      "Third-party integrations",
-      "Custom reporting dashboard"
+      "Real-time collaboration",
+      "Video conferencing integration",
+      "Project timeline management",
+      "File sharing & storage",
+      "Team performance analytics",
+      "Third-party app integrations"
     ],
     metrics: {
-      uptime: "99.9%",
-      users: "75K+",
-      projects: "250K+"
+      teams: "1K+",
+      productivity: "+35%",
+      satisfaction: "4.8/5"
     },
-    link: "/portfolio/saas-platform",
-    status: "Live",
-    client: "WorkFlow Pro"
+    link: "#",
+    status: "Coming Soon",
+    client: "Collaboration Suite",
+    productId: "collaboration"
   },
   {
     url: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&auto=format",
-    title: "Creative Studio",
-    category: "Design System",
+    title: "Mobile Solutions",
+    category: "Mobile Development",
     gradient: "linear(135deg, pink.500, purple.500)",
-    description: "A comprehensive design system and creative portfolio platform for digital agencies, featuring advanced asset management and collaboration tools.",
-    technologies: ["Next.js", "Figma API", "Supabase", "Framer Motion", "Tailwind"],
+    description: "Custom mobile applications designed for modern businesses with cross-platform compatibility and native performance.",
+    technologies: ["React Native", "Flutter", "Firebase", "GraphQL", "Expo"],
     features: [
-      "Design system management",
-      "Asset library organization",
-      "Client collaboration portal",
-      "Version control for designs",
-      "Automated style guide generation"
+      "Cross-platform development",
+      "Native performance optimization",
+      "Offline data synchronization",
+      "Push notification system",
+      "Biometric authentication",
+      "App store optimization"
     ],
     metrics: {
-      assets: "10K+",
-      clients: "200+",
-      efficiency: "+60%"
+      downloads: "100K+",
+      rating: "4.7/5",
+      retention: "85%"
     },
-    link: "/portfolio/creative-studio",
-    status: "Live",
-    client: "Creative Minds Agency"
+    link: "#",
+    status: "Coming Soon", 
+    client: "Mobile Solutions Suite",
+    productId: "mobile"
   },
   {
     url: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=600&fit=crop&auto=format",
-    title: "Tech Startup",
-    category: "Brand Identity",
+    title: "Cloud Infrastructure",
+    category: "DevOps & Infrastructure", 
     gradient: "linear(135deg, yellow.500, orange.500)",
-    description: "Complete brand identity and digital presence for an innovative tech startup, including website, mobile app, and marketing materials.",
-    technologies: ["Gatsby", "Contentful", "React Native", "Adobe Creative Suite"],
+    description: "Scalable cloud infrastructure solutions with automated deployment, monitoring, and security management.",
+    technologies: ["AWS", "Docker", "Kubernetes", "Terraform", "Jenkins"],
     features: [
-      "Brand identity design",
-      "Responsive website development",
-      "Mobile app interface",
-      "Marketing collateral",
-      "Social media templates"
+      "Auto-scaling infrastructure",
+      "CI/CD pipeline automation",
+      "Security monitoring & compliance",
+      "Cost optimization tools",
+      "Disaster recovery planning",
+      "Multi-cloud support"
     ],
     metrics: {
-      engagement: "+180%",
-      recognition: "95%",
-      conversion: "+45%"
+      uptime: "99.99%",
+      scalability: "10x",
+      efficiency: "+45%"
     },
-    link: "/portfolio/tech-startup",
-    status: "Completed",
-    client: "InnovateTech Startup"
+    link: "#",
+    status: "Coming Soon",
+    client: "Cloud Solutions Suite", 
+    productId: "cloud"
   }
 ]

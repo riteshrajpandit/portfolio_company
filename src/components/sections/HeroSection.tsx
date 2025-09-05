@@ -14,6 +14,7 @@ import { HiArrowRight, HiPlay } from 'react-icons/hi'
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { portfolioImages } from '../../data/portfolioData'
+import ProductModal from '../ui/ProductModal'
 
 const stats = [
   { value: "150+", label: "Projects Delivered" },
@@ -23,11 +24,13 @@ const stats = [
 ]
 
 interface HeroSectionProps {
-  onProjectClick: (project: typeof portfolioImages[0]) => void
+  onProjectClick?: (project: typeof portfolioImages[0]) => void
 }
 
 const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
   const [activeGridItem, setActiveGridItem] = useState(0)
+  const [selectedProduct, setSelectedProduct] = useState<typeof portfolioImages[0] | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -35,6 +38,18 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
     }, 3000)
     return () => clearInterval(interval)
   }, [])
+
+  const handleProductClick = (product: typeof portfolioImages[0]) => {
+    setSelectedProduct(product)
+    setIsModalOpen(true)
+    // Call the optional prop if provided for backward compatibility
+    onProjectClick?.(product)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setSelectedProduct(null)
+  }
 
   // Bento grid layout configuration
   const gridAreas = [
@@ -69,7 +84,7 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <Badge
+              {/* <Badge
                 colorScheme="primary"
                 variant="solid"
                 px={4}
@@ -82,7 +97,7 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
                 mb={{ base: 4, md: 2 }}
               >
                 ✨ IOXET - AI Powered Solutions
-              </Badge>
+              </Badge> */}
             </motion.div>
 
             <motion.div
@@ -104,7 +119,7 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
                 Solutions That{" "}
                 <Text 
                   as="span" 
-                  bgGradient="to-r" gradientFrom="red.200" gradientTo="blue.200"
+                  bgGradient="to-r" gradientFrom="primary.600" gradientTo="primary.200"
                   bgClip="text"
                 >
                   Transform
@@ -145,6 +160,7 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
                 <Link to="/contact" style={{ textDecoration: 'none', width: '100%' }}>
                   <Button
                     size={{ base: "md", md: "lg" }}
+                    bg="primary.500"
                     colorScheme="primary"
                     borderRadius="full"
                     px={{ base: 6, md: 8 }}
@@ -268,7 +284,7 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
                           overflow="hidden"
                           cursor="pointer"
                           transition="all 0.3s ease"
-                          onClick={() => onProjectClick(item)}
+                          onClick={() => handleProductClick(item)}
                           _hover={{
                             transform: "translateY(-4px)",
                             shadow: "2xl"
@@ -407,7 +423,7 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
                           overflow="hidden"
                           cursor="pointer"
                           transition="all 0.3s ease"
-                          onClick={() => onProjectClick(item)}
+                          onClick={() => handleProductClick(item)}
                           _hover={{
                             transform: "translateY(-2px)",
                             shadow: "lg"
@@ -576,6 +592,13 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
           </Box>
         </Grid>
       </Container>
+
+      {/* Product Modal */}
+      <ProductModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        product={selectedProduct}
+      />
     </Box>
   )
 }

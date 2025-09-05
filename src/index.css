@@ -96,16 +96,16 @@ html {
 
 /* Override default Chakra styles for better baby blue theme */
 .chakra-ui-light {
-  --chakra-colors-primary-50: #e6f3ff;
-  --chakra-colors-primary-100: #b3d9ff;
-  --chakra-colors-primary-200: #80bfff;
-  --chakra-colors-primary-300: #4da6ff;
-  --chakra-colors-primary-400: #1a8cff;
-  --chakra-colors-primary-500: #0073e6;
-  --chakra-colors-primary-600: #005bb3;
-  --chakra-colors-primary-700: #004280;
-  --chakra-colors-primary-800: #002a4d;
-  --chakra-colors-primary-900: #00121a;
+  --chakra-colors-primary-50: #e8f1f8;
+  --chakra-colors-primary-100: #ddeaf5;
+  --chakra-colors-primary-200: #b8d4ea;
+  --chakra-colors-primary-300: #1b75bb;
+  --chakra-colors-primary-400: #1869a8;
+  --chakra-colors-primary-500: #165e96;
+  --chakra-colors-primary-600: #14588c;
+  --chakra-colors-primary-700: #104670;
+  --chakra-colors-primary-800: #0c3554;
+  --chakra-colors-primary-900: #092941;
 }
 
 /* Parallax fix for mobile */

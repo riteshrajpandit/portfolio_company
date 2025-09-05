@@ -10,16 +10,16 @@ const customConfig = defineConfig({
       colors: {
         // Baby blue as primary
         primary: {
-          50: { value: "#e6f3ff" },
-          100: { value: "#b3d9ff" },
-          200: { value: "#80bfff" },
-          300: { value: "#4da6ff" },
-          400: { value: "#1a8cff" },
-          500: { value: "#0073e6" }, // Main baby blue
-          600: { value: "#005bb3" },
-          700: { value: "#004280" },
-          800: { value: "#002a4d" },
-          900: { value: "#00121a" },
+          50: { value: "#e8f1f8" },
+          100: { value: "#ddeaf5" },
+          200: { value: "#b8d4ea" },
+          300: { value: "#1b75bb" },
+          400: { value: "#1869a8" },
+          500: { value: "#165e96" }, // Main baby blue
+          600: { value: "#14588c" },
+          700: { value: "#104670" },
+          800: { value: "#0c3554" },
+          900: { value: "#092941" },
           950: { value: "#000d14" }
         },
         // Accent color (coral/warm orange that complements baby blue)
