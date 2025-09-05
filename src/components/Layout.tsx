@@ -7,7 +7,7 @@ import { Footer } from "./Footer"
 export const Layout = () => {
   return (
     <Box minH="100vh" display="flex" flexDirection="column" bg="bg">
-      <Navbar />
+      <Navbar  />
       <ScrollToTopButton />
       <Box flex="1" pt="80px">
         <Outlet />

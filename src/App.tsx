@@ -16,8 +16,7 @@ function App() {
     <Router>
       <ScrollToTop />
       <Box minH="100vh" bg="background">
-        <Navbar />
-        
+        <Navbar  />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<ProductsPage />} />

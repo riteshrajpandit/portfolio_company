@@ -491,6 +491,7 @@ const Navbar = () => {
             <Link to="/" style={{ textDecoration: 'none' }}>
               <HStack gap={3} alignItems="center">
                 <Box
+
                   width="40px"
                   height="40px"
                   bg="primary.500"
@@ -580,6 +581,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isMobile && isMobileMenuOpen && (
         <Box
+
           position="fixed"
           top="80px"
           left={0}
@@ -638,7 +640,7 @@ const Navbar = () => {
                 _hover={{ transform: "translateY(-2px)" }}
                 transition="all 0.3s ease"
               >
-                Get Started
+                Let's Meet
               </Button>
             </Link>
           </VStack>

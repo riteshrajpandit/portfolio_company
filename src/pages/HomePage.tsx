@@ -6,7 +6,7 @@ import CTASection from '../components/sections/CTASection'
 
 const HomePage = () => {
   return (
-    <Box>
+    <Box  >
       <HeroSection />
       <FeaturesSection />
       <TestimonialsSection />

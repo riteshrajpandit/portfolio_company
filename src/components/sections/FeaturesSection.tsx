@@ -101,73 +101,53 @@ const developmentSteps = [
 ];
 
 // Configuration constants
-const CARD_STACK_OFFSET = 24; // Consistent gap between stacked cards in px
-const SECTION_TOP_PADDING = 40; // Top padding for section in px
-const SECTION_BOTTOM_PADDING = 40; // Bottom padding for section in px
-const CARD_HEIGHT_VH = 85; // Card height in vh
+const CARD_STACK_OFFSET = 24;
+const SECTION_TOP_PADDING = 40;
+const SECTION_BOTTOM_PADDING = 40;
+const CARD_HEIGHT_VH = 85;
 
-// Animation configuration custom hook
+// Optimized animation configuration
 const useCardAnimations = (
   index: number,
   totalCards: number,
   scrollYProgress: MotionValue<number>
 ) => {
-  const isLeft = index % 2 === 0;
-
-  // Calculate normalized progress points for this card
-  // Each card gets equal scroll space with buffer zones
-  const cardDuration = 0.8 / totalCards; // 80% of scroll divided by number of cards
-  const bufferZone = 0.1; // 10% buffer at start and end
+  const cardDuration = 0.8 / totalCards;
+  const bufferZone = 0.1;
 
   const cardStart = bufferZone + index * cardDuration;
-  const cardPeak = cardStart + cardDuration * 0.3; // 30% into card's duration
-  const cardEnd = cardStart + cardDuration * 0.8; // 80% into card's duration
+  const cardPeak = cardStart + cardDuration * 0.3;
+  const cardEnd = cardStart + cardDuration * 0.8;
   const scrollEnd = 1;
 
-  // Sticky positioning
   const stickyTop = SECTION_TOP_PADDING + index * CARD_STACK_OFFSET;
 
-  // Y Transform - smooth stacking with consistent timing
+  // Simplified Y transform for vertical stacking only
   const y = useTransform(
     scrollYProgress,
     [0, cardStart, cardPeak, cardEnd, scrollEnd],
     [0, 0, 0, -CARD_STACK_OFFSET * 0.8, -CARD_STACK_OFFSET * 1.2]
   );
 
-  // Scale Transform - subtle depth effect
+  // Subtle scale effect for depth
   const scale = useTransform(
     scrollYProgress,
     [0, cardStart, cardPeak, cardEnd, scrollEnd],
     [1, 1, 1, 0.98 - index * 0.005, 0.96 - index * 0.008]
   );
 
-  // X Transform - alternating slide-in effect
-  const slideDistance = 80;
-  const x = useTransform(
-    scrollYProgress,
-    [0, cardStart - 0.05, cardPeak, cardEnd, scrollEnd],
-    isLeft
-      ? [-slideDistance, -slideDistance * 0.3, 0, 0, 0]
-      : [slideDistance, slideDistance * 0.3, 0, 0, 0]
-  );
-
-  // Rotation Transform - subtle 3D effect
-  const rotateY = useTransform(
-    scrollYProgress,
-    [0, cardStart - 0.02, cardPeak, cardEnd, scrollEnd],
-    isLeft ? [4, 1.5, 0, 0, 0] : [-4, -1.5, 0, 0, 0]
-  );
-
-  // Apply spring physics for smooth animations - optimized for 60fps
-  const springConfig = { stiffness: 120, damping: 20, mass: 0.9, restDelta: 0.01 };
+  // Optimized spring configuration for 60fps
+  const springConfig = { 
+    stiffness: 120, 
+    damping: 20, 
+    mass: 0.9, 
+    restDelta: 0.01 
+  };
 
   return {
     stickyTop,
     y: useSpring(y, springConfig),
     scale: useSpring(scale, { ...springConfig, stiffness: 150, damping: 25 }),
-    x: useSpring(x, springConfig),
-    rotateY: useSpring(rotateY, { ...springConfig, stiffness: 140, damping: 22 }),
-    isLeft,
   };
 };
 
@@ -190,12 +170,9 @@ const StackedCard = ({
         position: "sticky",
         top: `${animations.stickyTop}px`,
         zIndex: totalSteps + index,
-        x: animations.x,
         y: animations.y,
         scale: animations.scale,
-        rotateY: animations.rotateY,
-        transformPerspective: 1200,
-        willChange: "transform", // GPU acceleration hint
+        willChange: "transform",
       }}
     >
       <Container maxW="7xl">
@@ -214,10 +191,7 @@ const StackedCard = ({
           alignItems="center"
         >
           <Flex
-            direction={{
-              base: "column",
-              lg: animations.isLeft ? "row" : "row-reverse",
-            }}
+            direction={{ base: "column", lg: "row" }}
             align="center"
             justify="space-between"
             w="full"
@@ -225,17 +199,11 @@ const StackedCard = ({
             px={{ base: 6, md: 12 }}
             py={{ base: 8, md: 0 }}
           >
-            {/* Content Side */}
+            {/* Content Side - Always on left for desktop */}
             <VStack
               flex="1"
-              align={{
-                base: "center",
-                lg: animations.isLeft ? "flex-start" : "flex-end",
-              }}
-              textAlign={{
-                base: "center",
-                lg: animations.isLeft ? "left" : "right",
-              }}
+              align={{ base: "center", lg: "flex-start" }}
+              textAlign={{ base: "center", lg: "left" }}
               gap={6}
               maxW={{ base: "100%", lg: "500px" }}
             >
@@ -243,10 +211,7 @@ const StackedCard = ({
               <HStack
                 gap={4}
                 align="center"
-                justify={{
-                  base: "center",
-                  lg: animations.isLeft ? "flex-start" : "flex-end",
-                }}
+                justify={{ base: "center", lg: "flex-start" }}
               >
                 <Text
                   fontSize={{ base: "5xl", md: "6xl" }}
@@ -259,10 +224,7 @@ const StackedCard = ({
                 </Text>
                 <VStack
                   gap={2}
-                  align={{
-                    base: "center",
-                    lg: animations.isLeft ? "flex-start" : "flex-end",
-                  }}
+                  align={{ base: "center", lg: "flex-start" }}
                 >
                   <Text
                     fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
@@ -287,10 +249,7 @@ const StackedCard = ({
                 fontSize={{ base: "md", md: "lg" }}
                 color="muted"
                 lineHeight="1.7"
-                textAlign={{
-                  base: "center",
-                  lg: animations.isLeft ? "left" : "right",
-                }}
+                textAlign={{ base: "center", lg: "left" }}
               >
                 {step.description}
               </Text>
@@ -298,20 +257,14 @@ const StackedCard = ({
               {/* Features */}
               <VStack
                 gap={3}
-                align={{
-                  base: "center",
-                  lg: animations.isLeft ? "flex-start" : "flex-end",
-                }}
+                align={{ base: "center", lg: "flex-start" }}
                 mt={4}
               >
                 {step.features.map((feature, idx) => (
                   <HStack
                     key={idx}
                     gap={3}
-                    justify={{
-                      base: "center",
-                      lg: animations.isLeft ? "flex-start" : "flex-end",
-                    }}
+                    justify={{ base: "center", lg: "flex-start" }}
                   >
                     <Icon
                       as={HiCheckCircle}
@@ -330,7 +283,7 @@ const StackedCard = ({
               </VStack>
             </VStack>
 
-            {/* Icon Card Side */}
+            {/* Icon Card Side - Always on right for desktop */}
             <Box
               flex="1"
               position="relative"
@@ -458,7 +411,7 @@ const StackedCard = ({
                 </VStack>
 
                 {/* Subtle Floating Elements */}
-                {[...Array(4)].map((_, i) => (
+                {Array.from({ length: 4 }, (_, i) => (
                   <motion.div
                     key={i}
                     animate={{
@@ -506,7 +459,6 @@ const FeaturesSection = () => {
   });
   const totalCards = developmentSteps.length;
 
-  // Calculate total section height based on card count and spacing
   const totalSectionHeight = `calc(${totalCards * CARD_HEIGHT_VH}vh + ${SECTION_TOP_PADDING + SECTION_BOTTOM_PADDING}px)`;
 
   return (
