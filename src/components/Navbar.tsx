@@ -82,7 +82,7 @@ const navLinks: NavLink[] = [
       },
       { 
         name: 'Career', 
-        path: '/about#career',
+        path: '/careers',
         description: 'Join our growing team and build the future together'
       }
     ]

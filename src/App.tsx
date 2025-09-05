@@ -7,6 +7,7 @@ import ProductsPage from './pages/ProductsPage'
 import ServicesPage from './pages/ServicesPage'
 import ResourcesPage from './pages/ResourcesPage'
 import ContactPage from './pages/ContactPage'
+import CareersPage from './pages/CareersPage'
 import ScrollToTopButton from './components/ScrollToTopButton'
 import ScrollToTop from './components/ScrollToTop'
 import Footer from './components/Footer'
@@ -23,6 +24,7 @@ function App() {
           <Route path="/services" element={<ServicesPage />} />
           <Route path="/resources" element={<ResourcesPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/careers" element={<CareersPage />} />
           <Route path="/contact" element={<ContactPage />} />
         </Routes>
         

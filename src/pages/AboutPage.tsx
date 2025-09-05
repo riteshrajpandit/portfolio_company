@@ -8,7 +8,6 @@ import {
   Grid,
   GridItem,
   Image,
-  Badge,
   Icon,
   SimpleGrid,
 } from "@chakra-ui/react"
@@ -25,10 +24,6 @@ import {
   HiLightBulb,
   HiUserGroup,
   HiTrophy,
-  HiMapPin,
-  HiCurrencyDollar,
-  HiAcademicCap,
-  HiCalendarDays,
   HiBriefcase,
 } from "react-icons/hi2"
 
@@ -102,74 +97,6 @@ const values = [
   }
 ]
 
-const openPositions = [
-  {
-    title: "Senior Full Stack Developer",
-    department: "Engineering",
-    location: "San Francisco, CA / Remote",
-    type: "Full-time",
-    experience: "5+ years",
-    description: "Join our engineering team to build scalable web applications using React, Node.js, and modern cloud technologies.",
-    requirements: [
-      "5+ years of experience with React and Node.js",
-      "Experience with cloud platforms (AWS, GCP, or Azure)",
-      "Strong understanding of database design and optimization",
-      "Excellent problem-solving and communication skills"
-    ]
-  },
-  {
-    title: "UX/UI Designer",
-    department: "Design",
-    location: "New York, NY / Remote",
-    type: "Full-time",
-    experience: "3+ years",
-    description: "Help shape the future of our products by creating intuitive and beautiful user experiences.",
-    requirements: [
-      "3+ years of experience in UX/UI design",
-      "Proficiency in Figma, Sketch, or similar design tools",
-      "Strong portfolio demonstrating design thinking",
-      "Experience with design systems and prototyping"
-    ]
-  },
-  {
-    title: "DevOps Engineer",
-    department: "Infrastructure",
-    location: "Austin, TX / Remote",
-    type: "Full-time",
-    experience: "4+ years",
-    description: "Build and maintain our cloud infrastructure while ensuring high availability and security.",
-    requirements: [
-      "4+ years of experience with cloud platforms",
-      "Experience with container orchestration (Kubernetes, Docker)",
-      "Knowledge of CI/CD pipelines and automation",
-      "Strong understanding of security best practices"
-    ]
-  }
-]
-
-const benefits = [
-  {
-    icon: HiCurrencyDollar,
-    title: "Competitive Salary",
-    description: "Market-leading compensation packages with equity options"
-  },
-  {
-    icon: HiAcademicCap,
-    title: "Learning & Development",
-    description: "Annual learning budget and conference attendance"
-  },
-  {
-    icon: HiCalendarDays,
-    title: "Flexible PTO",
-    description: "Unlimited vacation policy and flexible working hours"
-  },
-  {
-    icon: HiMapPin,
-    title: "Remote First",
-    description: "Work from anywhere with optional office access"
-  }
-]
-
 const stats = [
   { label: "Team Members", value: "50+", icon: HiUserGroup },
   { label: "Years of Experience", value: "10+", icon: HiTrophy },
@@ -219,7 +146,7 @@ export const AboutPage = () => {
               transform their ideas into powerful digital solutions that drive growth and success.
             </Text>
             <HStack justify="center" gap={4} wrap="wrap">
-              <Link to="#career" style={{ textDecoration: 'none' }}>
+              <Link to="/careers" style={{ textDecoration: 'none' }}>
                 <Button
                   size="lg"
                   colorScheme="primary"
@@ -518,175 +445,6 @@ export const AboutPage = () => {
               </MotionBox>
             ))}
           </Grid>
-        </Container>
-      </Box>
-
-      {/* Career Section */}
-      <Box id="career" py={{ base: 16, md: 20 }} bg="neutral.50">
-        <Container maxW="7xl">
-          <MotionBox
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            textAlign="center"
-            mb={12}
-          >
-            <Badge
-              colorScheme="primary"
-              variant="solid"
-              px={4}
-              py={2}
-              borderRadius="full"
-              fontSize="sm"
-              fontWeight="600"
-              mb={6}
-            >
-              💼 Careers
-            </Badge>
-            <Text fontSize={{ base: "3xl", md: "4xl" }} fontWeight="700" mb={4} color="text">
-              Join Our Growing Team
-            </Text>
-            <Text fontSize={{ base: "md", md: "xl" }} color="muted" maxW="2xl" mx="auto">
-              We're always looking for talented individuals who share our passion for innovation and excellence.
-            </Text>
-          </MotionBox>
-
-          {/* Benefits */}
-          <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(4, 1fr)" }} gap={6} mb={12}>
-            {benefits.map((benefit, index) => (
-              <MotionBox
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                viewport={{ once: true }}
-              >
-                <VStack
-                  gap={4}
-                  p={6}
-                  bg="white"
-                  borderRadius="xl"
-                  shadow="sm"
-                  border="1px"
-                  borderColor="gray.200"
-                  textAlign="center"
-                  _hover={{ shadow: "md", transform: "translateY(-2px)" }}
-                  transition="all 0.3s ease"
-                  h="full"
-                >
-                  <Box
-                    p={3}
-                    bg="primary.50"
-                    borderRadius="lg"
-                    color="primary.500"
-                    fontSize="xl"
-                  >
-                    <Icon as={benefit.icon} />
-                  </Box>
-                  <VStack gap={2}>
-                    <Text fontSize="lg" fontWeight="600" color="text">
-                      {benefit.title}
-                    </Text>
-                    <Text fontSize="sm" color="muted" lineHeight="1.6">
-                      {benefit.description}
-                    </Text>
-                  </VStack>
-                </VStack>
-              </MotionBox>
-            ))}
-          </Grid>
-
-          {/* Open Positions */}
-          <MotionBox
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <VStack gap={6} align="start">
-              <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight="700" color="text">
-                Open Positions
-              </Text>
-              
-              <Grid templateColumns={{ base: "1fr", lg: "repeat(1, 1fr)" }} gap={6} w="full">
-                {openPositions.map((position, index) => (
-                  <Box
-                    key={index}
-                    bg="white"
-                    p={8}
-                    borderRadius="xl"
-                    shadow="sm"
-                    border="1px"
-                    borderColor="gray.200"
-                    _hover={{ shadow: "md", transform: "translateY(-2px)" }}
-                    transition="all 0.3s ease"
-                  >
-                    <VStack align="start" gap={6}>
-                      <VStack align="start" gap={3} w="full">
-                        <HStack justify="space-between" w="full" align="start">
-                          <VStack align="start" gap={1}>
-                            <Text fontSize="xl" fontWeight="700" color="text">
-                              {position.title}
-                            </Text>
-                            <HStack gap={3} wrap="wrap">
-                              <Badge colorScheme="primary" variant="subtle" px={3} py={1} borderRadius="full">
-                                {position.department}
-                              </Badge>
-                              <Badge colorScheme="gray" variant="subtle" px={3} py={1} borderRadius="full">
-                                {position.type}
-                              </Badge>
-                              <HStack gap={1}>
-                                <Icon as={HiMapPin} color="muted" fontSize="sm" />
-                                <Text fontSize="sm" color="muted">
-                                  {position.location}
-                                </Text>
-                              </HStack>
-                              <HStack gap={1}>
-                                <Icon as={HiBriefcase} color="muted" fontSize="sm" />
-                                <Text fontSize="sm" color="muted">
-                                  {position.experience}
-                                </Text>
-                              </HStack>
-                            </HStack>
-                          </VStack>
-                          <Button
-                            colorScheme="primary"
-                            variant="outline"
-                            size="sm"
-                            borderRadius="full"
-                            _hover={{ bg: "primary.50" }}
-                          >
-                            Apply Now
-                          </Button>
-                        </HStack>
-                        
-                        <Text color="muted" lineHeight="1.6">
-                          {position.description}
-                        </Text>
-                        
-                        <VStack align="start" gap={2} w="full">
-                          <Text fontSize="sm" fontWeight="600" color="text">
-                            Requirements:
-                          </Text>
-                          <VStack align="start" gap={1} pl={4}>
-                            {position.requirements.map((req, reqIndex) => (
-                              <HStack key={reqIndex} gap={2} align="start">
-                                <Box w={1} h={1} bg="primary.500" borderRadius="full" mt={2} />
-                                <Text fontSize="sm" color="muted">
-                                  {req}
-                                </Text>
-                              </HStack>
-                            ))}
-                          </VStack>
-                        </VStack>
-                      </VStack>
-                    </VStack>
-                  </Box>
-                ))}
-              </Grid>
-            </VStack>
-          </MotionBox>
         </Container>
       </Box>
 
