@@ -217,18 +217,6 @@ export const CareersPage = () => {
             maxW="4xl"
             mx="auto"
           >
-            <Badge
-              colorScheme="primary"
-              variant="solid"
-              px={4}
-              py={2}
-              borderRadius="full"
-              fontSize="sm"
-              fontWeight="600"
-              mb={6}
-            >
-              💼 Careers
-            </Badge>
             <Text
               fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
               fontWeight="700"
@@ -286,72 +274,10 @@ export const CareersPage = () => {
         </Container>
       </Box>
 
-      {/* Why Work With Us Section */}
-      <Container maxW="7xl" py={{ base: 16, md: 20 }}>
-        <MotionBox
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          textAlign="center"
-          mb={12}
-        >
-          <Text fontSize={{ base: "3xl", md: "4xl" }} fontWeight="700" mb={4} color="text">
-            Why Work With Us?
-          </Text>
-          <Text fontSize={{ base: "md", md: "xl" }} color="muted" maxW="2xl" mx="auto">
-            We believe in creating an environment where our team can thrive, grow, and make a meaningful impact.
-          </Text>
-        </MotionBox>
 
-        {/* Benefits */}
-        <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(4, 1fr)" }} gap={6}>
-          {benefits.map((benefit, index) => (
-            <MotionBox
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: index * 0.1 }}
-              viewport={{ once: true }}
-            >
-              <VStack
-                gap={4}
-                p={6}
-                bg="white"
-                borderRadius="xl"
-                shadow="sm"
-                border="1px"
-                borderColor="gray.200"
-                textAlign="center"
-                _hover={{ shadow: "md", transform: "translateY(-2px)" }}
-                transition="all 0.3s ease"
-                h="full"
-              >
-                <Box
-                  p={3}
-                  bg="primary.50"
-                  borderRadius="lg"
-                  color="primary.500"
-                  fontSize="xl"
-                >
-                  <Icon as={benefit.icon} />
-                </Box>
-                <VStack gap={2}>
-                  <Text fontSize="lg" fontWeight="600" color="text">
-                    {benefit.title}
-                  </Text>
-                  <Text fontSize="sm" color="muted" lineHeight="1.6">
-                    {benefit.description}
-                  </Text>
-                </VStack>
-              </VStack>
-            </MotionBox>
-          ))}
-        </Grid>
-      </Container>
 
       {/* Open Positions Section */}
-      <Box id="open-positions" py={{ base: 16, md: 20 }} bg="neutral.50">
+      <Box id="open-positions" py={{ base: 16, md: 20 }} bg="neutral.100">
         <Container maxW="7xl">
           {/* Header with Department Filter Tags */}
           <MotionBox
@@ -540,6 +466,70 @@ export const CareersPage = () => {
           </MotionBox>
         </Container>
       </Box>
+
+            {/* Why Work With Us Section */}
+      <Container maxW="7xl" py={{ base: 16, md: 20 }}>
+        <MotionBox
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+          textAlign="center"
+          mb={12}
+        >
+          <Text fontSize={{ base: "3xl", md: "4xl" }} fontWeight="700" mb={4} color="text">
+            Why Work With Us?
+          </Text>
+          <Text fontSize={{ base: "md", md: "xl" }} color="muted" maxW="2xl" mx="auto">
+            We believe in creating an environment where our team can thrive, grow, and make a meaningful impact.
+          </Text>
+        </MotionBox>
+
+        {/* Benefits */}
+        <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(4, 1fr)" }} gap={6}>
+          {benefits.map((benefit, index) => (
+            <MotionBox
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: index * 0.1 }}
+              viewport={{ once: true }}
+            >
+              <VStack
+                gap={4}
+                p={6}
+                bg="white"
+                borderRadius="xl"
+                shadow="sm"
+                border="1px"
+                borderColor="gray.200"
+                textAlign="center"
+                _hover={{ shadow: "md", transform: "translateY(-2px)" }}
+                transition="all 0.3s ease"
+                h="full"
+              >
+                <Box
+                  p={3}
+                  bg="primary.50"
+                  borderRadius="lg"
+                  color="primary.500"
+                  fontSize="xl"
+                >
+                  <Icon as={benefit.icon} />
+                </Box>
+                <VStack gap={2}>
+                  <Text fontSize="lg" fontWeight="600" color="text">
+                    {benefit.title}
+                  </Text>
+                  <Text fontSize="sm" color="muted" lineHeight="1.6">
+                    {benefit.description}
+                  </Text>
+                </VStack>
+              </VStack>
+            </MotionBox>
+          ))}
+        </Grid>
+      </Container>
 
       {/* Company Culture Section */}
       <Container maxW="7xl" py={{ base: 16, md: 20 }}>
