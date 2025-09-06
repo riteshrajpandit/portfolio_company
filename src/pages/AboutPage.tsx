@@ -28,11 +28,11 @@ import {
 } from "react-icons/hi2"
 
 const teamMembers = [
-  {
-    name: "Ritesh Raj Pandit",
+    {
+    name: "Suresh Bhandari",
     role: "CEO & Founder",
-    bio: "With 15 years of experience in tech leadership, Ritesh founded our company to bridge the gap between innovative ideas and practical solutions.",
-    image: "/teams/riteshraj.png",
+    bio: "Suresh designs scalable system architectures and guides technical decisions across our development teams.",
+    image: "/teams/suresh.jpeg",
     social: {
       linkedin: "https://linkedin.com",
       twitter: "https://twitter.com",
@@ -40,8 +40,19 @@ const teamMembers = [
     }
   },
   {
-    name: "Abiral",
-    role: "CTO",
+    name: "Divyendu Bhatt",
+    role: "CTO & Security Advisor",
+    bio: "Divyendu specializes in full-stack development and has a talent for turning complex requirements into elegant solutions.",
+    image: "/teams/devbandhu.jpeg",
+    social: {
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com",
+      github: "https://github.com"
+    }
+  },
+    {
+    name: "Abiral Bhandari",
+    role: "HR and Project Manager",
     bio: "Abiral leads our technical vision with expertise in modern web technologies and scalable architecture design.",
     image: "/teams/abiral.jpeg",
     social: {
@@ -50,9 +61,43 @@ const teamMembers = [
       github: "https://github.com"
     }
   },
+      {
+    name: "Tejash Katuwal",
+    role: "AI Engineer",
+    bio: "Tejash builds AI models and data pipelines that help drive data-driven decisions across the organization.",
+    image: "/teams/tejash.jpeg",
+    social: {
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com",
+      github: "https://github.com"
+    }
+  },
   {
-    name: "Ashim",
-    role: "Lead Designer",
+    name: "Nibesh Suwal",
+    role: "Lead Backend Developer",
+    bio: "Nibesh manages our infrastructure and deployment pipelines, ensuring reliable and scalable cloud solutions.",
+    image: "/teams/nibesh.jpeg",
+    social: {
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com",
+      github: "https://github.com"
+    }
+  },
+  {
+    name: "Ritesh Raj Pandit",
+    role: "Lead Frontend Developer",
+    bio: "With 15 years of experience in tech leadership, Ritesh founded our company to bridge the gap between innovative ideas and practical solutions.",
+    image: "/teams/riteshraj.png",
+    social: {
+      linkedin: "https://linkedin.com",
+      twitter: "https://twitter.com",
+      github: "https://github.com"
+    }
+  },
+
+  {
+    name: "Ashim Thapa Magar",
+    role: "Frontend Developer",
     bio: "Ashim brings creative vision to life with user-centered design principles and a passion for beautiful, functional interfaces.",
     image: "/teams/ashim.jpeg",
     social: {
@@ -61,20 +106,10 @@ const teamMembers = [
       github: "https://github.com"
     }
   },
-  {
-    name: "Devbandhu",
-    role: "Senior Developer",
-    bio: "Devbandhu specializes in full-stack development and has a talent for turning complex requirements into elegant solutions.",
-    image: "/teams/devbandhu.jpeg",
-    social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
-      github: "https://github.com"
-    }
-  },
+  
   {
     name: "Dipak Bohara",
-    role: "Software Engineer",
+    role: "Backend Developer",
     bio: "Dipak is passionate about building scalable applications and implementing best practices in software development.",
     image: "/teams/dipakbohara.jpeg",
     social: {
@@ -84,7 +119,7 @@ const teamMembers = [
     }
   },
   {
-    name: "Diwas",
+    name: "Diwas Gauli",
     role: "Frontend Developer",
     bio: "Diwas creates engaging user interfaces with modern frameworks and has a keen eye for user experience design.",
     image: "/teams/diwas.jpeg",
@@ -95,7 +130,7 @@ const teamMembers = [
     }
   },
   {
-    name: "Kaustuv",
+    name: "Kaustuv Bastakoti",
     role: "Backend Developer",
     bio: "Kaustuv builds robust server-side solutions and ensures optimal performance and security of our applications.",
     image: "/teams/kaustuv.jpeg",
@@ -106,8 +141,8 @@ const teamMembers = [
     }
   },
   {
-    name: "Laxmi",
-    role: "UI/UX Designer",
+    name: "Laxmi Regmi",
+    role: "Frontend Developer",
     bio: "Laxmi crafts intuitive user experiences and beautiful interfaces that delight users and drive engagement.",
     image: "/teams/laxmi.jpeg",
     social: {
@@ -116,20 +151,10 @@ const teamMembers = [
       github: "https://github.com"
     }
   },
+
   {
-    name: "Nibesh",
-    role: "DevOps Engineer",
-    bio: "Nibesh manages our infrastructure and deployment pipelines, ensuring reliable and scalable cloud solutions.",
-    image: "/teams/nibesh.jpeg",
-    social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
-      github: "https://github.com"
-    }
-  },
-  {
-    name: "Shubham",
-    role: "Full Stack Developer",
+    name: "Shubham Ghimire",
+    role: "Frontend Developer",
     bio: "Shubham works across the entire stack, bringing ideas from conception to deployment with modern technologies.",
     image: "/teams/shubham.jpeg",
     social: {
@@ -139,19 +164,8 @@ const teamMembers = [
     }
   },
   {
-    name: "Suresh",
-    role: "Software Architect",
-    bio: "Suresh designs scalable system architectures and guides technical decisions across our development teams.",
-    image: "/teams/suresh.jpeg",
-    social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
-      github: "https://github.com"
-    }
-  },
-  {
-    name: "Suyog",
-    role: "Quality Assurance Engineer",
+    name: "Suyog Bhattarai",
+    role: "Frontend Developer",
     bio: "Suyog ensures our products meet the highest quality standards through comprehensive testing and quality processes.",
     image: "/teams/suyog.jpeg",
     social: {
@@ -159,18 +173,8 @@ const teamMembers = [
       twitter: "https://twitter.com",
       github: "https://github.com"
     }
-  },
-  {
-    name: "Tejash",
-    role: "Data Engineer",
-    bio: "Tejash builds data pipelines and analytics solutions that help drive data-driven decisions across the organization.",
-    image: "/teams/tejash.jpeg",
-    social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
-      github: "https://github.com"
-    }
   }
+
 ]
 
 const values = [
@@ -517,7 +521,7 @@ export const AboutPage = () => {
                         <FaLinkedin size={20} />
                       </Box>
                     </a>
-                    <a href={member.social.twitter} target="_blank" rel="noopener noreferrer">
+                    {/* <a href={member.social.twitter} target="_blank" rel="noopener noreferrer">
                       <Box
                         p={2}
                         color="muted"
@@ -527,7 +531,7 @@ export const AboutPage = () => {
                       >
                         <FaTwitter size={20} />
                       </Box>
-                    </a>
+                    </a> */}
                     <a href={member.social.github} target="_blank" rel="noopener noreferrer">
                       <Box
                         p={2}
