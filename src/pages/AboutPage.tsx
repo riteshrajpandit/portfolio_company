@@ -31,7 +31,7 @@ const teamMembers = [
     {
     name: "Suresh Bhandari",
     role: "CEO & Founder",
-    bio: "Suresh designs scalable system architectures and guides technical decisions across our development teams.",
+    bio: "Suresh leads us from all frontiers, leveraging over two decades of expertise in IT and management to lead teams effectively.",
     image: "/teams/suresh.jpeg",
     social: {
       linkedin: "https://linkedin.com",
@@ -42,7 +42,7 @@ const teamMembers = [
   {
     name: "Divyendu Bhatt",
     role: "CTO & Security Advisor",
-    bio: "Divyendu specializes in full-stack development and has a talent for turning complex requirements into elegant solutions.",
+    bio: "Divyendu drives our security and compliances while implementing frameworks, managing vulnerabilities, and ensuring regulatory compliance.",
     image: "/teams/devbandhu.jpeg",
     social: {
       linkedin: "https://linkedin.com",

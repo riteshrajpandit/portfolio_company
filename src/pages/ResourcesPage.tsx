@@ -56,16 +56,6 @@ const resources = [
           { name: "Data Processing Agreement", description: "GDPR-compliant DPA template", type: "document" },
           { name: "Security Whitepaper", description: "Detailed security practices", type: "document" }
         ]
-      },
-      {
-        title: "Audit Reports",
-        icon: HiClipboardDocumentList,
-        items: [
-          { name: "Penetration Testing", description: "Annual security assessment", date: "2024" },
-          { name: "Vulnerability Assessment", description: "Quarterly security scan", date: "Q4 2024" },
-          { name: "Code Security Review", description: "Static analysis report", date: "Monthly" },
-          { name: "Infrastructure Audit", description: "Cloud security evaluation", date: "2024" }
-        ]
       }
     ]
   },
@@ -105,36 +95,6 @@ const resources = [
             description: "Measure and optimize team efficiency",
             usage: "600+ uses",
             type: "calculator"
-          }
-        ]
-      },
-      {
-        title: "Planning Templates",
-        icon: HiClipboardDocumentList,
-        tools: [
-          { 
-            name: "Project Planning Template", 
-            description: "Comprehensive project management template",
-            downloads: "2.1K",
-            type: "template"
-          },
-          { 
-            name: "Requirements Gathering", 
-            description: "Structured requirements documentation",
-            downloads: "1.8K",
-            type: "template"
-          },
-          { 
-            name: "Risk Assessment Matrix", 
-            description: "Identify and evaluate project risks",
-            downloads: "1.3K",
-            type: "template"
-          },
-          { 
-            name: "Sprint Planning Board", 
-            description: "Agile sprint planning template",
-            downloads: "2.5K",
-            type: "template"
           }
         ]
       },
