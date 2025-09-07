@@ -15,7 +15,6 @@ import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { 
   FaLinkedin, 
-  FaTwitter, 
   FaGithub,
 } from "react-icons/fa"
 import {

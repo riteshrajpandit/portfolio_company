@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
+import { useState } from "react"
 import {
   HiShieldCheck,
   HiWrench,
@@ -21,11 +22,11 @@ import {
   HiDocumentText,
   HiLockClosed,
   HiCalculator,
-  HiClipboardDocumentList,
   HiChartBar,
   HiEye,
   HiArrowDownTray,
 } from "react-icons/hi2"
+import ROICalculatorModal from "../components/ui/ROICalculatorModal"
 
 const resources = [
   {
@@ -143,6 +144,16 @@ const MotionBox = motion(Box)
 const MotionContainer = motion(Container)
 
 const ResourcesPage = () => {
+  const [isROIModalOpen, setIsROIModalOpen] = useState(false)
+
+  const openROICalculator = () => {
+    setIsROIModalOpen(true)
+  }
+
+  const closeROICalculator = () => {
+    setIsROIModalOpen(false)
+  }
+
   return (
     <Box>
       {/* Hero Section */}
@@ -410,7 +421,7 @@ const ResourcesPage = () => {
                                 )}
                                 {'date' in item && (
                                   <Badge colorScheme="blue" variant="subtle" px={2} py={1} borderRadius="full" fontSize="xs">
-                                    {item.date}
+                                    {String(item.date)}
                                   </Badge>
                                 )}
                                 {'type' in item && (
@@ -472,7 +483,7 @@ const ResourcesPage = () => {
                                   )}
                                   {'downloads' in tool && (
                                     <Badge colorScheme="green" variant="subtle" px={2} py={1} borderRadius="full" fontSize="xs">
-                                      {tool.downloads} downloads
+                                      {String(tool.downloads)} downloads
                                     </Badge>
                                   )}
                                   {'completions' in tool && (
@@ -491,6 +502,7 @@ const ResourcesPage = () => {
                                 variant="ghost"
                                 fontSize="xs"
                                 _hover={{ bg: "primary.50" }}
+                                onClick={tool.name === "ROI Calculator" ? openROICalculator : undefined}
                               >
                                 <Icon as={tool.type === "calculator" ? HiCalculator : 
                                          tool.type === "template" ? HiArrowDownTray : HiChartBar} mr={2} />
@@ -578,6 +590,12 @@ const ResourcesPage = () => {
           </Box>
         </MotionBox>
       </Container>
+
+      {/* ROI Calculator Modal */}
+      <ROICalculatorModal 
+        isOpen={isROIModalOpen} 
+        onClose={closeROICalculator} 
+      />
     </Box>
   )
 }
