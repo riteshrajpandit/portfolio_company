@@ -11,17 +11,61 @@ import {
 } from '@chakra-ui/react'
 import { Link } from 'react-router-dom'
 import { HiArrowRight, HiPlay } from 'react-icons/hi'
-import { useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect, useState, useRef } from 'react'
+import { motion, AnimatePresence, useInView } from 'framer-motion'
 import { portfolioImages } from '../../data/portfolioData'
 import ProductModal from '../ui/ProductModal'
 
 const stats = [
-  { value: "150+", label: "Projects Delivered" },
-  { value: "98%", label: "Client Satisfaction" },
-  { value: "5+", label: "Years Experience" },
-  { value: "24/7", label: "Support Available" }
+  { value: 100, suffix: "+", label: "Experience" },
+  { value: 3, suffix: "+", label: "Successful Projects" },
+  { value: 3, suffix: "+", label: "Brands" },
 ]
+
+// Animated Counter Component
+const AnimatedCounter = ({ value, suffix = "", duration = 2 }: { value: number; suffix?: string; duration?: number }) => {
+  const [count, setCount] = useState(0)
+  const countRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(countRef, { once: true })
+
+  useEffect(() => {
+    if (isInView) {
+      let startTime: number | null = null
+      const startValue = 0
+      const endValue = value
+
+      const animate = (currentTime: number) => {
+        if (startTime === null) startTime = currentTime
+        const elapsed = currentTime - startTime
+        const progress = Math.min(elapsed / (duration * 1000), 1)
+        
+        // Easing function for smooth animation
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4)
+        const currentCount = Math.floor(startValue + (endValue - startValue) * easeOutQuart)
+        
+        setCount(currentCount)
+        
+        if (progress < 1) {
+          requestAnimationFrame(animate)
+        }
+      }
+      
+      requestAnimationFrame(animate)
+    }
+  }, [isInView, value, duration])
+
+  return (
+    <Text
+      ref={countRef}
+      fontSize={{ base: "xl", md: "2xl" }}
+      fontWeight="700"
+      color="primary.500"
+      lineHeight="1"
+    >
+      {count}{suffix}
+    </Text>
+  )
+}
 
 interface HeroSectionProps {
   onProjectClick?: (project: typeof portfolioImages[0]) => void
@@ -73,31 +117,18 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
       <Container maxW="7xl" position="relative" zIndex={2} px={{ base: 4, md: 6 }}>
         <Grid 
           templateColumns={{ base: "1fr", lg: "1fr 1fr" }} 
-          minHeight="calc(100vh - 5rem)" 
+          minHeight="calc(100vh - 6rem)" 
           gap={{ base: 8, lg: 8 }} 
           alignItems="center"
         >
           {/* Left Half - Content */}
-          <VStack align="start" gap={{ base: 2, md: 3 }} py={{ base: 8, lg: 32 }}>
+          <VStack align="start" gap={{ base: 2, md: 3 }} py={{ base: 8, lg: 20 }}>
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              {/* <Badge
-                colorScheme="primary"
-                variant="solid"
-                px={4}
-                py={2}
-                borderRadius="full"
-                fontSize={{ base: "xs", md: "sm" }}
-                fontWeight="600"
-                bg="primary.500"
-                color="white"
-                mb={{ base: 4, md: 2 }}
-              >
-                ✨ IOXET - AI Powered Solutions
-              </Badge> */}
+              
             </motion.div>
 
             <motion.div
@@ -202,47 +233,13 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
                 </Link>
               </Flex>
             </motion.div>
-
-            {/* Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
-            >
-              <Grid 
-                templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} 
-                gap={{ base: 4, md: 8 }} 
-                pt={4}
-                width="full"
-              >
-                {stats.map((stat, index) => (
-                  <VStack key={index} align="start" gap={1}>
-                    <Text
-                      fontSize={{ base: "xl", md: "2xl" }}
-                      fontWeight="700"
-                      color="primary.500"
-                      lineHeight="1"
-                    >
-                      {stat.value}
-                    </Text>
-                    <Text
-                      fontSize={{ base: "xs", md: "sm" }}
-                      color="muted"
-                      fontWeight="500"
-                    >
-                      {stat.label}
-                    </Text>
-                  </VStack>
-                ))}
-              </Grid>
-            </motion.div>
           </VStack>
 
           {/* Right Half - Animated Bento Grid */}
           <Box 
             position="relative" 
-            height={{ base: "60vh", md: "70vh", lg: "90vh" }} 
-            py={{ base: 8, lg: 16 }}
+            height={{ base: "60vh", md: "70vh", lg: "80vh" }} 
+            py={{ base: 4, lg: 24 }}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -591,6 +588,88 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
             </Box>
           </Box>
         </Grid>
+
+        {/* Stats Section - Centered below both boxes */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1, ease: "easeOut" }}
+        >
+          <Box 
+            py={{ base: 6, md: 8 }}
+            borderTop="1px solid"
+            borderColor="gray.200"
+            mt={{ base: -4, md: -2 }}
+          >
+            {/* Title and Subtitle */}
+            <VStack gap={2} mb={{ base: 6, md: 8 }} textAlign="center">
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.1, ease: "easeOut" }}
+              >
+                <Text
+                  fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
+                  fontWeight="700"
+                  color="text"
+                  lineHeight="1.2"
+                >
+                  Our Impact in Numbers
+                </Text>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 1.2, ease: "easeOut" }}
+              >
+                <Text
+                  fontSize={{ base: "md", md: "lg" }}
+                  color="muted"
+                  maxW="500px"
+                  mx="auto"
+                  lineHeight="1.6"
+                >
+                  Quantifiable results that demonstrate our success
+                </Text>
+              </motion.div>
+            </VStack>
+
+            {/* Stats Grid */}
+            <Grid 
+              templateColumns={{ base: "repeat(3, 1fr)" }} 
+              gap={{ base: 8, md: 16 }} 
+              maxW="600px"
+              mx="auto"
+              textAlign="center"
+            >
+              {stats.map((stat, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.6, delay: 1.4 + index * 0.1, ease: "easeOut" }}
+                >
+                  <VStack gap={2}>
+                    <AnimatedCounter 
+                      value={stat.value} 
+                      suffix={stat.suffix} 
+                      duration={2.5 + index * 0.2}
+                    />
+                    <Text
+                      fontSize={{ base: "sm", md: "md" }}
+                      color="muted"
+                      fontWeight="500"
+                      textAlign="center"
+                    >
+                      {stat.label}
+                    </Text>
+                  </VStack>
+                </motion.div>
+              ))}
+            </Grid>
+          </Box>
+        </motion.div>
       </Container>
 
       {/* Product Modal */}

@@ -8,85 +8,245 @@ import {
   HStack,
   useBreakpointValue,
   Container,
-  Image
+  Image,
+  Grid
 } from '@chakra-ui/react'
 import { Link, useLocation } from 'react-router-dom'
 import { HiMenu, HiX, HiChevronDown } from 'react-icons/hi'
-import { motion, AnimatePresence } from 'framer-motion'
+import { 
+  FaCode, 
+  FaRocket, 
+  FaCog, 
+  FaUsers, 
+  FaShieldAlt, 
+  FaGraduationCap,
+  FaTools,
+  FaAward,
+  FaBriefcase,
+  FaInfoCircle,
+  FaHome
+} from 'react-icons/fa'
+import { AnimatePresence } from 'framer-motion'
 
 interface NavLink {
   name: string
   path: string
   description?: string
+  icon?: React.ComponentType<{ size?: number }>
   children?: NavLink[]
+  featured?: boolean
+  isNew?: boolean
 }
 
-const navLinks: NavLink[] = [
-  { name: 'Home', path: '/' },
-  { 
-    name: 'Products', 
-    path: '/products',
-    children: [
-      { 
-        name: 'ERP Solutions', 
-        path: '/products#erp',
-        description: 'Enterprise Resource Planning solutions for streamlined business operations'
-      },
-      { 
-        name: 'Amigaa', 
-        path: '/products#amigaa',
-        description: 'Advanced AI-powered platform for intelligent automation'
-      }
-    ]
-  },
-  { 
-    name: 'Services', 
-    path: '/services',
-    children: [
-      { 
-        name: 'IT Consulting', 
-        path: '/services#it-consulting',
-        description: 'Strategic technology guidance for digital transformation'
-      },
-      { 
-        name: 'Workshop & Training', 
-        path: '/services#workshop-training',
-        description: 'Professional development and skill enhancement programs'
-      }
-    ]
-  },
-  { 
-    name: 'Resources', 
-    path: '/resources',
-    children: [
-      { 
-        name: 'Trusted Center', 
-        path: '/resources#trusted-center',
-        description: 'Security certifications, compliance and trust information'
-      },
-      { 
-        name: 'Tools', 
-        path: '/resources#tools',
-        description: 'Free tools and utilities to boost your productivity'
-      }
-    ]
-  },
-  { 
-    name: 'About Us', 
-    path: '/about',
-    children: [
-      { 
-        name: 'IOXET Overview', 
-        path: '/about',
-        description: 'Join our growing team and build the future together'
-      },
-      { 
-        name: 'Career', 
-        path: '/careers',
-        description: 'Join our growing team and build the future together'
-      }
-    ]
+interface MegaMenuSection {
+  title: string
+  items: NavLink[]
+}
+
+interface MegaMenuItem {
+  name: string
+  path: string
+  sections: MegaMenuSection[]
+  featured?: {
+    title: string
+    description: string
+    image?: string
+    cta: string
+    link: string
   }
+}
+
+const megaMenuItems: MegaMenuItem[] = [
+  {
+    name: 'Products',
+    path: '/products',
+    sections: [
+      {
+        title: 'Core Products',
+        items: [
+          { 
+            name: 'ERP Solutions', 
+            path: '/products#erp',
+            description: 'Enterprise Resource Planning solutions for streamlined business operations',
+            icon: FaCog,
+            featured: true
+          },
+          { 
+            name: 'Amigaa Platform', 
+            path: '/products#amigaa',
+            description: 'Advanced AI-powered platform for intelligent automation',
+            icon: FaRocket,
+            isNew: true
+          }
+        ]
+      },
+      {
+        title: 'Industry Solutions',
+        items: [
+          { 
+            name: 'Manufacturing ERP', 
+            path: '/products#manufacturing',
+            description: 'Specialized ERP for manufacturing businesses',
+            icon: FaCog
+          },
+          { 
+            name: 'Retail Solutions', 
+            path: '/products#retail',
+            description: 'Point of sale and inventory management',
+            icon: FaCode
+          }
+        ]
+      }
+    ],
+    featured: {
+      title: 'New: AI-Powered ERP',
+      description: 'Experience the future of business management with our AI-enhanced ERP platform.',
+      cta: 'Learn More',
+      link: '/products#ai-erp'
+    }
+  },
+  {
+    name: 'Services',
+    path: '/services',
+    sections: [
+      {
+        title: 'Consulting Services',
+        items: [
+          { 
+            name: 'IT Consulting', 
+            path: '/services#it-consulting',
+            description: 'Strategic technology guidance for digital transformation',
+            icon: FaBriefcase
+          },
+          { 
+            name: 'Security Consulting', 
+            path: '/services#security',
+            description: 'Comprehensive cybersecurity assessment and implementation',
+            icon: FaShieldAlt
+          }
+        ]
+      },
+      {
+        title: 'Training & Support',
+        items: [
+          { 
+            name: 'Workshop & Training', 
+            path: '/services#workshop-training',
+            description: 'Professional development and skill enhancement programs',
+            icon: FaGraduationCap
+          },
+          { 
+            name: '24/7 Support', 
+            path: '/services#support',
+            description: 'Round-the-clock technical support and maintenance',
+            icon: FaUsers
+          }
+        ]
+      }
+    ],
+    featured: {
+      title: 'Free Consultation',
+      description: 'Get expert advice on your digital transformation journey. Book a free 30-minute consultation.',
+      cta: 'Book Now',
+      link: '/contact'
+    }
+  },
+  {
+    name: 'Resources',
+    path: '/resources',
+    sections: [
+      {
+        title: 'Trust & Security',
+        items: [
+          { 
+            name: 'Trusted Center', 
+            path: '/resources#trusted-center',
+            description: 'Security certifications, compliance and trust information',
+            icon: FaShieldAlt
+          },
+          { 
+            name: 'Certifications', 
+            path: '/resources#certifications',
+            description: 'Industry certifications and compliance documentation',
+            icon: FaAward
+          }
+        ]
+      },
+      {
+        title: 'Tools & Utilities',
+        items: [
+          { 
+            name: 'ROI Calculator', 
+            path: '/resources#roi-calculator',
+            description: 'Calculate your return on investment for our solutions',
+            icon: FaTools
+          },
+          { 
+            name: 'Documentation', 
+            path: '/resources#docs',
+            description: 'Comprehensive guides and technical documentation',
+            icon: FaCode
+          }
+        ]
+      }
+    ],
+    featured: {
+      title: 'Resource Library',
+      description: 'Access whitepapers, case studies, and implementation guides.',
+      cta: 'Explore',
+      link: '/resources'
+    }
+  },
+  {
+    name: 'About Us',
+    path: '/about',
+    sections: [
+      {
+        title: 'Company',
+        items: [
+          { 
+            name: 'IOXET Overview', 
+            path: '/about',
+            description: 'Learn about our mission, vision, and company values',
+            icon: FaInfoCircle
+          },
+          { 
+            name: 'Leadership Team', 
+            path: '/about#team',
+            description: 'Meet our experienced leadership and advisory board',
+            icon: FaUsers
+          }
+        ]
+      },
+      {
+        title: 'Careers',
+        items: [
+          { 
+            name: 'Open Positions', 
+            path: '/careers',
+            description: 'Join our growing team and build the future together',
+            icon: FaBriefcase
+          },
+          { 
+            name: 'Culture & Benefits', 
+            path: '/careers#culture',
+            description: 'Learn about our work culture and employee benefits',
+            icon: FaUsers
+          }
+        ]
+      }
+    ],
+    featured: {
+      title: 'Join Our Team',
+      description: 'We\'re hiring talented individuals to join our mission of transforming businesses.',
+      cta: 'View Jobs',
+      link: '/careers'
+    }
+  }
+]
+
+const simpleNavLinks: NavLink[] = [
+  { name: 'Home', path: '/' }
 ]
 
 const Navbar = () => {
@@ -102,7 +262,36 @@ const Navbar = () => {
   useEffect(() => {
     setIsMobileMenuOpen(false)
     setOpenMobileMenus([])
+    // Auto-expand parent menu if current page is a submenu item
+    const activeParentMenu = megaMenuItems.find(item => 
+      item.sections.some(section => 
+        section.items.some(navItem => location.pathname === navItem.path)
+      )
+    )
+    if (activeParentMenu) {
+      setOpenMobileMenus([activeParentMenu.name])
+    }
   }, [location.pathname])
+
+  // Prevent background scrolling when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      // Prevent scrolling
+      document.body.style.overflow = 'hidden'
+      document.body.style.paddingRight = '0px' // Prevent layout shift
+    } else {
+      // Restore scrolling and close all expanded menus
+      document.body.style.overflow = 'unset'
+      document.body.style.paddingRight = '0px'
+      setOpenMobileMenus([])
+    }
+
+    // Cleanup function
+    return () => {
+      document.body.style.overflow = 'unset'
+      document.body.style.paddingRight = '0px'
+    }
+  }, [isMobileMenuOpen])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -125,357 +314,238 @@ const Navbar = () => {
   }, [lastScrollY])
 
   const toggleMobileMenu = (name: string) => {
-    setOpenMobileMenus(prev => 
-      prev.includes(name) ? prev.filter(n => n !== name) : [...prev, name]
+    setOpenMobileMenus(prev => {
+      // If the clicked menu is already open, close it
+      if (prev.includes(name)) {
+        return []
+      }
+      // Otherwise, close all others and open only the clicked one
+      return [name]
+    })
+  }
+
+  const MegaMenuDropdown = ({ item }: { item: MegaMenuItem }) => {
+    const [isHovered, setIsHovered] = useState(false)
+    const isActive = location.pathname === item.path || location.pathname.startsWith(item.path + '/')
+
+    const handleMouseEnter = () => setIsHovered(true)
+    const handleMouseLeave = () => setIsHovered(false)
+
+    return (
+      <Box
+        position="relative"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
+        <HStack
+          gap={1}
+          py={3}
+          px={4}
+          color={isActive ? "primary.500" : "text"}
+          fontWeight={isActive ? "600" : "500"}
+          cursor="pointer"
+          transition="all 0.2s ease"
+          borderBottom="2px solid transparent"
+          _hover={{ 
+            color: "primary.500",
+            borderBottomColor: "primary.500"
+          }}
+          borderBottomColor={isActive ? "primary.500" : "transparent"}
+        >
+          <Text fontSize="sm">{item.name}</Text>
+          <HiChevronDown 
+            size={14} 
+            style={{
+              transform: isHovered ? 'rotate(180deg)' : 'rotate(0deg)',
+              transition: 'transform 0.2s ease'
+            }}
+          />
+        </HStack>
+
+        {/* Mega Menu Panel */}
+        <AnimatePresence>
+          {isHovered && (
+            <Box
+              position="absolute"
+              top="100%"
+              left="50%"
+              transform="translateX(-50%)"
+              zIndex={1000}
+              marginTop="0px"
+              minW="800px"
+              maxW="1000px"
+            >
+              <Box
+                bg="white"
+                shadow="2xl"
+                border="1px solid"
+                borderColor="gray.200"
+                overflow="hidden"
+                position="relative"
+              >
+                  {/* Remove arrow pointer */}
+
+                  <Flex>
+                    {/* Main Content */}
+                    <Box flex="1" p={8}>
+                      <Grid templateColumns="repeat(2, 1fr)" gap={8}>
+                        {item.sections.map((section) => (
+                          <Box key={section.title}>
+                            <Text
+                              fontSize="sm"
+                              fontWeight="700"
+                              color="gray.900"
+                              mb={4}
+                              textTransform="uppercase"
+                              letterSpacing="wide"
+                            >
+                              {section.title}
+                            </Text>
+                            <VStack align="start" gap={3}>
+                              {section.items.map((navItem) => (
+                                <Link key={navItem.path} to={navItem.path} style={{ textDecoration: 'none', width: '100%' }}>
+                                  <HStack
+                                    gap={3}
+                                    p={3}
+                                    transition="all 0.2s ease"
+                                    _hover={{ 
+                                      bg: "primary.50",
+                                      transform: "translateX(4px)"
+                                    }}
+                                    cursor="pointer"
+                                    align="start"
+                                  >
+                                    {navItem.icon && (
+                                      <Box
+                                        p={2}
+                                        bg="primary.100"
+                                        color="primary.500"
+                                        flexShrink={0}
+                                      >
+                                        <navItem.icon size={16} />
+                                      </Box>
+                                    )}
+                                    <Box flex="1">
+                                      <HStack gap={2} align="center" mb={1}>
+                                        <Text
+                                          fontSize="sm"
+                                          fontWeight="600"
+                                          color="gray.900"
+                                        >
+                                          {navItem.name}
+                                        </Text>
+                                        {navItem.isNew && (
+                                          <Box
+                                            px={2}
+                                            py={0.5}
+                                            bg="green.100"
+                                            color="green.600"
+                                            fontSize="xs"
+                                            fontWeight="600"
+                                          >
+                                            NEW
+                                          </Box>
+                                        )}
+                                        {navItem.featured && (
+                                          <Box
+                                            px={2}
+                                            py={0.5}
+                                            bg="orange.100"
+                                            color="orange.600"
+                                            fontSize="xs"
+                                            fontWeight="600"
+                                          >
+                                            FEATURED
+                                          </Box>
+                                        )}
+                                      </HStack>
+                                      <Text
+                                        fontSize="xs"
+                                        color="gray.600"
+                                        lineHeight="1.4"
+                                      >
+                                        {navItem.description}
+                                      </Text>
+                                    </Box>
+                                  </HStack>
+                                </Link>
+                              ))}
+                            </VStack>
+                          </Box>
+                        ))}
+                      </Grid>
+                    </Box>
+
+                    {/* Featured Section */}
+                    {item.featured && (
+                      <Box
+                        w="300px"
+                        bg="gradient-to-br from-primary-50 to-primary-100"
+                        p={6}
+                        borderLeft="1px solid"
+                        borderColor="gray.100"
+                      >
+                        <VStack align="start" gap={4} h="full">
+                          <Box>
+                            <Text
+                              fontSize="lg"
+                              fontWeight="700"
+                              color="primary.600"
+                              mb={2}
+                            >
+                              {item.featured.title}
+                            </Text>
+                            <Text
+                              fontSize="sm"
+                              color="gray.700"
+                              lineHeight="1.5"
+                            >
+                              {item.featured.description}
+                            </Text>
+                          </Box>
+                          <Link to={item.featured.link} style={{ textDecoration: 'none' }}>
+                            <Button
+                              size="sm"
+                              colorScheme="primary"
+                              fontWeight="600"
+                              _hover={{
+                                transform: "translateY(-1px)"
+                              }}
+                              transition="all 0.2s ease"
+                            >
+                              {item.featured.cta} →
+                            </Button>
+                          </Link>
+                        </VStack>
+                      </Box>
+                    )}
+                  </Flex>
+                </Box>
+            </Box>
+          )}
+        </AnimatePresence>
+      </Box>
     )
   }
 
-  const NavItem = ({ link, isMobile = false }: { link: NavLink; isMobile?: boolean }) => {
-    const [isHovered, setIsHovered] = useState(false)
-    const [hoveredChild, setHoveredChild] = useState<string | null>(null)
-    const [globalTimeout, setGlobalTimeout] = useState<number | null>(null)
+  const SimpleNavItem = ({ link }: { link: NavLink }) => {
     const isActive = location.pathname === link.path || location.pathname.startsWith(link.path + '/')
-
-    // Universal hover management - keeps everything connected
-    const handleEnterHoverZone = () => {
-      if (globalTimeout) {
-        clearTimeout(globalTimeout)
-        setGlobalTimeout(null)
-      }
-      setIsHovered(true)
-    }
-
-    const handleLeaveHoverZone = () => {
-      const timeout = setTimeout(() => {
-        setIsHovered(false)
-        setHoveredChild(null)
-      }, 150)
-      setGlobalTimeout(timeout)
-    }
-
-    // Child-specific hover (for showing detail panels)
-    const handleChildHover = (childName: string) => {
-      if (globalTimeout) {
-        clearTimeout(globalTimeout)
-        setGlobalTimeout(null)
-      }
-      setIsHovered(true) // Keep main menu open
-      setHoveredChild(childName)
-    }
-
-    // Get detailed content for each submenu item
-    const getChildDetails = (childName: string, parentName: string) => {
-      const details: { [key: string]: { [key: string]: { title: string; description: string; features: string[] } } } = {
-        Products: {
-          'ERP Solutions': {
-            title: 'Enterprise Resource Planning',
-            description: 'Comprehensive ERP solutions that integrate all your business processes into a unified system for improved efficiency and data-driven decision making.',
-            features: ['Financial Management', 'Supply Chain Integration', 'Human Resources', 'Real-time Analytics']
-          },
-          'Amigaa': {
-            title: 'AI-Powered Automation Platform',
-            description: 'Revolutionary AI platform that transforms how businesses operate through intelligent automation and advanced machine learning capabilities.',
-            features: ['Machine Learning Models', 'Process Intelligence', 'Predictive Analytics', 'Automated Workflows']
-          }
-        },
-        Services: {
-          'IT Consulting': {
-            title: 'Strategic IT Consulting',
-            description: 'Expert guidance to help you navigate digital transformation, optimize your technology stack, and achieve your business objectives.',
-            features: ['Digital Strategy', 'Technology Assessment', 'Architecture Design', 'Implementation Planning']
-          },
-          'Workshop & Training': {
-            title: 'Professional Development',
-            description: 'Comprehensive training programs and workshops designed to upskill your team and maximize the value of your technology investments.',
-            features: ['Technical Workshops', 'Best Practices Training', 'Certification Programs', 'Ongoing Support']
-          }
-        },
-        Resources: {
-          'Trusted Center': {
-            title: 'Security & Compliance Hub',
-            description: 'Comprehensive security documentation, compliance certifications, and trust resources to ensure your confidence in our solutions.',
-            features: ['Security Certifications', 'Compliance Documentation', 'Privacy Policies', 'Audit Reports']
-          },
-          'Tools': {
-            title: 'Productivity Tools',
-            description: 'Free tools and utilities designed to enhance your productivity and streamline your daily workflows.',
-            features: ['Calculators & Converters', 'Planning Templates', 'Assessment Tools', 'Resource Libraries']
-          }
-        },
-        'About Us': {
-          'IOXET Overview': {
-            title: 'What We do',
-            description: 'Discover exciting career opportunities at IOXET. Be part of an innovative company that values creativity, collaboration, and professional growth.',
-            features: ['Remote-first culture', 'Competitive compensation', 'Learning & development budget', 'Flexible working hours']
-          },
-          'Career': {
-            title: 'Join Our Team',
-            description: 'Discover exciting career opportunities at IOXET. Be part of an innovative company that values creativity, collaboration, and professional growth.',
-            features: ['Remote-first culture', 'Competitive compensation', 'Learning & development budget', 'Flexible working hours']
-          }
-        }
-      }
-      
-      return details[parentName]?.[childName] || {
-        title: childName,
-        description: 'Learn more about this offering',
-        features: []
-      }
-    }
-
-    if (link.children && !isMobile) {
-      return (
-        <Box
-          position="relative"
-          onMouseEnter={handleEnterHoverZone}
-          onMouseLeave={handleLeaveHoverZone}
-        >
-          <HStack
-            gap={1}
-            py={2}
-            px={4}
-            borderRadius="full"
-            color={isActive ? "primary.500" : "text"}
-            fontWeight={isActive ? "600" : "500"}
-            cursor="pointer"
-            transition="all 0.3s ease"
-            _hover={{ 
-              bg: "primary.50",
-              color: "primary.500"
-            }}
-          >
-            <Text fontSize="sm">{link.name}</Text>
-            <motion.div
-              animate={{ rotate: isHovered ? 180 : 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <HiChevronDown size={14} />
-            </motion.div>
-          </HStack>
-
-          {/* Complete Hover Zone Container */}
-          <AnimatePresence>
-            {isHovered && (
-              <Box
-                position="absolute"
-                top="100%"
-                left="0"
-                zIndex={1000}
-                marginTop="8px"
-                onMouseEnter={handleEnterHoverZone}
-                onMouseLeave={handleLeaveHoverZone}
-              >
-                <Flex align="start" gap={3}>
-                  {/* Primary Submenu Panel */}
-                  <motion.div
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    transition={{ duration: 0.2, ease: "easeOut" }}
-                  >
-                    <Box
-                      bg="white"
-                      borderRadius="xl"
-                      shadow="xl"
-                      border="1px solid"
-                      borderColor="gray.100"
-                      backdropFilter="blur(20px)"
-                      overflow="hidden"
-                      minW="200px"
-                      position="relative"
-                    >
-                      {/* Arrow pointer - positioned relative to the menu button */}
-                      <Box
-                        position="absolute"
-                        top="-6px"
-                        left="32px"
-                        width="12px"
-                        height="12px"
-                        bg="white"
-                        borderTop="1px solid"
-                        borderLeft="1px solid"
-                        borderColor="gray.100"
-                        borderRadius="2px"
-                        style={{ rotate: '45deg' }}
-                      />
-
-                      {/* Menu Items */}
-                      <VStack gap={0} p={2}>
-                        {link.children.map((child, index) => (
-                          <motion.div
-                            key={child.path}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ 
-                              duration: 0.3, 
-                              delay: index * 0.05,
-                              ease: "easeOut"
-                            }}
-                            style={{ width: '100%' }}
-                          >
-                            <Box
-                              px={4}
-                              py={3}
-                              borderRadius="lg"
-                              transition="all 0.2s ease"
-                              bg={hoveredChild === child.name ? "primary.50" : "transparent"}
-                              _hover={{ 
-                                bg: "primary.50",
-                                transform: "translateX(4px)"
-                              }}
-                              cursor="pointer"
-                              width="100%"
-                              onMouseEnter={() => handleChildHover(child.name)}
-                            >
-                              <Link to={child.path} style={{ textDecoration: 'none', width: '100%' }}>
-                                <Text
-                                  fontSize="sm"
-                                  fontWeight="600"
-                                  color="text"
-                                >
-                                  {child.name}
-                                </Text>
-                              </Link>
-                            </Box>
-                          </motion.div>
-                        ))}
-                      </VStack>
-                    </Box>
-                  </motion.div>
-
-                  {/* Detailed Content Panel */}
-                  <AnimatePresence mode="wait">
-                    {hoveredChild && (
-                      <motion.div
-                        key={hoveredChild}
-                        initial={{ opacity: 0, x: 20, scale: 0.95 }}
-                        animate={{ opacity: 1, x: 0, scale: 1 }}
-                        exit={{ opacity: 0, x: 20, scale: 0.95 }}
-                        transition={{ duration: 0.2, ease: "easeOut" }}
-                      >
-                        <Box
-                          bg="white"
-                          borderRadius="2xl"
-                          shadow="2xl"
-                          border="1px solid"
-                          borderColor="gray.100"
-                          backdropFilter="blur(20px)"
-                          overflow="hidden"
-                          w="350px"
-                        >
-                          {(() => {
-                            const details = getChildDetails(hoveredChild, link.name)
-                            return (
-                              <>
-                                {/* Header */}
-                                <Box
-                                  px={6}
-                                  py={4}
-                                  bg="primary.50"
-                                  borderBottom="1px solid"
-                                  borderColor="gray.100"
-                                >
-                                  <Text
-                                    fontSize="lg"
-                                    fontWeight="700"
-                                    color="primary.600"
-                                    mb={1}
-                                  >
-                                    {details.title}
-                                  </Text>
-                                </Box>
-
-                                {/* Content */}
-                                <VStack align="start" p={6} gap={4}>
-                                  <Text
-                                    fontSize="sm"
-                                    color="muted"
-                                    lineHeight="1.6"
-                                  >
-                                    {details.description}
-                                  </Text>
-
-                                  {details.features.length > 0 && (
-                                    <Box>
-                                      <Text
-                                        fontSize="xs"
-                                        fontWeight="600"
-                                        color="text"
-                                        mb={2}
-                                        textTransform="uppercase"
-                                        letterSpacing="wide"
-                                      >
-                                        Key Features
-                                      </Text>
-                                      <VStack align="start" gap={1}>
-                                        {details.features.map((feature, idx) => (
-                                          <HStack key={idx} gap={2} align="start">
-                                            <Box
-                                              width="4px"
-                                              height="4px"
-                                              bg="primary.500"
-                                              borderRadius="full"
-                                              mt="6px"
-                                              flexShrink={0}
-                                            />
-                                            <Text
-                                              fontSize="xs"
-                                              color="muted"
-                                              lineHeight="1.4"
-                                            >
-                                              {feature}
-                                            </Text>
-                                          </HStack>
-                                        ))}
-                                      </VStack>
-                                    </Box>
-                                  )}
-
-                                  {/* CTA */}
-                                  <Link to={link.children?.find(c => c.name === hoveredChild)?.path || '#'} style={{ textDecoration: 'none' }}>
-                                    <Button
-                                      size="sm"
-                                      colorScheme="primary"
-                                      variant="ghost"
-                                      _hover={{
-                                        bg: "primary.50"
-                                      }}
-                                    >
-                                      Learn More →
-                                    </Button>
-                                  </Link>
-                                </VStack>
-                              </>
-                            )
-                          })()}
-                        </Box>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </Flex>
-              </Box>
-            )}
-          </AnimatePresence>
-        </Box>
-      )
-    }
 
     return (
       <Link to={link.path} style={{ textDecoration: 'none' }}>
         <Text
-          py={2}
+          py={3}
           px={4}
-          borderRadius="full"
           color={isActive ? "primary.500" : "text"}
           fontWeight={isActive ? "600" : "500"}
           fontSize="sm"
-          transition="all 0.3s ease"
+          transition="all 0.2s ease"
+          borderBottom="2px solid transparent"
+          borderBottomColor={isActive ? "primary.500" : "transparent"}
           _hover={{ 
             color: "primary.500",
-            bg: "primary.50",
-            transform: "translateY(-1px)"
+            borderBottomColor: "primary.500"
           }}
-          onClick={isMobile ? () => setIsMobileMenuOpen(false) : undefined}
         >
           {link.name}
         </Text>
@@ -512,22 +582,17 @@ const Navbar = () => {
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
-                // transition="all 0.3s ease"
-                // _hover={{ 
-                //   transform: "scale(1.05)"
-                // }}
+                transition="all 0.2s ease"
+                _hover={{ 
+                  transform: "scale(1.02)"
+                }}
               >
                 <Image
                   src="/ioxet-labs.svg"
                   alt="IOXET Labs"
                   width="150px"
                   height="40px"
-                  borderRadius="lg"
                   bg="transparent"
-                  // transition="all 0.3s ease"
-                  // _hover={{ 
-                  //   shadow: "lg"
-                  // }}
                 />
               </Box>
             </Link>
@@ -535,29 +600,31 @@ const Navbar = () => {
             {/* Desktop Navigation */}
             {!isMobile && (
               <HStack gap={2}>
-                {navLinks.map((link) => (
-                  <NavItem key={link.path} link={link} />
+                {simpleNavLinks.map((link) => (
+                  <SimpleNavItem key={link.path} link={link} />
+                ))}
+                {megaMenuItems.map((item) => (
+                  <MegaMenuDropdown key={item.path} item={item} />
                 ))}
               </HStack>
             )}
 
             {/* Right side controls */}
             <HStack gap={3}>
-              <Link to="/products" style={{ textDecoration: 'none' }}>
+              <Link to="/contact" style={{ textDecoration: 'none' }}>
                 <Button
                   variant="solid"
                   bg="primary.500"
                   colorScheme="primary"
                   size="sm"
-                  borderRadius="full"
                   px={6}
                   fontWeight="600"
                   display={{ base: 'none', md: 'flex' }}
                   _hover={{ 
-                    transform: "translateY(-2px)",
-                    shadow: "lg"
+                    bg: "primary.600",
+                    transform: "translateY(-1px)"
                   }}
-                  transition="all 0.3s ease"
+                  transition="all 0.2s ease"
                 >
                   Let's Meet
                 </Button>
@@ -569,13 +636,12 @@ const Navbar = () => {
                   variant="ghost"
                   color="text"
                   size="sm"
-                  borderRadius="full"
                   onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                   _hover={{ 
                     bg: "primary.50",
                     color: "primary.500"
                   }}
-                  transition="all 0.3s ease"
+                  transition="all 0.2s ease"
                   minW="auto"
                   px={2}
                 >
@@ -587,120 +653,278 @@ const Navbar = () => {
         </Container>
       </Box>
 
-      {/* Mobile Menu */}
+      {/* Mobile Sidebar Overlay */}
       {isMobile && isMobileMenuOpen && (
         <Box
           position="fixed"
-          top="80px"
+          top={0}
           left={0}
           right={0}
-          bg="card"
+          bottom={0}
+          bg="blackAlpha.600"
+          zIndex={999}
+          onClick={() => setIsMobileMenuOpen(false)}
+        />
+      )}
+
+      {/* Mobile Sidebar Menu */}
+      {isMobile && (
+        <Box
+          position="fixed"
+          top={0}
+          right={0}
+          bottom={0}
+          w="320px"
+          bg={scrolled ? "card" : "white"}
           backdropFilter="blur(20px)"
           border="1px solid"
           borderColor="border"
-          borderRadius="0 0 xl xl"
           shadow="xl"
-          zIndex={999}
-          p={6}
-          transition="all 0.3s ease"
+          transform={isMobileMenuOpen ? "translateX(0)" : "translateX(100%)"}
+          transition="transform 0.3s ease"
+          zIndex={1000}
+          overflowY="auto"
+          display="flex"
+          flexDirection="column"
         >
-          <VStack align="stretch" gap={2}>
-            {navLinks.map((link) => (
-              <Box key={link.path}>
-                {link.children ? (
+          {/* Header */}
+          <Box p={6} borderBottom="1px solid" borderColor="border" flexShrink={0}>
+            <HStack justify="space-between" align="center">
+              <Image
+                src="/ioxet-labs.svg"
+                alt="IOXET Labs"
+                width="120px"
+                height="32px"
+                bg="transparent"
+              />
+              <Button
+                aria-label="Close menu"
+                variant="ghost"
+                color="text"
+                size="sm"
+                onClick={() => setIsMobileMenuOpen(false)}
+                _hover={{ 
+                  bg: "primary.50",
+                  color: "primary.500"
+                }}
+                transition="all 0.2s ease"
+                minW="auto"
+                px={2}
+              >
+                <HiX size={20} />
+              </Button>
+            </HStack>
+          </Box>
+
+          {/* Navigation Items */}
+          <VStack align="stretch" gap={0} p={4} flex="1" overflowY="auto">
+            {/* Home */}
+            {simpleNavLinks.map((link) => {
+              const isActive = location.pathname === link.path
+              return (
+                <Link key={link.path} to={link.path} style={{ textDecoration: 'none' }}>
                   <HStack
-                    justify="space-between"
-                    align="center"
-                    py={2}
+                    gap={4}
+                    py={3}
                     px={4}
-                    borderRadius="lg"
                     cursor="pointer"
-                    onClick={() => toggleMobileMenu(link.name)}
-                    transition="all 0.2s ease"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    bg={isActive ? "primary.50" : "transparent"}
+                    color={isActive ? "primary.500" : "text"}
                     _hover={{ 
                       bg: "primary.50",
                       color: "primary.500"
                     }}
+                    transition="all 0.2s ease"
                   >
-                    <Text
-                      fontSize="sm"
-                      fontWeight="600"
-                      color="text"
-                    >
-                      {link.name}
-                    </Text>
-                    <motion.div
-                      animate={{ rotate: openMobileMenus.includes(link.name) ? 180 : 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <HiChevronDown size={16} />
-                    </motion.div>
+                    <Box>
+                      <FaHome size={18} />
+                    </Box>
+                    <Text fontWeight="500">{link.name}</Text>
                   </HStack>
-                ) : (
-                  <NavItem link={link} isMobile />
-                )}
-                {link.children && openMobileMenus.includes(link.name) && (
-                  <VStack align="stretch" pl={4} mt={2} gap={1}>
-                    {link.children.map((child) => (
-                      <Link key={child.path} to={child.path} style={{ textDecoration: 'none' }}>
-                        <Text
-                          py={2}
-                          px={4}
-                          borderRadius="lg"
-                          fontSize="sm"
-                          color="muted"
-                          fontWeight="500"
-                          transition="all 0.2s ease"
-                          _hover={{ 
-                            color: "primary.500", 
-                            bg: "primary.50",
-                            transform: "translateX(4px)"
-                          }}
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          {child.name}
-                        </Text>
-                      </Link>
-                    ))}
-                  </VStack>
-                )}
-              </Box>
-            ))}
-            
-            <Link to="/products" style={{ textDecoration: 'none' }}>
+                </Link>
+              )
+            })}
+
+            {/* Mega menu items as collapsible sections */}
+            {megaMenuItems.map((item) => {
+              const isItemActive = location.pathname === item.path || location.pathname.startsWith(item.path + '/')
+              const hasActiveSubItem = item.sections.some(section => 
+                section.items.some(navItem => location.pathname === navItem.path)
+              )
+              const isExpanded = openMobileMenus.includes(item.name)
+              
+              return (
+                <Box key={item.path}>
+                  <HStack
+                    gap={4}
+                    py={4}
+                    px={4}
+                    cursor="pointer"
+                    onClick={() => toggleMobileMenu(item.name)}
+                    bg={(isItemActive || hasActiveSubItem) ? "primary.50" : "transparent"}
+                    color={(isItemActive || hasActiveSubItem) ? "primary.500" : "text"}
+                    _hover={{ 
+                      bg: "primary.50",
+                      color: "primary.500"
+                    }}
+                    transition="all 0.2s ease"
+                    borderLeft={(isItemActive || hasActiveSubItem) ? "4px solid" : "4px solid transparent"}
+                    borderColor={(isItemActive || hasActiveSubItem) ? "primary.500" : "transparent"}
+                    fontWeight={(isItemActive || hasActiveSubItem) ? "600" : "500"}
+                  >
+                    <Box>
+                      {item.name === 'Products' && <FaCog size={18} />}
+                      {item.name === 'Services' && <FaTools size={18} />}
+                      {item.name === 'Resources' && <FaAward size={18} />}
+                      {item.name === 'About Us' && <FaInfoCircle size={18} />}
+                    </Box>
+                    <Text flex="1" fontWeight="inherit">
+                      {item.name}
+                    </Text>
+                    <Box 
+                      p={1}
+                      bg={(isItemActive || hasActiveSubItem) ? "primary.500" : "gray.100"}
+                      color={(isItemActive || hasActiveSubItem) ? "white" : "gray.500"}
+                      borderRadius="md"
+                      transition="all 0.2s ease"
+                    >
+                      <HiChevronDown 
+                        size={14} 
+                        style={{
+                          transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                          transition: 'transform 0.2s ease'
+                        }}
+                      />
+                    </Box>
+                  </HStack>
+                  
+                  {isExpanded && (
+                    <Box
+                      overflow="hidden"
+                      transition="all 0.3s ease"
+                    >
+                      <VStack align="stretch" pl={8} gap={0} py={2}>
+                        {item.sections.map((section) => (
+                          <Box key={section.title}>
+                            <Text
+                              fontSize="xs"
+                              fontWeight="700"
+                              color="muted"
+                              py={3}
+                              px={4}
+                              textTransform="uppercase"
+                              letterSpacing="wide"
+                              bg="gray.50"
+                            >
+                              {section.title}
+                            </Text>
+                            {section.items.map((navItem) => {
+                              const isSubItemActive = location.pathname === navItem.path
+                              return (
+                                <Link key={navItem.path} to={navItem.path} style={{ textDecoration: 'none' }}>
+                                  <HStack
+                                    gap={3}
+                                    py={3}
+                                    px={4}
+                                    cursor="pointer"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    bg={isSubItemActive ? "primary.100" : "transparent"}
+                                    color={isSubItemActive ? "primary.600" : "muted"}
+                                    _hover={{ 
+                                      bg: "primary.50",
+                                      color: "primary.500",
+                                      transform: "translateX(4px)"
+                                    }}
+                                    transition="all 0.2s ease"
+                                    borderLeft={isSubItemActive ? "3px solid" : "3px solid transparent"}
+                                    borderColor={isSubItemActive ? "primary.500" : "transparent"}
+                                  >
+                                    {navItem.icon && (
+                                      <Box
+                                        p={1.5}
+                                        bg={isSubItemActive ? "primary.500" : "gray.100"}
+                                        color={isSubItemActive ? "white" : "gray.600"}
+                                        borderRadius="md"
+                                        transition="all 0.2s ease"
+                                      >
+                                        <navItem.icon size={14} />
+                                      </Box>
+                                    )}
+                                    <Box flex="1">
+                                      <Text fontSize="sm" fontWeight="500">
+                                        {navItem.name}
+                                      </Text>
+                                      {navItem.description && (
+                                        <Text fontSize="xs" color="gray.500" mt={0.5} lineHeight="1.3">
+                                          {navItem.description}
+                                        </Text>
+                                      )}
+                                    </Box>
+                                    <HStack gap={1}>
+                                      {navItem.isNew && (
+                                        <Box
+                                          px={2}
+                                          py={0.5}
+                                          bg="green.100"
+                                          color="green.600"
+                                          fontSize="xs"
+                                          fontWeight="600"
+                                          borderRadius="full"
+                                        >
+                                          NEW
+                                        </Box>
+                                      )}
+                                      {navItem.featured && (
+                                        <Box
+                                          px={2}
+                                          py={0.5}
+                                          bg="orange.100"
+                                          color="orange.600"
+                                          fontSize="xs"
+                                          fontWeight="600"
+                                          borderRadius="full"
+                                        >
+                                          ★
+                                        </Box>
+                                      )}
+                                    </HStack>
+                                  </HStack>
+                                </Link>
+                              )
+                            })}
+                          </Box>
+                        ))}
+                      </VStack>
+                    </Box>
+                  )}
+                </Box>
+              )
+            })}
+          </VStack>
+
+          {/* Bottom CTA Section */}
+          <Box p={4} borderTop="1px solid" borderColor="border" flexShrink={0}>
+            <Link to="/contact" style={{ textDecoration: 'none' }}>
               <Button
-                variant="solid"
-                colorScheme="primary"
-                mt={6}
-                borderRadius="full"
-                fontWeight="600"
+                bg="primary.500"
+                color="white"
                 w="full"
+                py={3}
+                fontWeight="600"
                 onClick={() => setIsMobileMenuOpen(false)}
-                _hover={{ transform: "translateY(-2px)" }}
-                transition="all 0.3s ease"
+                _hover={{ 
+                  bg: "primary.600",
+                  transform: "translateY(-1px)"
+                }}
+                transition="all 0.2s ease"
               >
                 Let's Meet
               </Button>
             </Link>
-          </VStack>
+          </Box>
         </Box>
       )}
-
-      {/* Animation keyframes */}
-      <style>
-        {`
-          @keyframes fadeInUp {
-            from {
-              opacity: 0;
-              transform: translateY(10px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-        `}
-      </style>
     </>
   )
 }
