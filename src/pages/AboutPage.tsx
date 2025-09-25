@@ -10,15 +10,14 @@ import {
   Image,
   Icon,
   SimpleGrid,
-  Flex,
-  ScrollArea,
+
 } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { 
   FaLinkedin, 
-  FaGithub,
-} from "react-icons/fa"
+  FaXTwitter,
+} from "react-icons/fa6"
 import {
   HiArrowRight,
   HiHeart,
@@ -34,10 +33,10 @@ const teamMembers = [
     name: "Suresh Bhandari",
     role: "CEO & Founder",
     bio: "Suresh leads us from all frontiers, leveraging over two decades of expertise in IT and management to lead teams effectively.",
-    image: "/teams/suresh.jpeg",
+    image: "/teams/Suresh.png",
     social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
+      linkedin: "https://linkedin.com/in/sureshbhandari",
+      twitter: "https://x.com/sureshbhandari2",
       github: "https://github.com"
     }
   },
@@ -45,10 +44,10 @@ const teamMembers = [
     name: "Divyendu Bhatt",
     role: "CTO & Security Advisor",
     bio: "Divyendu drives our security and compliances while implementing frameworks, managing vulnerabilities, and ensuring regulatory compliance.",
-    image: "/teams/devbandhu.jpeg",
+    image: "/teams/Divyendu.png",
     social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
+      linkedin: "https://linkedin.com/in/dm-bhatt-0bb8a48",
+      twitter: "https://x.com",
       github: "https://github.com"
     }
   },
@@ -56,10 +55,10 @@ const teamMembers = [
     name: "Abiral Bhandari",
     role: "HR and Project Manager",
     bio: "Abiral leads our technical vision with expertise in modern web technologies and scalable architecture design.",
-    image: "/teams/abiral.jpeg",
+    image: "/teams/Abiral.png",
     social: {
       linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
+      twitter: "https://x.com",
       github: "https://github.com"
     }
   },
@@ -67,10 +66,10 @@ const teamMembers = [
     name: "Tejash Katuwal",
     role: "AI Engineer",
     bio: "Tejash builds AI models and data pipelines that help drive data-driven decisions across the organization.",
-    image: "/teams/tejash.jpeg",
+    image: "/teams/Tejash.jpg",
     social: {
       linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
+      twitter: "https://x.com",
       github: "https://github.com"
     }
   },
@@ -78,10 +77,10 @@ const teamMembers = [
     name: "Nibesh Suwal",
     role: "Lead Backend Developer",
     bio: "Nibesh manages our infrastructure and deployment pipelines, ensuring reliable and scalable cloud solutions.",
-    image: "/teams/nibesh.jpeg",
+    image: "/teams/Nibesh.png",
     social: {
       linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
+      twitter: "https://x.com",
       github: "https://github.com"
     }
   },
@@ -89,10 +88,10 @@ const teamMembers = [
     name: "Ritesh Raj Pandit",
     role: "Lead Frontend Developer",
     bio: "With 15 years of experience in tech leadership, Ritesh founded our company to bridge the gap between innovative ideas and practical solutions.",
-    image: "/teams/riteshraj.png",
+    image: "/teams/Ritesh.png",
     social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
+      linkedin: "https://linkedin.com/in/riteshrajpandit",
+      twitter: "https://x.com/riteshrajpandit",
       github: "https://github.com"
     }
   },
@@ -104,7 +103,7 @@ const teamMembers = [
     image: "/teams/ashim.jpeg",
     social: {
       linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
+      twitter: "https://x.com",
       github: "https://github.com"
     }
   },
@@ -116,7 +115,7 @@ const teamMembers = [
     image: "/teams/dipakbohara.jpeg",
     social: {
       linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
+      twitter: "https://x.com",
       github: "https://github.com"
     }
   },
@@ -127,7 +126,7 @@ const teamMembers = [
     image: "/teams/diwas.jpeg",
     social: {
       linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
+      twitter: "https://x.com",
       github: "https://github.com"
     }
   },
@@ -138,7 +137,7 @@ const teamMembers = [
     image: "/teams/kaustuv.jpeg",
     social: {
       linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
+      twitter: "https://x.com",
       github: "https://github.com"
     }
   },
@@ -149,7 +148,7 @@ const teamMembers = [
     image: "/teams/laxmi.jpeg",
     social: {
       linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
+      twitter: "https://x.com",
       github: "https://github.com"
     }
   },
@@ -161,7 +160,7 @@ const teamMembers = [
     image: "/teams/shubham.jpeg",
     social: {
       linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
+      twitter: "https://x.com",
       github: "https://github.com"
     }
   },
@@ -172,7 +171,7 @@ const teamMembers = [
     image: "/teams/suyog.jpeg",
     social: {
       linkedin: "https://linkedin.com",
-      twitter: "https://twitter.com",
+      twitter: "https://x.com",
       github: "https://github.com"
     }
   }
@@ -498,7 +497,7 @@ export const AboutPage = () => {
                         alt={member.name}
                         borderRadius="2xl"
                         w="280px"
-                        h="320px"
+                        h="360px"
                         objectFit="cover"
                         shadow="xl"
                         _hover={{ transform: "scale(1.02)" }}
@@ -536,17 +535,17 @@ export const AboutPage = () => {
                           <FaLinkedin size={20} />
                         </Box>
                       </a>
-                      <a href={member.social.github} target="_blank" rel="noopener noreferrer">
+                      <a href={member.social.twitter} target="_blank" rel="noopener noreferrer">
                         <Box
                           p={3}
                           bg="gray.100"
                           borderRadius="lg"
                           color="muted"
-                          _hover={{ color: "primary.500", bg: "primary.50" }}
+                          _hover={{ color: "#000000", bg: "gray.200" }}
                           cursor="pointer"
                           transition="all 0.2s"
                         >
-                          <FaGithub size={20} />
+                          <FaXTwitter size={20} />
                         </Box>
                       </a>
                     </HStack>
@@ -640,15 +639,15 @@ export const AboutPage = () => {
                                 <FaLinkedin size={14} />
                               </Box>
                             </a>
-                            <a href={member.social.github} target="_blank" rel="noopener noreferrer">
+                            <a href={member.social.twitter} target="_blank" rel="noopener noreferrer">
                               <Box
                                 p={1}
                                 color="muted"
-                                _hover={{ color: "primary.500" }}
+                                _hover={{ color: "#000000" }}
                                 cursor="pointer"
                                 transition="color 0.2s"
                               >
-                                <FaGithub size={14} />
+                                <FaXTwitter size={14} />
                               </Box>
                             </a>
                           </HStack>

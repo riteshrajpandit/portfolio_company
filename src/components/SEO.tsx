@@ -78,7 +78,7 @@ export const SEO = ({ title, description, keywords }: SEOProps) => {
       "knowsAbout": ["Software Development", "ERP Solutions", "AI Automation", "Web Development", "IT Consulting"],
       "sameAs": [
         "https://linkedin.com/company/ioxet-labs",
-        "https://twitter.com/ioxetlabs"
+        "https://x.com/ioxetlabs"
       ]
     }
     
