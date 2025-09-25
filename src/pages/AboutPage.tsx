@@ -10,6 +10,8 @@ import {
   Image,
   Icon,
   SimpleGrid,
+  Flex,
+  ScrollArea,
 } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
@@ -25,6 +27,7 @@ import {
   HiTrophy,
   HiBriefcase,
 } from "react-icons/hi2"
+
 
 const teamMembers = [
     {
@@ -201,9 +204,9 @@ const values = [
 
 const stats = [
   { label: "Team Members", value: "13+", icon: HiUserGroup },
-  { label: "Years of Experience", value: "10+", icon: HiTrophy },
-  { label: "Projects Delivered", value: "500+", icon: HiBriefcase },
-  { label: "Client Satisfaction", value: "99%", icon: HiHeart }
+  { label: "Years of Experience", value: "100+", icon: HiTrophy },
+  { label: "Projects Delivered", value: "3+", icon: HiBriefcase },
+  { label: "Client Satisfaction", value: "99.9%", icon: HiHeart }
 ]
 
 const MotionBox = motion(Box)
@@ -563,73 +566,97 @@ export const AboutPage = () => {
                     Talented developers and designers who bring our vision to life.
                   </Text>
                 </Box>
-                <Grid templateColumns={{ base: "repeat(2, 1fr)", sm: "repeat(3, 1fr)", md: "repeat(4, 1fr)", lg: "repeat(6, 1fr)" }} gap={6}>
-                  {teamMembers.slice(6).map((member, index) => (
-                    <MotionBox
-                      key={index + 6}
-                      initial={{ opacity: 0, y: 30 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, delay: index * 0.05 }}
-                      viewport={{ once: true }}
-                      textAlign="center"
-                    >
-                      <VStack gap={3}>
-                        <Image
-                          src={member.image}
-                          alt={member.name}
-                          borderRadius="xl"
-                          boxSize="120px"
-                          objectFit="cover"
-                          shadow="md"
-                          _hover={{ transform: "scale(1.05)" }}
-                          transition="all 0.3s ease"
-                        />
-                        <VStack gap={1}>
-                          <Text fontSize="sm" fontWeight="700" color="text">
-                            {member.name}
-                          </Text>
-                          <Text color="primary.500" fontWeight="600" fontSize="xs">
-                            {member.role}
-                          </Text>
-                          <Text 
-                            fontSize="xs" 
-                            color="muted" 
-                            lineHeight="1.4" 
-                            textAlign="center"
-                            maxH="2.8em"
-                            overflow="hidden"
-                          >
-                            {member.bio}
-                          </Text>
+                <Box 
+                  overflowX="auto"
+                  pb={4}
+                  css={{
+                    '&::-webkit-scrollbar': {
+                      height: '8px',
+                    },
+                    '&::-webkit-scrollbar-track': {
+                      background: '#f1f5f9',
+                      borderRadius: '10px',
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      background: '#cbd5e0',
+                      borderRadius: '10px',
+                    },
+                    '&::-webkit-scrollbar-thumb:hover': {
+                      background: '#a0aec0',
+                    },
+                  }}
+                >
+                  <HStack gap={6} alignItems="flex-start" minW="max-content" px={2}>
+                    {teamMembers.slice(6).map((member, index) => (
+                      <MotionBox
+                        key={index + 6}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8, delay: index * 0.05 }}
+                        viewport={{ once: true }}
+                        textAlign="center"
+                        minW="140px"
+                        flexShrink={0}
+                      >
+                        <VStack gap={3}>
+                          <Image
+                            src={member.image}
+                            alt={member.name}
+                            borderRadius="xl"
+                            boxSize="120px"
+                            objectFit="cover"
+                            shadow="md"
+                            _hover={{ transform: "scale(1.05)" }}
+                            transition="all 0.3s ease"
+                          />
+                          <VStack gap={1}>
+                            <Text fontSize="sm" fontWeight="700" color="text">
+                              {member.name}
+                            </Text>
+                            <Text color="primary.500" fontWeight="600" fontSize="xs">
+                              {member.role}
+                            </Text>
+                            <Text 
+                              fontSize="xs" 
+                              color="muted" 
+                              lineHeight="1.4" 
+                              textAlign="center"
+                              maxH="2.8em"
+                              overflow="hidden"
+                              w="130px"
+                            >
+                              {member.bio}
+                            </Text>
+                          </VStack>
+                          <HStack gap={2} justify="center">
+                            <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer">
+                              <Box
+                                p={1}
+                                color="muted"
+                                _hover={{ color: "primary.500" }}
+                                cursor="pointer"
+                                transition="color 0.2s"
+                              >
+                                <FaLinkedin size={14} />
+                              </Box>
+                            </a>
+                            <a href={member.social.github} target="_blank" rel="noopener noreferrer">
+                              <Box
+                                p={1}
+                                color="muted"
+                                _hover={{ color: "primary.500" }}
+                                cursor="pointer"
+                                transition="color 0.2s"
+                              >
+                                <FaGithub size={14} />
+                              </Box>
+                            </a>
+                          </HStack>
                         </VStack>
-                        <HStack gap={2} justify="center">
-                          <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer">
-                            <Box
-                              p={1}
-                              color="muted"
-                              _hover={{ color: "primary.500" }}
-                              cursor="pointer"
-                              transition="color 0.2s"
-                            >
-                              <FaLinkedin size={14} />
-                            </Box>
-                          </a>
-                          <a href={member.social.github} target="_blank" rel="noopener noreferrer">
-                            <Box
-                              p={1}
-                              color="muted"
-                              _hover={{ color: "primary.500" }}
-                              cursor="pointer"
-                              transition="color 0.2s"
-                            >
-                              <FaGithub size={14} />
-                            </Box>
-                          </a>
-                        </HStack>
-                      </VStack>
-                    </MotionBox>
-                  ))}
-                </Grid>
+                      </MotionBox>
+                    ))}
+                  </HStack>
+                </Box>
               </VStack>
             )}
           </VStack>
