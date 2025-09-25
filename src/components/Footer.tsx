@@ -7,66 +7,108 @@ import {
   Grid,
   GridItem,
   IconButton,
+  Image,
 } from "@chakra-ui/react"
 import { Link as RouterLink } from "react-router-dom"
-import { FaGithub, FaLinkedin, FaTwitter, FaEnvelope } from "react-icons/fa"
+import {  FaLinkedin, FaTwitter, FaFacebook } from "react-icons/fa"
 
-const footerLinks = {
-  Company: [
-    { label: "About Us", href: "/about" },
-    { label: "Our Team", href: "/about/team" },
-    { label: "Careers", href: "/about/careers" },
-    { label: "Contact", href: "/contact" },
-  ],
-  Services: [
-    { label: "Web Development", href: "/services/web-development" },
-    { label: "Mobile Apps", href: "/services/mobile-apps" },
-    { label: "Consulting", href: "/services/consulting" },
-    { label: "Support", href: "/services/support" },
-  ],
-  Resources: [
-    { label: "Blog", href: "/blog" },
-    { label: "Portfolio", href: "/portfolio" },
-    { label: "Case Studies", href: "/portfolio/case-studies" },
-    { label: "Documentation", href: "/docs" },
-  ],
-  Legal: [
-    { label: "Privacy Policy", href: "/privacy" },
-    { label: "Terms of Service", href: "/terms" },
-    { label: "Cookie Policy", href: "/cookies" },
-    { label: "GDPR", href: "/gdpr" },
-  ],
-}
+
+const navItems = [
+  { label: "Home", href: "/" },
+  { label: "About Us", href: "/about" },
+  { label: "Products", href: "/products" },
+  { label: "Services", href: "/services" },
+]
 
 const socialLinks = [
-  { icon: FaGithub, href: "https://github.com", label: "GitHub" },
-  { icon: FaLinkedin, href: "https://linkedin.com", label: "LinkedIn" },
-  { icon: FaTwitter, href: "https://twitter.com", label: "Twitter" },
-  { icon: FaEnvelope, href: "mailto:contact@yourcompany.com", label: "Email" },
+  { icon: FaFacebook, href: "https://www.facebook.com/ioxet", label: "Facebook" },
+  { icon: FaLinkedin, href: "https://www.linkedin.com/company/ioxet/", label: "LinkedIn" },
+  { icon: FaTwitter, href: "https://x.com/ioxetlabs", label: "X" },
+  
 ]
 
 export const Footer = () => {
   return (
-    <Box bg="neutral.900" color="white" mt="auto">
-      <Container maxW="7xl" py={10}>
-        <Grid templateColumns={{ base: "1fr", md: "repeat(4, 1fr)" }} gap={8}>
-          {/* Company Info */}
-          <GridItem colSpan={{ base: 1, md: 1 }}>
-            <Text fontSize="2xl" fontWeight="bold" color="primary.400" mb={4}>
-              YourCompany
+    <Box bg="primary.300" color="white" mt="auto">
+      {/* Top Section */}
+      <Container maxW="7xl" py={6}>
+        <Grid templateColumns={{ base: "1fr", md: "repeat(4, 1fr)" }} gap={8} textAlign={{ base: "center", md: "left" }}>
+          {/* Need Help Section */}
+          <GridItem>
+            <Text fontSize="sm" color="white" mb={2} opacity={0.9}>
+              Need Help?
             </Text>
-            <Text fontSize="sm" color="neutral.300" mb={4}>
-              Building innovative digital solutions that help businesses grow and succeed in the modern world.
+            <RouterLink to="/contact" style={{ textDecoration: 'none' }}>
+              <Text 
+                fontSize="xl" 
+                fontWeight="bold" 
+                color="white"
+                _hover={{ opacity: 0.8 }}
+                transition="opacity 0.2s ease"
+                cursor="pointer"
+              >
+                Contact Us 
+              </Text>
+            </RouterLink>
+          </GridItem>
+
+          {/* Call Us Section */}
+          <GridItem>
+            <Text fontSize="sm" color="white" mb={2} opacity={0.9}>
+              Call Us :
             </Text>
-            <Stack direction="row" gap={2}>
+            <a href="tel:+977-9861190705" style={{ textDecoration: 'none' }}>
+              <Text 
+                fontSize="xl" 
+                fontWeight="bold" 
+                color="white"
+                _hover={{ opacity: 0.8 }}
+                transition="opacity 0.2s ease"
+                cursor="pointer"
+              >
+                +977-9861190705
+              </Text>
+            </a>
+          </GridItem>
+
+          {/* Send Email Section */}
+          <GridItem>
+            <Text fontSize="sm" color="white" mb={2} opacity={0.9}>
+            Message Us :
+            </Text>
+            <a href="mailto:info@ioxet.com" style={{ textDecoration: 'none' }}>
+              <Text 
+                fontSize="xl" 
+                fontWeight="bold" 
+                color="white"
+                _hover={{ opacity: 0.8 }}
+                transition="opacity 0.2s ease"
+                cursor="pointer"
+              >
+                info@ioxet.com
+              </Text>
+            </a>
+          </GridItem>
+
+          {/* Follow Us Section */}
+          <GridItem>
+            <Text fontSize="sm" color="white" mb={4} opacity={0.9}>
+              Follow Us :
+            </Text>
+            <Stack direction="row" gap={3} justify={{ base: "center", md: "flex-start" }}>
               {socialLinks.map((social) => (
                 <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer">
                   <IconButton
                     aria-label={social.label}
                     variant="ghost"
-                    color="neutral.400"
-                    _hover={{ color: "primary.400" }}
-                    size="sm"
+                    color="white"
+                    _hover={{ 
+                      bg: "rgba(255,255,255,0.1)",
+                      transform: "translateY(-2px)"
+                    }}
+                    transition="all 0.2s ease"
+                    size="md"
+                    borderRadius="lg"
                   >
                     <social.icon />
                   </IconButton>
@@ -74,71 +116,131 @@ export const Footer = () => {
               ))}
             </Stack>
           </GridItem>
-
-          {/* Footer Links */}
-          {Object.entries(footerLinks).map(([category, links]) => (
-            <GridItem key={category}>
-              <Text fontWeight="semibold" fontSize="lg" mb={4} color="white">
-                {category}
-              </Text>
-              <Stack gap={2}>
-                {links.map((link) => (
-                  <RouterLink
-                    key={link.label}
-                    to={link.href}
-                    style={{ textDecoration: 'none' }}
-                  >
-                    <Text
-                      fontSize="sm"
-                      color="neutral.300"
-                      _hover={{ color: "primary.400" }}
-                      transition="color 0.2s"
-                      cursor="pointer"
-                    >
-                      {link.label}
-                    </Text>
-                  </RouterLink>
-                ))}
-              </Stack>
-            </GridItem>
-          ))}
         </Grid>
+      </Container>
 
-        <Box h="1px" bg="neutral.700" my={8} />
+      {/* Divider */}
+      <Box h="1px" bg="rgba(255,255,255,0.2)" />
 
+      {/* Bottom Section */}
+      <Container maxW="7xl" py={4}>
         <Flex
           direction={{ base: "column", md: "row" }}
           justify="space-between"
           align="center"
           gap={4}
         >
-          <Text fontSize="sm" color="neutral.400">
-            © {new Date().getFullYear()} YourCompany. All rights reserved.
-          </Text>
-          <Stack direction="row" gap={6}>
-            <RouterLink to="/privacy" style={{ textDecoration: 'none' }}>
-              <Text
-                fontSize="sm"
-                color="neutral.400"
-                _hover={{ color: "primary.400" }}
-                cursor="pointer"
-              >
-                Privacy Policy
-              </Text>
-            </RouterLink>
-            <RouterLink to="/terms" style={{ textDecoration: 'none' }}>
-              <Text
-                fontSize="sm"
-                color="neutral.400"
-                _hover={{ color: "primary.400" }}
-                cursor="pointer"
-              >
-                Terms of Service
-              </Text>
-            </RouterLink>
-          </Stack>
+          {/* Company Logo/Name */}
+          <Flex align="center" gap={3}>
+            <Image 
+              src="/ioxet-labs-white.svg" 
+              alt="IOXET Labs" 
+              height="50px" 
+              width="auto"
+            />
+          </Flex>
+
+          {/* Navigation Items */}
+          <Flex gap={4} wrap="nowrap" align="center">
+           {navItems.map((item, index) => (
+             <Flex key={item.label} align="center" gap={4}>
+                <RouterLink
+                  to={item.href}
+                  style={{ textDecoration: 'none' }}
+                >
+                  <Text
+                    fontSize="sm"
+                    color="white"
+                    _hover={{ 
+                      opacity: 0.8
+                    }}
+                    transition="all 0.2s ease"
+                    cursor="pointer"
+                    whiteSpace="nowrap"
+                  >
+                    {item.label}
+                  </Text>
+                </RouterLink>
+                 {index < navItems.length - 1 && (
+                  <Box
+                    w="4px"
+                    h="4px"
+                    bg="white"
+                    borderRadius="full"
+                    opacity={0.6}
+                  />
+                )}
+              </Flex>
+            ))}
+          </Flex>
         </Flex>
       </Container>
+
+      {/* Copyright and Legal Links Section - Metal Gray */}
+      <Box bg="gray.700" py={4}>
+        <Container maxW="7xl">
+          <Flex
+            direction={{ base: "column", md: "row" }}
+            justify="space-between"
+            align="center"
+            gap={4}
+          >
+            {/* Copyright */}
+            <Text fontSize="sm" color="gray.300">
+              © {new Date().getFullYear()} IOXET Labs Pvt. Ltd. All rights reserved.
+            </Text>
+
+            {/* Legal Links */}
+            <Flex gap={6} align="center">
+              <RouterLink to="/terms" style={{ textDecoration: 'none' }}>
+                <Text
+                  fontSize="sm"
+                  color="gray.300"
+                  _hover={{ 
+                    color: "white"
+                  }}
+                  transition="color 0.2s ease"
+                  cursor="pointer"
+                >
+                  Terms of Use
+                </Text>
+              </RouterLink>
+              
+              <Box w="4px" h="4px" bg="gray.400" borderRadius="full" />
+              
+              <RouterLink to="/privacy" style={{ textDecoration: 'none' }}>
+                <Text
+                  fontSize="sm"
+                  color="gray.300"
+                  _hover={{ 
+                    color: "white"
+                  }}
+                  transition="color 0.2s ease"
+                  cursor="pointer"
+                >
+                  Privacy Policy
+                </Text>
+              </RouterLink>
+              
+              <Box w="4px" h="4px" bg="gray.400" borderRadius="full" />
+              
+              <RouterLink to="/sitemap" style={{ textDecoration: 'none' }}>
+                <Text
+                  fontSize="sm"
+                  color="gray.300"
+                  _hover={{ 
+                    color: "white"
+                  }}
+                  transition="color 0.2s ease"
+                  cursor="pointer"
+                >
+                  Sitemap
+                </Text>
+              </RouterLink>
+            </Flex>
+          </Flex>
+        </Container>
+      </Box>
     </Box>
   )
 }

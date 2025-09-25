@@ -27,6 +27,7 @@ import {
   HiClock,
   HiStar,
 } from "react-icons/hi2"
+import FeaturesSection from "@/components/sections/FeaturesSection"
 
 const services = [
   {
@@ -241,6 +242,8 @@ const ServicesPage = () => {
           </SimpleGrid>
         </MotionBox>
       </Container>
+
+      <FeaturesSection />
 
       {/* Services Sections */}
       {services.map((service, index) => (

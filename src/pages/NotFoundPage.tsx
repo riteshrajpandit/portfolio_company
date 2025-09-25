@@ -10,34 +10,16 @@ import {
   GridItem,
 } from "@chakra-ui/react"
 import { Link, useNavigate } from "react-router-dom"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { HiArrowLeft, HiHome, HiStar, HiSparkles } from "react-icons/hi"
-import { useState, useEffect } from "react"
 
 const MotionBox = motion(Box)
-const MotionFlex = motion(Flex)
 
 const NotFoundPage = () => {
   const navigate = useNavigate()
-  const [showSparkles, setShowSparkles] = useState(false)
-
-  useEffect(() => {
-    const timer = setTimeout(() => setShowSparkles(true), 1000)
-    return () => clearTimeout(timer)
-  }, [])
 
   const handleGoBack = () => {
     navigate(-1)
-  }
-
-  const sparkleVariants = {
-    hidden: { scale: 0, opacity: 0 },
-    visible: { 
-      scale: 1, 
-      opacity: 1,
-      transition: { duration: 0.5 }
-    },
-    exit: { scale: 0, opacity: 0 }
   }
 
   return (
@@ -51,8 +33,8 @@ const NotFoundPage = () => {
     >
       {/* Animated Background Elements */}
       <Box position="absolute" inset={0} zIndex={0}>
-        {/* Floating Shapes */}
-        <MotionBox
+        {/* Static Shapes */}
+        <Box
           position="absolute"
           top="10%"
           left="10%"
@@ -61,17 +43,8 @@ const NotFoundPage = () => {
           bg="purple.200"
           borderRadius="3xl"
           opacity={0.4}
-          animate={{
-            y: [0, -20, 0],
-            rotate: [0, 5, 0],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
         />
-        <MotionBox
+        <Box
           position="absolute"
           top="20%"
           right="15%"
@@ -80,18 +53,8 @@ const NotFoundPage = () => {
           bg="blue.200"
           borderRadius="full"
           opacity={0.3}
-          animate={{
-            y: [0, -20, 0],
-            rotate: [0, 5, 0],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 1
-          }}
         />
-        <MotionBox
+        <Box
           position="absolute"
           bottom="15%"
           left="20%"
@@ -100,18 +63,8 @@ const NotFoundPage = () => {
           bg="pink.200"
           borderRadius="2xl"
           opacity={0.4}
-          animate={{
-            y: [0, -20, 0],
-            rotate: [0, 5, 0],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 2
-          }}
         />
-        <MotionBox
+        <Box
           position="absolute"
           bottom="25%"
           right="10%"
@@ -120,90 +73,54 @@ const NotFoundPage = () => {
           bg="indigo.200"
           borderRadius="full"
           opacity={0.3}
-          animate={{
-            y: [0, -20, 0],
-            rotate: [0, 5, 0],
-          }}
-          transition={{
-            duration: 3,
-            repeat: Infinity,
-            ease: "easeInOut",
-            delay: 0.5
-          }}
         />
-
-        {/* Sparkles */}
-        <AnimatePresence>
-          {showSparkles && (
-            <>
-              <MotionBox
-                position="absolute"
-                top="30%"
-                left="25%"
-                color="yellow.400"
-                fontSize="2xl"
-                variants={sparkleVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-              >
-                ✨
-              </MotionBox>
-              <MotionBox
-                position="absolute"
-                top="60%"
-                right="30%"
-                color="yellow.400"
-                fontSize="xl"
-                variants={sparkleVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                transition={{ delay: 0.3 }}
-              >
-                ⭐
-              </MotionBox>
-              <MotionBox
-                position="absolute"
-                bottom="40%"
-                left="15%"
-                color="yellow.400"
-                fontSize="lg"
-                variants={sparkleVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-                transition={{ delay: 0.6 }}
-              >
-                ✨
-              </MotionBox>
-            </>
-          )}
-        </AnimatePresence>
       </Box>
 
       <Container maxW="6xl" position="relative" zIndex={1}>
         <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={12} alignItems="center">
           {/* Left Side - 404 Art */}
           <GridItem>
-            <MotionFlex
+            <Flex
               direction="column"
               align="center"
               justify="center"
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
             >
-              {/* Large 404 with Gradient */}
-              <MotionBox
-                initial={{ scale: 0.5, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 1, delay: 0.2, type: "spring", bounce: 0.4 }}
+              {/* Main Heading - Moved Here */}
+              <Box
                 textAlign="center"
-                mb={8}
+                mb={2}
+                pt={20}
               >
                 <Text
-                  fontSize={{ base: "8xl", md: "12xl", lg: "14xl" }}
+                  fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
+                  fontWeight="800"
+                  color="gray.800"
+                  lineHeight="1.2"
+                  mb={6}
+                >
+                  Oops! Lost in
+                  <Text as="span" color="primary.500" ml={2}>
+                    Cyberspace
+                  </Text>
+                </Text>
+                <Text
+                  fontSize={{ base: "md", md: "lg" }}
+                  color="gray.600"
+                  lineHeight="1.6"
+                  maxW="md"
+                >
+                  The page you're looking for seems to have vanished into the digital void. 
+                  But don't worry, we'll help you find your way back to the light!
+                </Text>
+              </Box>
+
+              {/* Large 404 with Gradient */}
+              <Box
+                textAlign="center"
+                mb={2}
+              >
+                <Text
+                  fontSize={{ base: "6xl", md: "8xl", lg: "10xl" }}
                   fontWeight="900"
                   bgGradient="linear(45deg, primary.500, purple.500, pink.500)"
                   bgClip="text"
@@ -214,24 +131,18 @@ const NotFoundPage = () => {
                   404
                 </Text>
                 
-                {/* Animated Underline */}
-                <MotionBox
+                {/* Static Underline */}
+                <Box
                   w="60%"
                   h="4px"
                   mx="auto"
                   bgGradient="linear(90deg, primary.500, purple.500)"
                   borderRadius="full"
-                  initial={{ scaleX: 0 }}
-                  animate={{ scaleX: 1 }}
-                  transition={{ duration: 0.8, delay: 0.5 }}
                 />
-              </MotionBox>
+              </Box>
 
               {/* Animated Robot/Character */}
-              <MotionBox
-                initial={{ y: 50, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
+              <Box
                 bg="white"
                 p={8}
                 borderRadius="3xl"
@@ -267,62 +178,24 @@ const NotFoundPage = () => {
                     🤖
                   </MotionBox>
                   <Box textAlign="center">
-                    <Text fontSize="lg" fontWeight="600" color="gray.700" mb={2}>
-                      Beep Boop!
+                    <Text fontSize="lg" fontWeight="800" color="gray.700" mb={2}>
+                  404 Error !
                     </Text>
-                    <Text fontSize="sm" color="gray.500">
-                      I'm searching the entire universe...
+                    <Text fontSize="sm" color="gray.500" fontWeight="500">
+                      Page not found.
                     </Text>
                   </Box>
                 </VStack>
-              </MotionBox>
-            </MotionFlex>
+              </Box>
+            </Flex>
           </GridItem>
 
           {/* Right Side - Content */}
           <GridItem>
-            <MotionBox
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-            >
+            <Box>
               <VStack align="start" gap={8} textAlign={{ base: "center", lg: "left" }}>
-                {/* Main Heading */}
-                <MotionBox
-                  initial={{ y: 30, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.5 }}
-                >
-                  <Text
-                    fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
-                    fontWeight="800"
-                    color="gray.800"
-                    lineHeight="1.2"
-                    mb={4}
-                  >
-                    Oops! Lost in
-                    <Text as="span" color="primary.500" ml={2}>
-                      Cyberspace
-                    </Text>
-                  </Text>
-                  <Text
-                    fontSize={{ base: "lg", md: "xl" }}
-                    color="gray.600"
-                    lineHeight="1.6"
-                    maxW="lg"
-                  >
-                    The page you're looking for seems to have vanished into the digital void. 
-                    But don't worry, we'll help you find your way back to the light!
-                  </Text>
-                </MotionBox>
-
                 {/* Action Buttons */}
-                <MotionBox
-                  initial={{ y: 30, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 0.7 }}
-                  w="full"
-                >
+                <Box w="full">
                   <VStack gap={4} align={{ base: "center", lg: "start" }}>
                     <HStack gap={4} wrap="wrap" justify={{ base: "center", lg: "start" }}>
                       <Link to="/" style={{ textDecoration: 'none' }}>
@@ -376,12 +249,7 @@ const NotFoundPage = () => {
                     </HStack>
 
                     {/* Quick Links */}
-                    <MotionBox
-                      initial={{ y: 20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      transition={{ duration: 0.6, delay: 0.9 }}
-                      mt={6}
-                    >
+                    <Box mt={6}>
                       <Text fontSize="sm" color="gray.500" mb={3} fontWeight="500">
                         Or explore these popular destinations:
                       </Text>
@@ -391,15 +259,8 @@ const NotFoundPage = () => {
                           { name: "Products", path: "/products" },
                           { name: "Services", path: "/services" },
                           { name: "Contact", path: "/contact" }
-                        ].map((link, index) => (
-                          <MotionBox
-                            key={link.name}
-                            initial={{ scale: 0, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1 }}
-                            transition={{ duration: 0.4, delay: 1 + index * 0.1 }}
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                          >
+                        ].map((link) => (
+                          <Box key={link.name}>
                             <Link to={link.path} style={{ textDecoration: 'none' }}>
                               <Box
                                 px={4}
@@ -426,18 +287,15 @@ const NotFoundPage = () => {
                                 </Text>
                               </Box>
                             </Link>
-                          </MotionBox>
+                          </Box>
                         ))}
                       </Flex>
-                    </MotionBox>
+                    </Box>
                   </VStack>
-                </MotionBox>
+                </Box>
 
                 {/* Help Section */}
-                <MotionBox
-                  initial={{ y: 20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  transition={{ duration: 0.6, delay: 1.1 }}
+                <Box
                   bg="white"
                   p={6}
                   borderRadius="2xl"
@@ -470,9 +328,9 @@ const NotFoundPage = () => {
                       Contact Support
                     </Button>
                   </Link>
-                </MotionBox>
+                </Box>
               </VStack>
-            </MotionBox>
+            </Box>
           </GridItem>
         </Grid>
       </Container>
