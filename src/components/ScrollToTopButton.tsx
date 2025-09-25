@@ -38,8 +38,8 @@ const ScrollToTopButton = () => {
           transition={{ duration: 0.3 }}
           style={{
             position: 'fixed',
-            bottom: '1.7rem',
-            right: '6rem',
+            bottom: '6rem',
+            right: '1.7rem',
             zIndex: 1000,
           }}
         >

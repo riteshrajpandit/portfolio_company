@@ -8,7 +8,7 @@ import {
 // Import new components
 import ProductHeroSection from "../components/sections/ProductHeroSection"
 import ProductCard from "../components/sections/ProductCard"
-import ERPPricingSection from "../components/sections/ERPPricingSection"
+//import ERPPricingSection from "../components/sections/ERPPricingSection"
 import DevelopmentProcessSection from "../components/sections/DevelopmentProcessSection"
 import UseCasesSection from "../components/sections/UseCasesSection"
 import ProductCTASection from "../components/sections/ProductCTASection"
@@ -115,9 +115,9 @@ const ProductsPage = () => {
           <ProductCard product={product} index={index} />
           
           {/* Additional Content for specific products */}
-          {product.id === "erp" && product.pricing && (
+          {/* {product.id === "erp" && product.pricing && (
             <ERPPricingSection pricing={product.pricing} />
-          )}
+          )} */}
 
           {product.id === "solutions" && product.process && (
             <DevelopmentProcessSection process={product.process} />

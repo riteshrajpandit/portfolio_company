@@ -19,22 +19,22 @@ const contactInfo = [
   {
     icon: FaPhone,
     title: "Phone",
-    details: ["+1 (555) 123-4567", "+1 (555) 987-6543"],
+    details: ["+977-9851161116"],
   },
   {
     icon: FaEnvelope,
     title: "Email",
-    details: ["hello@yourcompany.com", "support@yourcompany.com"],
+    details: ["info@ioxet.com"],
   },
   {
     icon: FaMapMarkerAlt,
     title: "Address",
-    details: ["123 Business Street", "Suite 100, City, State 12345"],
+    details: ["Lalitpur-15", "Hattiban, Nepal"],
   },
   {
     icon: FaClock,
     title: "Business Hours",
-    details: ["Mon - Fri: 9:00 AM - 6:00 PM", "Sat: 10:00 AM - 4:00 PM"],
+    details: ["Sun - Fri: 9:00 AM - 6:00 PM", "Sat: 10:00 AM - 4:00 PM"],
   },
 ]
 

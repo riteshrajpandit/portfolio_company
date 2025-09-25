@@ -17,7 +17,7 @@ import { portfolioImages } from '../../data/portfolioData'
 import ProductModal from '../ui/ProductModal'
 
 const stats = [
-  { value: 100, suffix: "+", label: "Experience" },
+  { value: 50, suffix: "+", label: "Collective Experience" },
   { value: 3, suffix: "+", label: "Successful Projects" },
   { value: 3, suffix: "+", label: "Brands" },
 ]

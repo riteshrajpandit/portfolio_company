@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link as RouterLink } from 'react-router-dom'
 import {
   Container,
   Text,
@@ -270,29 +271,31 @@ const ProductsShowcaseSection = () => {
               
               {/* Explore More Products Button */}
               <Box>
-                <Button
-                  size="lg"
-                  colorScheme="primary"
-                  borderRadius="full"
-                  px={8}
-                  py={6}
-                  w="full"
-                  fontWeight="600"
-                  fontSize="md"
-                  _hover={{
-                    transform: "translateY(-2px)",
-                    shadow: "lg",
-                    bg: "primary.600"
-                  }}
-                  transition="all 0.3s ease"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  gap={2}
-                >
-                  Explore More Products
-                  <FaArrowRight />
-                </Button>
+                <RouterLink to="/products" style={{ textDecoration: 'none' }}>
+                  <Button
+                    size="lg"
+                    colorScheme="primary"
+                    borderRadius="full"
+                    px={8}
+                    py={6}
+                    w="full"
+                    fontWeight="600"
+                    fontSize="md"
+                    _hover={{
+                      transform: "translateY(-2px)",
+                      shadow: "lg",
+                      bg: "primary.600"
+                    }}
+                    transition="all 0.3s ease"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    gap={2}
+                  >
+                    Explore More Products
+                    <FaArrowRight />
+                  </Button>
+                </RouterLink>
               </Box>
             </VStack>
           </GridItem>

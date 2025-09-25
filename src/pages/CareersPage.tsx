@@ -73,12 +73,12 @@ const openPositions = [
     title: "Senior Full Stack Developer",
     department: "technical",
     departmentName: "Technical",
-    location: "San Francisco, CA / Remote",
+    location: "On-Site / Remote",
     type: "Full-time",
-    experience: "5+ years",
+    experience: "3+ years",
     description: "Join our engineering team to build scalable web applications using React, Node.js, and modern cloud technologies.",
     requirements: [
-      "5+ years of experience with React and Node.js",
+      "3+ years of experience with React and Next.js",
       "Experience with cloud platforms (AWS, GCP, or Azure)",
       "Strong understanding of database design and optimization",
       "Excellent problem-solving and communication skills"
@@ -89,12 +89,12 @@ const openPositions = [
     title: "UX/UI Designer",
     department: "technical",
     departmentName: "Technical",
-    location: "New York, NY / Remote",
+    location: "On-Site / Remote",
     type: "Full-time",
-    experience: "3+ years",
+    experience: "1+ years",
     description: "Help shape the future of our products by creating intuitive and beautiful user experiences.",
     requirements: [
-      "3+ years of experience in UX/UI design",
+      "1+ years of experience in UX/UI design",
       "Proficiency in Figma, Sketch, or similar design tools",
       "Strong portfolio demonstrating design thinking",
       "Experience with design systems and prototyping"
@@ -105,7 +105,7 @@ const openPositions = [
     title: "DevOps Engineer",
     department: "technical",
     departmentName: "Technical",
-    location: "Austin, TX / Remote",
+    location: "On-site / Remote",
     type: "Full-time",
     experience: "4+ years",
     description: "Build and maintain our cloud infrastructure while ensuring high availability and security.",
@@ -121,7 +121,7 @@ const openPositions = [
     title: "HR Business Partner",
     department: "admin-hr",
     departmentName: "Admin/HR",
-    location: "Remote",
+    location: "On-site / Remote",
     type: "Full-time",
     experience: "3+ years",
     description: "Partner with business leaders to develop HR strategies that support company growth and employee engagement.",
@@ -132,38 +132,8 @@ const openPositions = [
       "Excellent communication and interpersonal skills"
     ]
   },
-  {
-    id: 5,
-    title: "Digital Marketing Manager",
-    department: "sales-marketing",
-    departmentName: "Sales/Marketing",
-    location: "Los Angeles, CA / Remote",
-    type: "Full-time",
-    experience: "4+ years",
-    description: "Drive our digital marketing strategy and lead campaigns across multiple channels to increase brand awareness and lead generation.",
-    requirements: [
-      "4+ years of digital marketing experience",
-      "Proven track record with SEO, SEM, and social media marketing",
-      "Experience with marketing automation tools",
-      "Strong analytical skills and data-driven mindset"
-    ]
-  },
-  {
-    id: 6,
-    title: "Financial Analyst",
-    department: "finance",
-    departmentName: "Finance",
-    location: "Chicago, IL / Remote",
-    type: "Full-time",
-    experience: "2+ years",
-    description: "Support financial planning and analysis activities, including budgeting, forecasting, and financial reporting.",
-    requirements: [
-      "2+ years of financial analysis experience",
-      "Strong Excel and financial modeling skills",
-      "Knowledge of financial accounting principles",
-      "Attention to detail and strong analytical abilities"
-    ]
-  }
+  
+  
 ]
 
 const benefits = [
@@ -373,96 +343,144 @@ export const CareersPage = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <VStack gap={6} align="stretch">
-              {filteredPositions.map((position, index) => (
-                <MotionBox
-                  key={position.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                >
-                  <Box
-                    bg="white"
-                    p={8}
-                    borderRadius="xl"
-                    shadow="sm"
-                    border="1px"
-                    borderColor="gray.200"
-                    _hover={{ shadow: "md", transform: "translateY(-2px)" }}
-                    transition="all 0.3s ease"
+            {filteredPositions.length > 0 ? (
+              <VStack gap={6} align="stretch">
+                {filteredPositions.map((position, index) => (
+                  <MotionBox
+                    key={position.id}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: index * 0.1 }}
+                    viewport={{ once: true }}
                   >
-                    <VStack align="start" gap={6}>
-                      <VStack align="start" gap={3} w="full">
-                        <HStack justify="space-between" w="full" align="start">
-                          <VStack align="start" gap={1}>
-                            <Text fontSize="xl" fontWeight="700" color="text">
-                              {position.title}
-                            </Text>
-                            <HStack gap={3} wrap="wrap">
-                              <Badge 
-                                colorScheme={departments.find(d => d.id === position.department)?.color || "primary"} 
-                                variant="subtle" 
-                                px={3} 
-                                py={1} 
-                                borderRadius="full"
-                              >
-                                {position.departmentName}
-                              </Badge>
-                              <Badge colorScheme="gray" variant="subtle" px={3} py={1} borderRadius="full">
-                                {position.type}
-                              </Badge>
-                              <HStack gap={1}>
-                                <Icon as={HiMapPin} color="muted" fontSize="sm" />
-                                <Text fontSize="sm" color="muted">
-                                  {position.location}
-                                </Text>
+                    <Box
+                      bg="white"
+                      p={8}
+                      borderRadius="xl"
+                      shadow="sm"
+                      border="1px"
+                      borderColor="gray.200"
+                      _hover={{ shadow: "md", transform: "translateY(-2px)" }}
+                      transition="all 0.3s ease"
+                    >
+                      <VStack align="start" gap={6}>
+                        <VStack align="start" gap={3} w="full">
+                          <HStack justify="space-between" w="full" align="start">
+                            <VStack align="start" gap={1}>
+                              <Text fontSize="xl" fontWeight="700" color="text">
+                                {position.title}
+                              </Text>
+                              <HStack gap={3} wrap="wrap">
+                                <Badge 
+                                  colorScheme={departments.find(d => d.id === position.department)?.color || "primary"} 
+                                  variant="subtle" 
+                                  px={3} 
+                                  py={1} 
+                                  borderRadius="full"
+                                >
+                                  {position.departmentName}
+                                </Badge>
+                                <Badge colorScheme="gray" variant="subtle" px={3} py={1} borderRadius="full">
+                                  {position.type}
+                                </Badge>
+                                <HStack gap={1}>
+                                  <Icon as={HiMapPin} color="muted" fontSize="sm" />
+                                  <Text fontSize="sm" color="muted">
+                                    {position.location}
+                                  </Text>
+                                </HStack>
+                                <HStack gap={1}>
+                                  <Icon as={HiBriefcase} color="muted" fontSize="sm" />
+                                  <Text fontSize="sm" color="muted">
+                                    {position.experience}
+                                  </Text>
+                                </HStack>
                               </HStack>
-                              <HStack gap={1}>
-                                <Icon as={HiBriefcase} color="muted" fontSize="sm" />
-                                <Text fontSize="sm" color="muted">
-                                  {position.experience}
-                                </Text>
-                              </HStack>
-                            </HStack>
-                          </VStack>
-                          <Button
-                            colorScheme="primary"
-                            variant="outline"
-                            size="sm"
-                            borderRadius="full"
-                            _hover={{ bg: "primary.50" }}
-                            onClick={() => handleApplyClick(position)}
-                          >
-                            Apply Now
-                          </Button>
-                        </HStack>
-                        
-                        <Text color="muted" lineHeight="1.6">
-                          {position.description}
-                        </Text>
-                        
-                        <VStack align="start" gap={2} w="full">
-                          <Text fontSize="sm" fontWeight="600" color="text">
-                            Requirements:
+                            </VStack>
+                            <Button
+                              colorScheme="primary"
+                              variant="outline"
+                              size="sm"
+                              borderRadius="full"
+                              _hover={{ bg: "primary.50" }}
+                              onClick={() => handleApplyClick(position)}
+                            >
+                              Apply Now
+                            </Button>
+                          </HStack>
+                          
+                          <Text color="muted" lineHeight="1.6">
+                            {position.description}
                           </Text>
-                          <VStack align="start" gap={1} pl={4}>
-                            {position.requirements.map((req, reqIndex) => (
-                              <HStack key={reqIndex} gap={2} align="start">
-                                <Box w={1} h={1} bg="primary.500" borderRadius="full" mt={2} />
-                                <Text fontSize="sm" color="muted">
-                                  {req}
-                                </Text>
-                              </HStack>
-                            ))}
+                          
+                          <VStack align="start" gap={2} w="full">
+                            <Text fontSize="sm" fontWeight="600" color="text">
+                              Requirements:
+                            </Text>
+                            <VStack align="start" gap={1} pl={4}>
+                              {position.requirements.map((req, reqIndex) => (
+                                <HStack key={reqIndex} gap={2} align="start">
+                                  <Box w={1} h={1} bg="primary.500" borderRadius="full" mt={2} />
+                                  <Text fontSize="sm" color="muted">
+                                    {req}
+                                  </Text>
+                                </HStack>
+                              ))}
+                            </VStack>
                           </VStack>
                         </VStack>
                       </VStack>
-                    </VStack>
-                  </Box>
-                </MotionBox>
-              ))}
-            </VStack>
+                    </Box>
+                  </MotionBox>
+                ))}
+              </VStack>
+            ) : (
+              <Box
+                bg="white"
+                p={12}
+                borderRadius="xl"
+                shadow="sm"
+                border="1px"
+                borderColor="gray.200"
+                textAlign="center"
+              >
+                <VStack gap={6}>
+                  <Text fontSize="6xl">😔</Text>
+                  <VStack gap={3}>
+                    <Text fontSize="2xl" fontWeight="700" color="text">
+                      Sorry, No Vacancies Available
+                    </Text>
+                    <Text fontSize="lg" color="muted" maxW="md" lineHeight="1.6">
+                      {selectedDepartment !== "all" 
+                        ? `Currently, we don't have any open positions in ${departments.find(d => d.id === selectedDepartment)?.name}.`
+                        : "We currently don't have any open positions."
+                      } However, we're always looking for talented individuals to join our team.
+                    </Text>
+                  </VStack>
+                  <Link to="/contact" style={{ textDecoration: 'none' }}>
+                    <Button
+                      colorScheme="primary"
+                      size="lg"
+                      borderRadius="full"
+                      px={8}
+                      py={6}
+                      fontSize="md"
+                      fontWeight="600"
+                      _hover={{
+                        transform: "translateY(-2px)",
+                        shadow: "lg"
+                      }}
+                      transition="all 0.3s ease"
+                    >
+                      Get in Touch <HiArrowRight style={{ marginLeft: '8px' }} />
+                    </Button>
+                  </Link>
+                  <Text fontSize="sm" color="muted">
+                    Send us your resume and we'll keep you in mind for future opportunities
+                  </Text>
+                </VStack>
+              </Box>
+            )}
           </MotionBox>
         </Container>
       </Box>

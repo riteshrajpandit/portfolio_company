@@ -12,22 +12,22 @@ import { motion } from 'framer-motion'
 
 const testimonials = [
   {
-    quote: "TechCorp delivered an exceptional product that exceeded our expectations. Their attention to detail and technical expertise is unmatched.",
-    author: "Sarah Johnson",
-    company: "InnovateCorp",
-    image: "https://images.unsplash.com/photo-1494790108755-2616b612d7dd?w=60&h=60&fit=crop&auto=format"
+    quote: "IOXET delivered an exceptional product that exceeded our expectations. Their attention to detail and technical expertise is unmatched.",
+    author: "Subash Bhandari",
+    company: "Natureworks",
+    image: "https://www.natureworks.com.np/web/image/2767-bc14c0a2/netra-prasad-bhandari.webp"
   },
   {
-    quote: "Working with TechCorp was a game-changer for our business. They transformed our vision into reality with remarkable precision.",
-    author: "Michael Chen",
-    company: "FutureTech",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=60&h=60&fit=crop&auto=format"
+    quote: "Working with IOXET was a game-changer for our business. They transformed our vision into reality with remarkable precision.",
+    author: "Anita Pokharel",
+    company: "E-commerce user",
+    image: "https://www.natureworks.com.np/web/image/723-7771e714/Anita-Pokharel.webp"
   },
   {
     quote: "The team's dedication to quality and innovation made our project a tremendous success. Highly recommended!",
-    author: "Emily Rodriguez",
-    company: "NextGen Solutions",
-    image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=60&h=60&fit=crop&auto=format"
+    author: "Confidential Client",
+    company: " ",
+    image: " "
   }
 ]
 
