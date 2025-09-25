@@ -476,77 +476,163 @@ export const AboutPage = () => {
             </Text>
           </MotionBox>
           
-          <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)", lg: "repeat(4, 1fr)", xl: "repeat(5, 1fr)" }} gap={8}>
-            {teamMembers.map((member, index) => (
-              <MotionBox
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: index * 0.1 }}
-                viewport={{ once: true }}
-                textAlign="center"
-              >
-                <VStack gap={4}>
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    borderRadius="full"
-                    boxSize="200px"
-                    objectFit="cover"
-                    shadow="lg"
-                    _hover={{ transform: "scale(1.05)" }}
-                    transition="all 0.3s ease"
-                  />
-                  <VStack gap={2}>
-                    <Text fontSize="lg" fontWeight="700" color="text">
-                      {member.name}
-                    </Text>
-                    <Text color="primary.500" fontWeight="600">
-                      {member.role}
-                    </Text>
-                    <Text fontSize="sm" color="muted" lineHeight="1.6" textAlign="center">
-                      {member.bio}
-                    </Text>
+          {/* Leadership Team - First 6 members */}
+          <VStack gap={12}>
+            <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={12}>
+              {teamMembers.slice(0, 6).map((member, index) => (
+                <MotionBox
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                  textAlign="center"
+                >
+                  <VStack gap={6}>
+                    <Box position="relative">
+                      <Image
+                        src={member.image}
+                        alt={member.name}
+                        borderRadius="2xl"
+                        w="280px"
+                        h="320px"
+                        objectFit="cover"
+                        shadow="xl"
+                        _hover={{ transform: "scale(1.02)" }}
+                        transition="all 0.3s ease"
+                      />
+                      <Box
+                        position="absolute"
+                        inset={0}
+                        bg="linear-gradient(180deg, transparent 60%, blackAlpha.700)"
+                        borderRadius="2xl"
+                      />
+                    </Box>
+                    <VStack gap={3} maxW="280px">
+                      <Text fontSize="xl" fontWeight="700" color="text">
+                        {member.name}
+                      </Text>
+                      <Text color="primary.500" fontWeight="600" fontSize="md">
+                        {member.role}
+                      </Text>
+                      <Text fontSize="sm" color="muted" lineHeight="1.6" textAlign="center">
+                        {member.bio}
+                      </Text>
+                    </VStack>
+                    <HStack gap={4} justify="center">
+                      <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer">
+                        <Box
+                          p={3}
+                          bg="gray.100"
+                          borderRadius="lg"
+                          color="muted"
+                          _hover={{ color: "primary.500", bg: "primary.50" }}
+                          cursor="pointer"
+                          transition="all 0.2s"
+                        >
+                          <FaLinkedin size={20} />
+                        </Box>
+                      </a>
+                      <a href={member.social.github} target="_blank" rel="noopener noreferrer">
+                        <Box
+                          p={3}
+                          bg="gray.100"
+                          borderRadius="lg"
+                          color="muted"
+                          _hover={{ color: "primary.500", bg: "primary.50" }}
+                          cursor="pointer"
+                          transition="all 0.2s"
+                        >
+                          <FaGithub size={20} />
+                        </Box>
+                      </a>
+                    </HStack>
                   </VStack>
-                  <HStack gap={3} justify="center">
-                    <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer">
-                      <Box
-                        p={2}
-                        color="muted"
-                        _hover={{ color: "primary.500" }}
-                        cursor="pointer"
-                        transition="color 0.2s"
-                      >
-                        <FaLinkedin size={20} />
-                      </Box>
-                    </a>
-                    {/* <a href={member.social.twitter} target="_blank" rel="noopener noreferrer">
-                      <Box
-                        p={2}
-                        color="muted"
-                        _hover={{ color: "primary.500" }}
-                        cursor="pointer"
-                        transition="color 0.2s"
-                      >
-                        <FaTwitter size={20} />
-                      </Box>
-                    </a> */}
-                    <a href={member.social.github} target="_blank" rel="noopener noreferrer">
-                      <Box
-                        p={2}
-                        color="muted"
-                        _hover={{ color: "primary.500" }}
-                        cursor="pointer"
-                        transition="color 0.2s"
-                      >
-                        <FaGithub size={20} />
-                      </Box>
-                    </a>
-                  </HStack>
-                </VStack>
-              </MotionBox>
-            ))}
-          </Grid>
+                </MotionBox>
+              ))}
+            </Grid>
+
+            {/* Development Team - Remaining members */}
+            {teamMembers.length > 6 && (
+              <VStack gap={8}>
+                <Box textAlign="center">
+                  <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight="700" mb={2} color="text">
+                    Our Development Team
+                  </Text>
+                  <Text fontSize="md" color="muted" maxW="xl" mx="auto">
+                    Talented developers and designers who bring our vision to life.
+                  </Text>
+                </Box>
+                <Grid templateColumns={{ base: "repeat(2, 1fr)", sm: "repeat(3, 1fr)", md: "repeat(4, 1fr)", lg: "repeat(6, 1fr)" }} gap={6}>
+                  {teamMembers.slice(6).map((member, index) => (
+                    <MotionBox
+                      key={index + 6}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.8, delay: index * 0.05 }}
+                      viewport={{ once: true }}
+                      textAlign="center"
+                    >
+                      <VStack gap={3}>
+                        <Image
+                          src={member.image}
+                          alt={member.name}
+                          borderRadius="xl"
+                          boxSize="120px"
+                          objectFit="cover"
+                          shadow="md"
+                          _hover={{ transform: "scale(1.05)" }}
+                          transition="all 0.3s ease"
+                        />
+                        <VStack gap={1}>
+                          <Text fontSize="sm" fontWeight="700" color="text">
+                            {member.name}
+                          </Text>
+                          <Text color="primary.500" fontWeight="600" fontSize="xs">
+                            {member.role}
+                          </Text>
+                          <Text 
+                            fontSize="xs" 
+                            color="muted" 
+                            lineHeight="1.4" 
+                            textAlign="center"
+                            maxH="2.8em"
+                            overflow="hidden"
+                          >
+                            {member.bio}
+                          </Text>
+                        </VStack>
+                        <HStack gap={2} justify="center">
+                          <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer">
+                            <Box
+                              p={1}
+                              color="muted"
+                              _hover={{ color: "primary.500" }}
+                              cursor="pointer"
+                              transition="color 0.2s"
+                            >
+                              <FaLinkedin size={14} />
+                            </Box>
+                          </a>
+                          <a href={member.social.github} target="_blank" rel="noopener noreferrer">
+                            <Box
+                              p={1}
+                              color="muted"
+                              _hover={{ color: "primary.500" }}
+                              cursor="pointer"
+                              transition="color 0.2s"
+                            >
+                              <FaGithub size={14} />
+                            </Box>
+                          </a>
+                        </HStack>
+                      </VStack>
+                    </MotionBox>
+                  ))}
+                </Grid>
+              </VStack>
+            )}
+          </VStack>
         </Container>
       </Box>
 
