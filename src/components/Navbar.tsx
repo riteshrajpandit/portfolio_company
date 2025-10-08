@@ -54,6 +54,12 @@ interface MegaMenuItem {
     cta: string
     link: string
   }
+  tools?: {
+    title: string
+    subtitle: string
+    cta: string
+    link: string
+  }
 }
 
 const megaMenuItems: MegaMenuItem[] = [
@@ -190,6 +196,12 @@ const megaMenuItems: MegaMenuItem[] = [
       description: 'Access whitepapers, case studies, and implementation guides.',
       cta: 'Explore',
       link: '/resources'
+    },
+    tools: {
+      title: 'Tools',
+      subtitle: 'AI Implementation Benefits Calculator for your business!',
+      cta: 'Explore',
+      link: '/resources#ai-calculator'
     }
   },
   {
@@ -472,49 +484,98 @@ const Navbar = () => {
                       </Grid>
                     </Box>
 
-                    {/* Featured Section */}
-                    {item.featured && (
-                      <Box
-                        w="300px"
-                        bg="gradient-to-br from-primary-50 to-primary-100"
-                        p={6}
-                        borderLeft="1px solid"
-                        borderColor="gray.100"
-                      >
-                        <VStack align="start" gap={4} h="full">
-                          <Box>
-                            <Text
-                              fontSize="lg"
-                              fontWeight="700"
-                              color="primary.600"
-                              mb={2}
-                            >
-                              {item.featured.title}
-                            </Text>
-                            <Text
-                              fontSize="sm"
-                              color="gray.700"
-                              lineHeight="1.5"
-                            >
-                              {item.featured.description}
-                            </Text>
-                          </Box>
-                          <Link to={item.featured.link} style={{ textDecoration: 'none' }}>
-                            <Button
-                              size="sm"
-                              colorScheme="primary"
-                              fontWeight="600"
-                              _hover={{
-                                transform: "translateY(-1px)"
-                              }}
-                              transition="all 0.2s ease"
-                            >
-                              {item.featured.cta} →
-                            </Button>
-                          </Link>
-                        </VStack>
-                      </Box>
-                    )}
+                    {/* Right Sidebar - Featured & Tools */}
+                    <VStack
+                      w="300px"
+                      align="stretch"
+                      gap={0}
+                      borderLeft="1px solid"
+                      borderColor="gray.100"
+                    >
+                      {/* Featured Section */}
+                      {item.featured && (
+                        <Box
+                          bg="gradient-to-br from-primary-50 to-primary-100"
+                          p={6}
+                        >
+                          <VStack align="start" gap={4}>
+                            <Box>
+                              <Text
+                                fontSize="lg"
+                                fontWeight="700"
+                                color="primary.600"
+                                mb={2}
+                              >
+                                {item.featured.title}
+                              </Text>
+                              <Text
+                                fontSize="sm"
+                                color="gray.700"
+                                lineHeight="1.5"
+                              >
+                                {item.featured.description}
+                              </Text>
+                            </Box>
+                            <Link to={item.featured.link} style={{ textDecoration: 'none' }}>
+                              <Button
+                                size="sm"
+                                colorScheme="primary"
+                                fontWeight="600"
+                                _hover={{
+                                  transform: "translateY(-1px)"
+                                }}
+                                transition="all 0.2s ease"
+                              >
+                                {item.featured.cta} →
+                              </Button>
+                            </Link>
+                          </VStack>
+                        </Box>
+                      )}
+
+                      {/* Tools Section */}
+                      {item.tools && (
+                        <Box
+                          bg="gradient-to-br from-blue-50 to-blue-100"
+                          p={6}
+                          
+                        >
+                          <VStack align="start" gap={2}>
+                            <Box>
+                              <Text
+                                fontSize="lg"
+                                fontWeight="700"
+                                color="primary.600"
+                                mb={2}
+                              >
+                                {item.tools.title}
+                              </Text>
+                              <Text
+                                fontSize="sm"
+                                color="gray.700"
+                                lineHeight="1.5"
+                              >
+                                {item.tools.subtitle}
+                              </Text>
+                            </Box>
+                            <Link to={item.tools.link} style={{ textDecoration: 'none' }}>
+                              <Button
+                                size="sm"
+                                colorScheme="primary"
+                                fontWeight="600"
+                                _hover={{
+                                  bg: "blue.50",
+                                  transform: "translateY(-1px)"
+                                }}
+                                transition="all 0.2s ease"
+                              >
+                                {item.tools.cta} →
+                              </Button>
+                            </Link>
+                          </VStack>
+                        </Box>
+                      )}
+                    </VStack>
                   </Flex>
                 </Box>
             </Box>
