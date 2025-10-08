@@ -106,7 +106,7 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
   ]
 
   return (
-    <Box position="relative" minHeight="100vh" overflow="hidden" pt={{ base: 16, md: 0 }}>
+    <Box position="relative" minHeight="100vh" overflow="hidden" pt={{ base: 20, md: 0 }}>
       {/* Background gradient */}
       <Box
         position="absolute"
@@ -117,12 +117,12 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
       <Container maxW="7xl" position="relative" zIndex={2} px={{ base: 4, md: 6 }}>
         <Grid 
           templateColumns={{ base: "1fr", lg: "1fr 1fr" }} 
-          minHeight="calc(100vh - 6rem)" 
+          minHeight="calc(100vh)" 
           gap={{ base: 8, lg: 8 }} 
           alignItems="center"
         >
           {/* Left Half - Content */}
-          <VStack align="start" gap={{ base: 2, md: 3 }} py={{ base: 8, lg: 20 }}>
+          <VStack align="start" gap={{ base: 4, md: 3 }} py={{ base: 8, lg: 20 }} px={{ base: 2, md: 0 }}>
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
@@ -137,11 +137,11 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
               transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             >
               <Text
-                fontSize={{ base: "3xl", sm: "4xl", md: "5xl", lg: "6xl" }}
+                fontSize={{ base: "2xl", sm: "3xl", md: "5xl", lg: "6xl" }}
                 fontWeight="700"
-                lineHeight="1.15"
+                lineHeight="1.2"
                 color="text"
-                mb={{ base: 2, md: 3 }}
+                mb={{ base: 3, md: 3 }}
               >
                 Innovative{" "}
                 <Text as="span" color="primary.500">
@@ -164,11 +164,11 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
               transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
             >
               <Text
-                fontSize={{ base: "md", md: "lg", lg: "xl" }}
+                fontSize={{ base: "sm", md: "lg", lg: "xl" }}
                 color="muted"
-                lineHeight="1.7"
+                lineHeight="1.6"
                 maxW={{ base: "full", lg: "500px" }}
-                mb={{ base: 6, md: 7 }}
+                mb={{ base: 5, md: 7 }}
               >
                 We craft exceptional digital experiences that drive growth and success. 
                 From cutting-edge web applications to innovative mobile solutions, 
@@ -236,10 +236,10 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
           </VStack>
 
           {/* Right Half - Animated Bento Grid */}
-          <Box 
-            position="relative" 
-            height={{ base: "60vh", md: "70vh", lg: "80vh" }} 
-            py={{ base: 4, lg: 24 }}
+          <Box
+            position="relative"
+            height={{ base: "50vh", md: "70vh", lg: "80vh" }}
+            py={{ base: 2, lg: 24 }}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -595,11 +595,11 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1, ease: "easeOut" }}
         >
-          <Box 
-            py={{ base: 6, md: 8 }}
+          <Box
+            py={{ base: 8, md: 8 }}
             borderTop="1px solid"
             borderColor="gray.200"
-            mt={{ base: -4, md: -2 }}
+            mt={{ base: 0, md: -2 }}
           >
             {/* Title and Subtitle */}
             <VStack gap={2} mb={{ base: 6, md: 8 }} textAlign="center">

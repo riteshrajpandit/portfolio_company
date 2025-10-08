@@ -141,8 +141,8 @@ const ServicesPage = () => {
   return (
     <Box>
       {/* Hero Section */}
-      <Box bg="neutral.50" pt={40} pb={16}>
-        <Container maxW="7xl">
+      <Box bg="neutral.50" pt={{ base: 28, md: 40 }} pb={{ base: 12, md: 16 }}>
+        <Container maxW="7xl" px={{ base: 4, md: 6 }}>
           <MotionContainer
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -152,11 +152,11 @@ const ServicesPage = () => {
             mx="auto"
           >
             <Text
-              fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
+              fontSize={{ base: "2xl", sm: "3xl", md: "5xl", lg: "6xl" }}
               fontWeight="700"
-              lineHeight="1.1"
+              lineHeight="1.2"
               color="text"
-              mb={6}
+              mb={{ base: 4, md: 6 }}
             >
               Expert{" "}
               <Text as="span" color="primary.500">
@@ -165,12 +165,12 @@ const ServicesPage = () => {
               & Training Services
             </Text>
             <Text
-              fontSize={{ base: "lg", md: "xl" }}
+              fontSize={{ base: "md", md: "xl" }}
               color="muted"
-              lineHeight="1.7"
+              lineHeight="1.6"
               maxW="3xl"
               mx="auto"
-              mb={8}
+              mb={{ base: 6, md: 8 }}
             >
               Accelerate your business growth with our strategic consulting services and 
               comprehensive training programs designed to unlock your team's full potential.
@@ -210,7 +210,7 @@ const ServicesPage = () => {
       </Box>
 
       {/* Stats Section */}
-      <Container maxW="7xl" py={16}>
+      <Container maxW="7xl" py={{ base: 12, md: 16 }} px={{ base: 4, md: 6 }}>
         <MotionBox
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -247,8 +247,8 @@ const ServicesPage = () => {
 
       {/* Services Sections */}
       {services.map((service, index) => (
-        <Box key={service.id} id={service.id} py={{ base: 16, md: 20 }} bg={index % 2 === 0 ? "white" : "neutral.50"}>
-          <Container maxW="7xl">
+        <Box key={service.id} id={service.id} py={{ base: 12, md: 20 }} bg={index % 2 === 0 ? "white" : "neutral.50"}>
+          <Container maxW="7xl" px={{ base: 4, md: 6 }}>
             <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={12} alignItems="start">
               {/* Content Side */}
               <GridItem order={{ base: 2, lg: index % 2 === 0 ? 1 : 2 }}>
@@ -619,7 +619,7 @@ const ServicesPage = () => {
       ))}
 
       {/* CTA Section */}
-      <Container maxW="7xl" py={{ base: 16, md: 20 }}>
+      <Container maxW="7xl" py={{ base: 12, md: 20 }} px={{ base: 4, md: 6 }}>
         <MotionBox
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}

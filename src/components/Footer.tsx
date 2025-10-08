@@ -31,8 +31,8 @@ export const Footer = () => {
   return (
     <Box bg="primary.300" color="white" mt="auto">
       {/* Top Section */}
-      <Container maxW="7xl" py={6}>
-        <Grid templateColumns={{ base: "1fr", md: "repeat(4, 1fr)" }} gap={8} textAlign={{ base: "center", md: "left" }}>
+      <Container maxW="7xl" py={{ base: 8, md: 6 }} px={{ base: 4, md: 6 }}>
+        <Grid templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", md: "repeat(4, 1fr)" }} gap={{ base: 6, md: 8 }} textAlign={{ base: "center", md: "left" }}>
           {/* Need Help Section */}
           <GridItem>
             <Text fontSize="sm" color="white" mb={2} opacity={0.9}>
@@ -76,7 +76,7 @@ export const Footer = () => {
             <Text fontSize="sm" color="white" mb={2} opacity={0.9}>
             Message Us :
             </Text>
-            <a href="mailto:info@ioxet.com" style={{ textDecoration: 'none' }}>
+            <a href="mailto:hello@ioxet.com" style={{ textDecoration: 'none' }}>
               <Text 
                 fontSize="xl" 
                 fontWeight="bold" 
@@ -85,17 +85,17 @@ export const Footer = () => {
                 transition="opacity 0.2s ease"
                 cursor="pointer"
               >
-                info@ioxet.com
+                hello@ioxet.com
               </Text>
             </a>
           </GridItem>
 
           {/* Follow Us Section */}
-          <GridItem>
+          <GridItem colSpan={{ base: 1, sm: 2, md: 1 }}>
             <Text fontSize="sm" color="white" mb={4} opacity={0.9}>
               Follow Us :
             </Text>
-            <Stack direction="row" gap={3} justify={{ base: "center", md: "flex-start" }}>
+            <Stack direction="row" gap={3} justify={{ base: "center", md: "flex-start" }} flexWrap="wrap">
               {socialLinks.map((social) => (
                 <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer">
                   <IconButton
@@ -123,12 +123,12 @@ export const Footer = () => {
       <Box h="1px" bg="rgba(255,255,255,0.2)" />
 
       {/* Bottom Section */}
-      <Container maxW="7xl" py={4}>
+      <Container maxW="7xl" py={4} px={{ base: 4, md: 6 }}>
         <Flex
           direction={{ base: "column", md: "row" }}
           justify="space-between"
           align="center"
-          gap={4}
+          gap={{ base: 6, md: 4 }}
         >
           {/* Company Logo/Name */}
           <Flex align="center" gap={3}>
@@ -141,7 +141,7 @@ export const Footer = () => {
           </Flex>
 
           {/* Navigation Items */}
-          <Flex gap={4} wrap="nowrap" align="center">
+          <Flex gap={{ base: 3, md: 4 }} wrap="wrap" align="center" justify={{ base: "center", md: "flex-start" }}>
            {navItems.map((item, index) => (
              <Flex key={item.label} align="center" gap={4}>
                 <RouterLink
@@ -178,20 +178,20 @@ export const Footer = () => {
 
       {/* Copyright and Legal Links Section - Metal Gray */}
       <Box bg="gray.700" py={4}>
-        <Container maxW="7xl">
+        <Container maxW="7xl" px={{ base: 4, md: 6 }}>
           <Flex
             direction={{ base: "column", md: "row" }}
             justify="space-between"
             align="center"
-            gap={4}
+            gap={{ base: 4, md: 4 }}
           >
             {/* Copyright */}
-            <Text fontSize="sm" color="gray.300">
+            <Text fontSize="sm" color="gray.300" textAlign={{ base: "center", md: "left" }}>
               © {new Date().getFullYear()} IOXET Labs Pvt. Ltd. All rights reserved.
             </Text>
 
             {/* Legal Links */}
-            <Flex gap={6} align="center">
+            <Flex gap={{ base: 4, md: 6 }} align="center" wrap="wrap" justify={{ base: "center", md: "flex-start" }}>
               <RouterLink to="/terms" style={{ textDecoration: 'none' }}>
                 <Text
                   fontSize="sm"

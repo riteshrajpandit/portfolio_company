@@ -215,8 +215,8 @@ export const AboutPage = () => {
   return (
     <Box>
       {/* Hero Section */}
-      <Box bg="neutral.50" pt={40} pb={16}>
-        <Container maxW="7xl">
+      <Box bg="neutral.50" pt={{ base: 28, md: 40 }} pb={{ base: 12, md: 16 }}>
+        <Container maxW="7xl" px={{ base: 4, md: 6 }}>
           <MotionContainer
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -226,11 +226,11 @@ export const AboutPage = () => {
             mx="auto"
           >
             <Text
-              fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
+              fontSize={{ base: "2xl", sm: "3xl", md: "5xl", lg: "6xl" }}
               fontWeight="700"
-              lineHeight="1.1"
+              lineHeight="1.2"
               color="text"
-              mb={6}
+              mb={{ base: 4, md: 6 }}
             >
               Building the{" "}
               <Text as="span" color="primary.500">
@@ -239,12 +239,12 @@ export const AboutPage = () => {
               Together
             </Text>
             <Text
-              fontSize={{ base: "lg", md: "xl" }}
+              fontSize={{ base: "md", md: "xl" }}
               color="muted"
-              lineHeight="1.7"
+              lineHeight="1.6"
               maxW="3xl"
               mx="auto"
-              mb={8}
+              mb={{ base: 6, md: 8 }}
             >
               Founded in 2014, we've been at the forefront of digital innovation, helping businesses 
               transform their ideas into powerful digital solutions that drive growth and success.
@@ -284,7 +284,7 @@ export const AboutPage = () => {
       </Box>
 
       {/* Stats Section */}
-      <Container maxW="7xl" py={16}>
+      <Container maxW="7xl" py={{ base: 12, md: 16 }} px={{ base: 4, md: 6 }}>
         <MotionBox
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -318,9 +318,9 @@ export const AboutPage = () => {
       </Container>
 
       {/* Mission & Vision */}
-      <Box py={{ base: 16, md: 20 }} bg="white">
-        <Container maxW="7xl">
-          <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={12} alignItems="center">
+      <Box py={{ base: 12, md: 20 }} bg="white">
+        <Container maxW="7xl" px={{ base: 4, md: 6 }}>
+          <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={{ base: 8, lg: 12 }} alignItems="center">
             <GridItem>
               <MotionBox
                 initial={{ opacity: 0, x: -50 }}
@@ -397,8 +397,8 @@ export const AboutPage = () => {
       </Box>
 
       {/* Values Section */}
-      <Box py={{ base: 16, md: 20 }} bg="neutral.50">
-        <Container maxW="7xl">
+      <Box py={{ base: 12, md: 20 }} bg="neutral.50">
+        <Container maxW="7xl" px={{ base: 4, md: 6 }}>
           <MotionBox
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -407,7 +407,7 @@ export const AboutPage = () => {
             textAlign="center"
             mb={12}
           >
-            <Text fontSize={{ base: "3xl", md: "4xl" }} fontWeight="700" mb={4} color="text">
+            <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight="700" mb={4} color="text">
               Our Core Values
             </Text>
             <Text fontSize={{ base: "md", md: "xl" }} color="muted" maxW="2xl" mx="auto">
@@ -460,8 +460,8 @@ export const AboutPage = () => {
       </Box>
 
       {/* Team Section */}
-      <Box py={{ base: 16, md: 20 }} bg="white">
-        <Container maxW="7xl">
+      <Box py={{ base: 12, md: 20 }} bg="white">
+        <Container maxW="7xl" px={{ base: 4, md: 6 }}>
           <MotionBox
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -470,7 +470,7 @@ export const AboutPage = () => {
             textAlign="center"
             mb={12}
           >
-            <Text fontSize={{ base: "3xl", md: "4xl" }} fontWeight="700" mb={4} color="text">
+            <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight="700" mb={4} color="text">
               Meet Our Team
             </Text>
             <Text fontSize={{ base: "md", md: "xl" }} color="muted" maxW="2xl" mx="auto">
@@ -663,7 +663,7 @@ export const AboutPage = () => {
       </Box>
 
       {/* CTA Section */}
-      <Container maxW="7xl" py={{ base: 16, md: 20 }}>
+      <Container maxW="7xl" py={{ base: 12, md: 20 }} px={{ base: 4, md: 6 }}>
         <MotionBox
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
