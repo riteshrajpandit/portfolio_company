@@ -142,15 +142,21 @@ const megaMenuItems: MegaMenuItem[] = [
         title: 'Trust & Security',
         items: [
           { 
-            name: 'Trusted Center', 
-            path: '/resources#trusted-center',
+            name: 'FAQs', 
+            path: '/resources#faqs',
             description: 'Security certifications, compliance and trust information',
             icon: FaShieldAlt
           },
           { 
-            name: 'Certifications', 
-            path: '/resources#certifications',
-            description: 'Industry certifications and compliance documentation',
+            name: 'Documentation/Wiki', 
+            path: '/resources#documentation',
+            description: 'Industry compliance documentation',
+            icon: FaAward
+          },
+          { 
+            name: 'End User Training', 
+            path: '/resources#end-user-training',
+            description: 'Training resources for end users and administrators',
             icon: FaAward
           }
         ]
@@ -159,22 +165,28 @@ const megaMenuItems: MegaMenuItem[] = [
         title: 'Tools & Utilities',
         items: [
           { 
-            name: 'ROI Calculator', 
-            path: '/resources#roi-calculator',
-            description: 'Calculate your return on investment for our solutions',
+            name: 'IOXET Gallery', 
+            path: '/resources#ioxet-gallery',
+            description: 'Showcase of IOXET solutions and customer success stories',
             icon: FaTools
           },
           { 
-            name: 'Documentation', 
-            path: '/resources#docs',
+            name: 'Case Studies', 
+            path: '/resources#case-studies',
             description: 'Comprehensive guides and technical documentation',
+            icon: FaCode
+          },
+          { 
+            name: 'Whitepapers', 
+            path: '/resources#whitepapers',
+            description: 'In-depth research and analysis on industry trends',
             icon: FaCode
           }
         ]
       }
     ],
     featured: {
-      title: 'Resource Library',
+      title: 'Trust Center',
       description: 'Access whitepapers, case studies, and implementation guides.',
       cta: 'Explore',
       link: '/resources'
