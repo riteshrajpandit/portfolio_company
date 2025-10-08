@@ -537,7 +537,7 @@ const Navbar = () => {
                       {item.tools && (
                         <Box
                           bg="gradient-to-br from-blue-50 to-blue-100"
-                          p={6}
+                          pl={6}
                           
                         >
                           <VStack align="start" gap={2}>
@@ -564,7 +564,6 @@ const Navbar = () => {
                                 colorScheme="primary"
                                 fontWeight="600"
                                 _hover={{
-                                  bg: "blue.50",
                                   transform: "translateY(-1px)"
                                 }}
                                 transition="all 0.2s ease"
