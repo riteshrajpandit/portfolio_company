@@ -47,7 +47,7 @@ const ProductHeroSection = () => {
             Discover our comprehensive suite of products designed to transform your business operations, 
             enhance productivity, and drive sustainable growth in today's digital landscape.
           </Text>
-          <HStack justify="center" gap={4} wrap="wrap">
+          {/* <HStack justify="center" gap={4} wrap="wrap">
             <Link to="#erp" style={{ textDecoration: 'none' }}>
               <Button
                 size="lg"
@@ -76,7 +76,7 @@ const ProductHeroSection = () => {
                 Get Consultation
               </Button>
             </Link>
-          </HStack>
+          </HStack> */}
         </MotionContainer>
       </Container>
     </Box>

@@ -20,7 +20,7 @@ interface UseCasesSectionProps {
 
 const UseCasesSection = ({ useCases }: UseCasesSectionProps) => {
   return (
-    <Container maxW="7xl" mt={16}>
+    <Container maxW="7xl" >
       <MotionBox
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

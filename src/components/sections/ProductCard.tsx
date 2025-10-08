@@ -57,12 +57,12 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
                     p={4}
                     bg={product.gradient}
                     borderRadius="xl"
-                    color="white"
+                    color="primary.500"
                     fontSize="2xl"
                   >
                     <Icon as={product.icon} />
                   </Box>
-                  <VStack align="start" gap={1}>
+                  <VStack align="start" >
                     <Text fontSize="sm" color="primary.500" fontWeight="600" textTransform="uppercase">
                       {product.subtitle}
                     </Text>
