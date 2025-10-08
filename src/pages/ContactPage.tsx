@@ -109,28 +109,28 @@ export const ContactPage = () => {
   return (
     <Box>
       {/* Hero Section */}
-      <Box py={20} bg="primary.50">
-        <Container maxW="7xl" textAlign="center">
-          <Text fontSize="5xl" fontWeight="bold" lineHeight="shorter" mb={6} color="neutral.800">
+      <Box py={{ base: 24, md: 20 }} bg="primary.50">
+        <Container maxW="7xl" textAlign="center" px={{ base: 4, md: 6 }}>
+          <Text fontSize={{ base: "3xl", md: "5xl" }} fontWeight="bold" lineHeight="shorter" mb={6} color="neutral.800">
             Get In <Text as="span" color="primary.500">Touch</Text>
           </Text>
-          <Text fontSize="xl" color="neutral.600" maxW="2xl" mx="auto" lineHeight="tall">
+          <Text fontSize={{ base: "md", md: "xl" }} color="neutral.600" maxW="2xl" mx="auto" lineHeight="tall">
             Ready to start your project? We'd love to hear about your ideas and discuss how we can help bring them to life.
           </Text>
         </Container>
       </Box>
 
       {/* Contact Form & Info */}
-      <Box py={20} bg="white">
-        <Container maxW="7xl">
-          <Grid templateColumns={{ base: "1fr", lg: "2fr 1fr" }} gap={12}>
+      <Box py={{ base: 12, md: 20 }} bg="white">
+        <Container maxW="7xl" px={{ base: 4, md: 6 }}>
+          <Grid templateColumns={{ base: "1fr", lg: "2fr 1fr" }} gap={{ base: 8, lg: 12 }}>
             {/* Contact Form */}
             <Box>
-              <Heading size="xl" mb={8} color="neutral.800">
+              <Heading size={{ base: "lg", md: "xl" }} mb={{ base: 6, md: 8 }} color="neutral.800">
                 Send us a message
               </Heading>
               <Box as="form" onSubmit={handleSubmit}>
-                <Stack gap={6}>
+                <Stack gap={{ base: 4, md: 6 }}>
                   {/* Meeting Tool Dropdown */}
                   <Box>
                     <Text mb={2} fontWeight="medium" color="neutral.700">Meeting Tool *</Text>
@@ -365,7 +365,7 @@ export const ContactPage = () => {
 
             {/* Contact Info */}
             <Box>
-              <Heading size="xl" mb={8} color="neutral.800">
+              <Heading size={{ base: "lg", md: "xl" }} mb={{ base: 6, md: 8 }} color="neutral.800">
                 Contact Information
               </Heading>
               <Stack gap={8}>
@@ -417,47 +417,47 @@ export const ContactPage = () => {
       </Box>
 
       {/* FAQ Section */}
-      <Box py={20} bg="neutral.50">
-        <Container maxW="7xl">
-          <Box textAlign="center" mb={16}>
-            <Text fontSize="4xl" fontWeight="bold" mb={4} color="neutral.800">
+      <Box py={{ base: 12, md: 20 }} bg="neutral.50">
+        <Container maxW="7xl" px={{ base: 4, md: 6 }}>
+          <Box textAlign="center" mb={{ base: 8, md: 16 }}>
+            <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight="bold" mb={4} color="neutral.800">
               Frequently Asked Questions
             </Text>
           </Box>
-          <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={8}>
-            <Box bg="white" p={6} borderRadius="lg" shadow="md">
-              <Text fontWeight="semibold" fontSize="lg" mb={3} color="neutral.800">
+          <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={{ base: 4, md: 8 }}>
+            <Box bg="white" p={{ base: 4, md: 6 }} borderRadius="lg" shadow="md">
+              <Text fontWeight="semibold" fontSize={{ base: "md", md: "lg" }} mb={3} color="neutral.800">
                 How long does a typical project take?
               </Text>
-              <Text color="neutral.600" lineHeight="tall">
-                Project timelines vary based on complexity and scope. Simple websites typically take 2-4 weeks, 
+              <Text color="neutral.600" lineHeight="tall" fontSize={{ base: "sm", md: "md" }}>
+                Project timelines vary based on complexity and scope. Simple websites typically take 2-4 weeks,
                 while complex applications can take 3-6 months. We'll provide a detailed timeline during our initial consultation.
               </Text>
             </Box>
-            <Box bg="white" p={6} borderRadius="lg" shadow="md">
-              <Text fontWeight="semibold" fontSize="lg" mb={3} color="neutral.800">
+            <Box bg="white" p={{ base: 4, md: 6 }} borderRadius="lg" shadow="md">
+              <Text fontWeight="semibold" fontSize={{ base: "md", md: "lg" }} mb={3} color="neutral.800">
                 Do you provide ongoing support?
               </Text>
-              <Text color="neutral.600" lineHeight="tall">
-                Yes! We offer comprehensive maintenance and support packages to ensure your project continues 
+              <Text color="neutral.600" lineHeight="tall" fontSize={{ base: "sm", md: "md" }}>
+                Yes! We offer comprehensive maintenance and support packages to ensure your project continues
                 to perform optimally. This includes updates, security patches, and feature enhancements.
               </Text>
             </Box>
-            <Box bg="white" p={6} borderRadius="lg" shadow="md">
-              <Text fontWeight="semibold" fontSize="lg" mb={3} color="neutral.800">
+            <Box bg="white" p={{ base: 4, md: 6 }} borderRadius="lg" shadow="md">
+              <Text fontWeight="semibold" fontSize={{ base: "md", md: "lg" }} mb={3} color="neutral.800">
                 What technologies do you work with?
               </Text>
-              <Text color="neutral.600" lineHeight="tall">
-                We specialize in modern web technologies including React, Next.js, Node.js, and cloud platforms. 
+              <Text color="neutral.600" lineHeight="tall" fontSize={{ base: "sm", md: "md" }}>
+                We specialize in modern web technologies including React, Next.js, Node.js, and cloud platforms.
                 For mobile development, we use React Native and native iOS/Android development.
               </Text>
             </Box>
-            <Box bg="white" p={6} borderRadius="lg" shadow="md">
-              <Text fontWeight="semibold" fontSize="lg" mb={3} color="neutral.800">
+            <Box bg="white" p={{ base: 4, md: 6 }} borderRadius="lg" shadow="md">
+              <Text fontWeight="semibold" fontSize={{ base: "md", md: "lg" }} mb={3} color="neutral.800">
                 How do you handle project communication?
               </Text>
-              <Text color="neutral.600" lineHeight="tall">
-                We believe in transparent communication. You'll have a dedicated project manager and access to 
+              <Text color="neutral.600" lineHeight="tall" fontSize={{ base: "sm", md: "md" }}>
+                We believe in transparent communication. You'll have a dedicated project manager and access to
                 our project management tools where you can track progress and provide feedback in real-time.
               </Text>
             </Box>

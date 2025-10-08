@@ -674,7 +674,8 @@ const Navbar = () => {
           top={0}
           right={0}
           bottom={0}
-          w="320px"
+          w={{ base: "85vw", sm: "320px" }}
+          maxW="320px"
           bg={scrolled ? "card" : "white"}
           backdropFilter="blur(20px)"
           border="1px solid"
