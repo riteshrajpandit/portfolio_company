@@ -79,23 +79,6 @@ const megaMenuItems: MegaMenuItem[] = [
             isNew: true
           }
         ]
-      },
-      {
-        title: 'Industry Solutions',
-        items: [
-          { 
-            name: 'Manufacturing ERP', 
-            path: '/products#manufacturing',
-            description: 'Specialized ERP for manufacturing businesses',
-            icon: FaCog
-          },
-          { 
-            name: 'Retail Solutions', 
-            path: '/products#retail',
-            description: 'Point of sale and inventory management',
-            icon: FaCode
-          }
-        ]
       }
     ],
     featured: {
@@ -372,7 +355,7 @@ const Navbar = () => {
               transform="translateX(-50%)"
               zIndex={1000}
               marginTop="0px"
-              minW="800px"
+              minW="auto"
               maxW="1000px"
             >
               <Box
@@ -463,6 +446,7 @@ const Navbar = () => {
                                         fontSize="xs"
                                         color="gray.600"
                                         lineHeight="1.4"
+                                        minW="160px"
                                       >
                                         {navItem.description}
                                       </Text>
