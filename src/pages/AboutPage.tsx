@@ -10,7 +10,6 @@ import {
   Image,
   Icon,
   SimpleGrid,
-
 } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
@@ -213,7 +212,7 @@ const MotionContainer = motion(Container)
 
 export const AboutPage = () => {
   return (
-    <Box>
+    <Box overflowX="hidden">
       {/* Hero Section */}
       <Box bg="neutral.50" pt={{ base: 28, md: 40 }} pb={{ base: 12, md: 16 }}>
         <Container maxW="7xl" px={{ base: 4, md: 6 }}>
@@ -556,7 +555,7 @@ export const AboutPage = () => {
 
             {/* Development Team - Remaining members */}
             {teamMembers.length > 6 && (
-              <VStack gap={8}>
+              <VStack gap={8} w="full">
                 <Box textAlign="center">
                   <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight="700" mb={2} color="text">
                     Our Development Team
@@ -565,54 +564,97 @@ export const AboutPage = () => {
                     Talented developers and designers who bring our vision to life.
                   </Text>
                 </Box>
+                
+                {/* Infinite Scroll Carousel */}
                 <Box 
-                  overflowX="auto"
-                  pb={4}
-                  css={{
-                    '&::-webkit-scrollbar': {
-                      height: '8px',
-                    },
-                    '&::-webkit-scrollbar-track': {
-                      background: '#f1f5f9',
-                      borderRadius: '10px',
-                    },
-                    '&::-webkit-scrollbar-thumb': {
-                      background: '#cbd5e0',
-                      borderRadius: '10px',
-                    },
-                    '&::-webkit-scrollbar-thumb:hover': {
-                      background: '#a0aec0',
-                    },
-                  }}
+                  position="relative"
+                  w="full"
+                  overflow="hidden"
+                  py={4}
                 >
-                  <HStack gap={6} alignItems="flex-start" minW="max-content" px={2}>
-                    {teamMembers.slice(6).map((member, index) => (
-                      <MotionBox
-                        key={index + 6}
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, delay: index * 0.05 }}
-                        viewport={{ once: true }}
-                        textAlign="center"
-                        minW="140px"
+                  {/* Gradient Overlays for fade effect */}
+                  <Box
+                    position="absolute"
+                    left={0}
+                    top={0}
+                    bottom={0}
+                    w={{ base: "40px", md: "80px" }}
+                    bgGradient="linear(to-r, white, transparent)"
+                    zIndex={2}
+                    pointerEvents="none"
+                  />
+                  <Box
+                    position="absolute"
+                    right={0}
+                    top={0}
+                    bottom={0}
+                    w={{ base: "40px", md: "80px" }}
+                    bgGradient="linear(to-l, white, transparent)"
+                    zIndex={2}
+                    pointerEvents="none"
+                  />
+                  
+                  {/* Carousel Container */}
+                  <motion.div
+                    style={{
+                      display: "flex",
+                      gap: "24px",
+                      willChange: "transform",
+                    }}
+                    animate={{
+                      x: ["0%", "-50%"],
+                    }}
+                    transition={{
+                      duration: 25,
+                      repeat: Infinity,
+                      ease: "linear",
+                      repeatType: "loop",
+                    }}
+                  >
+                    {/* Render items twice for seamless loop */}
+                    {[...teamMembers.slice(6), ...teamMembers.slice(6)].map((member, index) => (
+                      <Box
+                        key={`team-${index}`}
+                        minW={{ base: "140px", md: "160px" }}
                         flexShrink={0}
+                        textAlign="center"
                       >
                         <VStack gap={3}>
-                          <Image
-                            src={member.image}
-                            alt={member.name}
-                            borderRadius="xl"
-                            boxSize="120px"
-                            objectFit="cover"
-                            shadow="md"
+                          <Box
+                            position="relative"
                             _hover={{ transform: "scale(1.05)" }}
                             transition="all 0.3s ease"
-                          />
+                          >
+                            <Image
+                              src={member.image}
+                              alt={member.name}
+                              borderRadius="xl"
+                              boxSize={{ base: "120px", md: "140px" }}
+                              objectFit="cover"
+                              shadow="md"
+                            />
+                          </Box>
                           <VStack gap={1}>
-                            <Text fontSize="sm" fontWeight="700" color="text">
+                            <Text 
+                              fontSize={{ base: "sm", md: "md" }} 
+                              fontWeight="700" 
+                              color="text"
+                              overflow="hidden"
+                              textOverflow="ellipsis"
+                              whiteSpace="nowrap"
+                              w={{ base: "130px", md: "150px" }}
+                            >
                               {member.name}
                             </Text>
-                            <Text color="primary.500" fontWeight="600" fontSize="xs">
+                            <Text 
+                              color="primary.500" 
+                              fontWeight="600" 
+                              fontSize="xs"
+                              overflow="hidden"
+                              textOverflow="ellipsis"
+                              whiteSpace="nowrap"
+                              w={{ base: "130px", md: "150px" }}
+                            >
                               {member.role}
                             </Text>
                             <Text 
@@ -620,9 +662,15 @@ export const AboutPage = () => {
                               color="muted" 
                               lineHeight="1.4" 
                               textAlign="center"
-                              maxH="2.8em"
                               overflow="hidden"
-                              w="130px"
+                              textOverflow="ellipsis"
+                              w={{ base: "130px", md: "150px" }}
+                              h="32px"
+                              style={{
+                                display: "-webkit-box",
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: "vertical",
+                              }}
                             >
                               {member.bio}
                             </Text>
@@ -652,9 +700,9 @@ export const AboutPage = () => {
                             </a>
                           </HStack>
                         </VStack>
-                      </MotionBox>
+                      </Box>
                     ))}
-                  </HStack>
+                  </motion.div>
                 </Box>
               </VStack>
             )}
