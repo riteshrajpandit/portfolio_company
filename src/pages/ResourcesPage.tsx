@@ -10,7 +10,7 @@ import {
   Badge,
   Icon,
   Image,
-  SimpleGrid,
+
 } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
@@ -23,10 +23,11 @@ import {
   HiLockClosed,
   HiCalculator,
   HiChartBar,
-  HiEye,
   HiArrowDownTray,
 } from "react-icons/hi2"
 import ROICalculatorModal from "../components/ui/ROICalculatorModal"
+import FAQsSection from "@/components/sections/FAQsSection"
+import DocumentationSection from "@/components/sections/DocumentationSection"
 
 const resources = [
   {
@@ -133,13 +134,6 @@ const resources = [
   }
 ]
 
-const stats = [
-  { label: "Security Certifications", value: "15+", icon: HiShieldCheck },
-  { label: "Free Tools Available", value: "25+", icon: HiWrench },
-  { label: "Monthly Tool Users", value: "10K+", icon: HiEye },
-  { label: "Downloads This Year", value: "50K+", icon: HiArrowDownTray }
-]
-
 const MotionBox = motion(Box)
 const MotionContainer = motion(Container)
 
@@ -153,8 +147,10 @@ const ResourcesPage = () => {
   const closeROICalculator = () => {
     setIsROIModalOpen(false)
   }
+  
 
   return (
+    
     <Box>
       {/* Hero Section */}
       <Box bg="neutral.50" pt={40} pb={16}>
@@ -193,71 +189,15 @@ const ResourcesPage = () => {
             </Text>
             <HStack justify="center" gap={4} wrap="wrap">
               <Link to="#trusted-center" style={{ textDecoration: 'none' }}>
-                <Button
-                  size="lg"
-                  colorScheme="primary"
-                  borderRadius="full"
-                  px={8}
-                  fontWeight="600"
-                  _hover={{ transform: "translateY(-2px)", shadow: "lg" }}
-                  transition="all 0.3s ease"
-                >
-                  Explore Resources <HiArrowRight style={{ marginLeft: '8px' }} />
-                </Button>
-              </Link>
-              <Link to="/services" style={{ textDecoration: 'none' }}>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  borderColor="primary.500"
-                  color="primary.500"
-                  borderRadius="full"
-                  px={8}
-                  fontWeight="600"
-                  _hover={{ bg: "primary.50", transform: "translateY(-2px)" }}
-                  transition="all 0.3s ease"
-                >
-                  Get Support
-                </Button>
+                
               </Link>
             </HStack>
           </MotionContainer>
         </Container>
       </Box>
-
-      {/* Stats Section */}
-      <Container maxW="7xl" py={16}>
-        <MotionBox
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-        >
-          <SimpleGrid columns={{ base: 2, md: 4 }} gap={8}>
-            {stats.map((stat, index) => (
-              <VStack key={index} gap={3} textAlign="center">
-                <Box
-                  p={4}
-                  bg="primary.50"
-                  borderRadius="xl"
-                  color="primary.500"
-                  fontSize="2xl"
-                >
-                  <Icon as={stat.icon} />
-                </Box>
-                <VStack gap={1}>
-                  <Text fontSize="3xl" fontWeight="700" color="primary.500">
-                    {stat.value}
-                  </Text>
-                  <Text fontSize="sm" color="muted" fontWeight="500">
-                    {stat.label}
-                  </Text>
-                </VStack>
-              </VStack>
-            ))}
-          </SimpleGrid>
-        </MotionBox>
-      </Container>
+      {/* FAQs Section */}
+      <FAQsSection />
+      <DocumentationSection />
 
       {/* Resources Sections */}
       {resources.map((resource, index) => (
