@@ -63,7 +63,11 @@ const faqs: FAQ[] = [
 ]
 
 export const FAQsSection = () => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
+
+  const toggleFAQ = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index)
+  }
 
   return (
     <Box py={{ base: 16, md: 20 }} bg="white">
@@ -112,15 +116,26 @@ export const FAQsSection = () => {
                 _last={{ borderBottom: "none" }}
                 transition="all 0.3s ease"
                 cursor="pointer"
-                onMouseEnter={() => setHoveredIndex(index)}
-                onMouseLeave={() => setHoveredIndex(null)}
+                onClick={() => toggleFAQ(index)}
+                role="button"
+                aria-expanded={openIndex === index}
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    toggleFAQ(index)
+                  }
+                }}
+                _hover={{
+                  bg: "gray.50"
+                }}
               >
                 <Box py={5} px={2}>
                   <HStack justify="space-between" align="center" mb={0}>
                     <Text
                       fontSize={{ base: "md", md: "lg" }}
                       fontWeight="600"
-                      color={hoveredIndex === index ? "primary.600" : "text"}
+                      color={openIndex === index ? "primary.600" : "text"}
                       lineHeight="1.5"
                       transition="color 0.3s ease"
                       flex="1"
@@ -132,20 +147,21 @@ export const FAQsSection = () => {
                     <Icon
                       as={HiChevronDown}
                       fontSize="lg"
-                      color={hoveredIndex === index ? "primary.500" : "gray.400"}
+                      color={openIndex === index ? "primary.500" : "gray.400"}
                       transition="all 0.3s ease"
-                      transform={hoveredIndex === index ? "rotate(180deg)" : "rotate(0deg)"}
+                      transform={openIndex === index ? "rotate(180deg)" : "rotate(0deg)"}
                       ml={3}
+                      flexShrink={0}
                     />
                   </HStack>
                   
-                  {/* Answer - Only visible on hover */}
+                  {/* Answer - Visible when clicked */}
                   <Box
-                    opacity={hoveredIndex === index ? 1 : 0}
-                    maxHeight={hoveredIndex === index ? "200px" : "0"}
+                    opacity={openIndex === index ? 1 : 0}
+                    maxHeight={openIndex === index ? "400px" : "0"}
                     overflow="hidden"
                     transition="all 0.4s ease"
-                    mt={hoveredIndex === index ? 4 : 0}
+                    mt={openIndex === index ? 4 : 0}
                   >
                     <Text
                       fontSize="md"

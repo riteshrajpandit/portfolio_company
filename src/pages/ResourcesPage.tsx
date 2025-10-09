@@ -151,7 +151,7 @@ const ResourcesPage = () => {
 
   return (
     
-    <Box>
+    <Box overflowX={"hidden"}>
       {/* Hero Section */}
       <Box bg="neutral.50" pt={40} pb={16}>
         <Container maxW="7xl">
@@ -218,7 +218,7 @@ const ResourcesPage = () => {
                         p={4}
                         bg={resource.gradient}
                         borderRadius="xl"
-                        color="white"
+                        color="primary.500"
                         fontSize="2xl"
                       >
                         <Icon as={resource.icon} />
