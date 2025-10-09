@@ -113,17 +113,17 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
                 <HStack gap={4} wrap="wrap">
                   <Link to="/services#it-consulting" style={{ textDecoration: 'none' }}>
                     <Button
-                      colorScheme="primary"
+                      colorScheme="primary.500"
                       borderRadius="full"
                       px={6}
                       fontWeight="600"
                       _hover={{ transform: "translateY(-2px)" }}
                       transition="all 0.3s ease"
                     >
-                      Learn More
+                      Explore More
                     </Button>
                   </Link>
-                  <Link to="/services#workshop-training" style={{ textDecoration: 'none' }}>
+                  {/* <Link to="/services#workshop-training" style={{ textDecoration: 'none' }}>
                     <Button
                       variant="outline"
                       borderColor="primary.500"
@@ -136,7 +136,7 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
                     >
                       Get Demo
                     </Button>
-                  </Link>
+                  </Link> */}
                 </HStack>
               </VStack>
             </MotionBox>
