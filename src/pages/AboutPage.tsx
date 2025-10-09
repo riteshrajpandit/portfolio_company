@@ -121,8 +121,8 @@ const teamMembers = [
   },
   {
     name: "Diwas Gauli",
-    role: "Frontend Developer",
-    bio: "Diwas creates engaging user interfaces with modern frameworks and has a keen eye for user experience design.",
+    role: "Backend Developer",
+    bio: "Diwas builds robust server-side solutions and ensures optimal performance and security of our applications.",
     image: "/teams/diwas.jpeg",
     social: {
       linkedin: "https://linkedin.com",
@@ -479,7 +479,7 @@ export const AboutPage = () => {
           </MotionBox>
           
           {/* Leadership Team - First 6 members */}
-          <VStack gap={12}>
+          <VStack gap={12} overflow={"hidden"}>
             <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={12}>
               {teamMembers.slice(0, 6).map((member, index) => (
                 <MotionBox
