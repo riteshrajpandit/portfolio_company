@@ -57,7 +57,7 @@ export const Footer = () => {
             <Text fontSize="sm" color="white" mb={2} opacity={0.9}>
               Call Us :
             </Text>
-            <a href="tel:+977-9861190705" style={{ textDecoration: 'none' }}>
+            <a href="tel:++977-9851161116" style={{ textDecoration: 'none' }}>
               <Text 
                 fontSize="xl" 
                 fontWeight="bold" 
@@ -66,7 +66,7 @@ export const Footer = () => {
                 transition="opacity 0.2s ease"
                 cursor="pointer"
               >
-                +977-9861190705
+                +977-9851161116
               </Text>
             </a>
           </GridItem>
