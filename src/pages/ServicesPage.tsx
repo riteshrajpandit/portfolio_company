@@ -7,7 +7,6 @@ import {
   HStack,
   Grid,
   GridItem,
-  Badge,
   Icon,
   Image,
   SimpleGrid,
@@ -20,66 +19,131 @@ import {
   HiArrowRight,
   HiCheckCircle,
   HiCog,
-  HiChartBar,
-  HiShieldCheck,
-  HiUsers,
-  HiGlobeAlt,
-  HiClock,
-  HiStar,
+  HiSparkles,
+  HiCubeTransparent
 } from "react-icons/hi2"
-import FeaturesSection from "@/components/sections/FeaturesSection"
+// import FeaturesSection from "@/components/sections/FeaturesSection"
 
 const services = [
   {
-    id: "it-consulting",
-    title: "IT Consulting",
-    subtitle: "Strategic Technology Guidance",
-    description: "Navigate your digital transformation journey with expert guidance. Our consultants help you optimize your technology stack, improve processes, and achieve your business objectives through strategic IT planning.",
+    id: "custom-software",
+    title: "Custom Software Built for Your Business Needs",
+    subtitle: "Custom AI Leveraged Software Development",
+    description: "Innovative AI and software solutions tailored to your unique business challenges, enhance operational efficiency, and drive your digital transformation journey.",
     icon: HiLightBulb,
     gradient: "linear(135deg, blue.500, indigo.600)",
     image: "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=800&h=600&fit=crop&auto=format",
-    expertise: [
-      {
-        title: "Digital Transformation",
-        description: "Modernize your business processes and technology infrastructure",
-        icon: HiCog
-      },
-      {
-        title: "Cloud Strategy",
-        description: "Optimize cloud adoption and migration strategies",
-        icon: HiGlobeAlt
-      },
-      {
-        title: "Technology Assessment",
-        description: "Evaluate and optimize your current technology stack",
-        icon: HiChartBar
-      },
-      {
-        title: "Security Consulting",
-        description: "Strengthen your cybersecurity posture and compliance",
-        icon: HiShieldCheck
-      }
+    keyFeatures: [
+      "Custom Software Development",
+      "SaaS Product Development",
+      "Mobile App Development",
+      "CI/CD & Automation",
+      "API Development & Integration",
+      "Agile Product Development",
+      "Cross-Platform & Native Mobile Apps",
+      "Data-Driven Decision Systems"
+    ],
+    technologicalAdaptation: [
+      "Machine Learning Models",
+      "Natural Language Processing",
+      "Computer Vision & Image Recognition"
+    ],
+    businessBenefits: [
+      "Your solution for your problems",
+      "Reduce operational costs",
+      "Improve accuracy and consistency",
+      "Improve operational visibility"
     ],
     process: [
-      { phase: "Assessment", description: "Current state analysis and needs evaluation", duration: "1-2 weeks" },
-      { phase: "Strategy", description: "Custom roadmap and solution design", duration: "2-3 weeks" },
-      { phase: "Planning", description: "Detailed implementation planning", duration: "1 week" },
-      { phase: "Execution", description: "Guided implementation and support", duration: "Ongoing" }
+      { phase: "Discovery", description: "Understanding your requirements and challenges" },
+      { phase: "Design", description: "Creating user-centered solutions and architecture" },
+      { phase: "Development", description: "Building with modern technologies and best practices" },
+      { phase: "Deployment", description: "Smooth launch with comprehensive testing" },
+      { phase: "Support", description: "Ongoing maintenance and enhancement" }
+    ]
+  },
+  {
+    id: "ai-strategy",
+    title: "Enterprise AI Use Case Consulting and AI Transformation Consultancy",
+    subtitle: "AI Strategy Consultancy",
+    description: "We help you harness the full potential of AI and ML to scale, automate and forecast events through development of comprehensive AI roadmap and implementation strategy tailored to your business objectives.",
+    icon: HiSparkles,
+    gradient: "linear(135deg, emerald.500, teal.600)",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&auto=format",
+    weBring: [
+      "Industry Expertise & Best Practices",
+      "Cutting-Edge AI/ML Technology",
+      "Proven Implementation Framework",
+      "ROI-Focused Approach",
+      "End-to-End Support"
     ],
-    pricing: {
-      hourly: "$150-250/hour",
-      project: "$5,000-50,000",
-      retainer: "$3,000-15,000/month"
-    }
+    steps: [
+      "Discovery & Assessment",
+      "AI Readiness Evaluation",
+      "Strategy Development",
+      "Roadmap Creation",
+      "Implementation Support",
+      "Continuous Optimization"
+    ],
+    aiServices: [
+      {
+        title: "AI Strategy Consulting",
+        description: "Identify the right opportunities and create a roadmap to implement AI effectively across your business."
+      },
+      {
+        title: "Machine Learning Model Development",
+        description: "Design, train, and deploy supervised, unsupervised, and reinforcement learning models."
+      }
+    ]
+  },
+  {
+    id: "it-consulting",
+    title: "Leverage IT as a Business Success Tool",
+    subtitle: "IT Consultancy",
+    description: "Our expertise will help you convert IT as your business success tool. We facilitate and integrate IT as a Business Success Tool to your Business Operation in an internationally accepted Practice.",
+    icon: HiCog,
+    gradient: "linear(135deg, purple.500, pink.600)",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&auto=format",
+    weAssure: [
+      "Strategic IT Planning & Governance",
+      "Technology Infrastructure Optimization",
+      "Digital Transformation Roadmap",
+      "IT Risk Management & Compliance"
+    ],
+    businessServices: [
+      "IT Strategy & Planning",
+      "Technology Assessment",
+      "Infrastructure Modernization",
+      "Cloud Migration & Management",
+      "Cybersecurity Consulting"
+    ]
+  },
+  {
+    id: "blockchain",
+    title: "Web3 and Blockchain Development",
+    subtitle: "Web3 and Blockchain",
+    description: "We streamline blockchain for enterprise by providing secure, scalable, ROI-driven, and future-ready solutions that effectively and transparently address actual business problems. We help you gain control on seamless integration and efficient processes for sustained success.",
+    icon: HiCubeTransparent,
+    gradient: "linear(135deg, orange.500, red.600)",
+    image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=800&h=600&fit=crop&auto=format",
+    topFeatures: [
+      "Smart Contract Development",
+      "Decentralized Application (DApp) Development",
+      "Blockchain Integration Services",
+      "NFT Platform Development",
+      "Cryptocurrency Wallet Development",
+      "Blockchain Consulting & Strategy",
+      "Private & Public Blockchain Solutions"
+    ]
   },
   {
     id: "workshop-training",
-    title: "Workshop & Training",
-    subtitle: "Professional Development Programs",
+    title: "Professional Development Through Tailored Workshops and Trainings",
+    subtitle: "Empower Your HR",
     description: "Empower your team with cutting-edge skills and knowledge through our comprehensive training programs and hands-on workshops designed for modern business needs.",
     icon: HiAcademicCap,
-    gradient: "linear(135deg, emerald.500, teal.600)",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop&auto=format",
+    gradient: "linear(135deg, blue.500, cyan.600)",
+    image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=600&fit=crop&auto=format",
     programs: [
       {
         title: "Leadership Development",
@@ -127,19 +191,12 @@ const services = [
   }
 ]
 
-const stats = [
-  { label: "Training Programs", value: "200+", icon: HiAcademicCap },
-  { label: "Professionals Trained", value: "5,000+", icon: HiUsers },
-  { label: "Client Satisfaction", value: "98%", icon: HiStar },
-  { label: "Years Experience", value: "10+", icon: HiClock }
-]
-
 const MotionBox = motion(Box)
 const MotionContainer = motion(Container)
 
 const ServicesPage = () => {
   return (
-    <Box>
+    <Box overflowX={"hidden"}>
       {/* Hero Section */}
       <Box bg="neutral.50" pt={{ base: 28, md: 40 }} pb={{ base: 12, md: 16 }}>
         <Container maxW="7xl" px={{ base: 4, md: 6 }}>
@@ -160,9 +217,9 @@ const ServicesPage = () => {
             >
               Expert{" "}
               <Text as="span" color="primary.500">
-                Consulting
+                AI Consulting
               </Text>{" "}
-              & Training Services
+              & Software Development
             </Text>
             <Text
               fontSize={{ base: "md", md: "xl" }}
@@ -172,45 +229,14 @@ const ServicesPage = () => {
               mx="auto"
               mb={{ base: 6, md: 8 }}
             >
-              Accelerate your business growth with our strategic consulting services and 
-              comprehensive training programs designed to unlock your team's full potential.
+              Accelerate your business growth with our strategic consulting services on comprehensive AI roadmap development and implementation and comprehensive development services to unlock full potential of your business in today's world.
             </Text>
-            <HStack justify="center" gap={4} wrap="wrap">
-              <Link to="#it-consulting" style={{ textDecoration: 'none' }}>
-                <Button
-                  size="lg"
-                  colorScheme="primary"
-                  borderRadius="full"
-                  px={8}
-                  fontWeight="600"
-                  _hover={{ transform: "translateY(-2px)", shadow: "lg" }}
-                  transition="all 0.3s ease"
-                >
-                  Explore Services <HiArrowRight style={{ marginLeft: '8px' }} />
-                </Button>
-              </Link>
-              <Link to="/about#career" style={{ textDecoration: 'none' }}>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  borderColor="primary.500"
-                  color="primary.500"
-                  borderRadius="full"
-                  px={8}
-                  fontWeight="600"
-                  _hover={{ bg: "primary.50", transform: "translateY(-2px)" }}
-                  transition="all 0.3s ease"
-                >
-                  Contact Us
-                </Button>
-              </Link>
-            </HStack>
           </MotionContainer>
         </Container>
       </Box>
 
       {/* Stats Section */}
-      <Container maxW="7xl" py={{ base: 12, md: 16 }} px={{ base: 4, md: 6 }}>
+      {/* <Container maxW="7xl" py={{ base: 12, md: 16 }} px={{ base: 4, md: 6 }}>
         <MotionBox
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -241,13 +267,13 @@ const ServicesPage = () => {
             ))}
           </SimpleGrid>
         </MotionBox>
-      </Container>
+      </Container> */}
 
-      <FeaturesSection />
+      {/* <FeaturesSection /> */}
 
       {/* Services Sections */}
       {services.map((service, index) => (
-        <Box key={service.id} id={service.id} py={{ base: 12, md: 20 }} bg={index % 2 === 0 ? "white" : "neutral.50"}>
+        <Box key={service.id} id={service.id} py={{ base: 12, md: 8 }} bg={index % 2 === 0 ? "white" : "neutral.50"}>
           <Container maxW="7xl" px={{ base: 4, md: 6 }}>
             <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={12} alignItems="start">
               {/* Content Side */}
@@ -264,7 +290,7 @@ const ServicesPage = () => {
                         p={4}
                         bg={service.gradient}
                         borderRadius="xl"
-                        color="white"
+                        color="primary.500"
                         fontSize="2xl"
                       >
                         <Icon as={service.icon} />
@@ -284,41 +310,144 @@ const ServicesPage = () => {
                     </Text>
 
                     {/* Service-specific content */}
-                    {service.id === "it-consulting" && service.expertise && (
-                      <VStack align="start" gap={4} w="full">
-                        <Text fontSize="lg" fontWeight="600" color="text">
-                          Our Expertise Areas
-                        </Text>
-                        <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={4} w="full">
-                          {service.expertise.map((area, idx) => (
-                            <Box
-                              key={idx}
-                              p={4}
-                              bg="white"
-                              borderRadius="lg"
-                              border="1px solid"
-                              borderColor="gray.200"
-                              _hover={{ shadow: "md", borderColor: "primary.300" }}
-                              transition="all 0.3s ease"
-                            >
-                              <HStack gap={3} align="start">
-                                <Icon as={area.icon} color="primary.500" fontSize="lg" mt={1} />
-                                <VStack gap={1} align="start">
-                                  <Text fontSize="sm" fontWeight="600" color="text">
-                                    {area.title}
-                                  </Text>
-                                  <Text fontSize="xs" color="muted">
-                                    {area.description}
-                                  </Text>
-                                </VStack>
+                    {/* Custom Software Development */}
+                    {service.id === "custom-software" && (
+                      <>
+                        <VStack align="start" gap={3} w="full">
+                          <Text fontSize="lg" fontWeight="600" color="text">
+                            Key Features
+                          </Text>
+                          <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={3} w="full">
+                            {'keyFeatures' in service && service.keyFeatures.map((feature, idx) => (
+                              <HStack key={idx} gap={3} align="start">
+                                <Icon as={HiCheckCircle} color="green.500" fontSize="lg" mt={1} flexShrink={0} />
+                                <Text fontSize="sm" color="text" fontWeight="500">
+                                  {feature}
+                                </Text>
                               </HStack>
-                            </Box>
+                            ))}
+                          </Grid>
+                        </VStack>
+                        
+                        <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6} w="full">
+                          <VStack align="start" gap={3}>
+                            <Text fontSize="lg" fontWeight="600" color="text">
+                              Business Benefits
+                            </Text>
+                            {'businessBenefits' in service && service.businessBenefits.map((benefit, idx) => (
+                              <HStack key={idx} gap={3} align="start">
+                                <Icon as={HiCheckCircle} color="blue.500" fontSize="lg" mt={1} flexShrink={0} />
+                                <Text fontSize="sm" color="text" fontWeight="500">
+                                  {benefit}
+                                </Text>
+                              </HStack>
+                            ))}
+                          </VStack>
+                          
+                          <VStack align="start" gap={3}>
+                            <Text fontSize="lg" fontWeight="600" color="text">
+                              Technological Adaptation
+                            </Text>
+                            {'technologicalAdaptation' in service && service.technologicalAdaptation.map((tech, idx) => (
+                              <HStack key={idx} gap={3} align="start">
+                                <Icon as={HiCheckCircle} color="purple.500" fontSize="lg" mt={1} flexShrink={0} />
+                                <Text fontSize="sm" color="text" fontWeight="500">
+                                  {tech}
+                                </Text>
+                              </HStack>
+                            ))}
+                          </VStack>
+                        </Grid>
+                      </>
+                    )}
+
+                    {/* AI Strategy */}
+                    {service.id === "ai-strategy" && (
+                      <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6} w="full">
+                        <VStack align="start" gap={3}>
+                          <Text fontSize="lg" fontWeight="600" color="text">
+                            We Bring
+                          </Text>
+                          {'weBring' in service && service.weBring.map((item, idx) => (
+                            <HStack key={idx} gap={3} align="start">
+                              <Icon as={HiCheckCircle} color="green.500" fontSize="lg" mt={1} flexShrink={0} />
+                              <Text fontSize="sm" color="text" fontWeight="500">
+                                {item}
+                              </Text>
+                            </HStack>
+                          ))}
+                        </VStack>
+                        
+                        <VStack align="start" gap={3}>
+                          <Text fontSize="lg" fontWeight="600" color="text">
+                            Steps We Care
+                          </Text>
+                          {'steps' in service && service.steps.map((step, idx) => (
+                            <HStack key={idx} gap={3} align="start">
+                              <Icon as={HiCheckCircle} color="emerald.500" fontSize="lg" mt={1} flexShrink={0} />
+                              <Text fontSize="sm" color="text" fontWeight="500">
+                                {step}
+                              </Text>
+                            </HStack>
+                          ))}
+                        </VStack>
+                      </Grid>
+                    )}
+
+                    {/* IT Consulting */}
+                    {service.id === "it-consulting" && (
+                      <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6} w="full">
+                        <VStack align="start" gap={3}>
+                          <Text fontSize="lg" fontWeight="600" color="text">
+                            We Assure
+                          </Text>
+                          {'weAssure' in service && service.weAssure.map((item, idx) => (
+                            <HStack key={idx} gap={3} align="start">
+                              <Icon as={HiCheckCircle} color="purple.500" fontSize="lg" mt={1} flexShrink={0} />
+                              <Text fontSize="sm" color="text" fontWeight="500">
+                                {item}
+                              </Text>
+                            </HStack>
+                          ))}
+                        </VStack>
+                        
+                        <VStack align="start" gap={3}>
+                          <Text fontSize="lg" fontWeight="600" color="text">
+                            Business Services
+                          </Text>
+                          {'businessServices' in service && service.businessServices.map((svc, idx) => (
+                            <HStack key={idx} gap={3} align="start">
+                              <Icon as={HiCheckCircle} color="pink.500" fontSize="lg" mt={1} flexShrink={0} />
+                              <Text fontSize="sm" color="text" fontWeight="500">
+                                {svc}
+                              </Text>
+                            </HStack>
+                          ))}
+                        </VStack>
+                      </Grid>
+                    )}
+
+                    {/* Blockchain */}
+                    {service.id === "blockchain" && (
+                      <VStack align="start" gap={3} w="full">
+                        <Text fontSize="lg" fontWeight="600" color="text">
+                          Top Features
+                        </Text>
+                        <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={3} w="full">
+                          {'topFeatures' in service && service.topFeatures.map((feature, idx) => (
+                            <HStack key={idx} gap={3} align="start">
+                              <Icon as={HiCheckCircle} color="orange.500" fontSize="lg" mt={1} flexShrink={0} />
+                              <Text fontSize="sm" color="text" fontWeight="500">
+                                {feature}
+                              </Text>
+                            </HStack>
                           ))}
                         </Grid>
                       </VStack>
                     )}
 
-                    {service.id === "workshop-training" && service.features && (
+                    {/* Workshop & Training */}
+                    {service.id === "workshop-training" && 'features' in service && service.features && (
                       <VStack align="start" gap={3} w="full">
                         <Text fontSize="lg" fontWeight="600" color="text">
                           Training Features
@@ -326,7 +455,7 @@ const ServicesPage = () => {
                         <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={3} w="full">
                           {service.features.map((feature, idx) => (
                             <HStack key={idx} gap={3} align="start">
-                              <Icon as={HiCheckCircle} color="green.500" fontSize="lg" mt={1} flexShrink={0} />
+                              <Icon as={HiCheckCircle} color="blue.500" fontSize="lg" mt={1} flexShrink={0} />
                               <Text fontSize="sm" color="text" fontWeight="500">
                                 {feature}
                               </Text>
@@ -337,7 +466,7 @@ const ServicesPage = () => {
                     )}
 
                     <HStack gap={4} wrap="wrap">
-                      <Link to="/products" style={{ textDecoration: 'none' }}>
+                      <Link to="/contact" style={{ textDecoration: 'none' }}>
                         <Button
                           colorScheme="primary"
                           borderRadius="full"
@@ -346,10 +475,10 @@ const ServicesPage = () => {
                           _hover={{ transform: "translateY(-2px)" }}
                           transition="all 0.3s ease"
                         >
-                          Get Started
+                          Contact Us
                         </Button>
                       </Link>
-                      <Link to="/about#career" style={{ textDecoration: 'none' }}>
+                      {/* <Link to="/about#career" style={{ textDecoration: 'none' }}>
                         <Button
                           variant="outline"
                           borderColor="primary.500"
@@ -362,7 +491,7 @@ const ServicesPage = () => {
                         >
                           Contact Us
                         </Button>
-                      </Link>
+                      </Link> */}
                     </HStack>
                   </VStack>
                 </MotionBox>
@@ -420,7 +549,7 @@ const ServicesPage = () => {
             </Grid>
 
             {/* Additional Content Sections */}
-            {service.id === "it-consulting" && service.process && (
+            {service.id === "custom-software" && 'process' in service && service.process && (
               <MotionBox
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -430,187 +559,55 @@ const ServicesPage = () => {
               >
                 <VStack gap={8}>
                   <Text fontSize="2xl" fontWeight="700" color="text" textAlign="center">
-                    Our Consulting Process
+                    Development Process: From Idea to Production
                   </Text>
-                  <Grid templateColumns={{ base: "1fr", md: "repeat(4, 1fr)" }} gap={6} w="full">
-                    {service.process.map((phase, idx) => (
-                      <VStack key={idx} gap={4} textAlign="center">
-                        <Box
-                          w="60px"
-                          h="60px"
-                          bg="primary.500"
-                          color="white"
-                          borderRadius="full"
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="center"
-                          fontSize="xl"
-                          fontWeight="700"
-                        >
-                          {idx + 1}
+                  <Box position="relative" w="full">
+                    <Grid templateColumns={{ base: "1fr", md: "repeat(5, 1fr)" }} gap={6} w="full">
+                      {service.process.map((phase, idx) => (
+                        <Box key={idx} position="relative">
+                          <VStack gap={4} textAlign="center">
+                            <Box
+                              w="60px"
+                              h="60px"
+                              bg="primary.500"
+                              color="white"
+                              borderRadius="full"
+                              display="flex"
+                              alignItems="center"
+                              justifyContent="center"
+                              fontSize="xl"
+                              fontWeight="700"
+                              position="relative"
+                              zIndex={2}
+                            >
+                              {idx + 1}
+                            </Box>
+                            <VStack gap={2}>
+                              <Text fontSize="md" fontWeight="600" color="text">
+                                {phase.phase}
+                              </Text>
+                              <Text fontSize="sm" color="muted" textAlign="center">
+                                {phase.description}
+                              </Text>
+                            </VStack>
+                          </VStack>
+                          {/* Connecting Line */}
+                          {idx < service.process.length - 1 && (
+                            <Box
+                              position="absolute"
+                              top="30px"
+                              left="calc(100% - 90px)"
+                              right="calc(-50%)"
+                              height="2px"
+                              bg="primary.300"
+                              zIndex={1}
+                              display={{ base: "none", md: "block" }}
+                            />
+                          )}
                         </Box>
-                        <VStack gap={2}>
-                          <Text fontSize="md" fontWeight="600" color="text">
-                            {phase.phase}
-                          </Text>
-                          <Text fontSize="sm" color="muted" textAlign="center">
-                            {phase.description}
-                          </Text>
-                          <Badge colorScheme="primary" variant="subtle" px={2} py={1} borderRadius="full" fontSize="xs">
-                            {phase.duration}
-                          </Badge>
-                        </VStack>
-                      </VStack>
-                    ))}
-                  </Grid>
-                  
-                  {service.pricing && (
-                    <Box
-                      mt={8}
-                      p={6}
-                      bg="primary.50"
-                      borderRadius="xl"
-                      border="1px solid"
-                      borderColor="primary.200"
-                      w="full"
-                    >
-                      <VStack gap={4}>
-                        <Text fontSize="lg" fontWeight="600" color="text" textAlign="center">
-                          Flexible Pricing Options
-                        </Text>
-                        <SimpleGrid columns={{ base: 1, md: 3 }} gap={6} w="full">
-                          <VStack gap={2} textAlign="center">
-                            <Text fontSize="md" fontWeight="600" color="primary.600">
-                              Hourly Rate
-                            </Text>
-                            <Text fontSize="2xl" fontWeight="700" color="text">
-                              {service.pricing.hourly}
-                            </Text>
-                            <Text fontSize="sm" color="muted">
-                              For short-term projects
-                            </Text>
-                          </VStack>
-                          <VStack gap={2} textAlign="center">
-                            <Text fontSize="md" fontWeight="600" color="primary.600">
-                              Project-Based
-                            </Text>
-                            <Text fontSize="2xl" fontWeight="700" color="text">
-                              {service.pricing.project}
-                            </Text>
-                            <Text fontSize="sm" color="muted">
-                              Fixed scope deliverables
-                            </Text>
-                          </VStack>
-                          <VStack gap={2} textAlign="center">
-                            <Text fontSize="md" fontWeight="600" color="primary.600">
-                              Monthly Retainer
-                            </Text>
-                            <Text fontSize="2xl" fontWeight="700" color="text">
-                              {service.pricing.retainer}
-                            </Text>
-                            <Text fontSize="sm" color="muted">
-                              Ongoing strategic support
-                            </Text>
-                          </VStack>
-                        </SimpleGrid>
-                      </VStack>
-                    </Box>
-                  )}
-                </VStack>
-              </MotionBox>
-            )}
-
-            {service.id === "workshop-training" && service.programs && (
-              <MotionBox
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                mt={16}
-              >
-                <VStack gap={8}>
-                  <Text fontSize="2xl" fontWeight="700" color="text" textAlign="center">
-                    Training Programs
-                  </Text>
-                  <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6} w="full">
-                    {service.programs.map((program, idx) => (
-                      <Box
-                        key={idx}
-                        p={6}
-                        bg="white"
-                        borderRadius="xl"
-                        border="1px solid"
-                        borderColor="gray.200"
-                        shadow="sm"
-                        _hover={{ shadow: "md", transform: "translateY(-2px)" }}
-                        transition="all 0.3s ease"
-                      >
-                        <VStack gap={4} align="start">
-                          <Text fontSize="lg" fontWeight="600" color="text">
-                            {program.title}
-                          </Text>
-                          <Text fontSize="sm" color="muted" lineHeight="1.6">
-                            {program.description}
-                          </Text>
-                          <Box h="1px" bg="gray.200" w="full" />
-                          <SimpleGrid columns={3} gap={4} w="full" fontSize="sm">
-                            <VStack gap={1} align="start">
-                              <Text fontWeight="600" color="primary.600">
-                                Duration
-                              </Text>
-                              <Text color="muted">
-                                {program.duration}
-                              </Text>
-                            </VStack>
-                            <VStack gap={1} align="start">
-                              <Text fontWeight="600" color="primary.600">
-                                Group Size
-                              </Text>
-                              <Text color="muted">
-                                {program.participants}
-                              </Text>
-                            </VStack>
-                            <VStack gap={1} align="start">
-                              <Text fontWeight="600" color="primary.600">
-                                Format
-                              </Text>
-                              <Text color="muted">
-                                {program.format}
-                              </Text>
-                            </VStack>
-                          </SimpleGrid>
-                        </VStack>
-                      </Box>
-                    ))}
-                  </Grid>
-
-                  {service.outcomes && (
-                    <Box
-                      mt={8}
-                      p={6}
-                      bg="emerald.50"
-                      borderRadius="xl"
-                      border="1px solid"
-                      borderColor="emerald.200"
-                      w="full"
-                    >
-                      <VStack gap={4}>
-                        <Text fontSize="lg" fontWeight="600" color="text" textAlign="center">
-                          Expected Outcomes
-                        </Text>
-                        <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={3} w="full">
-                          {service.outcomes.map((outcome, idx) => (
-                            <HStack key={idx} gap={3} align="start">
-                              <Icon as={HiCheckCircle} color="emerald.500" fontSize="lg" mt={1} flexShrink={0} />
-                              <Text fontSize="sm" color="text" fontWeight="500">
-                                {outcome}
-                              </Text>
-                            </HStack>
-                          ))}
-                        </Grid>
-                      </VStack>
-                    </Box>
-                  )}
+                      ))}
+                    </Grid>
+                  </Box>
                 </VStack>
               </MotionBox>
             )}
@@ -619,7 +616,7 @@ const ServicesPage = () => {
       ))}
 
       {/* CTA Section */}
-      <Container maxW="7xl" py={{ base: 12, md: 20 }} px={{ base: 4, md: 6 }}>
+      <Container maxW="7xl" py={{ base: 12, md: 16 }} px={{ base: 4, md: 6 }}>
         <MotionBox
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
