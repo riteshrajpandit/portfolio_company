@@ -5,152 +5,243 @@ import {
   Button,
   VStack,
   HStack,
-  Grid,
-  GridItem,
-  Badge,
+  SimpleGrid,
   Icon,
+  Link as ChakraLink,
   Image,
-
 } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { useState } from "react"
 import {
-  HiShieldCheck,
-  HiWrench,
   HiArrowRight,
   HiDocumentText,
-  HiLockClosed,
-  HiCalculator,
-  HiChartBar,
-  HiArrowDownTray,
+  HiAcademicCap,
+  HiPhoto,
+  HiClipboardDocumentList,
+  HiNewspaper,
+  HiChevronDown,
 } from "react-icons/hi2"
-import ROICalculatorModal from "../components/ui/ROICalculatorModal"
 import FAQsSection from "@/components/sections/FAQsSection"
-import DocumentationSection from "@/components/sections/DocumentationSection"
 
-const resources = [
+// Resource sections data matching the navbar structure
+interface ResourceSection {
+  id: string
+  title: string
+  description: string
+  icon: React.ComponentType
+  gradient: string
+  items?: Array<{
+    title: string
+    description: string
+    link?: string
+    isExternal?: boolean
+    subtitle?: string
+    image?: string
+  }>
+}
+
+const resourceSections: ResourceSection[] = [
   {
-    id: "trusted-center",
-    title: "Trusted Center",
-    subtitle: "Security, Compliance & Trust",
-    description: "Comprehensive security documentation, compliance certifications, and trust resources to ensure your confidence in our solutions and data handling practices.",
-    icon: HiShieldCheck,
-    gradient: "linear(135deg, emerald.500, teal.600)",
-    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&h=600&fit=crop&auto=format",
-    sections: [
+    id: "documentation",
+    title: "Documentation/Wiki",
+    description: "Industry compliance documentation",
+    icon: HiDocumentText,
+    gradient: "linear(135deg, blue.400, blue.600)",
+    items: [
       {
-        title: "Security Certifications",
-        icon: HiLockClosed,
-        items: [
-          { name: "ISO 27001", description: "Information Security Management", status: "Certified" },
-          { name: "SOC 2 Type II", description: "Service Organization Control", status: "Certified" },
-          { name: "GDPR Compliance", description: "General Data Protection Regulation", status: "Compliant" },
-          { name: "HIPAA", description: "Health Insurance Portability", status: "Compliant" }
-        ]
+        title: "ERP Solutions",
+        description: "Comprehensive guides for ERP implementation and usage. Our ERP documentation covers everything from initial setup to advanced configurations, helping you maximize efficiency and streamline your business operations.",
+        link: "https://ss.awiskar.com/",
+        isExternal: true,
+        subtitle: "Enterprise Resource Planning",
+        image: "/product-images/ERP.png"
       },
       {
-        title: "Privacy & Compliance",
-        icon: HiDocumentText,
-        items: [
-          { name: "Privacy Policy", description: "How we collect and use your data", type: "document" },
-          { name: "Terms of Service", description: "Legal terms and conditions", type: "document" },
-          { name: "Data Processing Agreement", description: "GDPR-compliant DPA template", type: "document" },
-          { name: "Security Whitepaper", description: "Detailed security practices", type: "document" }
-        ]
+        title: "Amigaa Platform",
+        description: "Technical documentation for AI-powered automation platform. Discover how to leverage Amigaa's intelligent features to automate workflows, enhance productivity, and transform your business processes with cutting-edge AI technology.",
+        link: "https://agent.amigaa.com/",
+        isExternal: true,
+        subtitle: "AI-Powered Automation",
+        image: "/product-images/Amigaa.png"
+      },
+      {
+        title: "GrowStart",
+        description: "Complete documentation for startup growth and business acceleration platform. Learn how to scale your startup efficiently with our comprehensive guides covering funding, strategy, and operational excellence.",
+        link: "#",
+        isExternal: false,
+        subtitle: "Startup Growth Platform",
+        image: "/product-images/GrowStart.png"
+      }
+    ]
+  },
+  // {
+  //   id: "end-user-training",
+  //   title: "End User Training",
+  //   description: "Training resources for end users and administrators",
+  //   icon: HiAcademicCap,
+  //   gradient: "linear(135deg, purple.400, purple.600)",
+  //   items: [
+  //     {
+  //       title: "Getting Started Tutorials",
+  //       description: "Quick start guides for new users",
+  //       link: "#",
+  //       isExternal: false
+  //     },
+  //     {
+  //       title: "Video Training Library",
+  //       description: "Comprehensive video tutorials and walkthroughs",
+  //       link: "#",
+  //       isExternal: false
+  //     },
+  //     {
+  //       title: "Administrator Training",
+  //       description: "Advanced training for system administrators",
+  //       link: "#",
+  //       isExternal: false
+  //     },
+  //     {
+  //       title: "Certification Programs",
+  //       description: "Professional certification courses",
+  //       link: "#",
+  //       isExternal: false
+  //     }
+  //   ]
+  // },
+  {
+    id: "ioxet-gallery",
+    title: "IOXET Gallery",
+    description: "Showcase of IOXET solutions and customer success stories",
+    icon: HiPhoto,
+    gradient: "linear(135deg, green.400, green.600)",
+    items: [
+      {
+        title: "Project Showcase",
+        description: "Visual portfolio of completed projects",
+        link: "#",
+        isExternal: false
+      },
+      {
+        title: "Customer Success Stories",
+        description: "Real-world implementations and results",
+        link: "#",
+        isExternal: false
+      },
+      {
+        title: "Product Screenshots",
+        description: "Visual tour of our products and features",
+        link: "#",
+        isExternal: false
+      },
+      {
+        title: "Video Demos",
+        description: "Interactive product demonstrations",
+        link: "#",
+        isExternal: false
       }
     ]
   },
   {
-    id: "tools",
-    title: "Free Tools",
-    subtitle: "Productivity & Planning Tools",
-    description: "Access our collection of free tools and utilities designed to enhance your productivity, streamline workflows, and support your business planning efforts.",
-    icon: HiWrench,
-    gradient: "linear(135deg, blue.500, indigo.600)",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&auto=format",
-    categories: [
+    id: "case-studies",
+    title: "Case Studies",
+    description: "Comprehensive guides and technical documentation",
+    icon: HiClipboardDocumentList,
+    gradient: "linear(135deg, orange.400, orange.600)",
+    items: [
       {
-        title: "Business Calculators",
-        icon: HiCalculator,
-        tools: [
-          { 
-            name: "ROI Calculator", 
-            description: "Calculate return on investment for your projects",
-            usage: "1.2K+ uses",
-            type: "calculator"
-          },
-          { 
-            name: "Project Cost Estimator", 
-            description: "Estimate development costs and timelines",
-            usage: "800+ uses",
-            type: "calculator"
-          },
-          { 
-            name: "Cloud Cost Calculator", 
-            description: "Compare cloud service pricing and costs",
-            usage: "950+ uses",
-            type: "calculator"
-          },
-          { 
-            name: "Team Productivity Calculator", 
-            description: "Measure and optimize team efficiency",
-            usage: "600+ uses",
-            type: "calculator"
-          }
-        ]
+        title: "Enterprise Transformation",
+        description: "How we helped large enterprises modernize their operations",
+        link: "#",
+        isExternal: false
       },
       {
-        title: "Assessment Tools",
-        icon: HiChartBar,
-        tools: [
-          { 
-            name: "Digital Maturity Assessment", 
-            description: "Evaluate your digital transformation readiness",
-            completions: "450+",
-            type: "assessment"
-          },
-          { 
-            name: "Security Posture Check", 
-            description: "Assess your current security status",
-            completions: "320+",
-            type: "assessment"
-          },
-          { 
-            name: "Technology Stack Audit", 
-            description: "Review your current technology landscape",
-            completions: "280+",
-            type: "assessment"
-          },
-          { 
-            name: "Team Skills Gap Analysis", 
-            description: "Identify training and development needs",
-            completions: "190+",
-            type: "assessment"
-          }
-        ]
+        title: "Startup Success Stories",
+        description: "Supporting startups from MVP to scale",
+        link: "#",
+        isExternal: false
+      },
+      {
+        title: "Industry-Specific Solutions",
+        description: "Tailored solutions for different industries",
+        link: "#",
+        isExternal: false
+      },
+      {
+        title: "ROI Analysis",
+        description: "Measurable business impact and returns",
+        link: "#",
+        isExternal: false
+      }
+    ]
+  },
+  {
+    id: "whitepapers",
+    title: "Whitepapers",
+    description: "In-depth research and analysis on industry trends",
+    icon: HiNewspaper,
+    gradient: "linear(135deg, pink.400, pink.600)",
+    items: [
+      {
+        title: "Digital Transformation Guide",
+        description: "Complete guide to digital transformation strategies",
+        link: "#",
+        isExternal: false
+      },
+      {
+        title: "AI in Business",
+        description: "Leveraging AI for business growth and efficiency",
+        link: "#",
+        isExternal: false
+      },
+      {
+        title: "Cloud Migration Strategy",
+        description: "Best practices for cloud adoption",
+        link: "#",
+        isExternal: false
+      },
+      {
+        title: "Cybersecurity Trends",
+        description: "Latest trends in enterprise security",
+        link: "#",
+        isExternal: false
       }
     ]
   }
 ]
 
+// Commented out for future development
+/*
+const resources = [
+  {
+    id: "trusted-center",
+    title: "Trusted Center",
+    subtitle: "Security, Compliance & Trust",
+    description: "Comprehensive security documentation, compliance certifications, and trust resources.",
+    icon: HiShieldCheck,
+    sections: [] // Security Certifications, Privacy & Compliance
+  },
+  {
+    id: "tools",
+    title: "Free Tools",
+    subtitle: "Productivity & Planning Tools",
+    description: "Access our collection of free tools and utilities.",
+    icon: HiWrench,
+    categories: [] // Business Calculators, Assessment Tools
+  }
+]
+*/
+
 const MotionBox = motion(Box)
 const MotionContainer = motion(Container)
 
 const ResourcesPage = () => {
-  const [isROIModalOpen, setIsROIModalOpen] = useState(false)
+  const [openDocIndex, setOpenDocIndex] = useState<number | null>(null)
 
-  const openROICalculator = () => {
-    setIsROIModalOpen(true)
+  const toggleDoc = (index: number) => {
+    setOpenDocIndex(openDocIndex === index ? null : index)
   }
-
-  const closeROICalculator = () => {
-    setIsROIModalOpen(false)
-  }
-  
 
   return (
-    
     <Box overflowX={"hidden"}>
       {/* Hero Section */}
       <Box bg="neutral.50" pt={40} pb={16}>
@@ -184,279 +275,350 @@ const ResourcesPage = () => {
               mx="auto"
               mb={8}
             >
-              Access comprehensive security documentation, compliance information, and powerful free tools 
-              designed to support your business growth and build confidence in our partnership.
+              Access comprehensive documentation, training resources, case studies, and industry insights 
+              designed to support your business growth and digital transformation journey.
             </Text>
-            <HStack justify="center" gap={4} wrap="wrap">
-              <Link to="#trusted-center" style={{ textDecoration: 'none' }}>
-                
-              </Link>
-            </HStack>
           </MotionContainer>
         </Container>
       </Box>
+
       {/* FAQs Section */}
       <FAQsSection />
-      <DocumentationSection />
 
-      {/* Resources Sections */}
-      {resources.map((resource, index) => (
-        <Box key={resource.id} id={resource.id} py={{ base: 16, md: 20 }} bg={index % 2 === 0 ? "white" : "neutral.50"}>
+      {/* Resource Sections */}
+      {resourceSections.map((section, index) => (
+        <Box 
+          key={section.id} 
+          id={section.id} 
+          py={{ base: 6, md: 6 }} 
+          bg={index % 2 === 0 ? "white" : "neutral.50"}
+        >
           <Container maxW="7xl">
-            <Grid templateColumns={{ base: "1fr", lg: "1fr 1fr" }} gap={12} alignItems="start">
-              {/* Content Side */}
-              <GridItem order={{ base: 2, lg: index % 2 === 0 ? 1 : 2 }}>
-                <MotionBox
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8 }}
-                  viewport={{ once: true }}
+            {/* Section Header */}
+            <MotionBox
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+              textAlign="center"
+              mb={12}
+            >
+              <VStack gap={4}>
+                <Box
+                  // p={4}
+                  bgGradient={section.gradient}
+                  borderRadius="2xl"
+                  color="white"
+                  fontSize="3xl"
+                  display="inline-flex"
                 >
-                  <VStack align="start" gap={6}>
-                    <HStack gap={4} align="center">
-                      <Box
-                        p={4}
-                        bg={resource.gradient}
-                        borderRadius="xl"
-                        color="primary.500"
-                        fontSize="2xl"
-                      >
-                        <Icon as={resource.icon} />
-                      </Box>
-                      <VStack align="start" gap={1}>
-                        <Text fontSize="sm" color="primary.500" fontWeight="600" textTransform="uppercase">
-                          {resource.subtitle}
-                        </Text>
-                        <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight="700" color="text">
-                          {resource.title}
-                        </Text>
-                      </VStack>
-                    </HStack>
-
-                    <Text fontSize={{ base: "md", md: "lg" }} color="muted" lineHeight="1.7">
-                      {resource.description}
-                    </Text>
-
-                    <HStack gap={4} wrap="wrap">
-                      <Link to="/services" style={{ textDecoration: 'none' }}>
-                        <Button
-                          colorScheme="primary"
-                          borderRadius="full"
-                          px={6}
-                          fontWeight="600"
-                          _hover={{ transform: "translateY(-2px)" }}
-                          transition="all 0.3s ease"
-                        >
-                          Learn More
-                        </Button>
-                      </Link>
-                      <Link to="/about#career" style={{ textDecoration: 'none' }}>
-                        <Button
-                          variant="outline"
-                          borderColor="primary.500"
-                          color="primary.500"
-                          borderRadius="full"
-                          px={6}
-                          fontWeight="600"
-                          _hover={{ bg: "primary.50" }}
-                          transition="all 0.3s ease"
-                        >
-                          Contact Us
-                        </Button>
-                      </Link>
-                    </HStack>
-                  </VStack>
-                </MotionBox>
-              </GridItem>
-
-              {/* Image Side */}
-              <GridItem order={{ base: 1, lg: index % 2 === 0 ? 2 : 1 }}>
-                <MotionBox
-                  initial={{ opacity: 0, x: index % 2 === 0 ? 50 : -50 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  viewport={{ once: true }}
+                  <Icon as={section.icon} />
+                </Box>
+                <Text
+                  fontSize={{ base: "3xl", md: "4xl" }}
+                  fontWeight="700"
+                  color="text"
                 >
-                  <Box
-                    position="relative"
-                    borderRadius="2xl"
-                    overflow="hidden"
-                    shadow="2xl"
-                    _hover={{ transform: "translateY(-4px)", shadow: "3xl" }}
-                    transition="all 0.4s ease"
-                  >
-                    <Image
-                      src={resource.image}
-                      alt={resource.title}
-                      w="full"
-                      h={{ base: "300px", md: "400px" }}
-                      objectFit="cover"
-                    />
-                    <Box
-                      position="absolute"
-                      inset={0}
-                      bg={resource.gradient}
-                      opacity={0.1}
-                    />
-                    
-                    {/* Floating Badge */}
-                    <Box
-                      position="absolute"
-                      top={6}
-                      left={6}
-                      bg="white"
-                      px={4}
-                      py={2}
-                      borderRadius="full"
-                      shadow="lg"
-                      backdropFilter="blur(10px)"
+                  {section.title}
+                </Text>
+                <Text
+                  fontSize={{ base: "md", md: "lg" }}
+                  color="muted"
+                  maxW="2xl"
+                  lineHeight="1.7"
+                >
+                  {section.description}
+                </Text>
+              </VStack>
+            </MotionBox>
+
+            {/* Documentation Section - Expandable/Collapsible Design */}
+            {section.id === "documentation" && section.items && (
+              <Container maxW="7xl">
+                <VStack gap={0} align="stretch">
+                  {section.items.map((item, itemIndex) => (
+                    <MotionBox
+                      key={itemIndex}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: itemIndex * 0.1 }}
+                      viewport={{ once: true }}
                     >
-                      <Text fontSize="sm" fontWeight="600" color="text">
-                        {resource.subtitle}
-                      </Text>
-                    </Box>
-                  </Box>
-                </MotionBox>
-              </GridItem>
-            </Grid>
-
-            {/* Resource-specific content */}
-            {resource.id === "trusted-center" && resource.sections && (
-              <MotionBox
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                mt={16}
-              >
-                <VStack gap={12}>
-                  {resource.sections.map((section, idx) => (
-                    <VStack key={idx} gap={6} w="full">
-                      <HStack gap={3} justify="center">
-                        <Icon as={section.icon} color="primary.500" fontSize="xl" />
-                        <Text fontSize="2xl" fontWeight="700" color="text">
-                          {section.title}
-                        </Text>
-                      </HStack>
-                      <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={4} w="full">
-                        {section.items.map((item, itemIdx) => (
-                          <Box 
-                            key={itemIdx} 
-                            border="1px" 
-                            borderColor="gray.200" 
-                            borderRadius="lg" 
-                            p={4}
-                            _hover={{ shadow: "md" }} 
-                            transition="all 0.3s ease"
-                          >
-                            <VStack gap={3} align="start">
-                              <HStack gap={3} justify="space-between" w="full">
-                                <Text fontSize="md" fontWeight="600" color="text">
-                                  {item.name}
+                      <Box
+                        position="relative"
+                        borderBottom="2px solid"
+                        borderColor="gray.200"
+                        _last={{ borderBottom: "none" }}
+                        transition="all 0.3s ease"
+                        cursor="pointer"
+                        onClick={() => toggleDoc(itemIndex)}
+                        role="button"
+                        aria-expanded={openDocIndex === itemIndex}
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault()
+                            toggleDoc(itemIndex)
+                          }
+                        }}
+                        _hover={{
+                          bg: "gray.50"
+                        }}
+                      >
+                        <Box py={6} px={6}>
+                          <HStack justify="space-between" align="center" mb={0}>
+                            {/* Numbering Circle */}
+                            <HStack gap={4} flex="1" align="center">
+                              <Box
+                                minW="48px"
+                                h="48px"
+                                borderRadius="full"
+                                bgGradient={section.gradient}
+                                color="primary.500"
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                fontSize="xl"
+                                fontWeight="700"
+                                flexShrink={0}
+                              >
+                                {String(itemIndex + 1).padStart(2, '0')}
+                              </Box>
+                              
+                              {/* Title and Subtitle */}
+                              <VStack align="start" gap={1} flex="1">
+                                <Text
+                                  fontSize={{ base: "lg", md: "xl" }}
+                                  fontWeight="700"
+                                  color={openDocIndex === itemIndex ? "primary.600" : "text"}
+                                  lineHeight="1.3"
+                                  transition="color 0.3s ease"
+                                >
+                                  {item.title}
                                 </Text>
-                                {'status' in item && (
-                                  <Badge colorScheme="green" variant="subtle" px={2} py={1} borderRadius="full" fontSize="xs">
-                                    {item.status}
-                                  </Badge>
+                                {item.subtitle && (
+                                  <Text
+                                    fontSize={{ base: "sm", md: "md" }}
+                                    color="muted"
+                                    fontWeight="500"
+                                    lineHeight="1.4"
+                                  >
+                                    {item.subtitle}
+                                  </Text>
                                 )}
-                                {'date' in item && (
-                                  <Badge colorScheme="blue" variant="subtle" px={2} py={1} borderRadius="full" fontSize="xs">
-                                    {String(item.date)}
-                                  </Badge>
+                              </VStack>
+                            </HStack>
+                            
+                            {/* Chevron Icon */}
+                            <Icon
+                              as={HiChevronDown}
+                              fontSize="xl"
+                              color={openDocIndex === itemIndex ? "primary.500" : "gray.400"}
+                              transition="all 0.3s ease"
+                              transform={openDocIndex === itemIndex ? "rotate(180deg)" : "rotate(0deg)"}
+                              ml={3}
+                              flexShrink={0}
+                            />
+                          </HStack>
+                          
+                          {/* Expanded Content */}
+                          <Box
+                            opacity={openDocIndex === itemIndex ? 1 : 0}
+                            maxHeight={openDocIndex === itemIndex ? "600px" : "0"}
+                            overflow="hidden"
+                            transition="all 0.5s ease"
+                            mt={openDocIndex === itemIndex ? 6 : 0}
+                          >
+                            <HStack
+                              align="start"
+                              gap={6}
+                              pl={4}
+                            >
+                              {/* Image Section */}
+                              {item.image && (
+                                <Box
+                                  flexShrink={0}
+                                  w={{ base: "120px", md: "180px" }}
+                                  h={{ base: "120px", md: "180px" }}
+                                  borderRadius="lg"
+                                  overflow="hidden"
+                                  bg="white"
+                                  border="1px solid"
+                                  borderColor="gray.200"
+                                  display="flex"
+                                  alignItems="center"
+                                  justifyContent="center"
+                                  p={4}
+                                >
+                                  <Image
+                                    src={item.image}
+                                    alt={item.title}
+                                    w="full"
+                                    h="full"
+                                    objectFit="contain"
+                                  />
+                                </Box>
+                              )}
+                              
+                              {/* Content Section */}
+                              <VStack align="start" gap={4} flex="1">
+                                <Text
+                                  fontSize="md"
+                                  color="muted"
+                                  lineHeight="1.8"
+                                >
+                                  {item.description}
+                                </Text>
+                                
+                                {/* Visit Us Button */}
+                                {item.link && (
+                                  <ChakraLink
+                                    href={item.link}
+                                    target={item.isExternal ? "_blank" : "_self"}
+                                    rel={item.isExternal ? "noopener noreferrer" : undefined}
+                                    style={{ textDecoration: 'none' }}
+                                  >
+                                    <Button
+                                      colorScheme="primary"
+                                      bg="primary.500"
+                                      size="md"
+                                      fontWeight="600"
+                                      px={6}
+                                      _hover={{
+                                        transform: "translateY(-2px)",
+                                        shadow: "md",
+                                        bg: "primary.600"
+                                      }}
+                                      transition="all 0.3s ease"
+                                    >
+                                      Visit Us <Icon as={HiArrowRight} ml={2} />
+                                    </Button>
+                                  </ChakraLink>
                                 )}
-                                {'type' in item && (
-                                  <Icon as={HiDocumentText} color="primary.500" />
-                                )}
-                              </HStack>
-                              <Text fontSize="sm" color="muted">
-                                {item.description}
-                              </Text>
-                            </VStack>
+                              </VStack>
+                            </HStack>
                           </Box>
-                        ))}
-                      </Grid>
-                    </VStack>
+                        </Box>
+                      </Box>
+                    </MotionBox>
                   ))}
                 </VStack>
-              </MotionBox>
+              </Container>
             )}
 
-            {resource.id === "tools" && resource.categories && (
-              <MotionBox
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                mt={16}
+            {/* Other Sections - Regular Grid Design */}
+            {section.id !== "documentation" && section.items && (
+              <SimpleGrid
+                columns={{ base: 1, md: 2 }}
+                gap={6}
               >
-                <VStack gap={12}>
-                  {resource.categories.map((category, idx) => (
-                    <VStack key={idx} gap={6} w="full">
-                      <HStack gap={3} justify="center">
-                        <Icon as={category.icon} color="primary.500" fontSize="xl" />
-                        <Text fontSize="2xl" fontWeight="700" color="text">
-                          {category.title}
-                        </Text>
-                      </HStack>
-                      <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={4} w="full">
-                        {category.tools.map((tool, toolIdx) => (
-                          <Box 
-                            key={toolIdx} 
-                            border="1px" 
-                            borderColor="gray.200" 
-                            borderRadius="lg" 
-                            p={4}
-                            _hover={{ shadow: "md", transform: "translateY(-2px)" }} 
-                            transition="all 0.3s ease"
-                            cursor="pointer"
-                          >
-                            <VStack gap={3} align="start">
-                              <HStack gap={3} justify="space-between" w="full">
-                                <Text fontSize="md" fontWeight="600" color="text">
-                                  {tool.name}
-                                </Text>
-                                <HStack gap={2}>
-                                  {'usage' in tool && (
-                                    <Badge colorScheme="blue" variant="subtle" px={2} py={1} borderRadius="full" fontSize="xs">
-                                      {tool.usage}
-                                    </Badge>
-                                  )}
-                                  {'downloads' in tool && (
-                                    <Badge colorScheme="green" variant="subtle" px={2} py={1} borderRadius="full" fontSize="xs">
-                                      {String(tool.downloads)} downloads
-                                    </Badge>
-                                  )}
-                                  {'completions' in tool && (
-                                    <Badge colorScheme="purple" variant="subtle" px={2} py={1} borderRadius="full" fontSize="xs">
-                                      {tool.completions} completed
-                                    </Badge>
-                                  )}
-                                </HStack>
-                              </HStack>
-                              <Text fontSize="sm" color="muted">
-                                {tool.description}
-                              </Text>
-                              <Button
-                                size="sm"
-                                colorScheme="primary"
-                                variant="ghost"
-                                fontSize="xs"
-                                _hover={{ bg: "primary.50" }}
-                                onClick={tool.name === "ROI Calculator" ? openROICalculator : undefined}
+                {section.items.map((item, itemIndex) => (
+                  <MotionBox
+                    key={itemIndex}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: itemIndex * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    {item.isExternal ? (
+                      <ChakraLink 
+                        href={item.link} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        style={{ textDecoration: 'none' }}
+                      >
+                        <Box
+                          p={6}
+                          border="1px solid"
+                          borderColor="gray.200"
+                          borderRadius="xl"
+                          transition="all 0.3s ease"
+                          cursor="pointer"
+                          h="full"
+                          _hover={{
+                            borderColor: "primary.400",
+                            transform: "translateY(-4px)",
+                            shadow: "lg"
+                          }}
+                        >
+                          <VStack align="start" gap={3}>
+                            <Text
+                              fontSize="lg"
+                              fontWeight="600"
+                              color="text"
+                              lineHeight="1.4"
+                            >
+                              {item.title}
+                            </Text>
+                            <Text
+                              fontSize="sm"
+                              color="muted"
+                              lineHeight="1.6"
+                            >
+                              {item.description}
+                            </Text>
+                            <HStack gap={2} mt={2}>
+                              <Text
+                                fontSize="sm"
+                                color="primary.500"
+                                fontWeight="600"
                               >
-                                <Icon as={tool.type === "calculator" ? HiCalculator : 
-                                         tool.type === "template" ? HiArrowDownTray : HiChartBar} mr={2} />
-                                {tool.type === "calculator" ? "Use Calculator" : 
-                                 tool.type === "template" ? "Download" : "Take Assessment"}
-                              </Button>
-                            </VStack>
-                          </Box>
-                        ))}
-                      </Grid>
-                    </VStack>
-                  ))}
-                </VStack>
-              </MotionBox>
+                                Visit Resource
+                              </Text>
+                              <Icon as={HiArrowRight} color="primary.500" fontSize="sm" />
+                            </HStack>
+                          </VStack>
+                        </Box>
+                      </ChakraLink>
+                    ) : (
+                      <Link to={item.link || "#"} style={{ textDecoration: 'none' }}>
+                        <Box
+                          p={6}
+                          border="1px solid"
+                          borderColor="gray.200"
+                          borderRadius="xl"
+                          transition="all 0.3s ease"
+                          cursor="pointer"
+                          h="full"
+                          _hover={{
+                            borderColor: "primary.400",
+                            transform: "translateY(-4px)",
+                            shadow: "lg"
+                          }}
+                        >
+                          <VStack align="start" gap={3}>
+                            <Text
+                              fontSize="lg"
+                              fontWeight="600"
+                              color="text"
+                              lineHeight="1.4"
+                            >
+                              {item.title}
+                            </Text>
+                            <Text
+                              fontSize="sm"
+                              color="muted"
+                              lineHeight="1.6"
+                            >
+                              {item.description}
+                            </Text>
+                            <HStack gap={2} mt={2}>
+                              <Text
+                                fontSize="sm"
+                                color="primary.500"
+                                fontWeight="600"
+                              >
+                                Learn More
+                              </Text>
+                              <Icon as={HiArrowRight} color="primary.500" fontSize="sm" />
+                            </HStack>
+                          </VStack>
+                        </Box>
+                      </Link>
+                    )}
+                  </MotionBox>
+                ))}
+              </SimpleGrid>
             )}
           </Container>
         </Box>
@@ -530,12 +692,6 @@ const ResourcesPage = () => {
           </Box>
         </MotionBox>
       </Container>
-
-      {/* ROI Calculator Modal */}
-      <ROICalculatorModal 
-        isOpen={isROIModalOpen} 
-        onClose={closeROICalculator} 
-      />
     </Box>
   )
 }
