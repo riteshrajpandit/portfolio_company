@@ -9,7 +9,6 @@ import {
   GridItem,
   Icon,
   Image,
-  SimpleGrid,
 } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
@@ -318,7 +317,7 @@ const ServicesPage = () => {
                             Key Features
                           </Text>
                           <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={3} w="full">
-                            {'keyFeatures' in service && service.keyFeatures.map((feature, idx) => (
+                            {'keyFeatures' in service && service.keyFeatures?.map((feature, idx) => (
                               <HStack key={idx} gap={3} align="start">
                                 <Icon as={HiCheckCircle} color="green.500" fontSize="lg" mt={1} flexShrink={0} />
                                 <Text fontSize="sm" color="text" fontWeight="500">
@@ -334,7 +333,7 @@ const ServicesPage = () => {
                             <Text fontSize="lg" fontWeight="600" color="text">
                               Business Benefits
                             </Text>
-                            {'businessBenefits' in service && service.businessBenefits.map((benefit, idx) => (
+                            {'businessBenefits' in service && service.businessBenefits?.map((benefit, idx) => (
                               <HStack key={idx} gap={3} align="start">
                                 <Icon as={HiCheckCircle} color="blue.500" fontSize="lg" mt={1} flexShrink={0} />
                                 <Text fontSize="sm" color="text" fontWeight="500">
@@ -348,7 +347,7 @@ const ServicesPage = () => {
                             <Text fontSize="lg" fontWeight="600" color="text">
                               Technological Adaptation
                             </Text>
-                            {'technologicalAdaptation' in service && service.technologicalAdaptation.map((tech, idx) => (
+                            {'technologicalAdaptation' in service && service.technologicalAdaptation?.map((tech, idx) => (
                               <HStack key={idx} gap={3} align="start">
                                 <Icon as={HiCheckCircle} color="purple.500" fontSize="lg" mt={1} flexShrink={0} />
                                 <Text fontSize="sm" color="text" fontWeight="500">
@@ -368,7 +367,7 @@ const ServicesPage = () => {
                           <Text fontSize="lg" fontWeight="600" color="text">
                             We Bring
                           </Text>
-                          {'weBring' in service && service.weBring.map((item, idx) => (
+                          {'weBring' in service && service.weBring?.map((item, idx) => (
                             <HStack key={idx} gap={3} align="start">
                               <Icon as={HiCheckCircle} color="green.500" fontSize="lg" mt={1} flexShrink={0} />
                               <Text fontSize="sm" color="text" fontWeight="500">
@@ -382,7 +381,7 @@ const ServicesPage = () => {
                           <Text fontSize="lg" fontWeight="600" color="text">
                             Steps We Care
                           </Text>
-                          {'steps' in service && service.steps.map((step, idx) => (
+                          {'steps' in service && service.steps?.map((step, idx) => (
                             <HStack key={idx} gap={3} align="start">
                               <Icon as={HiCheckCircle} color="emerald.500" fontSize="lg" mt={1} flexShrink={0} />
                               <Text fontSize="sm" color="text" fontWeight="500">
@@ -401,7 +400,7 @@ const ServicesPage = () => {
                           <Text fontSize="lg" fontWeight="600" color="text">
                             We Assure
                           </Text>
-                          {'weAssure' in service && service.weAssure.map((item, idx) => (
+                          {'weAssure' in service && service.weAssure?.map((item, idx) => (
                             <HStack key={idx} gap={3} align="start">
                               <Icon as={HiCheckCircle} color="purple.500" fontSize="lg" mt={1} flexShrink={0} />
                               <Text fontSize="sm" color="text" fontWeight="500">
@@ -415,7 +414,7 @@ const ServicesPage = () => {
                           <Text fontSize="lg" fontWeight="600" color="text">
                             Business Services
                           </Text>
-                          {'businessServices' in service && service.businessServices.map((svc, idx) => (
+                          {'businessServices' in service && service.businessServices?.map((svc, idx) => (
                             <HStack key={idx} gap={3} align="start">
                               <Icon as={HiCheckCircle} color="pink.500" fontSize="lg" mt={1} flexShrink={0} />
                               <Text fontSize="sm" color="text" fontWeight="500">
@@ -434,7 +433,7 @@ const ServicesPage = () => {
                           Top Features
                         </Text>
                         <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={3} w="full">
-                          {'topFeatures' in service && service.topFeatures.map((feature, idx) => (
+                          {'topFeatures' in service && service.topFeatures?.map((feature, idx) => (
                             <HStack key={idx} gap={3} align="start">
                               <Icon as={HiCheckCircle} color="orange.500" fontSize="lg" mt={1} flexShrink={0} />
                               <Text fontSize="sm" color="text" fontWeight="500">

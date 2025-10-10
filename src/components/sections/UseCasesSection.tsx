@@ -24,7 +24,7 @@ interface UseCasesSectionProps {
 
 const UseCasesSection = ({ useCases }: UseCasesSectionProps) => {
   return (
-    <Box py={{ base: 16, md: 24 }} bg="white">
+    <Box bg="white">
       <Container maxW="7xl" px={{ base: 4, md: 6 }}>
         {/* Section Header */}
         <MotionBox
@@ -37,7 +37,7 @@ const UseCasesSection = ({ useCases }: UseCasesSectionProps) => {
         >
           <Heading
             as="h2"
-            fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
+            fontSize={{ base: "3xl", md: "4xl", lg: "4xl" }}
             fontWeight="700"
             color="primary.500"
             mb={4}

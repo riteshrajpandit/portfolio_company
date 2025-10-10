@@ -2,12 +2,8 @@ import {
   Box,
   Container,
   Text,
-  Button,
-  HStack,
 } from "@chakra-ui/react"
-import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
-import { HiArrowRight } from "react-icons/hi2"
 
 const MotionContainer = motion(Container)
 
