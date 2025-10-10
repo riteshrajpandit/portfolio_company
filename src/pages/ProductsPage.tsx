@@ -36,10 +36,26 @@ const products = [
       "24/7 intelligent monitoring and alerts"
     ],
     useCases: [
-      { title: "Document Processing", description: "Automatically extract and process information from documents" },
-      { title: "Quality Control", description: "AI-powered visual inspection and defect detection" },
-      { title: "Customer Service", description: "Intelligent chatbots and automated support systems" },
-      { title: "Fraud Detection", description: "Real-time transaction monitoring and risk assessment" }
+      { 
+        title: "Document Processing", 
+        description: "Automatically extract and process information from documents using advanced OCR and NLP technologies",
+        animation: "/animations/services/documentOCR.lottie"
+      },
+      { 
+        title: "Quality Control", 
+        description: "AI-powered visual inspection and defect detection for manufacturing excellence",
+        animation: "/animations/services/qualityControl.lottie"
+      },
+      { 
+        title: "Customer Service", 
+        description: "Intelligent chatbots and automated support systems for 24/7 customer engagement",
+        animation: "/animations/services/customerSupport.lottie"
+      },
+      { 
+        title: "Fraud Detection", 
+        description: "Real-time transaction monitoring and risk assessment with machine learning algorithms",
+        animation: "/animations/services/fraudDetection.lottie"
+      }
     ]
   },
   {
