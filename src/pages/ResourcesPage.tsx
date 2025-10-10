@@ -75,71 +75,45 @@ const resourceSections: ResourceSection[] = [
       }
     ]
   },
-  // {
-  //   id: "end-user-training",
-  //   title: "End User Training",
-  //   description: "Training resources for end users and administrators",
-  //   icon: HiAcademicCap,
-  //   gradient: "linear(135deg, purple.400, purple.600)",
-  //   items: [
-  //     {
-  //       title: "Getting Started Tutorials",
-  //       description: "Quick start guides for new users",
-  //       link: "#",
-  //       isExternal: false
-  //     },
-  //     {
-  //       title: "Video Training Library",
-  //       description: "Comprehensive video tutorials and walkthroughs",
-  //       link: "#",
-  //       isExternal: false
-  //     },
-  //     {
-  //       title: "Administrator Training",
-  //       description: "Advanced training for system administrators",
-  //       link: "#",
-  //       isExternal: false
-  //     },
-  //     {
-  //       title: "Certification Programs",
-  //       description: "Professional certification courses",
-  //       link: "#",
-  //       isExternal: false
-  //     }
-  //   ]
-  // },
+  {
+    id: "end-user-training",
+    title: "End User Training",
+    description: "Training resources for end users and administrators",
+    icon: HiAcademicCap,
+    gradient: "linear(135deg, purple.400, purple.600)",
+    items: [
+      {
+        title: "Getting Started Tutorials",
+        description: "Quick start guides for new users",
+        link: "#",
+        isExternal: false
+      },
+      {
+        title: "Video Training Library",
+        description: "Comprehensive video tutorials and walkthroughs",
+        link: "#",
+        isExternal: false
+      },
+      {
+        title: "Administrator Training",
+        description: "Advanced training for system administrators",
+        link: "#",
+        isExternal: false
+      },
+      {
+        title: "Certification Programs",
+        description: "Professional certification courses",
+        link: "#",
+        isExternal: false
+      }
+    ]
+  },
   {
     id: "ioxet-gallery",
     title: "IOXET Gallery",
     description: "Showcase of IOXET solutions and customer success stories",
     icon: HiPhoto,
     gradient: "linear(135deg, green.400, green.600)",
-    items: [
-      {
-        title: "Project Showcase",
-        description: "Visual portfolio of completed projects",
-        link: "#",
-        isExternal: false
-      },
-      {
-        title: "Customer Success Stories",
-        description: "Real-world implementations and results",
-        link: "#",
-        isExternal: false
-      },
-      {
-        title: "Product Screenshots",
-        description: "Visual tour of our products and features",
-        link: "#",
-        isExternal: false
-      },
-      {
-        title: "Video Demos",
-        description: "Interactive product demonstrations",
-        link: "#",
-        isExternal: false
-      }
-    ]
   },
   {
     id: "case-studies",
@@ -506,8 +480,72 @@ const ResourcesPage = () => {
               </Container>
             )}
 
+            {/* IOXET Gallery Section - Image Grid */}
+            {section.id === "ioxet-gallery" && (
+              <VStack gap={8}>
+                <SimpleGrid
+                  columns={{ base: 2, md: 4 }}
+                  gap={{ base: 4, md: 6 }}
+                  w="full"
+                >
+                  {[1, 2, 3, 4].map((num) => (
+                    <MotionBox
+                      key={num}
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.5, delay: num * 0.1 }}
+                      viewport={{ once: true }}
+                    >
+                      <Box
+                        position="relative"
+                        borderRadius="xl"
+                        overflow="hidden"
+                        shadow="md"
+                        _hover={{
+                          transform: "translateY(-4px)",
+                          shadow: "xl",
+                        }}
+                        transition="all 0.3s ease"
+                        bg="gray.100"
+                      >
+                        <Image
+                          src={`/ioxet-gallery/image${num}.jpg`}
+                          alt={`Gallery image ${num}`}
+                          w="full"
+                          h={{ base: "150px", md: "200px" }}
+                          objectFit="cover"
+                        />
+                      </Box>
+                    </MotionBox>
+                  ))}
+                </SimpleGrid>
+                
+                {/* View More Button */}
+                <Link to="/gallery" style={{ textDecoration: 'none' }}>
+                  <Button
+                    size="lg"
+                    colorScheme="primary"
+                    bg="primary.500"
+                    borderRadius="full"
+                    px={8}
+                    py={6}
+                    fontSize="md"
+                    fontWeight="600"
+                    _hover={{
+                      transform: "translateY(-2px)",
+                      shadow: "lg",
+                      bg: "primary.600"
+                    }}
+                    transition="all 0.3s ease"
+                  >
+                    View More Photos <Icon as={HiArrowRight} ml={2} />
+                  </Button>
+                </Link>
+              </VStack>
+            )}
+
             {/* Other Sections - Regular Grid Design */}
-            {section.id !== "documentation" && section.items && (
+            {section.id !== "documentation" && section.id !== "ioxet-gallery" && section.items && (
               <SimpleGrid
                 columns={{ base: 1, md: 2 }}
                 gap={6}

@@ -102,31 +102,37 @@ const megaMenuItems: MegaMenuItem[] = [
         title: 'Consulting Services',
         items: [
           { 
-            name: 'IT Consulting', 
-            path: '/services#it-consulting',
+            name: 'Custom Software Development', 
+            path: '/services#custom-software',
             description: 'Strategic technology guidance for digital transformation',
             icon: FaBriefcase
           },
           { 
-            name: 'Security Consulting', 
-            path: '/services#security',
-            description: 'Comprehensive cybersecurity assessment and implementation',
+            name: 'AI Integration', 
+            path: '/services#ai-strategy',
+            description: 'Comprehensive AI integration services for businesses',
+            icon: FaShieldAlt
+          },
+          { 
+            name: 'IT Consulting', 
+            path: '/services#it-consulting',
+            description: 'Comprehensive IT consulting services for businesses',
             icon: FaShieldAlt
           }
         ]
       },
       {
-        title: 'Training & Support',
+        title: 'Web 3 and Workshops',
         items: [
           { 
-            name: 'Workshop & Training', 
-            path: '/services#workshop-training',
+            name: 'Web 3 and Blockchain', 
+            path: '/services#blockchain',
             description: 'Professional development and skill enhancement programs',
             icon: FaGraduationCap
           },
           { 
-            name: '24/7 Support', 
-            path: '/services#support',
+            name: 'Workshop & Training', 
+            path: '/services#workshop-training',
             description: 'Round-the-clock technical support and maintenance',
             icon: FaUsers
           }
@@ -145,7 +151,7 @@ const megaMenuItems: MegaMenuItem[] = [
     path: '/resources',
     sections: [
       {
-        title: 'Trust & Security',
+        title: 'Learn & Grow',
         items: [
           { 
             name: 'FAQs', 
@@ -168,7 +174,7 @@ const megaMenuItems: MegaMenuItem[] = [
         ]
       },
       {
-        title: 'Tools & Utilities',
+        title: 'Success Story',
         items: [
           { 
             name: 'IOXET Gallery', 
