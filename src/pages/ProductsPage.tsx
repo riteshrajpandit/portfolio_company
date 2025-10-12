@@ -38,7 +38,7 @@ const products = [
     useCases: [
       { 
         title: "Document Processing", 
-        description: "Automatically extract and process information from documents using advanced OCR and NLP technologies",
+        description: "Automatically extract and process information from documents using advanced OCR & NLP technologies",
         animation: "/animations/services/documentOCR.lottie"
       },
       { 
