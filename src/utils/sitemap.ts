@@ -8,7 +8,7 @@ interface SiteMapURL {
   priority?: number
 }
 
-const baseURL = 'https://ioxetlabs.com' // Replace with your actual domain
+const baseURL = 'https://ioxet.com' // Replace with your actual domain
 
 export const siteMapURLs: SiteMapURL[] = [
   {
@@ -48,10 +48,22 @@ export const siteMapURLs: SiteMapURL[] = [
     priority: 0.8
   },
   {
+    url: '/gallery',
+    lastModified: new Date().toISOString().split('T')[0],
+    changeFrequency: 'monthly',
+    priority: 0.7
+  },
+  {
     url: '/contact',
     lastModified: new Date().toISOString().split('T')[0],
     changeFrequency: 'monthly',
     priority: 0.6
+  },
+  {
+    url: '/sitemap',
+    lastModified: new Date().toISOString().split('T')[0],
+    changeFrequency: 'monthly',
+    priority: 0.4
   },
   {
     url: '/privacy',
@@ -173,6 +185,16 @@ export const getPageMeta = (page: string) => {
       title: 'Terms of Service - IOXET Labs Service Agreement',
       description: 'Review our terms of service outlining the conditions for using IOXET Labs services and website.',
       keywords: 'terms of service, service agreement, legal terms, IOXET Labs terms'
+    },
+    '/sitemap': {
+      title: 'Sitemap - Browse All Pages | IOXET Labs',
+      description: 'Browse through all pages on IOXET Labs website. Find products, services, resources, and information quickly and easily.',
+      keywords: 'sitemap, site navigation, website map, all pages, IOXET Labs sitemap'
+    },
+    '/gallery': {
+      title: 'Gallery - Company Photos & Events | IOXET Labs',
+      description: 'Explore photos from IOXET Labs events, team activities, and our workplace culture.',
+      keywords: 'company gallery, team photos, events, IOXET Labs gallery, workplace culture'
     }
   }
 

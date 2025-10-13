@@ -1,56 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://ioxetlabs.com/</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://ioxet.com/</loc>
+    <lastmod>2025-10-13</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://ioxetlabs.com/about</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://ioxet.com/about</loc>
+    <lastmod>2025-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://ioxetlabs.com/products</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://ioxet.com/products</loc>
+    <lastmod>2025-10-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://ioxetlabs.com/services</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://ioxet.com/services</loc>
+    <lastmod>2025-10-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ioxetlabs.com/resources</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://ioxet.com/resources</loc>
+    <lastmod>2025-10-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://ioxetlabs.com/careers</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://ioxet.com/careers</loc>
+    <lastmod>2025-10-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://ioxetlabs.com/contact</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://ioxet.com/gallery</loc>
+    <lastmod>2025-10-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://ioxet.com/contact</loc>
+    <lastmod>2025-10-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://ioxetlabs.com/privacy</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://ioxet.com/sitemap</loc>
+    <lastmod>2025-10-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.4</priority>
+  </url>
+  <url>
+    <loc>https://ioxet.com/privacy</loc>
+    <lastmod>2025-10-13</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://ioxetlabs.com/terms</loc>
-    <lastmod>2024-12-19</lastmod>
+    <loc>https://ioxet.com/terms</loc>
+    <lastmod>2025-10-13</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

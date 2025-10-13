@@ -71,19 +71,20 @@ const megaMenuItems: MegaMenuItem[] = [
         title: 'Core Products',
         items: [
           { 
-            name: 'ERP Solutions', 
-            path: '/products#erp',
-            description: 'Enterprise Resource Planning solutions for streamlined business operations',
-            icon: FaCog,
-            featured: false
-          },
-          { 
             name: 'Amigaa Platform', 
             path: '/products#amigaa',
             description: 'Advanced AI-powered platform for intelligent automation',
             icon: FaRocket,
             isNew: false
+          },
+          { 
+            name: 'ERP Solutions', 
+            path: '/products#erp',
+            description: 'Enterprise Resource Planning solutions for streamlined business operations',
+            icon: FaCog,
+            featured: false
           }
+          
         ]
       }
     ],

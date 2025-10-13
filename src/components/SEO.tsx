@@ -55,7 +55,7 @@ export const SEO = ({ title, description, keywords }: SEOProps) => {
     updatePropertyTag('og:title', finalTitle)
     updatePropertyTag('og:description', finalDescription)
     updatePropertyTag('og:type', 'website')
-    updatePropertyTag('og:url', `https://ioxetlabs.com${location.pathname}`)
+    updatePropertyTag('og:url', `https://ioxet.com${location.pathname}`)
     updatePropertyTag('og:site_name', 'IOXET Labs')
     
     // Twitter Card tags
@@ -68,7 +68,7 @@ export const SEO = ({ title, description, keywords }: SEOProps) => {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "IOXET Labs",
-      "url": "https://ioxetlabs.com",
+      "url": "https://ioxet.com",
       "description": "Leading software development company specializing in ERP solutions, AI automation, web development, and IT consulting services.",
       "founder": {
         "@type": "Person",

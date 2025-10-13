@@ -13,6 +13,7 @@ import CareersPage from './pages/CareersPage'
 import GalleryPage from './pages/GalleryPage'
 import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import TermsOfServicePage from './pages/TermsOfServicePage'
+import SitemapPage from './pages/SitemapPage'
 import NotFoundPage from './pages/NotFoundPage'
 import ScrollToTopButton from './components/ScrollToTopButton'
 import ScrollToTop from './components/ScrollToTop'
@@ -37,6 +38,7 @@ function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/privacy" element={<PrivacyPolicyPage />} />
             <Route path="/terms" element={<TermsOfServicePage />} />
+            <Route path="/sitemap" element={<SitemapPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
           

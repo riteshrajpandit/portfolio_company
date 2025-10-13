@@ -257,7 +257,7 @@ const UseCaseCard = ({ useCase, index }: { useCase: UseCase; index: number }) =>
 
           {/* Text Content - Static, no hover effects */}
           <VStack 
-            spacing={3}
+            gap={3}
             align="flex-start"
             w="full"
             flex={1}
