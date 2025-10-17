@@ -240,13 +240,13 @@ const megaMenuItems: MegaMenuItem[] = [
             path: '/careers',
             description: 'Join our growing team and build the future together',
             icon: FaBriefcase
-          },
-          { 
-            name: 'Culture & Benefits', 
-            path: '/careers#culture',
-            description: 'Learn about our work culture and employee benefits',
-            icon: FaUsers
           }
+          // { 
+          //   name: 'Culture & Benefits', 
+          //   path: '/careers#culture',
+          //   description: 'Learn about our work culture and employee benefits',
+          //   icon: FaUsers
+          // }
         ]
       }
     ],

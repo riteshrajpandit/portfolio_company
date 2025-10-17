@@ -170,9 +170,8 @@ export const CareersPage = () => {
     : openPositions.filter(position => position.department === selectedDepartment)
 
   const handleApplyClick = (position: typeof openPositions[0]) => {
-    // For now, redirect to contact page. In future, this will open a custom application form for the specific position
-    console.log('Applying for position:', position.title)
-    window.open('/contact', '_blank')
+    // Redirect to apply page with position details
+    window.location.href = `/apply?position=${position.id}&title=${encodeURIComponent(position.title)}`
   }
   return (
     <Box>

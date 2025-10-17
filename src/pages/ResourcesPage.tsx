@@ -81,32 +81,6 @@ const resourceSections: ResourceSection[] = [
     description: "Training resources for end users and administrators",
     icon: HiAcademicCap,
     gradient: "linear(135deg, purple.400, purple.600)",
-    items: [
-      {
-        title: "Getting Started Tutorials",
-        description: "Quick start guides for new users",
-        link: "#",
-        isExternal: false
-      },
-      {
-        title: "Video Training Library",
-        description: "Comprehensive video tutorials and walkthroughs",
-        link: "#",
-        isExternal: false
-      },
-      {
-        title: "Administrator Training",
-        description: "Advanced training for system administrators",
-        link: "#",
-        isExternal: false
-      },
-      {
-        title: "Certification Programs",
-        description: "Professional certification courses",
-        link: "#",
-        isExternal: false
-      }
-    ]
   },
   {
     id: "ioxet-gallery",
@@ -118,35 +92,9 @@ const resourceSections: ResourceSection[] = [
   {
     id: "case-studies",
     title: "Case Studies",
-    description: "Comprehensive guides and technical documentation",
+    description: "Real-world success stories and measurable business impact",
     icon: HiClipboardDocumentList,
     gradient: "linear(135deg, orange.400, orange.600)",
-    items: [
-      {
-        title: "Enterprise Transformation",
-        description: "How we helped large enterprises modernize their operations",
-        link: "#",
-        isExternal: false
-      },
-      {
-        title: "Startup Success Stories",
-        description: "Supporting startups from MVP to scale",
-        link: "#",
-        isExternal: false
-      },
-      {
-        title: "Industry-Specific Solutions",
-        description: "Tailored solutions for different industries",
-        link: "#",
-        isExternal: false
-      },
-      {
-        title: "ROI Analysis",
-        description: "Measurable business impact and returns",
-        link: "#",
-        isExternal: false
-      }
-    ]
   },
   {
     id: "whitepapers",
@@ -154,32 +102,6 @@ const resourceSections: ResourceSection[] = [
     description: "In-depth research and analysis on industry trends",
     icon: HiNewspaper,
     gradient: "linear(135deg, pink.400, pink.600)",
-    items: [
-      {
-        title: "Digital Transformation Guide",
-        description: "Complete guide to digital transformation strategies",
-        link: "#",
-        isExternal: false
-      },
-      {
-        title: "AI in Business",
-        description: "Leveraging AI for business growth and efficiency",
-        link: "#",
-        isExternal: false
-      },
-      {
-        title: "Cloud Migration Strategy",
-        description: "Best practices for cloud adoption",
-        link: "#",
-        isExternal: false
-      },
-      {
-        title: "Cybersecurity Trends",
-        description: "Latest trends in enterprise security",
-        link: "#",
-        isExternal: false
-      }
-    ]
   }
 ]
 
@@ -542,6 +464,80 @@ const ResourcesPage = () => {
                   </Button>
                 </Link>
               </VStack>
+            )}
+
+            {/* Coming Soon Sections */}
+            {section.id !== "documentation" && section.id !== "ioxet-gallery" && !section.items && (
+              <MotionBox
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <Box
+                  p={12}
+                  border="2px dashed"
+                  borderColor="gray.300"
+                  borderRadius="2xl"
+                  textAlign="center"
+                  bg="white"
+                  position="relative"
+                  overflow="hidden"
+                >
+                  {/* Background Gradient Overlay */}
+                  <Box
+                    position="absolute"
+                    top={0}
+                    left={0}
+                    right={0}
+                    bottom={0}
+                    bgGradient={section.gradient}
+                    opacity={0.03}
+                    pointerEvents="none"
+                  />
+                  
+                  <VStack gap={4} position="relative" zIndex={1}>
+                    <Box
+                      p={4}
+                      bgGradient={section.gradient}
+                      borderRadius="2xl"
+                      color="white"
+                      fontSize="4xl"
+                      display="inline-flex"
+                    >
+                      <Icon as={section.icon} />
+                    </Box>
+                    <Text
+                      fontSize={{ base: "2xl", md: "3xl" }}
+                      fontWeight="700"
+                      color="text"
+                    >
+                      Coming Soon
+                    </Text>
+                    <Text
+                      fontSize="md"
+                      color="muted"
+                      maxW="xl"
+                      lineHeight="1.7"
+                    >
+                      We're working hard to bring you comprehensive {section.title.toLowerCase()} content. 
+                      Stay tuned for valuable insights and resources.
+                    </Text>
+                    <Box
+                      mt={2}
+                      px={4}
+                      py={2}
+                      bg="gray.100"
+                      borderRadius="full"
+                      display="inline-block"
+                    >
+                      <Text fontSize="sm" color="muted" fontWeight="600">
+                        Expected Launch: Q1 2026
+                      </Text>
+                    </Box>
+                  </VStack>
+                </Box>
+              </MotionBox>
             )}
 
             {/* Other Sections - Regular Grid Design */}
