@@ -6,6 +6,9 @@ import {
   Heading,
   List,
   Stack,
+  LinkBox, 
+  LinkOverlay
+
 } from "@chakra-ui/react"
 import { motion } from "framer-motion"
 
@@ -337,7 +340,21 @@ const TermsOfServicePage = () => {
             <Section title="5. Data Privacy and Security">
               <SubSection title="5.1 Privacy Policy">
                 <Text fontSize="md" color="muted" lineHeight="1.7">
-                  Your use of the Service is subject to Our Privacy Policy, available at www.ioxet.com/privacy, which describes how We collect, use, and protect Your data.
+                  Your use of the Service is subject to Our Privacy Policy, available{" "}
+                  <LinkBox display="inline">
+                    <LinkOverlay 
+                      href="/privacy"
+                      color="primary.500"
+                      // textDecoration="underline"
+                      _hover={{
+                        color: "primary.600",
+                        textDecoration: "underline"
+                      }}
+                    >
+                      here
+                    </LinkOverlay>
+                  </LinkBox>
+                  , which describes how We collect, use, and protect Your data.
                 </Text>
               </SubSection>
 

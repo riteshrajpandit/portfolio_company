@@ -6,8 +6,10 @@ import {
   Heading,
   List,
   Stack,
+  Link as ChakraLink,
 } from "@chakra-ui/react"
 import { motion } from "framer-motion"
+import { Tooltip } from "../components/ui/tooltip"
 
 const MotionBox = motion(Box)
 
@@ -101,7 +103,111 @@ const PrivacyPolicyPage = () => {
             {/* Introduction */}
             <Section title="Introduction">
               <Text fontSize="md" color="muted" lineHeight="1.7">
-                We, IOXET Labs Pvt. Ltd. (together with "Amigaa (amigaa.com)", "ERP/E-commerce ()", "PlayToFit (playto.fit)", "Awiskar (awiskar.com)", and "Company", "we", "us", or "our") respect your privacy and are committed to protecting it through our compliance with this Privacy Policy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our Software as a Service (SaaS) platforms, including any related applications, services, or tools (collectively, the "Service").
+                We, IOXET Labs Pvt. Ltd. (together with{" "}
+                <Tooltip 
+                  content="https://agent.amigaa.com"
+                  openDelay={100}
+                  closeDelay={200}
+                  showArrow
+                >
+                  <ChakraLink 
+                    href="https://agent.amigaa.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    color="primary.500"
+                    fontWeight="600"
+                    textDecoration="underline"
+                    bg="primary.50"
+                    px={1}
+                    borderRadius="sm"
+                    display="inline-block"
+                    _hover={{
+                      color: "primary.600",
+                      bg: "primary.100"
+                    }}
+                  >
+                    Amigaa
+                  </ChakraLink>
+                </Tooltip>
+                ,{" "}
+                <Tooltip 
+                  content="https://oneerp.us"
+                  openDelay={100}
+                  closeDelay={200}
+                  showArrow
+                >
+                  <ChakraLink 
+                    href="https://oneerp.us" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    color="primary.500"
+                    fontWeight="600"
+                    textDecoration="underline"
+                    bg="primary.50"
+                    px={1}
+                    borderRadius="sm"
+                    display="inline-block"
+                    _hover={{
+                      color: "primary.600",
+                      bg: "primary.100"
+                    }}
+                  >
+                    ERP/E-commerce
+                  </ChakraLink>
+                </Tooltip>
+                ,{" "}
+                <Tooltip 
+                  content="https://playto.fit"
+                  openDelay={100}
+                  closeDelay={200}
+                  showArrow
+                >
+                  <ChakraLink 
+                    href="https://playto.fit" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    color="primary.500"
+                    fontWeight="600"
+                    textDecoration="underline"
+                    bg="primary.50"
+                    px={1}
+                    borderRadius="sm"
+                    display="inline-block"
+                    _hover={{
+                      color: "primary.600",
+                      bg: "primary.100"
+                    }}
+                  >
+                    PlayToFit
+                  </ChakraLink>
+                </Tooltip>
+                ,{" "}
+                <Tooltip 
+                  content="https://www.awiskar.com"
+                  openDelay={100}
+                  closeDelay={200}
+                  showArrow
+                >
+                  <ChakraLink 
+                    href="https://www.awiskar.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    color="primary.500"
+                    fontWeight="600"
+                    textDecoration="underline"
+                    bg="primary.50"
+                    px={1}
+                    borderRadius="sm"
+                    display="inline-block"
+                    _hover={{
+                      color: "primary.600",
+                      bg: "primary.100"
+                    }}
+                  >
+                    Awiskar
+                  </ChakraLink>
+                </Tooltip>
+                , and "Company", "we", "us", or "our") respect your privacy and are committed to protecting it through our compliance with this Privacy Policy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our Software as a Service (SaaS) platforms, including any related applications, services, or tools (collectively, the "Service").
               </Text>
               <Text fontSize="md" color="muted" lineHeight="1.7">
                 This Privacy Policy does not apply to content that we process on behalf of our customers, such as our API, or the data that customer use to train the bots for their internal or external use purposes. Our use of that data is governed by our customer agreements covering access to and use of those offerings.

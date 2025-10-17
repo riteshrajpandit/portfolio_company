@@ -202,8 +202,8 @@ const values = [
 
 const stats = [
   { label: "Team Members", value: "13+", icon: HiUserGroup },
-  { label: "Years of Experience", value: "100+", icon: HiTrophy },
-  { label: "Projects Delivered", value: "3+", icon: HiBriefcase },
+  { label: "Years of Collective Experience", value: "100+", icon: HiTrophy },
+  { label: "Concurrent Projects", value: "3+", icon: HiBriefcase },
   { label: "Client Satisfaction", value: "99.9%", icon: HiHeart }
 ]
 

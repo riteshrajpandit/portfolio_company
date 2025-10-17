@@ -17,9 +17,9 @@ import { portfolioImages } from '../../data/portfolioData'
 import ProductModal from '../ui/ProductModal'
 
 const stats = [
-  { value: 100, suffix: "+", label: "Collective Experience" },
-  { value: 3, suffix: "+", label: "Successful Projects" },
-  { value: 3, suffix: "+", label: "Brands" },
+  { value: 100, suffix: "+", label: "Years of Collective Experience" },
+  { value: 3, suffix: "+", label: "Concurrent Projects" },
+  { value: 4, suffix: "", label: "Brands" },
 ]
 
 // Animated Counter Component

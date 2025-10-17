@@ -20,8 +20,8 @@ const brands: Brand[] = [
     logo: '/brands/IoxetLabs.svg'
   },
   {
-    name: 'EaseUp',
-    logo: '/brands/EaseUp.svg'
+    name: 'One ERP',
+    logo: '/brands/OneERP.svg'
   },
   {
     name: 'Amigaa',
@@ -130,8 +130,8 @@ const BrandsSection = () => {
                       <Image
                         src={brand.logo}
                         alt={`${brand.name} logo`}
-                        maxW="100%"
-                        maxH="100%"
+                        maxW="150%"
+                        maxH="150%"
                         objectFit="contain"
                         transition="all 0.3s ease"
                         _groupHover={{
