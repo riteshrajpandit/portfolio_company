@@ -357,22 +357,30 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
                             <AnimatePresence>
                               {activeGridItem === index && index === 0 && (
                                 <motion.div
-                                  initial={{ opacity: 0, scale: 0.5 }}
+                                  initial={{ opacity: 0, scale: 0.8 }}
                                   animate={{ opacity: 1, scale: 1 }}
-                                  exit={{ opacity: 0, scale: 0.5 }}
-                                  transition={{ duration: 0.3, delay: 0.1 }}
+                                  exit={{ opacity: 0, scale: 0.8 }}
+                                  transition={{ 
+                                    duration: 0.4,
+                                    ease: "easeOut"
+                                  }}
+                                  style={{
+                                    position: "absolute",
+                                    top: "50%",
+                                    left: "50%",
+                                    transform: "translate(-50%, -50%)",
+                                  }}
                                 >
                                   <Box
-                                    position="absolute"
-                                    top="50%"
-                                    left="50%"
-                                    transform="translate(-50%, -50%)"
                                     bg="whiteAlpha.200"
                                     borderRadius="full"
                                     p={4}
                                     backdropFilter="blur(10px)"
                                     cursor="pointer"
-                                    _hover={{ bg: "whiteAlpha.300", transform: "translate(-50%, -50%) scale(1.1)" }}
+                                    _hover={{ 
+                                      bg: "whiteAlpha.300",
+                                      transform: "scale(1.1)"
+                                    }}
                                     transition="all 0.3s ease"
                                   >
                                     <HiPlay size="24px" />
@@ -499,22 +507,30 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
                             <AnimatePresence>
                               {activeGridItem === index && index === 0 && (
                                 <motion.div
-                                  initial={{ opacity: 0, scale: 0.5 }}
+                                  initial={{ opacity: 0, scale: 0.8 }}
                                   animate={{ opacity: 1, scale: 1 }}
-                                  exit={{ opacity: 0, scale: 0.5 }}
-                                  transition={{ duration: 0.3, delay: 0.1 }}
+                                  exit={{ opacity: 0, scale: 0.8 }}
+                                  transition={{ 
+                                    duration: 0.4,
+                                    ease: "easeOut"
+                                  }}
+                                  style={{
+                                    position: "absolute",
+                                    top: "50%",
+                                    left: "50%",
+                                    transform: "translate(-50%, -50%)",
+                                  }}
                                 >
                                   <Box
-                                    position="absolute"
-                                    top="50%"
-                                    left="50%"
-                                    transform="translate(-50%, -50%)"
                                     bg="whiteAlpha.200"
                                     borderRadius="full"
                                     p={2}
                                     backdropFilter="blur(10px)"
                                     cursor="pointer"
-                                    _hover={{ bg: "whiteAlpha.300", transform: "translate(-50%, -50%) scale(1.1)" }}
+                                    _hover={{ 
+                                      bg: "whiteAlpha.300",
+                                      transform: "scale(1.1)"
+                                    }}
                                     transition="all 0.3s ease"
                                   >
                                     <HiPlay size="16px" />

@@ -21,6 +21,7 @@ const products = [
     icon: HiSparkles,
     gradient: "linear(135deg, orange.500, red.500)",
     image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=800&h=600&fit=crop&auto=format",
+    url: "https://agent.amigaa.com",
     features: [
       "Machine Learning Models",
       "Natural Language Processing",
@@ -66,6 +67,7 @@ const products = [
     icon: HiChartBar,
     gradient: "linear(135deg, blue.500, cyan.500)",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop&auto=format",
+    url: "https://oneerp.us",
     features: [
       "Financial Management & Accounting",
       "Supply Chain & Inventory Control",

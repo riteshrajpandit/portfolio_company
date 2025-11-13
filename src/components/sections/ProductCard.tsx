@@ -31,6 +31,7 @@ interface Product {
   image: string
   features: string[]
   benefits: string[]
+  url?: string
 }
 
 interface ProductCardProps {
@@ -111,18 +112,33 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
                 </VStack>
 
                 <HStack gap={4} wrap="wrap">
-                  <Link to="/services#it-consulting" style={{ textDecoration: 'none' }}>
-                    <Button
-                      colorScheme="primary.500"
-                      borderRadius="full"
-                      px={6}
-                      fontWeight="600"
-                      _hover={{ transform: "translateY(-2px)" }}
-                      transition="all 0.3s ease"
-                    >
-                      Explore More
-                    </Button>
-                  </Link>
+                  {product.url ? (
+                    <a href={product.url} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                      <Button
+                        colorScheme="primary.500"
+                        borderRadius="full"
+                        px={6}
+                        fontWeight="600"
+                        _hover={{ transform: "translateY(-2px)" }}
+                        transition="all 0.3s ease"
+                      >
+                        Explore More
+                      </Button>
+                    </a>
+                  ) : (
+                    <Link to="/services#it-consulting" style={{ textDecoration: 'none' }}>
+                      <Button
+                        colorScheme="primary.500"
+                        borderRadius="full"
+                        px={6}
+                        fontWeight="600"
+                        _hover={{ transform: "translateY(-2px)" }}
+                        transition="all 0.3s ease"
+                      >
+                        Explore More
+                      </Button>
+                    </Link>
+                  )}
                   {/* <Link to="/services#workshop-training" style={{ textDecoration: 'none' }}>
                     <Button
                       variant="outline"
