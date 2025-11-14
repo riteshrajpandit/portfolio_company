@@ -37,7 +37,7 @@ const ProductCTASection = () => {
               Choose the perfect product for your needs or let our experts help you find the ideal solution.
             </Text>
             <HStack gap={4} wrap="wrap" justify="center">
-              <Link to="/services#it-consulting" style={{ textDecoration: 'none' }}>
+              <Link to="/contact" style={{ textDecoration: 'none' }}>
                 <Button
                   size="lg"
                   bg="white"
@@ -54,26 +54,6 @@ const ProductCTASection = () => {
                   transition="all 0.3s ease"
                 >
                   Get Consultation <HiArrowRight style={{ marginLeft: '8px' }} />
-                </Button>
-              </Link>
-              <Link to="/about#career" style={{ textDecoration: 'none' }}>
-                <Button
-                  size="lg"
-                  variant="outline"
-                  borderColor="white"
-                  color="white"
-                  borderRadius="full"
-                  px={8}
-                  py={6}
-                  fontSize="lg"
-                  fontWeight="600"
-                  _hover={{
-                    bg: "whiteAlpha.200",
-                    transform: "translateY(-2px)"
-                  }}
-                  transition="all 0.3s ease"
-                >
-                  Contact Us
                 </Button>
               </Link>
             </HStack>

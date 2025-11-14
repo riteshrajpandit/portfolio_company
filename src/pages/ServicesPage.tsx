@@ -319,7 +319,7 @@ const ServicesPage = () => {
                           <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={3} w="full">
                             {'keyFeatures' in service && service.keyFeatures?.map((feature, idx) => (
                               <HStack key={idx} gap={3} align="start">
-                                <Icon as={HiCheckCircle} color="green.500" fontSize="lg" mt={1} flexShrink={0} />
+                                <Icon as={HiCheckCircle} color="blackAlpha.700" fontSize="lg" mt={1} flexShrink={0} />
                                 <Text fontSize="sm" color="text" fontWeight="500">
                                   {feature}
                                 </Text>
@@ -335,7 +335,7 @@ const ServicesPage = () => {
                             </Text>
                             {'businessBenefits' in service && service.businessBenefits?.map((benefit, idx) => (
                               <HStack key={idx} gap={3} align="start">
-                                <Icon as={HiCheckCircle} color="blue.500" fontSize="lg" mt={1} flexShrink={0} />
+                                <Icon as={HiCheckCircle} color="#1B75BB" fontSize="lg" mt={1} flexShrink={0} />
                                 <Text fontSize="sm" color="text" fontWeight="500">
                                   {benefit}
                                 </Text>
@@ -349,7 +349,7 @@ const ServicesPage = () => {
                             </Text>
                             {'technologicalAdaptation' in service && service.technologicalAdaptation?.map((tech, idx) => (
                               <HStack key={idx} gap={3} align="start">
-                                <Icon as={HiCheckCircle} color="purple.500" fontSize="lg" mt={1} flexShrink={0} />
+                                <Icon as={HiCheckCircle} color="#1B75BB" fontSize="lg" mt={1} flexShrink={0} />
                                 <Text fontSize="sm" color="text" fontWeight="500">
                                   {tech}
                                 </Text>
@@ -369,7 +369,7 @@ const ServicesPage = () => {
                           </Text>
                           {'weBring' in service && service.weBring?.map((item, idx) => (
                             <HStack key={idx} gap={3} align="start">
-                              <Icon as={HiCheckCircle} color="green.500" fontSize="lg" mt={1} flexShrink={0} />
+                              <Icon as={HiCheckCircle} color="blackAlpha.700" fontSize="lg" mt={1} flexShrink={0} />
                               <Text fontSize="sm" color="text" fontWeight="500">
                                 {item}
                               </Text>
@@ -383,7 +383,7 @@ const ServicesPage = () => {
                           </Text>
                           {'steps' in service && service.steps?.map((step, idx) => (
                             <HStack key={idx} gap={3} align="start">
-                              <Icon as={HiCheckCircle} color="emerald.500" fontSize="lg" mt={1} flexShrink={0} />
+                              <Icon as={HiCheckCircle} color="#1B75BB" fontSize="lg" mt={1} flexShrink={0} />
                               <Text fontSize="sm" color="text" fontWeight="500">
                                 {step}
                               </Text>
@@ -402,7 +402,7 @@ const ServicesPage = () => {
                           </Text>
                           {'weAssure' in service && service.weAssure?.map((item, idx) => (
                             <HStack key={idx} gap={3} align="start">
-                              <Icon as={HiCheckCircle} color="purple.500" fontSize="lg" mt={1} flexShrink={0} />
+                              <Icon as={HiCheckCircle} color="blackAlpha.700" fontSize="lg" mt={1} flexShrink={0} />
                               <Text fontSize="sm" color="text" fontWeight="500">
                                 {item}
                               </Text>
@@ -416,7 +416,7 @@ const ServicesPage = () => {
                           </Text>
                           {'businessServices' in service && service.businessServices?.map((svc, idx) => (
                             <HStack key={idx} gap={3} align="start">
-                              <Icon as={HiCheckCircle} color="pink.500" fontSize="lg" mt={1} flexShrink={0} />
+                              <Icon as={HiCheckCircle} color="#1B75BB" fontSize="lg" mt={1} flexShrink={0} />
                               <Text fontSize="sm" color="text" fontWeight="500">
                                 {svc}
                               </Text>
@@ -435,7 +435,7 @@ const ServicesPage = () => {
                         <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={3} w="full">
                           {'topFeatures' in service && service.topFeatures?.map((feature, idx) => (
                             <HStack key={idx} gap={3} align="start">
-                              <Icon as={HiCheckCircle} color="orange.500" fontSize="lg" mt={1} flexShrink={0} />
+                              <Icon as={HiCheckCircle} color="#1B75BB" fontSize="lg" mt={1} flexShrink={0} />
                               <Text fontSize="sm" color="text" fontWeight="500">
                                 {feature}
                               </Text>
@@ -454,7 +454,7 @@ const ServicesPage = () => {
                         <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={3} w="full">
                           {service.features.map((feature, idx) => (
                             <HStack key={idx} gap={3} align="start">
-                              <Icon as={HiCheckCircle} color="blue.500" fontSize="lg" mt={1} flexShrink={0} />
+                              <Icon as={HiCheckCircle} color="#1B75BB" fontSize="lg" mt={1} flexShrink={0} />
                               <Text fontSize="sm" color="text" fontWeight="500">
                                 {feature}
                               </Text>
@@ -638,7 +638,7 @@ const ServicesPage = () => {
                 Let our experts help you navigate challenges and unlock new opportunities for your business.
               </Text>
               <HStack gap={4} wrap="wrap" justify="center">
-                <Link to="/products" style={{ textDecoration: 'none' }}>
+                <Link to="/contact" style={{ textDecoration: 'none' }}>
                   <Button
                     size="lg"
                     bg="white"

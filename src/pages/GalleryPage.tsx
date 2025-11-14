@@ -14,10 +14,15 @@ import { HiXMark } from "react-icons/hi2"
 
 const MotionBox = motion(Box)
 
+interface GalleryImage {
+  src: string
+  caption: string
+}
+
 interface GalleryCategory {
   title: string
   description: string
-  images: string[]
+  images: GalleryImage[]
 }
 
 const galleryCategories: GalleryCategory[] = [
@@ -25,10 +30,22 @@ const galleryCategories: GalleryCategory[] = [
     title: "Interviewing at BroadwayInfosys",
     description: "Hiring backend and frontend developers for IOXET Labs",
     images: [
-      "/ioxet-gallery/image1.jpg",
-      "/ioxet-gallery/image2.jpg",
-      "/ioxet-gallery/image3.jpg",
-      "/ioxet-gallery/image4.jpg",
+      {
+        src: "/ioxet-gallery/image1.jpg",
+        caption: "Technical interview session with senior backend developer candidates discussing system architecture and scalability challenges"
+      },
+      {
+        src: "/ioxet-gallery/image2.jpg",
+        caption: "Frontend developer coding challenge - Building responsive UI components with React and TypeScript"
+      },
+      {
+        src: "/ioxet-gallery/image3.jpg",
+        caption: "Team collaboration round where candidates present their problem-solving approach and code review practices"
+      },
+      {
+        src: "/ioxet-gallery/image4.jpg",
+        caption: "Final round discussion about project experience, team dynamics, and career goals with IOXET Labs leadership"
+      },
     ]
   }
 //  {
@@ -45,9 +62,9 @@ const galleryCategories: GalleryCategory[] = [
 ]
 
 const GalleryPage = () => {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
 
-  const handleImageClick = (image: string) => {
+  const handleImageClick = (image: GalleryImage) => {
     setSelectedImage(image)
   }
 
@@ -120,7 +137,7 @@ const GalleryPage = () => {
                     shadow="md"
                   >
                     <Image
-                      src={image}
+                      src={image.src}
                       alt={`${category.title} - Image ${index + 1}`}
                       w="full"
                       h={{ base: "250px", md: "300px" }}
@@ -204,9 +221,10 @@ const GalleryPage = () => {
               onClick={(e: React.MouseEvent) => e.stopPropagation()}
               maxW="90vw"
               maxH="90vh"
+              position="relative"
             >
               <Image
-                src={selectedImage}
+                src={selectedImage.src}
                 alt="Gallery image full view"
                 w="full"
                 h="full"
@@ -214,6 +232,26 @@ const GalleryPage = () => {
                 objectFit="contain"
                 borderRadius="xl"
               />
+              {/* Caption Overlay */}
+              <Box
+                position="absolute"
+                bottom={0}
+                left={0}
+                right={0}
+                bg="blackAlpha.800"
+                backdropFilter="blur(10px)"
+                p={{ base: 4, md: 6 }}
+                borderBottomRadius="xl"
+              >
+                <Text
+                  color="white"
+                  fontSize={{ base: "sm", md: "md" }}
+                  lineHeight="1.6"
+                  textAlign="center"
+                >
+                  {selectedImage.caption}
+                </Text>
+              </Box>
             </MotionBox>
           </MotionBox>
         )}

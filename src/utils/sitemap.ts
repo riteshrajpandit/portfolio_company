@@ -8,7 +8,7 @@ interface SiteMapURL {
   priority?: number
 }
 
-const baseURL = 'https://ioxet.com' // Replace with your actual domain
+const baseURL = import.meta.env.VITE_BASE_URL || 'https://ioxet.com'
 
 export const siteMapURLs: SiteMapURL[] = [
   {

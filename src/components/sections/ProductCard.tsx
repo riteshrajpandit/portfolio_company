@@ -85,7 +85,7 @@ const ProductCard = ({ product, index }: ProductCardProps) => {
                   <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={3} w="full">
                     {product.features.map((feature, idx) => (
                       <HStack key={idx} gap={3} align="start">
-                        <Icon as={HiCheckCircle} color="green.500" fontSize="lg" mt={1} flexShrink={0} />
+                        <Icon as={HiCheckCircle} color="blackAlpha.700" fontSize="lg" mt={1} flexShrink={0} />
                         <Text fontSize="sm" color="text" fontWeight="500">
                           {feature}
                         </Text>

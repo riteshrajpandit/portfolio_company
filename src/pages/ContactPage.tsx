@@ -394,21 +394,28 @@ export const ContactPage = () => {
                 ))}
               </Stack>
 
-              {/* Map placeholder */}
+              {/* Map */}
               <Box mt={8}>
                 <Heading size="lg" mb={4} color="neutral.800">
                   Find Us
                 </Heading>
                 <Box
-                  bg="neutral.200"
-                  h="300px"
                   borderRadius="lg"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  color="neutral.600"
+                  overflow="hidden"
+                  h="300px"
+                  border="1px"
+                  borderColor="neutral.300"
                 >
-                  <Text>Interactive Map Coming Soon</Text>
+                  <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d831.6157654371043!2d85.33095538123895!3d27.65279505891071!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb17f4422db361%3A0x46168681d22bb0ca!2sNature%20Works%20Pvt.%20Ltd.!5e0!3m2!1sen!2snp!4v1763102058009!5m2!1sen!2snp"
+                    width="100%"
+                    height="100%"
+                    style={{ border: 0 }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    title="IOXET Office Location"
+                  />
                 </Box>
               </Box>
             </Box>

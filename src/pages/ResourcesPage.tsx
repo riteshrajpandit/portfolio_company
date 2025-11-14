@@ -12,15 +12,12 @@ import {
 } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
-import { useState } from "react"
 import {
   HiArrowRight,
   HiDocumentText,
   HiAcademicCap,
   HiPhoto,
   HiClipboardDocumentList,
-  HiNewspaper,
-  HiChevronDown,
 } from "react-icons/hi2"
 import FAQsSection from "@/components/sections/FAQsSection"
 
@@ -95,13 +92,6 @@ const resourceSections: ResourceSection[] = [
     description: "Real-world success stories and measurable business impact",
     icon: HiClipboardDocumentList,
     gradient: "linear(135deg, orange.400, orange.600)",
-  },
-  {
-    id: "whitepapers",
-    title: "Whitepapers",
-    description: "In-depth research and analysis on industry trends",
-    icon: HiNewspaper,
-    gradient: "linear(135deg, pink.400, pink.600)",
   }
 ]
 
@@ -131,11 +121,6 @@ const MotionBox = motion(Box)
 const MotionContainer = motion(Container)
 
 const ResourcesPage = () => {
-  const [openDocIndex, setOpenDocIndex] = useState<number | null>(null)
-
-  const toggleDoc = (index: number) => {
-    setOpenDocIndex(openDocIndex === index ? null : index)
-  }
 
   return (
     <Box overflowX={"hidden"}>
@@ -179,7 +164,9 @@ const ResourcesPage = () => {
       </Box>
 
       {/* FAQs Section */}
-      <FAQsSection />
+      <Box id="faqs">
+        <FAQsSection />
+      </Box>
 
       {/* Resource Sections */}
       {resourceSections.map((section, index) => (
@@ -228,178 +215,188 @@ const ResourcesPage = () => {
               </VStack>
             </MotionBox>
 
-            {/* Documentation Section - Expandable/Collapsible Design */}
+            {/* Documentation Section - Grid with Hover Effects */}
             {section.id === "documentation" && section.items && (
-              <Container maxW="7xl">
-                <VStack gap={0} align="stretch">
-                  {section.items.map((item, itemIndex) => (
-                    <MotionBox
-                      key={itemIndex}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: itemIndex * 0.1 }}
-                      viewport={{ once: true }}
+              <SimpleGrid
+                columns={{ base: 1, md: 2, lg: 3 }}
+                gap={{ base: 6, md: 8 }}
+              >
+                {section.items.map((item, itemIndex) => (
+                  <MotionBox
+                    key={itemIndex}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: itemIndex * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    <ChakraLink
+                      href={item.link}
+                      target={item.isExternal ? "_blank" : "_self"}
+                      rel={item.isExternal ? "noopener noreferrer" : undefined}
+                      style={{ textDecoration: 'none' }}
+                      display="block"
+                      h="full"
                     >
                       <Box
                         position="relative"
-                        borderBottom="2px solid"
-                        borderColor="gray.200"
-                        _last={{ borderBottom: "none" }}
-                        transition="all 0.3s ease"
+                        h="full"
+                        borderRadius="2xl"
+                        overflow="hidden"
+                        shadow="md"
+                        transition="all 0.4s ease"
                         cursor="pointer"
-                        onClick={() => toggleDoc(itemIndex)}
-                        role="button"
-                        aria-expanded={openDocIndex === itemIndex}
-                        tabIndex={0}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') {
-                            e.preventDefault()
-                            toggleDoc(itemIndex)
-                          }
-                        }}
+                        bg="white"
                         _hover={{
-                          bg: "gray.50"
+                          transform: "translateY(-8px)",
+                          shadow: "2xl",
                         }}
                       >
-                        <Box py={6} px={6}>
-                          <HStack justify="space-between" align="center" mb={0}>
-                            {/* Numbering Circle */}
-                            <HStack gap={4} flex="1" align="center">
-                              <Box
-                                minW="48px"
-                                h="48px"
-                                borderRadius="full"
-                                bgGradient={section.gradient}
-                                color="primary.500"
-                                display="flex"
-                                alignItems="center"
-                                justifyContent="center"
-                                fontSize="xl"
-                                fontWeight="700"
-                                flexShrink={0}
-                              >
-                                {String(itemIndex + 1).padStart(2, '0')}
-                              </Box>
-                              
-                              {/* Title and Subtitle */}
-                              <VStack align="start" gap={1} flex="1">
-                                <Text
-                                  fontSize={{ base: "lg", md: "xl" }}
-                                  fontWeight="700"
-                                  color={openDocIndex === itemIndex ? "primary.600" : "text"}
-                                  lineHeight="1.3"
-                                  transition="color 0.3s ease"
-                                >
-                                  {item.title}
-                                </Text>
-                                {item.subtitle && (
-                                  <Text
-                                    fontSize={{ base: "sm", md: "md" }}
-                                    color="muted"
-                                    fontWeight="500"
-                                    lineHeight="1.4"
-                                  >
-                                    {item.subtitle}
-                                  </Text>
-                                )}
-                              </VStack>
-                            </HStack>
-                            
-                            {/* Chevron Icon */}
-                            <Icon
-                              as={HiChevronDown}
-                              fontSize="xl"
-                              color={openDocIndex === itemIndex ? "primary.500" : "gray.400"}
-                              transition="all 0.3s ease"
-                              transform={openDocIndex === itemIndex ? "rotate(180deg)" : "rotate(0deg)"}
-                              ml={3}
-                              flexShrink={0}
+                        {/* Image Section */}
+                        <Box
+                          position="relative"
+                          h={{ base: "200px", md: "240px" }}
+                          bg="gray.50"
+                          overflow="hidden"
+                        >
+                          {item.image && (
+                            <Image
+                              src={item.image}
+                              alt={item.title}
+                              w="full"
+                              h="full"
+                              objectFit="contain"
+                              transition="all 0.4s ease"
+                              _groupHover={{
+                                transform: "scale(1.05)"
+                              }}
                             />
-                          </HStack>
+                          )}
                           
-                          {/* Expanded Content */}
+                          {/* Gradient Overlay on Hover */}
                           <Box
-                            opacity={openDocIndex === itemIndex ? 1 : 0}
-                            maxHeight={openDocIndex === itemIndex ? "600px" : "0"}
-                            overflow="hidden"
-                            transition="all 0.5s ease"
-                            mt={openDocIndex === itemIndex ? 6 : 0}
+                            position="absolute"
+                            top={0}
+                            left={0}
+                            right={0}
+                            bottom={0}
+                            bgGradient="linear(to-b, transparent, blackAlpha.700)"
+                            opacity={0}
+                            transition="opacity 0.4s ease"
+                            _groupHover={{
+                              opacity: 1
+                            }}
+                          />
+                          
+                          {/* Number Badge */}
+                          <Box
+                            position="absolute"
+                            top={4}
+                            right={4}
+                            w="40px"
+                            h="40px"
+                            borderRadius="full"
+                            bgGradient={section.gradient}
+                            color="#1b75bb"
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                            fontSize="lg"
+                            fontWeight="700"
+                            shadow="lg"
                           >
-                            <HStack
-                              align="start"
-                              gap={6}
-                              pl={4}
-                            >
-                              {/* Image Section */}
-                              {item.image && (
-                                <Box
-                                  flexShrink={0}
-                                  w={{ base: "120px", md: "180px" }}
-                                  h={{ base: "120px", md: "180px" }}
-                                  borderRadius="lg"
-                                  overflow="hidden"
-                                  bg="white"
-                                  border="1px solid"
-                                  borderColor="gray.200"
-                                  display="flex"
-                                  alignItems="center"
-                                  justifyContent="center"
-                                  p={4}
-                                >
-                                  <Image
-                                    src={item.image}
-                                    alt={item.title}
-                                    w="full"
-                                    h="full"
-                                    objectFit="contain"
-                                  />
-                                </Box>
-                              )}
-                              
-                              {/* Content Section */}
-                              <VStack align="start" gap={4} flex="1">
-                                <Text
-                                  fontSize="md"
-                                  color="muted"
-                                  lineHeight="1.8"
-                                >
-                                  {item.description}
-                                </Text>
-                                
-                                {/* Visit Us Button */}
-                                {item.link && (
-                                  <ChakraLink
-                                    href={item.link}
-                                    target={item.isExternal ? "_blank" : "_self"}
-                                    rel={item.isExternal ? "noopener noreferrer" : undefined}
-                                    style={{ textDecoration: 'none' }}
-                                  >
-                                    <Button
-                                      colorScheme="primary"
-                                      bg="primary.500"
-                                      size="md"
-                                      fontWeight="600"
-                                      px={6}
-                                      _hover={{
-                                        transform: "translateY(-2px)",
-                                        shadow: "md",
-                                        bg: "primary.600"
-                                      }}
-                                      transition="all 0.3s ease"
-                                    >
-                                      Visit Us <Icon as={HiArrowRight} ml={2} />
-                                    </Button>
-                                  </ChakraLink>
-                                )}
-                              </VStack>
-                            </HStack>
+                            {String(itemIndex + 1).padStart(2, '0')}
                           </Box>
                         </Box>
+
+                        {/* Content Section */}
+                        <Box
+                          p={{ base: 5, md: 6 }}
+                          position="relative"
+                          role="group"
+                          data-hover
+                        >
+                          <VStack align="start" gap={3}>
+                            {/* Subtitle */}
+                            {item.subtitle && (
+                              <Text
+                                fontSize="xs"
+                                fontWeight="600"
+                                color="primary.500"
+                                textTransform="uppercase"
+                                letterSpacing="wider"
+                              >
+                                {item.subtitle}
+                              </Text>
+                            )}
+                            
+                            {/* Title */}
+                            <Text
+                              fontSize={{ base: "xl", md: "2xl" }}
+                              fontWeight="700"
+                              color="text"
+                              lineHeight="1.3"
+                              transition="color 0.3s ease"
+                              _groupHover={{
+                                color: "primary.600"
+                              }}
+                            >
+                              {item.title}
+                            </Text>
+                            
+                            {/* Description */}
+                            <Text
+                              fontSize="sm"
+                              color="muted"
+                              lineHeight="1.7"
+                              css={{
+                                display: '-webkit-box',
+                                WebkitLineClamp: 3,
+                                WebkitBoxOrient: 'vertical',
+                                overflow: 'hidden'
+                              }}
+                            >
+                              {item.description}
+                            </Text>
+                            
+                            {/* CTA Button */}
+                            <HStack
+                              gap={2}
+                              mt={2}
+                              color="primary.500"
+                              fontWeight="600"
+                              fontSize="sm"
+                              transition="all 0.3s ease"
+                              _groupHover={{
+                                gap: 3,
+                                color: "primary.600"
+                              }}
+                            >
+                              <Text>Visit Documentation</Text>
+                              <Icon as={HiArrowRight} fontSize="md" />
+                            </HStack>
+                          </VStack>
+
+                          {/* Hover Overlay Effect */}
+                          <Box
+                            position="absolute"
+                            bottom={0}
+                            left={0}
+                            right={0}
+                            h="4px"
+                            bgGradient={section.gradient}
+                            transform="scaleX(0)"
+                            transformOrigin="left"
+                            transition="transform 0.4s ease"
+                            _groupHover={{
+                              transform: "scaleX(1)"
+                            }}
+                          />
+                        </Box>
                       </Box>
-                    </MotionBox>
-                  ))}
-                </VStack>
-              </Container>
+                    </ChakraLink>
+                  </MotionBox>
+                ))}
+              </SimpleGrid>
             )}
 
             {/* IOXET Gallery Section - Image Grid */}
@@ -682,7 +679,7 @@ const ResourcesPage = () => {
                 Can't find what you're looking for? Our team is here to help you with any questions about our security practices or available tools.
               </Text>
               <HStack gap={4} wrap="wrap" justify="center">
-                <Link to="/services" style={{ textDecoration: 'none' }}>
+                <Link to="/contact" style={{ textDecoration: 'none' }}>
                   <Button
                     size="lg"
                     bg="white"

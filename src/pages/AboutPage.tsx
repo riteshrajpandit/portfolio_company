@@ -245,7 +245,7 @@ export const AboutPage = () => {
               mx="auto"
               mb={{ base: 6, md: 8 }}
             >
-              Founded in 2014, we've been at the forefront of digital innovation, helping businesses 
+              Founded in 2025, we've been at the forefront of digital innovation, helping businesses 
               transform their ideas into powerful digital solutions that drive growth and success.
             </Text>
             <HStack justify="center" gap={4} wrap="wrap">
@@ -262,7 +262,7 @@ export const AboutPage = () => {
                   Join Our Team <HiArrowRight style={{ marginLeft: '8px' }} />
                 </Button>
               </Link>
-              <Link to="/services" style={{ textDecoration: 'none' }}>
+              <Link to="/contact" style={{ textDecoration: 'none' }}>
                 <Button
                   size="lg"
                   variant="outline"
@@ -735,7 +735,7 @@ export const AboutPage = () => {
                 Let's create something amazing together.
               </Text>
               <HStack gap={4} wrap="wrap" justify="center">
-                <Link to="/services" style={{ textDecoration: 'none' }}>
+                <Link to="/contact" style={{ textDecoration: 'none' }}>
                   <Button
                     size="lg"
                     bg="white"

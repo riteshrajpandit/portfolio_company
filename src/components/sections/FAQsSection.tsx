@@ -21,43 +21,43 @@ interface FAQ {
 
 const faqs: FAQ[] = [
   {
-    question: "What services does your company provide?",
+    question: "What services does our company provide?",
     answer: "We specialize in crafting digital experiences, including custom web applications, mobile app development, UI/UX design, enterprise software solutions, and cloud-based platforms tailored to your business needs."
   },
   {
-    question: "Do you work with startups, enterprises, or both?",
+    question: "Do we work with startups, enterprises, or both?",
     answer: "Both! We collaborate with startups looking to launch innovative products and enterprises seeking scalable, future-ready digital solutions."
   },
   {
-    question: "How do you ensure the quality of your projects?",
+    question: "How do we ensure the quality of our projects?",
     answer: "We follow industry best practices, agile methodologies, and rigorous testing standards to deliver secure, high-performing, and user-friendly solutions."
   },
   {
-    question: "What technologies do you use?",
+    question: "What technologies do we use?",
     answer: "Our expertise spans modern frameworks and tools such as React, Next.js, Angular, Flutter, Node.js, Python, .NET, cloud services (AWS, Azure, GCP), and more—always choosing the right stack for your project."
   },
   {
-    question: "Can you customize solutions for my specific business needs?",
+    question: "Can we customize solutions for your specific business needs?",
     answer: "Absolutely. Every solution we create is tailored to your goals, workflows, and growth plans. We believe in building technology that works for you, not the other way around."
   },
   {
-    question: "How do you manage project timelines and budgets?",
+    question: "How do we manage project timelines and budgets?",
     answer: "We use agile project management, clear communication, and transparent pricing models to ensure projects stay on track and within budget."
   },
   {
-    question: "Do you offer ongoing support and maintenance?",
+    question: "Do we offer ongoing support and maintenance?",
     answer: "Yes. We provide end-to-end lifecycle support, including updates, performance monitoring, bug fixes, security patches, and feature enhancements."
   },
   {
-    question: "How secure are your solutions?",
+    question: "How secure are our solutions?",
     answer: "Security is a top priority. We adhere to best practices in application security, encryption, compliance standards (ISO, GDPR, etc.), and continuous monitoring to safeguard your data and systems."
   },
   {
-    question: "What makes your company different from others?",
+    question: "What makes our company different from others?",
     answer: "We combine technical expertise with creativity, ensuring not only functional but also visually stunning and intuitive digital experiences that drive business growth."
   },
   {
-    question: "How can I get started with you?",
+    question: "How can you get started with us?",
     answer: "Simply reach out to us through our contact page, and we'll schedule a consultation to discuss your vision, goals, and how we can bring them to life."
   }
 ]

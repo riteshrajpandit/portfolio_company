@@ -46,7 +46,7 @@ const departments = [
   },
   {
     id: "admin-hr",
-    name: "Admin/HR",
+    name: "Admin/Finance",
     icon: HiUserGroup,
     color: "green",
     description: "Human Resources, Administration"
@@ -57,79 +57,62 @@ const departments = [
     icon: HiChartBar,
     color: "purple",
     description: "Sales, Marketing, Business Development"
-  },
-  {
-    id: "finance",
-    name: "Finance",
-    icon: HiCalculator,
-    color: "orange",
-    description: "Finance, Accounting, Business Operations"
   }
 ]
 
 const openPositions = [
   {
     id: 1,
-    title: "Senior Full Stack Developer",
+    title: "Jr. Frontend Developer",
     department: "technical",
     departmentName: "Technical",
-    location: "On-Site / Remote",
+    location: "On-Site",
     type: "Full-time",
-    experience: "3+ years",
-    description: "Join our engineering team to build scalable web applications using React, Node.js, and modern cloud technologies.",
+    experience: "0-2 years",
+    description: "Join our frontend team to build modern, responsive web applications using React, Next.js, and cutting-edge UI frameworks.",
     requirements: [
-      "3+ years of experience with React and Next.js",
-      "Experience with cloud platforms (AWS, GCP, or Azure)",
-      "Strong understanding of database design and optimization",
-      "Excellent problem-solving and communication skills"
+      "Strong knowledge of HTML, CSS, and JavaScript",
+      "Experience with React (required)",
+      "Ability to integrate RESTful APIs and handle asynchronous data",
+      "Knowledge of Next.js is a bonus",
+      "Understanding of responsive design principles",
+      "Good problem-solving and communication skills"
     ]
   },
   {
     id: 2,
-    title: "UX/UI Designer",
+    title: "Jr. Backend Developer",
     department: "technical",
     departmentName: "Technical",
-    location: "On-Site / Remote",
+    location: "On-Site",
     type: "Full-time",
-    experience: "1+ years",
-    description: "Help shape the future of our products by creating intuitive and beautiful user experiences.",
+    experience: "0-2 years",
+    description: "Help build and maintain scalable backend systems using Python, Django, and databases to power our applications.",
     requirements: [
-      "1+ years of experience in UX/UI design",
-      "Proficiency in Figma, Sketch, or similar design tools",
-      "Strong portfolio demonstrating design thinking",
-      "Experience with design systems and prototyping"
+      "Strong knowledge of Python programming (required)",
+      "Experience with Django framework",
+      "Understanding of database design and SQL",
+      "Knowledge of PostgreSQL is a bonus",
+      "Experience building RESTful APIs is a bonus",
+      "Familiarity with version control systems (Git)",
+      "Strong analytical and problem-solving skills"
     ]
   },
   {
     id: 3,
-    title: "DevOps Engineer",
-    department: "technical",
-    departmentName: "Technical",
-    location: "On-site / Remote",
-    type: "Full-time",
-    experience: "4+ years",
-    description: "Build and maintain our cloud infrastructure while ensuring high availability and security.",
-    requirements: [
-      "4+ years of experience with cloud platforms",
-      "Experience with container orchestration (Kubernetes, Docker)",
-      "Knowledge of CI/CD pipelines and automation",
-      "Strong understanding of security best practices"
-    ]
-  },
-  {
-    id: 4,
-    title: "HR Business Partner",
+    title: "Accountant",
     department: "admin-hr",
-    departmentName: "Admin/HR",
-    location: "On-site / Remote",
+    departmentName: "Admin/Finance",
+    location: "On-Site",
     type: "Full-time",
-    experience: "3+ years",
-    description: "Partner with business leaders to develop HR strategies that support company growth and employee engagement.",
+    experience: "2+ years",
+    description: "Manage financial records, prepare reports, and ensure compliance with accounting standards while supporting the company's financial operations.",
     requirements: [
-      "3+ years of HR business partner experience",
-      "Strong understanding of employment law and HR practices",
-      "Experience with performance management and talent development",
-      "Excellent communication and interpersonal skills"
+      "2+ years of accounting experience",
+      "Bachelor's degree in Accounting, Finance, or related field",
+      "Proficiency in accounting software (QuickBooks, Tally, or similar)",
+      "Strong understanding of financial regulations and tax compliance",
+      "Excellent attention to detail and organizational skills"
     ]
   },
   

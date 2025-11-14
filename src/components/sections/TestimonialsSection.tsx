@@ -14,20 +14,20 @@ const testimonials = [
   {
     quote: "IOXET delivered an exceptional product that exceeded our expectations. Their attention to detail and technical expertise is unmatched.",
     author: "Subash Bhandari",
-    company: "Natureworks",
+    company: "Nature Works Pvt. Ltd.",
     image: "https://www.natureworks.com.np/web/image/2767-bc14c0a2/netra-prasad-bhandari.webp"
   },
   {
     quote: "Working with IOXET was a game-changer for our business. They transformed our vision into reality with remarkable precision.",
-    author: "Anita Pokharel",
-    company: "E-commerce user",
-    image: "https://www.natureworks.com.np/web/image/723-7771e714/Anita-Pokharel.webp"
+    author: "Ram Krishna Prasai",
+    company: "Shikhar Shoe Industries",
+    image: "/profile.png"
   },
   {
     quote: "The team's dedication to quality and innovation made our project a tremendous success. Highly recommended!",
-    author: "Confidential Client",
-    company: " ",
-    image: " "
+    author: "Janardan Tripathi",
+    company: "Pratyusha Enterprises",
+    image: "/profile.png"
   }
 ]
 
@@ -91,12 +91,16 @@ const TestimonialsSection = () => {
                     
                     <HStack gap={4}>
                       <Image
-                        src={testimonial.image}
+                        src={testimonial.image && testimonial.image.trim() !== "" ? testimonial.image : "/profile.png"}
                         alt={testimonial.author}
                         width="50px"
                         height="50px"
                         borderRadius="full"
                         objectFit="cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "/profile.png";
+                        }}
                       />
                       <VStack align="start" gap={0}>
                         <Text fontWeight="600" color="text">

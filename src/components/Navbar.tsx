@@ -89,6 +89,7 @@ const megaMenuItems: MegaMenuItem[] = [
       }
     ],
     featured: {
+      image: '/brands/OneerpColor.svg',
       title: 'New: AI-Powered ERP',
       description: 'Experience the future of business management with our AI-enhanced ERP platform.',
       cta: 'Learn More',
@@ -187,12 +188,6 @@ const megaMenuItems: MegaMenuItem[] = [
             name: 'Case Studies', 
             path: '/resources#case-studies',
             description: 'Comprehensive guides and technical documentation',
-            icon: FaCode
-          },
-          { 
-            name: 'Whitepapers', 
-            path: '/resources#whitepapers',
-            description: 'In-depth research and analysis on industry trends',
             icon: FaCode
           }
         ]
@@ -506,6 +501,26 @@ const Navbar = () => {
                           p={6}
                         >
                           <VStack align="start" gap={4}>
+                            {/* Featured Image */}
+                            {item.featured.image && (
+                              <Box
+                                w="full"
+                                h="120px"
+                                display="flex"
+                                alignItems="center"
+                                justifyContent="center"
+                                bg="white"
+                              >
+                                <Image
+                                  src={item.featured.image}
+                                  alt={item.featured.title}
+                                  maxH="150%"
+                                  maxW="150%"
+                                  objectFit="cover"
+                                />
+                              </Box>
+                            )}
+                            
                             <Box>
                               <Text
                                 fontSize="lg"
