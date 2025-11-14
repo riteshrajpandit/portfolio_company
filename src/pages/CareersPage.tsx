@@ -24,8 +24,7 @@ import {
   HiBriefcase,
   HiComputerDesktop,
   HiUserGroup,
-  HiChartBar,
-  HiCalculator,
+  HiChartBar
 } from "react-icons/hi2"
 
 // Department categories
