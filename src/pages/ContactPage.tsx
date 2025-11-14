@@ -34,7 +34,7 @@ const contactInfo = [
   {
     icon: FaClock,
     title: "Business Hours",
-    details: ["Sun - Fri: 9:00 AM - 6:00 PM", "Sat: 10:00 AM - 4:00 PM"],
+    details: ["Sun - Fri: 9:00 AM - 6:00 PM"],
   },
 ]
 
@@ -54,7 +54,6 @@ const agendaOptions = [
   { value: "web-development", label: "Web Development" },
   { value: "mobile-development", label: "Mobile App Development" },
   { value: "cloud-services", label: "Cloud Services" },
-  { value: "comprehensive-trade-finance", label: "Comprehensive Trade and Finance Consulting" },
   { value: "other", label: "Other" },
 ]
 
@@ -381,7 +380,7 @@ export const ContactPage = () => {
                       <info.icon size={24} />
                     </Box>
                     <Box>
-                      <Text fontWeight="semibold" fontSize="lg" mb={2} color="neutral.800">
+                      <Text fontWeight="semibold" fontSize="lg" color="neutral.800">
                         {info.title}
                       </Text>
                       {info.details.map((detail, detailIndex) => (
