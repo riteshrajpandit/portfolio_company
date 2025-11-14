@@ -12,7 +12,8 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
-import { motion } from "framer-motion"
+import { motion, useAnimationFrame } from "framer-motion"
+import { useState, useRef } from "react"
 import { 
   FaLinkedin, 
   FaXTwitter,
@@ -86,7 +87,7 @@ const teamMembers = [
   {
     name: "Ritesh Raj Pandit",
     role: "Lead Frontend Developer",
-    bio: "With 15 years of experience in tech leadership, Ritesh founded our company to bridge the gap between innovative ideas and practical solutions.",
+    bio: "Ritesh brings creative vision to life with user-centered design principles and a passion for beautiful, functional interfaces.",
     image: "/teams/Ritesh.png",
     social: {
       linkedin: "https://linkedin.com/in/riteshrajpandit",
@@ -209,6 +210,220 @@ const stats = [
 
 const MotionBox = motion(Box)
 const MotionContainer = motion(Container)
+
+// Carousel component with auto-play, hover pause, and manual controls
+const DevelopmentTeamCarousel = ({ members }: { members: typeof teamMembers }) => {
+  const [isHovered, setIsHovered] = useState(false)
+  const [offset, setOffset] = useState(0)
+  const [isDragging, setIsDragging] = useState(false)
+  const [dragStart, setDragStart] = useState(0)
+  const [dragOffset, setDragOffset] = useState(0)
+  const constraintsRef = useRef<HTMLDivElement>(null)
+  
+  const developmentTeam = members.slice(6)
+  const itemWidth = 184 // 160px + 24px gap
+  const totalWidth = developmentTeam.length * itemWidth
+  
+  // Auto-scroll animation - continuous marquee
+  useAnimationFrame((_t, delta) => {
+    if (!isHovered && !isDragging) {
+      setOffset(prev => {
+        const newOffset = prev + (-30 / 1000) * delta
+        // Use modulo to wrap seamlessly - when we scroll one full width, reset to 0
+        // This creates the illusion because we render the items multiple times
+        return newOffset <= -totalWidth ? newOffset + totalWidth : newOffset
+      })
+    }
+  })
+  
+  // Touch/Mouse drag handlers
+  const handleDragStart = (clientX: number) => {
+    setIsDragging(true)
+    setDragStart(clientX)
+    setDragOffset(0)
+  }
+  
+  const handleDragMove = (clientX: number) => {
+    if (isDragging) {
+      const diff = clientX - dragStart
+      setDragOffset(diff)
+    }
+  }
+  
+  const handleDragEnd = () => {
+    if (isDragging) {
+      setOffset(prev => {
+        const newOffset = prev + dragOffset
+        // Wrap seamlessly
+        if (newOffset <= -totalWidth) {
+          return newOffset + totalWidth
+        } else if (newOffset >= 0) {
+          return newOffset - totalWidth
+        }
+        return newOffset
+      })
+      setIsDragging(false)
+      setDragOffset(0)
+    }
+  }
+  
+  return (
+    <Box 
+      position="relative"
+      w="full"
+      overflow="hidden"
+      py={4}
+      ref={constraintsRef}
+      cursor={isDragging ? "grabbing" : "grab"}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false)
+        handleDragEnd()
+      }}
+      onMouseDown={(e) => handleDragStart(e.clientX)}
+      onMouseMove={(e) => handleDragMove(e.clientX)}
+      onMouseUp={handleDragEnd}
+      onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
+      onTouchMove={(e) => handleDragMove(e.touches[0].clientX)}
+      onTouchEnd={handleDragEnd}
+    >
+      {/* Gradient Overlays for fade effect */}
+      <Box
+        position="absolute"
+        left={0}
+        top={0}
+        bottom={0}
+        w={{ base: "60px", md: "100px" }}
+        bgGradient="linear(to-r, white, transparent)"
+        zIndex={2}
+        pointerEvents="none"
+      />
+      <Box
+        position="absolute"
+        right={0}
+        top={0}
+        bottom={0}
+        w={{ base: "60px", md: "100px" }}
+        bgGradient="linear(to-l, white, transparent)"
+        zIndex={2}
+        pointerEvents="none"
+      />
+      
+      {/* Carousel Container - Infinite loop with CSS transform */}
+      <Box
+        display="flex"
+        gap="24px"
+        userSelect="none"
+        style={{
+          transform: `translateX(${offset + dragOffset}px)`,
+          transition: 'none', // No transition for smooth 60fps animation
+          willChange: "transform"
+        }}
+      >
+        {/* Render items three times for seamless infinite scroll - like stones in a circle */}
+        {[...developmentTeam, ...developmentTeam, ...developmentTeam].map((member, index) => (
+          <Box
+            key={`team-${index}`}
+            minW={{ base: "140px", md: "160px" }}
+            flexShrink={0}
+            textAlign="center"
+          >
+            <VStack gap={3}>
+              <Box
+                position="relative"
+                _hover={{ transform: "scale(1.05)" }}
+                transition="all 0.3s ease"
+              >
+                <Image
+                  src={member.image}
+                  alt={member.name}
+                  borderRadius="xl"
+                  boxSize={{ base: "120px", md: "140px" }}
+                  objectFit="cover"
+                  shadow="md"
+                  draggable={false}
+                />
+              </Box>
+              <VStack gap={1}>
+                <Text 
+                  fontSize={{ base: "sm", md: "md" }} 
+                  fontWeight="700" 
+                  color="text"
+                  overflow="hidden"
+                  textOverflow="ellipsis"
+                  whiteSpace="nowrap"
+                  w={{ base: "130px", md: "150px" }}
+                >
+                  {member.name}
+                </Text>
+                <Text 
+                  color="primary.500" 
+                  fontWeight="600" 
+                  fontSize="xs"
+                  overflow="hidden"
+                  textOverflow="ellipsis"
+                  whiteSpace="nowrap"
+                  w={{ base: "130px", md: "150px" }}
+                >
+                  {member.role}
+                </Text>
+                <Text 
+                  fontSize="xs" 
+                  color="muted" 
+                  lineHeight="1.4" 
+                  textAlign="center"
+                  overflow="hidden"
+                  textOverflow="ellipsis"
+                  w={{ base: "130px", md: "150px" }}
+                  h="32px"
+                  css={{
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                  }}
+                >
+                  {member.bio}
+                </Text>
+              </VStack>
+              <HStack gap={2} justify="center">
+                <a 
+                  href={member.social.linkedin} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  <Box
+                    p={1}
+                    color="muted"
+                    _hover={{ color: "primary.500" }}
+                    cursor="pointer"
+                    transition="color 0.2s"
+                  >
+                    <FaLinkedin size={14} />
+                  </Box>
+                </a>
+                <a 
+                  href={member.social.twitter} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                >
+                  <Box
+                    p={1}
+                    color="muted"
+                    _hover={{ color: "#000000" }}
+                    cursor="pointer"
+                    transition="color 0.2s"
+                  >
+                    <FaXTwitter size={14} />
+                  </Box>
+                </a>
+              </HStack>
+            </VStack>
+          </Box>
+        ))}
+      </Box>
+    </Box>
+  )
+}
 
 export const AboutPage = () => {
   return (
@@ -565,145 +780,8 @@ export const AboutPage = () => {
                   </Text>
                 </Box>
                 
-                {/* Infinite Scroll Carousel */}
-                <Box 
-                  position="relative"
-                  w="full"
-                  overflow="hidden"
-                  py={4}
-                >
-                  {/* Gradient Overlays for fade effect */}
-                  <Box
-                    position="absolute"
-                    left={0}
-                    top={0}
-                    bottom={0}
-                    w={{ base: "40px", md: "80px" }}
-                    bgGradient="linear(to-r, white, transparent)"
-                    zIndex={2}
-                    pointerEvents="none"
-                  />
-                  <Box
-                    position="absolute"
-                    right={0}
-                    top={0}
-                    bottom={0}
-                    w={{ base: "40px", md: "80px" }}
-                    bgGradient="linear(to-l, white, transparent)"
-                    zIndex={2}
-                    pointerEvents="none"
-                  />
-                  
-                  {/* Carousel Container */}
-                  <motion.div
-                    style={{
-                      display: "flex",
-                      gap: "24px",
-                      willChange: "transform",
-                    }}
-                    animate={{
-                      x: ["0%", "-50%"],
-                    }}
-                    transition={{
-                      duration: 25,
-                      repeat: Infinity,
-                      ease: "linear",
-                      repeatType: "loop",
-                    }}
-                  >
-                    {/* Render items twice for seamless loop */}
-                    {[...teamMembers.slice(6), ...teamMembers.slice(6)].map((member, index) => (
-                      <Box
-                        key={`team-${index}`}
-                        minW={{ base: "140px", md: "160px" }}
-                        flexShrink={0}
-                        textAlign="center"
-                      >
-                        <VStack gap={3}>
-                          <Box
-                            position="relative"
-                            _hover={{ transform: "scale(1.05)" }}
-                            transition="all 0.3s ease"
-                          >
-                            <Image
-                              src={member.image}
-                              alt={member.name}
-                              borderRadius="xl"
-                              boxSize={{ base: "120px", md: "140px" }}
-                              objectFit="cover"
-                              shadow="md"
-                            />
-                          </Box>
-                          <VStack gap={1}>
-                            <Text 
-                              fontSize={{ base: "sm", md: "md" }} 
-                              fontWeight="700" 
-                              color="text"
-                              overflow="hidden"
-                              textOverflow="ellipsis"
-                              whiteSpace="nowrap"
-                              w={{ base: "130px", md: "150px" }}
-                            >
-                              {member.name}
-                            </Text>
-                            <Text 
-                              color="primary.500" 
-                              fontWeight="600" 
-                              fontSize="xs"
-                              overflow="hidden"
-                              textOverflow="ellipsis"
-                              whiteSpace="nowrap"
-                              w={{ base: "130px", md: "150px" }}
-                            >
-                              {member.role}
-                            </Text>
-                            <Text 
-                              fontSize="xs" 
-                              color="muted" 
-                              lineHeight="1.4" 
-                              textAlign="center"
-                              overflow="hidden"
-                              textOverflow="ellipsis"
-                              w={{ base: "130px", md: "150px" }}
-                              h="32px"
-                              style={{
-                                display: "-webkit-box",
-                                WebkitLineClamp: 2,
-                                WebkitBoxOrient: "vertical",
-                              }}
-                            >
-                              {member.bio}
-                            </Text>
-                          </VStack>
-                          <HStack gap={2} justify="center">
-                            <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer">
-                              <Box
-                                p={1}
-                                color="muted"
-                                _hover={{ color: "primary.500" }}
-                                cursor="pointer"
-                                transition="color 0.2s"
-                              >
-                                <FaLinkedin size={14} />
-                              </Box>
-                            </a>
-                            <a href={member.social.twitter} target="_blank" rel="noopener noreferrer">
-                              <Box
-                                p={1}
-                                color="muted"
-                                _hover={{ color: "#000000" }}
-                                cursor="pointer"
-                                transition="color 0.2s"
-                              >
-                                <FaXTwitter size={14} />
-                              </Box>
-                            </a>
-                          </HStack>
-                        </VStack>
-                      </Box>
-                    ))}
-                  </motion.div>
-                </Box>
+                {/* Infinite Auto-play Carousel with Hover Pause */}
+                <DevelopmentTeamCarousel members={teamMembers} />
               </VStack>
             )}
           </VStack>
