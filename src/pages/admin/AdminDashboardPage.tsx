@@ -4,17 +4,14 @@ import {
   Text,
   VStack,
   HStack,
-  Grid,
-  GridItem,
   Icon,
   Button,
   Heading,
-  Badge,
   Circle,
 } from "@chakra-ui/react"
+import { motion } from "framer-motion"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { motion } from "framer-motion"
 import {
   HiHome,
   HiChartBar,
@@ -27,11 +24,21 @@ import {
   HiUsers,
   HiMenu,
   HiX,
-  HiLogout,
   HiClock,
 } from "react-icons/hi"
 import SEO from "@/components/SEO"
 import { toaster } from "@/components/ui/toaster"
+import { AdminSidebar } from "@/components/admin/AdminSidebar"
+import { DashboardOverview } from "@/components/admin/DashboardOverview"
+import { MessagesList } from "@/components/admin/MessagesList"
+import { JobsManagement } from "@/components/admin/JobsManagement"
+import { ApplicationsList } from "@/components/admin/ApplicationsList"
+import { TestimonialsManagement } from "@/components/admin/TestimonialsManagement"
+import { ProductsManagement } from "@/components/admin/ProductsManagement"
+import { ServicesManagement } from "@/components/admin/ServicesManagement"
+import { GalleryManagement } from "@/components/admin/GalleryManagement"
+import { TeamMembersManagement } from "@/components/admin/TeamMembersManagement"
+import { VisitorsChart, JobsApplicationsChart, MessagesChart } from "@/components/admin/charts"
 
 const MotionBox = motion(Box)
 
@@ -49,16 +56,184 @@ const recentMessages = [
   { id: 3, name: "Mike Johnson", email: "mike@example.com", message: "Request for demo of Amigaa platform...", time: "1 day ago", status: "read" },
 ]
 
+const allMessages = [
+  {
+    id: 1,
+    name: "John Doe",
+    email: "john.doe@example.com",
+    company: "Tech Solutions Inc.",
+    phoneNumber: "+1 555-0123",
+    website: "https://techsolutions.com",
+    meetingTool: "zoom",
+    agenda: "erp-solutions",
+    dateTime: "2024-03-20T10:00",
+    message: "We are interested in implementing your ERP solution for our manufacturing business. We have about 200 employees and need a comprehensive system that can handle inventory, production planning, and financial management. Could we schedule a demo to discuss our specific requirements?",
+    submittedDate: "2024-03-18T14:30:00",
+    status: "unread"
+  },
+  {
+    id: 2,
+    name: "Jane Smith",
+    email: "jane.smith@gmail.com",
+    company: "Startup",
+    phoneNumber: "+1 555-0456",
+    website: "",
+    meetingTool: "google-meet",
+    agenda: "ai-consulting",
+    dateTime: "2024-03-21T14:00",
+    message: "I'm working on a startup idea that involves AI-powered customer service automation. I've heard great things about your Amigaa platform and would love to learn more about how it could fit into our tech stack. Looking forward to connecting!",
+    submittedDate: "2024-03-18T09:15:00",
+    status: "unread"
+  },
+  {
+    id: 3,
+    name: "Mike Johnson",
+    email: "mike.johnson@enterprise.com",
+    company: "Enterprise Corp",
+    phoneNumber: "+1 555-0789",
+    website: "https://enterprisecorp.com",
+    meetingTool: "microsoft-teams",
+    agenda: "security-consulting",
+    dateTime: "2024-03-19T16:00",
+    message: "Our organization is looking to enhance our cybersecurity infrastructure. We need a comprehensive security audit and implementation of best practices. We have multiple offices and cloud infrastructure that needs to be secured. Can you help us with this?",
+    submittedDate: "2024-03-17T11:45:00",
+    status: "read"
+  },
+  {
+    id: 4,
+    name: "Sarah Williams",
+    email: "sarah.williams@retail.com",
+    company: "Retail Masters",
+    phoneNumber: "+1 555-0321",
+    website: "https://retailmasters.com",
+    meetingTool: "zoom",
+    agenda: "web-development",
+    dateTime: "2024-03-22T11:00",
+    message: "We need to revamp our e-commerce website with modern features including real-time inventory, personalized recommendations, and seamless checkout experience. Our current site is outdated and we're losing customers. What's your approach to e-commerce development?",
+    submittedDate: "2024-03-17T08:20:00",
+    status: "read"
+  },
+  {
+    id: 5,
+    name: "David Chen",
+    email: "david.chen@mobile.com",
+    company: "MobileFirst Solutions",
+    phoneNumber: "+1 555-0654",
+    website: "https://mobilefirstsolutions.com",
+    meetingTool: "phone",
+    agenda: "mobile-development",
+    dateTime: "2024-03-23T15:30",
+    message: "We're planning to launch a mobile app for our delivery service. Need both iOS and Android versions with features like real-time tracking, payment integration, and push notifications. What's your experience with similar projects?",
+    submittedDate: "2024-03-16T16:00:00",
+    status: "replied"
+  },
+  {
+    id: 6,
+    name: "Emily Rodriguez",
+    email: "emily.r@consulting.com",
+    company: "N/A",
+    phoneNumber: "+1 555-0987",
+    website: "",
+    meetingTool: "in-person",
+    agenda: "it-consulting",
+    dateTime: "2024-03-25T10:00",
+    message: "I'm an independent consultant looking to partner with your team for a large client project. They need IT infrastructure redesign and cloud migration. Would love to discuss collaboration opportunities.",
+    submittedDate: "2024-03-16T13:30:00",
+    status: "replied"
+  },
+]
+
 const recentApplications = [
   { id: 1, name: "Sarah Wilson", position: "Senior Software Engineer", department: "Engineering", time: "1 hour ago", status: "new" },
   { id: 2, name: "Tom Brown", position: "UI/UX Designer", department: "Design", time: "3 hours ago", status: "reviewing" },
   { id: 3, name: "Lisa Anderson", position: "Product Manager", department: "Product", time: "1 day ago", status: "shortlisted" },
 ]
 
+const postedJobs = [
+  { id: 1, title: "Jr. Frontend Developer", department: "Technical", applicants: 12, status: "active", postedDate: "2024-03-15" },
+  { id: 2, title: "Jr. Backend Developer", department: "Technical", applicants: 8, status: "active", postedDate: "2024-03-15" },
+  { id: 3, title: "Accountant", department: "Admin/Finance", applicants: 5, status: "active", postedDate: "2024-03-10" },
+]
+
+const allApplications = [
+  { 
+    id: 1, 
+    name: "Sarah Wilson", 
+    email: "sarah.wilson@example.com",
+    phone: "+1 234 567 8900",
+    location: "San Francisco, USA",
+    position: "Jr. Frontend Developer", 
+    department: "Technical",
+    experience: "1 year",
+    appliedDate: "2024-03-18",
+    status: "new",
+    resume: "sarah_wilson_resume.pdf",
+    coverLetter: "I am passionate about frontend development with 1 year of experience in React. I have worked on multiple projects involving React, TypeScript, and modern UI frameworks. I believe my skills and enthusiasm make me a great fit for this position.",
+    linkedIn: "https://linkedin.com/in/sarahwilson",
+    portfolio: "https://sarahwilson.dev",
+    noticePeriod: "2 weeks",
+    expectedSalary: "$70,000"
+  },
+  { 
+    id: 2, 
+    name: "Tom Brown", 
+    email: "tom.brown@example.com",
+    phone: "+1 234 567 8901",
+    location: "New York, USA",
+    position: "Jr. Backend Developer", 
+    department: "Technical",
+    experience: "2 years",
+    appliedDate: "2024-03-17",
+    status: "reviewing",
+    resume: "tom_brown_resume.pdf",
+    coverLetter: "Experienced Python developer with strong Django framework knowledge. I have been working professionally for 2 years, building scalable backend systems and RESTful APIs. I'm excited about the opportunity to contribute to your team.",
+    linkedIn: "https://linkedin.com/in/tombrown",
+    portfolio: "https://github.com/tombrown",
+    noticePeriod: "1 month",
+    expectedSalary: "$80,000"
+  },
+  { 
+    id: 3, 
+    name: "Lisa Anderson", 
+    email: "lisa.anderson@example.com",
+    phone: "+1 234 567 8902",
+    location: "Chicago, USA",
+    position: "Accountant", 
+    department: "Admin/Finance",
+    experience: "3 years",
+    appliedDate: "2024-03-16",
+    status: "shortlisted",
+    resume: "lisa_anderson_resume.pdf",
+    coverLetter: "Certified accountant with 3 years of experience in financial management, tax preparation, and financial reporting. I have a proven track record of improving financial processes and ensuring compliance with regulations.",
+    linkedIn: "https://linkedin.com/in/lisaanderson",
+    noticePeriod: "3 weeks",
+    expectedSalary: "$65,000"
+  },
+  { 
+    id: 4, 
+    name: "John Smith", 
+    email: "john.smith@example.com",
+    phone: "+1 234 567 8903",
+    location: "Austin, USA",
+    position: "Jr. Frontend Developer", 
+    department: "Technical",
+    experience: "0-1 year",
+    appliedDate: "2024-03-15",
+    status: "rejected",
+    resume: "john_smith_resume.pdf",
+    coverLetter: "Recent graduate eager to start career in web development. I have completed several personal projects and bootcamp courses. I'm a fast learner and ready to contribute to real-world projects.",
+    linkedIn: "https://linkedin.com/in/johnsmith",
+    portfolio: "https://johnsmith-portfolio.com",
+    noticePeriod: "Immediate",
+    expectedSalary: "$55,000"
+  },
+]
+
 const menuItems = [
   { id: "dashboard", label: "Dashboard", icon: HiHome, badge: null },
   { id: "analytics", label: "Analytics", icon: HiChartBar, badge: null },
   { id: "messages", label: "Messages", icon: HiMail, badge: 24 },
+  { id: "jobs", label: "Manage Jobs", icon: HiBriefcase, badge: null },
   { id: "applications", label: "Job Applications", icon: HiBriefcase, badge: 38 },
   { id: "testimonials", label: "Testimonials", icon: HiStar, badge: null },
   { id: "products", label: "Products", icon: HiCube, badge: null },
@@ -72,6 +247,9 @@ const AdminDashboardPage = () => {
   const [activeMenu, setActiveMenu] = useState("dashboard")
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [adminUser, setAdminUser] = useState("")
+  const [analyticsPeriod, setAnalyticsPeriod] = useState("month")
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth())
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
 
   useEffect(() => {
     // Check if user is authenticated
@@ -98,20 +276,6 @@ const AdminDashboardPage = () => {
       duration: 3000,
     })
     navigate("/ioxet-labs-admin")
-  }
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "unread":
-      case "new":
-        return "red"
-      case "reviewing":
-        return "blue"
-      case "shortlisted":
-        return "green"
-      default:
-        return "gray"
-    }
   }
 
   return (
@@ -155,131 +319,15 @@ const AdminDashboardPage = () => {
 
         <Box display="flex">
           {/* Sidebar */}
-          <Box
-            as="aside"
-            position={{ base: "fixed", lg: "sticky" }}
-            top={{ base: 0, lg: 0 }}
-            left={0}
-            h={{ base: "100vh", lg: "100vh" }}
-            w={{ base: "280px", lg: "280px" }}
-            bg="white"
-            borderRight="1px solid"
-            borderColor="neutral.200"
-            transform={{
-              base: isSidebarOpen ? "translateX(0)" : "translateX(-100%)",
-              lg: "translateX(0)"
-            }}
-            transition="transform 0.3s ease"
-            zIndex={20}
-            overflowY="auto"
-          >
-            <VStack gap={0} align="stretch" h="full">
-              {/* Logo Section */}
-              <Box
-                p={6}
-                borderBottom="1px solid"
-                borderColor="neutral.200"
-                display={{ base: "none", lg: "block" }}
-              >
-                <HStack gap={3}>
-                  <Box
-                    w="40px"
-                    h="40px"
-                    bg="primary.500"
-                    borderRadius="lg"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                  >
-                    <Icon as={HiHome} color="white" fontSize="xl" />
-                  </Box>
-                  <VStack align="start" gap={0}>
-                    <Heading fontSize="lg" fontWeight="700" color="neutral.900">
-                      IOXET Labs
-                    </Heading>
-                    <Text fontSize="xs" color="neutral.600">
-                      Admin Portal
-                    </Text>
-                  </VStack>
-                </HStack>
-              </Box>
-
-              {/* Menu Items */}
-              <VStack gap={1} p={4} flex={1} align="stretch">
-                {menuItems.map((item) => (
-                  <Button
-                    key={item.id}
-                    variant={activeMenu === item.id ? "solid" : "ghost"}
-                    bg={activeMenu === item.id ? "primary.50" : "transparent"}
-                    color={activeMenu === item.id ? "primary.600" : "neutral.700"}
-                    justifyContent="start"
-                    size="md"
-                    fontWeight="600"
-                    onClick={() => {
-                      setActiveMenu(item.id)
-                      setIsSidebarOpen(false)
-                    }}
-                    _hover={{
-                      bg: activeMenu === item.id ? "primary.100" : "neutral.50"
-                    }}
-                    position="relative"
-                  >
-                    <HStack gap={3} w="full">
-                      <Icon as={item.icon} fontSize="lg" />
-                      <Text flex={1} textAlign="left">{item.label}</Text>
-                      {item.badge && (
-                        <Badge
-                          colorScheme="red"
-                          borderRadius="full"
-                          px={2}
-                          fontSize="xs"
-                        >
-                          {item.badge}
-                        </Badge>
-                      )}
-                    </HStack>
-                  </Button>
-                ))}
-              </VStack>
-
-              {/* User Profile & Logout */}
-              <Box
-                p={4}
-                borderTop="1px solid"
-                borderColor="neutral.200"
-              >
-                <HStack
-                  gap={3}
-                  p={3}
-                  bg="neutral.50"
-                  borderRadius="lg"
-                  mb={2}
-                >
-                  <Circle size="32px" bg="primary.500" color="white" fontWeight="600" fontSize="sm">
-                    {adminUser.charAt(0).toUpperCase()}
-                  </Circle>
-                  <VStack align="start" gap={0} flex={1}>
-                    <Text fontSize="sm" fontWeight="600" color="neutral.900">
-                      {adminUser}
-                    </Text>
-                    <Text fontSize="xs" color="neutral.600">
-                      Administrator
-                    </Text>
-                  </VStack>
-                </HStack>
-                <Button
-                  variant="ghost"
-                  colorScheme="red"
-                  w="full"
-                  justifyContent="start"
-                  onClick={handleLogout}
-                >
-                  <Icon as={HiLogout} mr={2} />
-                  Logout
-                </Button>
-              </Box>
-            </VStack>
-          </Box>
+          <AdminSidebar
+            menuItems={menuItems}
+            activeMenu={activeMenu}
+            adminUser={adminUser}
+            isSidebarOpen={isSidebarOpen}
+            onMenuSelect={setActiveMenu}
+            onLogout={handleLogout}
+            onCloseSidebar={() => setIsSidebarOpen(false)}
+          />
 
           {/* Overlay for mobile */}
           {isSidebarOpen && (
@@ -308,11 +356,29 @@ const AdminDashboardPage = () => {
                 <VStack gap={6} align="stretch" mb={8}>
                   <HStack justify="space-between" flexWrap="wrap" gap={4}>
                     <VStack align="start" gap={1}>
-                      <Heading fontSize={{ base: "2xl", md: "3xl" }} fontWeight="700" color="neutral.900">
-                        Welcome back, {adminUser}! 👋
+                      <Heading size="2xl" mb={2}>
+                        {activeMenu === "dashboard" && `Welcome back, ${adminUser}! 👋`}
+                        {activeMenu === "analytics" && "Analytics Dashboard"}
+                        {activeMenu === "messages" && "Messages & Inquiries"}
+                        {activeMenu === "jobs" && "Manage Job Postings"}
+                        {activeMenu === "applications" && "Job Applications"}
+                        {activeMenu === "testimonials" && "Manage Testimonials"}
+                        {activeMenu === "products" && "Manage Products"}
+                        {activeMenu === "services" && "Manage Services"}
+                        {activeMenu === "gallery" && "Manage Gallery"}
+                        {activeMenu === "team" && "Manage Team Members"}
                       </Heading>
                       <Text color="neutral.600">
-                        Here's what's happening with your platform today.
+                        {activeMenu === "dashboard" && "Here's what's happening with your platform today."}
+                        {activeMenu === "analytics" && "Comprehensive insights into your platform performance"}
+                        {activeMenu === "messages" && "Review and respond to customer inquiries"}
+                        {activeMenu === "jobs" && "Create and manage job postings"}
+                        {activeMenu === "applications" && "Review and manage candidate applications"}
+                        {activeMenu === "testimonials" && "Add, edit, and manage client testimonials"}
+                        {activeMenu === "products" && "Add, edit, and manage your product offerings"}
+                        {activeMenu === "services" && "Add, edit, and manage your service offerings"}
+                        {activeMenu === "gallery" && "Manage gallery categories and images"}
+                        {activeMenu === "team" && "Add, edit, and manage your team members displayed on About page"}
                       </Text>
                     </VStack>
                     <Text fontSize="sm" color="neutral.500">
@@ -321,244 +387,161 @@ const AdminDashboardPage = () => {
                   </HStack>
                 </VStack>
 
-                {/* Stats Grid */}
-                <Grid
-                  templateColumns={{ base: "1fr", sm: "repeat(2, 1fr)", lg: "repeat(4, 1fr)" }}
-                  gap={6}
-                  mb={8}
-                >
-                  {stats.map((stat, index) => (
-                    <MotionBox
-                      key={stat.label}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: index * 0.1 }}
-                    >
-                      <Box
-                        p={6}
-                        bg="white"
-                        borderRadius="xl"
-                        border="1px solid"
-                        borderColor="neutral.200"
-                        _hover={{
-                          shadow: "md",
-                          borderColor: `${stat.color}.200`
-                        }}
-                        transition="all 0.3s ease"
-                      >
-                        <VStack align="start" gap={3}>
-                          <HStack justify="space-between" w="full">
-                            <Box
-                              p={2}
-                              bg={`${stat.color}.50`}
-                              borderRadius="lg"
+                {/* Dashboard View */}
+                {activeMenu === "dashboard" && (
+                  <DashboardOverview
+                    stats={stats}
+                    recentMessages={recentMessages}
+                    recentApplications={recentApplications}
+                    onViewAllMessages={() => setActiveMenu("messages")}
+                    onViewAllApplications={() => setActiveMenu("applications")}
+                  />
+                )}
+
+                {/* Analytics View */}
+                {activeMenu === "analytics" && (
+                  <VStack gap={6} align="stretch">
+                    {/* Time Period Filter */}
+                    <Box bg="white" p={4} rounded="lg" shadow="sm" borderWidth="1px" borderColor="gray.200">
+                      <VStack align="stretch" gap={4}>
+                        <HStack wrap="wrap" gap={2}>
+                          {[
+                            { value: "week", label: "Week" },
+                            { value: "month", label: "Month" },
+                            { value: "3months", label: "3 Months" },
+                            { value: "6months", label: "6 Months" },
+                            { value: "year", label: "Year" }
+                          ].map((period) => (
+                            <Button
+                              key={period.value}
+                              size="sm"
+                              variant={analyticsPeriod === period.value ? "solid" : "outline"}
+                              colorScheme={analyticsPeriod === period.value ? "blue" : "gray"}
+                              onClick={() => setAnalyticsPeriod(period.value)}
                             >
-                              <Icon as={stat.icon} fontSize="xl" color={`${stat.color}.500`} />
+                              {period.label}
+                            </Button>
+                          ))}
+                        </HStack>
+                        
+                        {/* Month and Year Selector */}
+                        {analyticsPeriod === "month" && (
+                          <HStack gap={3}>
+                            <Box flex={1}>
+                              <Text fontSize="xs" fontWeight="semibold" color="gray.600" mb={2}>
+                                Month
+                              </Text>
+                              <select
+                                value={selectedMonth}
+                                onChange={(e) => setSelectedMonth(Number(e.target.value))}
+                                style={{
+                                  width: '100%',
+                                  padding: '8px 12px',
+                                  borderRadius: '6px',
+                                  border: '1px solid #E2E8F0',
+                                  fontSize: '14px',
+                                  backgroundColor: 'white',
+                                  cursor: 'pointer'
+                                }}
+                              >
+                                {[
+                                  'January', 'February', 'March', 'April', 'May', 'June',
+                                  'July', 'August', 'September', 'October', 'November', 'December'
+                                ].map((month, index) => (
+                                  <option key={index} value={index}>{month}</option>
+                                ))}
+                              </select>
                             </Box>
-                            <Badge
-                              colorScheme={stat.change.startsWith("+") ? "green" : "red"}
-                              fontSize="xs"
-                            >
-                              {stat.change}
-                            </Badge>
+                            <Box flex={1}>
+                              <Text fontSize="xs" fontWeight="semibold" color="gray.600" mb={2}>
+                                Year
+                              </Text>
+                              <select
+                                value={selectedYear}
+                                onChange={(e) => setSelectedYear(Number(e.target.value))}
+                                style={{
+                                  width: '100%',
+                                  padding: '8px 12px',
+                                  borderRadius: '6px',
+                                  border: '1px solid #E2E8F0',
+                                  fontSize: '14px',
+                                  backgroundColor: 'white',
+                                  cursor: 'pointer'
+                                }}
+                              >
+                                {Array.from({ length: 5 }, (_, i) => new Date().getFullYear() - i).map((year) => (
+                                  <option key={year} value={year}>{year}</option>
+                                ))}
+                              </select>
+                            </Box>
                           </HStack>
-                          <VStack align="start" gap={0}>
-                            <Text fontSize="2xl" fontWeight="700" color="neutral.900">
-                              {stat.value}
-                            </Text>
-                            <Text fontSize="sm" color="neutral.600">
-                              {stat.label}
-                            </Text>
-                          </VStack>
-                        </VStack>
-                      </Box>
-                    </MotionBox>
-                  ))}
-                </Grid>
-
-                {/* Content Grid */}
-                <Grid
-                  templateColumns={{ base: "1fr", lg: "repeat(2, 1fr)" }}
-                  gap={6}
-                >
-                  {/* Recent Messages */}
-                  <GridItem>
-                    <Box
-                      p={6}
-                      bg="white"
-                      borderRadius="xl"
-                      border="1px solid"
-                      borderColor="neutral.200"
-                      h="full"
-                    >
-                      <HStack justify="space-between" mb={6}>
-                        <HStack gap={2}>
-                          <Icon as={HiMail} fontSize="xl" color="green.500" />
-                          <Heading fontSize="lg" fontWeight="700">
-                            Recent Messages
-                          </Heading>
-                        </HStack>
-                        <Button size="sm" variant="ghost" colorScheme="primary">
-                          View All
-                        </Button>
-                      </HStack>
-
-                      <VStack gap={4} align="stretch">
-                        {recentMessages.map((msg) => (
-                          <Box
-                            key={msg.id}
-                            p={4}
-                            bg={msg.status === "unread" ? "blue.50" : "neutral.50"}
-                            borderRadius="lg"
-                            border="1px solid"
-                            borderColor={msg.status === "unread" ? "blue.200" : "neutral.200"}
-                            cursor="pointer"
-                            _hover={{ shadow: "sm", borderColor: "primary.300" }}
-                            transition="all 0.2s ease"
-                          >
-                            <HStack justify="space-between" mb={2}>
-                              <HStack gap={2}>
-                                <Circle size="24px" bg="primary.100" color="primary.600" fontWeight="600" fontSize="xs">
-                                  {msg.name.charAt(0).toUpperCase()}
-                                </Circle>
-                                <Text fontSize="sm" fontWeight="600" color="neutral.900">
-                                  {msg.name}
-                                </Text>
-                              </HStack>
-                              <Badge colorScheme={getStatusColor(msg.status)} fontSize="xs">
-                                {msg.status}
-                              </Badge>
-                            </HStack>
-                            <Text 
-                              fontSize="sm" 
-                              color="neutral.700" 
-                              mb={2}
-                              css={{
-                                display: '-webkit-box',
-                                WebkitLineClamp: 2,
-                                WebkitBoxOrient: 'vertical',
-                                overflow: 'hidden'
-                              }}
-                            >
-                              {msg.message}
-                            </Text>
-                            <HStack justify="space-between">
-                              <Text fontSize="xs" color="neutral.500">
-                                {msg.email}
-                              </Text>
-                              <Text fontSize="xs" color="neutral.500">
-                                {msg.time}
-                              </Text>
-                            </HStack>
-                          </Box>
-                        ))}
+                        )}
                       </VStack>
-                    </Box>
-                  </GridItem>
-
-                  {/* Recent Applications */}
-                  <GridItem>
-                    <Box
-                      p={6}
-                      bg="white"
-                      borderRadius="xl"
-                      border="1px solid"
-                      borderColor="neutral.200"
-                      h="full"
-                    >
-                      <HStack justify="space-between" mb={6}>
-                        <HStack gap={2}>
-                          <Icon as={HiBriefcase} fontSize="xl" color="purple.500" />
-                          <Heading fontSize="lg" fontWeight="700">
-                            Recent Job Applications
-                          </Heading>
-                        </HStack>
-                        <Button size="sm" variant="ghost" colorScheme="primary">
-                          View All
-                        </Button>
-                      </HStack>
-
-                      <VStack gap={4} align="stretch">
-                        {recentApplications.map((app) => (
-                          <Box
-                            key={app.id}
-                            p={4}
-                            bg="neutral.50"
-                            borderRadius="lg"
-                            border="1px solid"
-                            borderColor="neutral.200"
-                            cursor="pointer"
-                            _hover={{ shadow: "sm", borderColor: "primary.300" }}
-                            transition="all 0.2s ease"
-                          >
-                            <HStack justify="space-between" mb={2}>
-                              <HStack gap={2}>
-                                <Circle size="24px" bg="purple.100" color="purple.600" fontWeight="600" fontSize="xs">
-                                  {app.name.charAt(0).toUpperCase()}
-                                </Circle>
-                                <Text fontSize="sm" fontWeight="600" color="neutral.900">
-                                  {app.name}
-                                </Text>
-                              </HStack>
-                              <Badge colorScheme={getStatusColor(app.status)} fontSize="xs">
-                                {app.status}
-                              </Badge>
-                            </HStack>
-                            <Text fontSize="sm" color="neutral.700" fontWeight="600" mb={1}>
-                              {app.position}
-                            </Text>
-                            <HStack justify="space-between">
-                              <Text fontSize="xs" color="neutral.600">
-                                {app.department}
-                              </Text>
-                              <Text fontSize="xs" color="neutral.500">
-                                {app.time}
-                              </Text>
-                            </HStack>
-                          </Box>
-                        ))}
-                      </VStack>
-                    </Box>
-                  </GridItem>
-                </Grid>
-
-                {/* Quick Actions */}
-                <Box
-                  mt={6}
-                  p={6}
-                  bg="gradient-to-r"
-                  bgGradient="linear(135deg, primary.500, primary.600)"
-                  borderRadius="xl"
-                  color="white"
-                >
-                  <HStack justify="space-between" flexWrap="wrap" gap={4}>
-                    <VStack align="start" gap={2}>
-                      <Heading fontSize="xl" fontWeight="700">
-                        Need Help?
+                    </Box>                    {/* Website Traffic Chart */}
+                    <Box bg="white" p={6} rounded="lg" shadow="md" borderWidth="1px" borderColor="gray.200">
+                      <Heading size="md" color="gray.800" mb={4}>
+                        Website Traffic
                       </Heading>
-                      <Text fontSize="sm" opacity={0.9}>
-                        Check out our documentation or contact support
-                      </Text>
-                    </VStack>
-                    <HStack gap={3}>
-                      <Button
-                        bg="white"
-                        color="primary.600"
-                        _hover={{ bg: "whiteAlpha.900" }}
-                      >
-                        Documentation
-                      </Button>
-                      <Button
-                        variant="outline"
-                        borderColor="white"
-                        color="white"
-                        _hover={{ bg: "whiteAlpha.200" }}
-                      >
-                        Contact Support
-                      </Button>
-                    </HStack>
-                  </HStack>
-                </Box>
+                      <VisitorsChart period={analyticsPeriod} month={selectedMonth} year={selectedYear} />
+                    </Box>
+
+                    {/* Jobs & Applications Chart */}
+                    <Box bg="white" p={6} rounded="lg" shadow="md" borderWidth="1px" borderColor="gray.200">
+                      <Heading size="md" color="gray.800" mb={4}>
+                        Jobs & Applications
+                      </Heading>
+                      <JobsApplicationsChart period={analyticsPeriod} month={selectedMonth} year={selectedYear} />
+                    </Box>
+
+                    {/* Messages Chart */}
+                    <Box bg="white" p={6} rounded="lg" shadow="md" borderWidth="1px" borderColor="gray.200">
+                      <Heading size="md" color="gray.800" mb={4}>
+                        Messages & Communications
+                      </Heading>
+                      <MessagesChart period={analyticsPeriod} month={selectedMonth} year={selectedYear} />
+                    </Box>
+                  </VStack>
+                )}
+
+                {/* Messages View */}
+                {activeMenu === "messages" && (
+                  <MessagesList messages={allMessages} />
+                )}
+
+                {/* Manage Jobs View */}
+                {activeMenu === "jobs" && (
+                  <JobsManagement jobs={postedJobs} />
+                )}
+
+                {/* Job Applications View */}
+                {activeMenu === "applications" && (
+                  <ApplicationsList applications={allApplications} />
+                )}
+
+                {/* Testimonials View */}
+                {activeMenu === "testimonials" && (
+                  <TestimonialsManagement />
+                )}
+
+                {/* Products View */}
+                {activeMenu === "products" && (
+                  <ProductsManagement />
+                )}
+
+                {/* Services View */}
+                {activeMenu === "services" && (
+                  <ServicesManagement />
+                )}
+
+                {/* Gallery View */}
+                {activeMenu === "gallery" && (
+                  <GalleryManagement />
+                )}
+
+                {/* Team Members View */}
+                {activeMenu === "team" && (
+                  <TeamMembersManagement />
+                )}
               </MotionBox>
             </Container>
           </Box>
@@ -569,3 +552,4 @@ const AdminDashboardPage = () => {
 }
 
 export default AdminDashboardPage
+
