@@ -323,10 +323,10 @@ export const TestimonialsManagement = ({ testimonials: initialTestimonials = [] 
                     <Text
                       color="gray.600"
                       fontSize="sm"
-                      noOfLines={2}
+                      lineClamp={2}
                       maxW="400px"
                     >
-                      "{testimonial.quote}"
+                      {testimonial.quote}
                     </Text>
                   </Table.Cell>
                   <Table.Cell>

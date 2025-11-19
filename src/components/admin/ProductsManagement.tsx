@@ -557,10 +557,10 @@ export const ProductsManagement = ({ products: initialProducts = [] }: ProductsM
                         color="blue.600"
                         fontSize="sm"
                         maxW="200px"
-                        noOfLines={1}
+                        lineClamp={1}
                         cursor="pointer"
                         _hover={{ textDecoration: "underline" }}
-                        onClick={() => window.open(product.url, '_blank')}
+                        onClick={() => window.open(product.url, "_blank")}
                       >
                         {product.url}
                       </Text>

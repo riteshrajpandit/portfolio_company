@@ -529,23 +529,23 @@ export const TeamMembersManagement = () => {
                 <Table.Cell>
                   <Badge colorScheme="blue">{member.role}</Badge>
                 </Table.Cell>
-                <Table.Cell maxW="300px" isTruncated>
+                <Table.Cell maxW="300px" truncate>
                   {member.bio}
                 </Table.Cell>
                 <Table.Cell>
                   <VStack align="start" gap={1} fontSize="xs">
                     {member.social.linkedin && (
-                      <Text color="blue.600" isTruncated maxW="150px">
+                      <Text color="blue.600" truncate maxW="150px">
                         LinkedIn: {member.social.linkedin}
                       </Text>
                     )}
                     {member.social.twitter && (
-                      <Text color="gray.600" isTruncated maxW="150px">
+                      <Text color="gray.600" truncate maxW="150px">
                         Twitter: {member.social.twitter}
                       </Text>
                     )}
                     {member.social.github && (
-                      <Text color="gray.600" isTruncated maxW="150px">
+                      <Text color="gray.600" truncate maxW="150px">
                         GitHub: {member.social.github}
                       </Text>
                     )}
