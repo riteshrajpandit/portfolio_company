@@ -1,5 +1,5 @@
-import { lazy, Suspense } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { lazy, Suspense, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import { Box } from '@chakra-ui/react'
 import ErrorBoundary from './components/ErrorBoundary'
 import SEO from './components/SEO'
@@ -8,6 +8,7 @@ import LoadingScreen from './components/LoadingScreen'
 import ScrollToTopButton from './components/ScrollToTopButton'
 import ScrollToTop from './components/ScrollToTop'
 import Footer from './components/Footer'
+import { trackPageView } from './utils/analytics'
 
 // Lazy load pages for better performance
 const HomePage = lazy(() => import('./pages/HomePage'))
@@ -27,6 +28,18 @@ const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 // Admin pages
 const AdminLoginPage = lazy(() => import('./pages/admin/AdminLoginPage'))
 const AdminDashboardPage = lazy(() => import('./pages/admin/AdminDashboardPage'))
+
+// Analytics page tracker
+const AnalyticsTracker = () => {
+  const location = useLocation()
+
+  useEffect(() => {
+    // Track page view on route change
+    trackPageView(location.pathname + location.search)
+  }, [location])
+
+  return null
+}
 
 // Layout wrapper for public pages
 const PublicLayout = () => (
@@ -62,6 +75,7 @@ function App() {
       <Router>
         <SEO />
         <ScrollToTop />
+        <AnalyticsTracker />
         <Suspense fallback={<LoadingScreen />}>
           <Routes>
             {/* Admin Routes - No Navbar/Footer */}

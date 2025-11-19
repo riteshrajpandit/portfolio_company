@@ -28,6 +28,7 @@ import {
 } from "react-icons/hi2"
 import { Field } from "@/components/ui/field"
 import { Toaster, toaster } from "@/components/ui/toaster"
+import { trackCareerApplication } from "@/utils/analytics"
 
 const MotionBox = motion(Box)
 
@@ -191,6 +192,9 @@ export const ApplyPage = () => {
 
     // Simulate API call
     try {
+      // Track application submission in Google Analytics
+      trackCareerApplication(job?.title || "Unknown Position")
+      
       // In a real application, you would send this data to your backend
       await new Promise(resolve => setTimeout(resolve, 2000))
 

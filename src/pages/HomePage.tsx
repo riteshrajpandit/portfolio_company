@@ -8,9 +8,13 @@ import EarlyAdoptersSection from '../components/sections/EarlyAdoptersSection'
 import TestimonialsSection from '../components/sections/TestimonialsSection'
 import CTASection from '../components/sections/CTASection'
 import LoadingScreen from '../components/LoadingScreen'
+import { usePageTracking } from '../utils/usePageTracking'
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(true)
+  
+  // Track page views, scroll depth, and time on page
+  usePageTracking('Home')
 
   useEffect(() => {
     // Simulate page load with minimum display time for smooth UX

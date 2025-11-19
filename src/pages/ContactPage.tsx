@@ -14,6 +14,7 @@ import {
 } from "@chakra-ui/react"
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaCheckCircle, FaRocket, FaTimes } from "react-icons/fa"
 import { useState } from "react"
+import { trackContactFormSubmit } from "@/utils/analytics"
 
 const contactInfo = [
   {
@@ -83,6 +84,9 @@ export const ContactPage = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     console.log("Form submitted:", formData)
+    
+    // Track form submission in Google Analytics
+    trackContactFormSubmit()
     
     // Show success modal instead of alert
     setShowSuccessModal(true)
