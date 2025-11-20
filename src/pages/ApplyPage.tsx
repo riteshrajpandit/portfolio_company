@@ -497,7 +497,7 @@ export const ApplyPage = () => {
                       helperText="Optional"
                     >
                       <Input
-                        placeholder="e.g., $80,000"
+                        placeholder="e.g., Rs.80,000"
                         value={formData.expectedSalary}
                         onChange={(e) => handleInputChange("expectedSalary", e.target.value)}
                         size="lg"

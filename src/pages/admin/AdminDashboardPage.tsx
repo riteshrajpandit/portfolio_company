@@ -172,7 +172,7 @@ const allApplications = [
     linkedIn: "https://linkedin.com/in/sarahwilson",
     portfolio: "https://sarahwilson.dev",
     noticePeriod: "2 weeks",
-    expectedSalary: "$70,000"
+    expectedSalary: "Rs.70,000"
   },
   { 
     id: 2, 
@@ -190,7 +190,7 @@ const allApplications = [
     linkedIn: "https://linkedin.com/in/tombrown",
     portfolio: "https://github.com/tombrown",
     noticePeriod: "1 month",
-    expectedSalary: "$80,000"
+    expectedSalary: "Rs.80,000"
   },
   { 
     id: 3, 
@@ -207,7 +207,7 @@ const allApplications = [
     coverLetter: "Certified accountant with 3 years of experience in financial management, tax preparation, and financial reporting. I have a proven track record of improving financial processes and ensuring compliance with regulations.",
     linkedIn: "https://linkedin.com/in/lisaanderson",
     noticePeriod: "3 weeks",
-    expectedSalary: "$65,000"
+    expectedSalary: "Rs.65,000"
   },
   { 
     id: 4, 
@@ -225,7 +225,7 @@ const allApplications = [
     linkedIn: "https://linkedin.com/in/johnsmith",
     portfolio: "https://johnsmith-portfolio.com",
     noticePeriod: "Immediate",
-    expectedSalary: "$55,000"
+    expectedSalary: "Rs.55,000"
   },
 ]
 

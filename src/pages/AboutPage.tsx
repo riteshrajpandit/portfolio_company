@@ -674,7 +674,7 @@ export const AboutPage = () => {
       </Box>
 
       {/* Team Section */}
-      <Box py={{ base: 12, md: 20 }} bg="white">
+      <Box id="team" py={{ base: 12, md: 20 }} bg="white">
         <Container maxW="7xl" px={{ base: 4, md: 6 }}>
           <MotionBox
             initial={{ opacity: 0, y: 30 }}
