@@ -15,6 +15,8 @@ import { motion } from "framer-motion"
 import { HiLockClosed, HiUser, HiEye, HiEyeOff } from "react-icons/hi"
 import { toaster } from "@/components/ui/toaster"
 import SEO from "@/components/SEO"
+import { apiService } from "@/services/api"
+import { authUtils } from "@/utils/auth"
 
 const MotionBox = motion(Box)
 
@@ -26,43 +28,115 @@ const AdminLoginPage = () => {
     username: "",
     password: ""
   })
+  const [errors, setErrors] = useState({
+    username: "",
+    password: "",
+    general: ""
+  })
+
+  const validateForm = (): boolean => {
+    const newErrors = {
+      username: "",
+      password: "",
+      general: ""
+    }
+    let isValid = true
+
+    if (!formData.username.trim()) {
+      newErrors.username = "Username is required"
+      isValid = false
+    }
+
+    if (!formData.password) {
+      newErrors.password = "Password is required"
+      isValid = false
+    } else if (formData.password.length < 6) {
+      newErrors.password = "Password must be at least 6 characters"
+      isValid = false
+    }
+
+    setErrors(newErrors)
+    return isValid
+  }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    
+    // Clear previous errors
+    setErrors({ username: "", password: "", general: "" })
+    
+    // Validate form
+    if (!validateForm()) {
+      return
+    }
+
     setIsLoading(true)
 
-    // Simulate API call
-    setTimeout(() => {
-      if (formData.username && formData.password) {
-        // Store auth token (dummy for now)
-        localStorage.setItem("admin_token", "dummy_token_12345")
-        localStorage.setItem("admin_user", formData.username)
+    try {
+      // Call the actual login API
+      const response = await apiService.login({
+        username: formData.username.trim(),
+        password: formData.password
+      })
+
+      if (response.success && response.data) {
+        // Store authentication data securely
+        authUtils.setAuth({
+          token: response.data.token,
+          user_id: response.data.user_id,
+          username: response.data.username
+        })
         
         toaster.create({
           title: "Login Successful",
-          description: `Welcome back, ${formData.username}!`,
+          description: `Welcome back, ${response.data.username}!`,
           type: "success",
           duration: 3000,
         })
         
+        // Navigate to dashboard
         navigate("/ioxet-labs-admin/dashboard")
       } else {
-        toaster.create({
-          title: "Login Failed",
-          description: "Please enter valid credentials",
-          type: "error",
-          duration: 3000,
-        })
+        throw new Error(response.message || "Login failed")
       }
+    } catch (error) {
+      console.error("Login error:", error)
+      
+      const errorMessage = error instanceof Error 
+        ? error.message 
+        : "An unexpected error occurred. Please try again."
+      
+      setErrors({
+        ...errors,
+        general: errorMessage
+      })
+      
+      toaster.create({
+        title: "Login Failed",
+        description: errorMessage,
+        type: "error",
+        duration: 5000,
+      })
+    } finally {
       setIsLoading(false)
-    }, 1500)
+    }
   }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     })
+    
+    // Clear error for this field when user starts typing
+    if (errors[name as keyof typeof errors]) {
+      setErrors({
+        ...errors,
+        [name]: ""
+      })
+    }
   }
 
   return (
@@ -156,6 +230,21 @@ const AdminLoginPage = () => {
               {/* Login Form */}
               <form onSubmit={handleSubmit}>
                 <VStack gap={5} align="stretch">
+                  {/* General Error Message */}
+                  {errors.general && (
+                    <Box
+                      p={3}
+                      bg="red.50"
+                      borderRadius="lg"
+                      border="1px solid"
+                      borderColor="red.200"
+                    >
+                      <Text fontSize="sm" color="red.700" fontWeight="500">
+                        {errors.general}
+                      </Text>
+                    </Box>
+                  )}
+
                   {/* Username Field */}
                   <Box>
                     <Text
@@ -186,16 +275,24 @@ const AdminLoginPage = () => {
                         pl="44px"
                         bg="neutral.50"
                         border="1px solid"
-                        borderColor="neutral.300"
-                        _hover={{ borderColor: "neutral.400" }}
+                        borderColor={errors.username ? "red.500" : "neutral.300"}
+                        _hover={{ borderColor: errors.username ? "red.600" : "neutral.400" }}
                         _focus={{
-                          borderColor: "primary.500",
-                          boxShadow: "0 0 0 1px var(--chakra-colors-primary-500)",
+                          borderColor: errors.username ? "red.500" : "primary.500",
+                          boxShadow: errors.username 
+                            ? "0 0 0 1px var(--chakra-colors-red-500)" 
+                            : "0 0 0 1px var(--chakra-colors-primary-500)",
                           bg: "white"
                         }}
                         required
+                        autoComplete="username"
                       />
                     </Box>
+                    {errors.username && (
+                      <Text fontSize="xs" color="red.500" mt={1} ml={1}>
+                        {errors.username}
+                      </Text>
+                    )}
                   </Box>
 
                   {/* Password Field */}
@@ -230,14 +327,17 @@ const AdminLoginPage = () => {
                         pr="44px"
                         bg="neutral.50"
                         border="1px solid"
-                        borderColor="neutral.300"
-                        _hover={{ borderColor: "neutral.400" }}
+                        borderColor={errors.password ? "red.500" : "neutral.300"}
+                        _hover={{ borderColor: errors.password ? "red.600" : "neutral.400" }}
                         _focus={{
-                          borderColor: "primary.500",
-                          boxShadow: "0 0 0 1px var(--chakra-colors-primary-500)",
+                          borderColor: errors.password ? "red.500" : "primary.500",
+                          boxShadow: errors.password 
+                            ? "0 0 0 1px var(--chakra-colors-red-500)" 
+                            : "0 0 0 1px var(--chakra-colors-primary-500)",
                           bg: "white"
                         }}
                         required
+                        autoComplete="current-password"
                       />
                       <Button
                         type="button"
@@ -260,6 +360,11 @@ const AdminLoginPage = () => {
                         />
                       </Button>
                     </Box>
+                    {errors.password && (
+                      <Text fontSize="xs" color="red.500" mt={1} ml={1}>
+                        {errors.password}
+                      </Text>
+                    )}
                   </Box>
 
                   {/* Remember Me & Forgot Password */}

@@ -202,8 +202,8 @@ const megaMenuItems: MegaMenuItem[] = [
     tools: {
       title: 'Tools',
       subtitle: 'AI Implementation Benefits Calculator for your business!',
-      cta: 'Explore',
-      link: '/resources#ai-calculator'
+      cta: 'Calculate ROI',
+      link: '/roi-calculator'
     }
   },
   {

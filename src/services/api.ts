@@ -1,0 +1,269 @@
+// API Service with security best practices
+
+const API_BASE_URL = import.meta.env.VITE_API_ENDPOINT || 'http://localhost:8000'
+
+interface CareersListResponse {
+  data: Career[]
+  message: string
+  success: boolean
+  count: number
+  next: string | null
+  previous: string | null
+}
+
+interface JobApplication {
+  id?: number
+  first_name: string
+  last_name: string
+  email: string
+  phone_number: string
+  current_location: string
+  linkedin_profile?: string
+  portfolio_website?: string
+  years_of_experience?: number
+  notice_period?: string
+  expected_salary?: string
+  cover_letter: string
+  resume: File | string
+  created_at?: string
+  updated_at?: string
+}
+
+interface JobApplicationListResponse {
+  data: JobApplication[]
+  message: string
+  success: boolean
+  count: number
+  next: string | null
+  previous: string | null
+}
+
+interface ApiResponse<T> {
+  data: T
+  message: string
+  success: boolean
+}
+
+interface LoginResponse {
+  token: string
+  user_id: number
+  username: string
+}
+
+interface LoginCredentials {
+  username: string
+  password: string
+}
+
+interface Career {
+  id: number
+  job_name: string
+  department_name: string
+  job_type: string
+  remote_mode?: string | null
+  location?: string
+  experience_level: string
+  requirements: string
+  description: string
+  expire: boolean
+  posted_at: string
+  updated_at: string
+}
+
+interface CareerCreateData {
+  job_name: string
+  department_name: string
+  job_type: string
+  experience_level: string
+  requirements: string
+  description: string
+  remote_mode?: string
+  location?: string
+}
+
+interface CareerUpdateData {
+  job_name?: string
+  department_name?: string
+  job_type?: string
+  experience_level?: string
+  requirements?: string
+  description?: string
+  remote_mode?: string
+  location?: string
+  expire?: boolean
+}
+
+interface CareersListResponse {
+  data: Career[]
+  message: string
+  success: boolean
+  count: number
+  next: string | null
+  previous: string | null
+}
+
+class ApiService {
+  private baseUrl: string
+
+  constructor(baseUrl: string) {
+    this.baseUrl = baseUrl
+  }
+
+  private async request<T>(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise<ApiResponse<T>> {
+    const url = `${this.baseUrl}${endpoint}`
+    
+    const config: RequestInit = {
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...options.headers,
+      },
+    }
+
+    try {
+      const response = await fetch(url, config)
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`API Error: ${error.message}`)
+      }
+      throw new Error('An unexpected error occurred')
+    }
+  }
+
+  async login(credentials: LoginCredentials): Promise<ApiResponse<LoginResponse>> {
+    return this.request<LoginResponse>('/api/login/', {
+      method: 'POST',
+      body: JSON.stringify(credentials),
+    })
+  }
+
+  async authenticatedRequest<T>(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise<ApiResponse<T>> {
+    const token = localStorage.getItem('admin_token')
+    
+    if (!token) {
+      throw new Error('No authentication token found')
+    }
+
+    return this.request<T>(endpoint, {
+      ...options,
+      headers: {
+        ...options.headers,
+        'Authorization': `Token ${token}`,
+      },
+    })
+  }
+
+  // Career API Methods
+  async getCareers(department?: string): Promise<CareersListResponse> {
+    const queryParam = department ? `?department=${encodeURIComponent(department)}` : ''
+    const url = `${this.baseUrl}/api/careers/${queryParam}`
+    
+    const config: RequestInit = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+
+    try {
+      const response = await fetch(url, config)
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`API Error: ${error.message}`)
+      }
+      throw new Error('An unexpected error occurred')
+    }
+  }
+
+  async createCareer(careerData: CareerCreateData): Promise<ApiResponse<Career>> {
+    return this.authenticatedRequest<Career>('/api/careers/', {
+      method: 'POST',
+      body: JSON.stringify(careerData),
+    })
+  }
+
+  async updateCareer(id: number, careerData: CareerUpdateData): Promise<ApiResponse<Career>> {
+    return this.authenticatedRequest<Career>(`/api/careers/?id=${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(careerData),
+    })
+  }
+
+  async deleteCareer(id: number): Promise<ApiResponse<null>> {
+    return this.authenticatedRequest<null>(`/api/careers/?id=${id}`, {
+      method: 'DELETE',
+    })
+  }
+
+  // Job Application API Methods
+  async applyForJob(applicationData: FormData): Promise<ApiResponse<JobApplication>> {
+    const token = localStorage.getItem('admin_token')
+    const url = `${this.baseUrl}/api/apply/`
+    
+    const config: RequestInit = {
+      method: 'POST',
+      body: applicationData,
+      headers: token ? {
+        'Authorization': `Token ${token}`,
+      } : {},
+    }
+
+    try {
+      const response = await fetch(url, config)
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`API Error: ${error.message}`)
+      }
+      throw new Error('An unexpected error occurred')
+    }
+  }
+
+  async getJobApplications(): Promise<JobApplicationListResponse> {
+    return this.authenticatedRequest<JobApplicationListResponse>('/api/applications/', {
+      method: 'GET',
+    }) as unknown as JobApplicationListResponse
+  }
+}
+
+export const apiService = new ApiService(API_BASE_URL)
+export type { 
+  LoginResponse, 
+  LoginCredentials, 
+  ApiResponse,
+  Career,
+  CareerCreateData,
+  CareerUpdateData,
+  CareersListResponse,
+  JobApplication,
+  JobApplicationListResponse
+}

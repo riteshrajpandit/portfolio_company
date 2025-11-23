@@ -23,6 +23,7 @@ const GalleryPage = lazy(() => import('./pages/GalleryPage'))
 const PrivacyPolicyPage = lazy(() => import('./pages/PrivacyPolicyPage'))
 const TermsOfServicePage = lazy(() => import('./pages/TermsOfServicePage'))
 const SitemapPage = lazy(() => import('./pages/SitemapPage'))
+const ROICalculatorPage = lazy(() => import('./pages/ROICalculatorPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
 
 // Admin pages
@@ -59,6 +60,7 @@ const PublicLayout = () => (
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/privacy" element={<PrivacyPolicyPage />} />
           <Route path="/terms" element={<TermsOfServicePage />} />
+          <Route path="/roi-calculator" element={<ROICalculatorPage />} />
           <Route path="/sitemap" element={<SitemapPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

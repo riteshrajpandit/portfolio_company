@@ -11,10 +11,12 @@ import {
   Flex,
   Wrap,
   WrapItem,
+  Spinner,
+  Center,
 } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
   HiArrowRight,
   HiMapPin,
@@ -26,6 +28,8 @@ import {
   HiUserGroup,
   HiChartBar
 } from "react-icons/hi2"
+import { apiService, type Career } from "@/services/api"
+import { toaster } from "@/components/ui/toaster"
 
 // Department categories
 const departments = [
@@ -59,65 +63,6 @@ const departments = [
   }
 ]
 
-const openPositions = [
-  {
-    id: 1,
-    title: "Jr. Frontend Developer",
-    department: "technical",
-    departmentName: "Technical",
-    location: "On-Site",
-    type: "Full-time",
-    experience: "0-2 years",
-    description: "Join our frontend team to build modern, responsive web applications using React, Next.js, and cutting-edge UI frameworks.",
-    requirements: [
-      "Strong knowledge of HTML, CSS, and JavaScript",
-      "Experience with React (required)",
-      "Ability to integrate RESTful APIs and handle asynchronous data",
-      "Knowledge of Next.js is a bonus",
-      "Understanding of responsive design principles",
-      "Good problem-solving and communication skills"
-    ]
-  },
-  {
-    id: 2,
-    title: "Jr. Backend Developer",
-    department: "technical",
-    departmentName: "Technical",
-    location: "On-Site",
-    type: "Full-time",
-    experience: "0-2 years",
-    description: "Help build and maintain scalable backend systems using Python, Django, and databases to power our applications.",
-    requirements: [
-      "Strong knowledge of Python programming (required)",
-      "Experience with Django framework",
-      "Understanding of database design and SQL",
-      "Knowledge of PostgreSQL is a bonus",
-      "Experience building RESTful APIs is a bonus",
-      "Familiarity with version control systems (Git)",
-      "Strong analytical and problem-solving skills"
-    ]
-  },
-  {
-    id: 3,
-    title: "Accountant",
-    department: "admin-hr",
-    departmentName: "Admin/Finance",
-    location: "On-Site",
-    type: "Full-time",
-    experience: "2+ years",
-    description: "Manage financial records, prepare reports, and ensure compliance with accounting standards while supporting the company's financial operations.",
-    requirements: [
-      "2+ years of accounting experience",
-      "Bachelor's degree in Accounting, Finance, or related field",
-      "Proficiency in accounting software (QuickBooks, Tally, or similar)",
-      "Strong understanding of financial regulations and tax compliance",
-      "Excellent attention to detail and organizational skills"
-    ]
-  },
-  
-  
-]
-
 const benefits = [
   {
     icon: HiCurrencyDollar,
@@ -144,16 +89,79 @@ const benefits = [
 const MotionBox = motion(Box)
 const MotionContainer = motion(Container)
 
+// Helper function to map backend department to frontend category
+const mapDepartmentToCategory = (department: string): string => {
+  const mapping: Record<string, string> = {
+    "Engineering": "technical",
+    "Design": "technical",
+    "Product": "technical",
+    "Sales": "sales-marketing",
+    "Marketing": "sales-marketing",
+    "HR": "admin-hr",
+    "Finance": "admin-hr",
+    "Operations": "admin-hr"
+  }
+  return mapping[department] || "all"
+}
+
+// Helper function to get job type label
+const getJobTypeLabel = (type: string): string => {
+  const types: Record<string, string> = {
+    full_time: "Full-time",
+    part_time: "Part-time",
+    freelance: "Freelance",
+    remote: "Remote",
+  }
+  return types[type] || type
+}
+
+// Helper function to get remote mode label
+const getRemoteModeLabel = (mode: string | null | undefined): string => {
+  if (!mode) return "Onsite"
+  const modes: Record<string, string> = {
+    onsite: "Onsite",
+    hybrid: "Hybrid",
+  }
+  return modes[mode] || mode
+}
+
 export const CareersPage = () => {
   const [selectedDepartment, setSelectedDepartment] = useState("all")
+  const [jobs, setJobs] = useState<Career[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Fetch jobs on component mount
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        setIsLoading(true)
+        const response = await apiService.getCareers()
+        // Filter out expired jobs
+        const activeJobs = response.data.filter((job: Career) => !job.expire)
+        setJobs(activeJobs)
+      } catch (error) {
+        toaster.create({
+          title: "Error",
+          description: error instanceof Error ? error.message : "Failed to fetch jobs",
+          type: "error",
+          duration: 3000,
+        })
+        setJobs([])
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchJobs()
+  }, [])
 
   const filteredPositions = selectedDepartment === "all" 
-    ? openPositions 
-    : openPositions.filter(position => position.department === selectedDepartment)
+    ? jobs 
+    : jobs.filter(job => mapDepartmentToCategory(job.department_name) === selectedDepartment)
 
-  const handleApplyClick = (position: typeof openPositions[0]) => {
-    // Redirect to apply page with position details
-    window.location.href = `/apply?position=${position.id}&title=${encodeURIComponent(position.title)}`
+  const handleApplyClick = (job: Career) => {
+    // Redirect to apply page with job details
+    window.location.href = `/apply?position=${job.id}&title=${encodeURIComponent(job.job_name)}`
   }
   return (
     <Box>
@@ -324,7 +332,11 @@ export const CareersPage = () => {
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            {filteredPositions.length > 0 ? (
+            {isLoading ? (
+              <Center py={20}>
+                <Spinner size="xl" color="primary.500" />
+              </Center>
+            ) : filteredPositions.length > 0 ? (
               <VStack gap={6} align="stretch">
                 {filteredPositions.map((position, index) => (
                   <MotionBox
@@ -349,31 +361,38 @@ export const CareersPage = () => {
                           <HStack justify="space-between" w="full" align="start">
                             <VStack align="start" gap={1}>
                               <Text fontSize="xl" fontWeight="700" color="text">
-                                {position.title}
+                                {position.job_name}
                               </Text>
                               <HStack gap={3} wrap="wrap">
                                 <Badge 
-                                  colorScheme={departments.find(d => d.id === position.department)?.color || "primary"} 
+                                  colorScheme={departments.find(d => d.id === mapDepartmentToCategory(position.department_name))?.color || "primary"} 
                                   variant="subtle" 
                                   px={3} 
                                   py={1} 
                                   borderRadius="full"
                                 >
-                                  {position.departmentName}
+                                  {position.department_name}
                                 </Badge>
                                 <Badge colorScheme="gray" variant="subtle" px={3} py={1} borderRadius="full">
-                                  {position.type}
+                                  {getJobTypeLabel(position.job_type)}
                                 </Badge>
-                                <HStack gap={1}>
-                                  <Icon as={HiMapPin} color="muted" fontSize="sm" />
-                                  <Text fontSize="sm" color="muted">
-                                    {position.location}
-                                  </Text>
-                                </HStack>
+                                {position.location && (
+                                  <HStack gap={1}>
+                                    <Icon as={HiMapPin} color="muted" fontSize="sm" />
+                                    <Text fontSize="sm" color="muted">
+                                      {position.location}
+                                    </Text>
+                                  </HStack>
+                                )}
+                                {position.job_type === 'remote' && position.remote_mode && (
+                                  <Badge colorScheme="purple" variant="subtle" px={3} py={1} borderRadius="full">
+                                    {getRemoteModeLabel(position.remote_mode)}
+                                  </Badge>
+                                )}
                                 <HStack gap={1}>
                                   <Icon as={HiBriefcase} color="muted" fontSize="sm" />
                                   <Text fontSize="sm" color="muted">
-                                    {position.experience}
+                                    {position.experience_level}
                                   </Text>
                                 </HStack>
                               </HStack>
@@ -394,21 +413,23 @@ export const CareersPage = () => {
                             {position.description}
                           </Text>
                           
-                          <VStack align="start" gap={2} w="full">
-                            <Text fontSize="sm" fontWeight="600" color="text">
-                              Requirements:
-                            </Text>
-                            <VStack align="start" gap={1} pl={4}>
-                              {position.requirements.map((req, reqIndex) => (
-                                <HStack key={reqIndex} gap={2} align="start">
-                                  <Box w={1} h={1} bg="primary.500" borderRadius="full" mt={2} />
-                                  <Text fontSize="sm" color="muted">
-                                    {req}
-                                  </Text>
-                                </HStack>
-                              ))}
+                          {position.requirements && (
+                            <VStack align="start" gap={2} w="full">
+                              <Text fontSize="sm" fontWeight="600" color="text">
+                                Requirements:
+                              </Text>
+                              <VStack align="start" gap={1} pl={4}>
+                                {position.requirements.split('\n').filter(req => req.trim()).map((req, reqIndex) => (
+                                  <HStack key={reqIndex} gap={2} align="start">
+                                    <Box w={1} h={1} bg="primary.500" borderRadius="full" mt={2} />
+                                    <Text fontSize="sm" color="muted">
+                                      {req.trim()}
+                                    </Text>
+                                  </HStack>
+                                ))}
+                              </VStack>
                             </VStack>
-                          </VStack>
+                          )}
                         </VStack>
                       </VStack>
                     </Box>

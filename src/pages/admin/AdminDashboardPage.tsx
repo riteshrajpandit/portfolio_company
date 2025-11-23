@@ -28,11 +28,12 @@ import {
 } from "react-icons/hi"
 import SEO from "@/components/SEO"
 import { toaster } from "@/components/ui/toaster"
+import { authUtils } from "@/utils/auth"
 import { AdminSidebar } from "@/components/admin/AdminSidebar"
 import { DashboardOverview } from "@/components/admin/DashboardOverview"
 import { MessagesList } from "@/components/admin/MessagesList"
 import { JobsManagement } from "@/components/admin/JobsManagement"
-import { ApplicationsList } from "@/components/admin/ApplicationsList"
+import { ApplicationsManagement } from "@/components/admin/ApplicationsManagement"
 import { TestimonialsManagement } from "@/components/admin/TestimonialsManagement"
 import { ProductsManagement } from "@/components/admin/ProductsManagement"
 import { ServicesManagement } from "@/components/admin/ServicesManagement"
@@ -149,86 +150,6 @@ const recentApplications = [
   { id: 3, name: "Lisa Anderson", position: "Product Manager", department: "Product", time: "1 day ago", status: "shortlisted" },
 ]
 
-const postedJobs = [
-  { id: 1, title: "Jr. Frontend Developer", department: "Technical", applicants: 12, status: "active", postedDate: "2024-03-15" },
-  { id: 2, title: "Jr. Backend Developer", department: "Technical", applicants: 8, status: "active", postedDate: "2024-03-15" },
-  { id: 3, title: "Accountant", department: "Admin/Finance", applicants: 5, status: "active", postedDate: "2024-03-10" },
-]
-
-const allApplications = [
-  { 
-    id: 1, 
-    name: "Sarah Wilson", 
-    email: "sarah.wilson@example.com",
-    phone: "+1 234 567 8900",
-    location: "San Francisco, USA",
-    position: "Jr. Frontend Developer", 
-    department: "Technical",
-    experience: "1 year",
-    appliedDate: "2024-03-18",
-    status: "new",
-    resume: "sarah_wilson_resume.pdf",
-    coverLetter: "I am passionate about frontend development with 1 year of experience in React. I have worked on multiple projects involving React, TypeScript, and modern UI frameworks. I believe my skills and enthusiasm make me a great fit for this position.",
-    linkedIn: "https://linkedin.com/in/sarahwilson",
-    portfolio: "https://sarahwilson.dev",
-    noticePeriod: "2 weeks",
-    expectedSalary: "Rs.70,000"
-  },
-  { 
-    id: 2, 
-    name: "Tom Brown", 
-    email: "tom.brown@example.com",
-    phone: "+1 234 567 8901",
-    location: "New York, USA",
-    position: "Jr. Backend Developer", 
-    department: "Technical",
-    experience: "2 years",
-    appliedDate: "2024-03-17",
-    status: "reviewing",
-    resume: "tom_brown_resume.pdf",
-    coverLetter: "Experienced Python developer with strong Django framework knowledge. I have been working professionally for 2 years, building scalable backend systems and RESTful APIs. I'm excited about the opportunity to contribute to your team.",
-    linkedIn: "https://linkedin.com/in/tombrown",
-    portfolio: "https://github.com/tombrown",
-    noticePeriod: "1 month",
-    expectedSalary: "Rs.80,000"
-  },
-  { 
-    id: 3, 
-    name: "Lisa Anderson", 
-    email: "lisa.anderson@example.com",
-    phone: "+1 234 567 8902",
-    location: "Chicago, USA",
-    position: "Accountant", 
-    department: "Admin/Finance",
-    experience: "3 years",
-    appliedDate: "2024-03-16",
-    status: "shortlisted",
-    resume: "lisa_anderson_resume.pdf",
-    coverLetter: "Certified accountant with 3 years of experience in financial management, tax preparation, and financial reporting. I have a proven track record of improving financial processes and ensuring compliance with regulations.",
-    linkedIn: "https://linkedin.com/in/lisaanderson",
-    noticePeriod: "3 weeks",
-    expectedSalary: "Rs.65,000"
-  },
-  { 
-    id: 4, 
-    name: "John Smith", 
-    email: "john.smith@example.com",
-    phone: "+1 234 567 8903",
-    location: "Austin, USA",
-    position: "Jr. Frontend Developer", 
-    department: "Technical",
-    experience: "0-1 year",
-    appliedDate: "2024-03-15",
-    status: "rejected",
-    resume: "john_smith_resume.pdf",
-    coverLetter: "Recent graduate eager to start career in web development. I have completed several personal projects and bootcamp courses. I'm a fast learner and ready to contribute to real-world projects.",
-    linkedIn: "https://linkedin.com/in/johnsmith",
-    portfolio: "https://johnsmith-portfolio.com",
-    noticePeriod: "Immediate",
-    expectedSalary: "Rs.55,000"
-  },
-]
-
 const menuItems = [
   { id: "dashboard", label: "Dashboard", icon: HiHome, badge: null },
   { id: "analytics", label: "Analytics", icon: HiChartBar, badge: null },
@@ -252,23 +173,29 @@ const AdminDashboardPage = () => {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
 
   useEffect(() => {
-    // Check if user is authenticated
-    const token = localStorage.getItem("admin_token")
-    const user = localStorage.getItem("admin_user")
-    
-    if (!token) {
+    // Check if user is authenticated using secure auth utils
+    if (!authUtils.isAuthenticated()) {
       navigate("/ioxet-labs-admin")
       return
     }
     
-    if (user) {
-      setAdminUser(user)
+    const userData = authUtils.getUser()
+    if (userData) {
+      setAdminUser(userData.username)
     }
+    
+    // Auto-refresh token expiry on activity
+    const refreshInterval = setInterval(() => {
+      if (authUtils.isAuthenticated()) {
+        authUtils.refreshTokenExpiry()
+      }
+    }, 5 * 60 * 1000) // Refresh every 5 minutes
+    
+    return () => clearInterval(refreshInterval)
   }, [navigate])
 
   const handleLogout = () => {
-    localStorage.removeItem("admin_token")
-    localStorage.removeItem("admin_user")
+    authUtils.clearAuth()
     toaster.create({
       title: "Logged Out",
       description: "You have been successfully logged out",
@@ -510,12 +437,12 @@ const AdminDashboardPage = () => {
 
                 {/* Manage Jobs View */}
                 {activeMenu === "jobs" && (
-                  <JobsManagement jobs={postedJobs} />
+                  <JobsManagement />
                 )}
 
                 {/* Job Applications View */}
                 {activeMenu === "applications" && (
-                  <ApplicationsList applications={allApplications} />
+                  <ApplicationsManagement />
                 )}
 
                 {/* Testimonials View */}
