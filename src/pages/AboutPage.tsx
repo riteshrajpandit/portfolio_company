@@ -31,7 +31,7 @@ import {
 const teamMembers = [
     {
     name: "Suresh Bhandari",
-    role: "CEO & Founder",
+    role: "Founder & CEO",
     bio: "Suresh leads us from all frontiers, leveraging over two decades of expertise in IT and management to lead teams effectively.",
     image: "/teams/Suresh.png",
     social: {
@@ -42,7 +42,7 @@ const teamMembers = [
   },
   {
     name: "Divyendu Bhatt",
-    role: "CTO & Security Advisor",
+    role: "CTO & CISO",
     bio: "Divyendu drives our security and compliances while implementing frameworks, managing vulnerabilities, and ensuring regulatory compliance.",
     image: "/teams/Divyendu.png",
     social: {
@@ -53,7 +53,7 @@ const teamMembers = [
   },
     {
     name: "Abiral Bhandari",
-    role: "HR and Project Manager",
+    role: "Operations Manager, Engineer",
     bio: "Abiral leads our technical vision with expertise in modern web technologies and scalable architecture design.",
     image: "/teams/Abiral.png",
     social: {

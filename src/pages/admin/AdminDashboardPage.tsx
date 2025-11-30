@@ -29,6 +29,7 @@ import {
 import SEO from "@/components/SEO"
 import { toaster } from "@/components/ui/toaster"
 import { authUtils } from "@/utils/auth"
+import { apiService } from "@/services/api"
 import { AdminSidebar } from "@/components/admin/AdminSidebar"
 import { DashboardOverview } from "@/components/admin/DashboardOverview"
 import { MessagesList } from "@/components/admin/MessagesList"
@@ -43,13 +44,7 @@ import { VisitorsChart, JobsApplicationsChart, MessagesChart } from "@/component
 
 const MotionBox = motion(Box)
 
-// Dummy Data
-const stats = [
-  { label: "Total Visitors", value: "12,456", change: "+12%", icon: HiChartBar, color: "blue" },
-  { label: "New Messages", value: "24", change: "+5", icon: HiMail, color: "green" },
-  { label: "Job Applications", value: "38", change: "+8", icon: HiBriefcase, color: "purple" },
-  { label: "Pending Reviews", value: "6", change: "-2", icon: HiClock, color: "orange" },
-]
+
 
 const recentMessages = [
   { id: 1, name: "John Doe", email: "john@example.com", message: "Interested in your ERP solution...", time: "2 hours ago", status: "unread" },
@@ -150,18 +145,7 @@ const recentApplications = [
   { id: 3, name: "Lisa Anderson", position: "Product Manager", department: "Product", time: "1 day ago", status: "shortlisted" },
 ]
 
-const menuItems = [
-  { id: "dashboard", label: "Dashboard", icon: HiHome, badge: null },
-  { id: "analytics", label: "Analytics", icon: HiChartBar, badge: null },
-  { id: "messages", label: "Messages", icon: HiMail, badge: 24 },
-  { id: "jobs", label: "Manage Jobs", icon: HiBriefcase, badge: null },
-  { id: "applications", label: "Job Applications", icon: HiBriefcase, badge: 38 },
-  { id: "testimonials", label: "Testimonials", icon: HiStar, badge: null },
-  { id: "products", label: "Products", icon: HiCube, badge: null },
-  { id: "services", label: "Services", icon: HiCog, badge: null },
-  { id: "gallery", label: "Gallery", icon: HiPhotograph, badge: null },
-  { id: "team", label: "Team Members", icon: HiUsers, badge: null },
-]
+
 
 const AdminDashboardPage = () => {
   const navigate = useNavigate()
@@ -171,6 +155,29 @@ const AdminDashboardPage = () => {
   const [analyticsPeriod, setAnalyticsPeriod] = useState("month")
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth())
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
+  const [applicationsCount, setApplicationsCount] = useState(0)
+
+  // Menu items with dynamic applications count
+  const menuItems = [
+    { id: "dashboard", label: "Dashboard", icon: HiHome, badge: null },
+    { id: "analytics", label: "Analytics", icon: HiChartBar, badge: null },
+    { id: "messages", label: "Messages", icon: HiMail, badge: 24 },
+    { id: "jobs", label: "Manage Jobs", icon: HiBriefcase, badge: null },
+    { id: "applications", label: "Job Applications", icon: HiBriefcase, badge: applicationsCount || null },
+    { id: "testimonials", label: "Testimonials", icon: HiStar, badge: null },
+    { id: "products", label: "Products", icon: HiCube, badge: null },
+    { id: "services", label: "Services", icon: HiCog, badge: null },
+    { id: "gallery", label: "Gallery", icon: HiPhotograph, badge: null },
+    { id: "team", label: "Team Members", icon: HiUsers, badge: null },
+  ]
+
+  // Stats with dynamic applications count
+  const stats = [
+    { label: "Total Visitors", value: "12,456", change: "+12%", icon: HiChartBar, color: "blue" },
+    { label: "New Messages", value: "24", change: "+5", icon: HiMail, color: "green" },
+    { label: "Job Applications", value: applicationsCount.toString(), change: "+8", icon: HiBriefcase, color: "purple" },
+    { label: "Pending Reviews", value: "6", change: "-2", icon: HiClock, color: "orange" },
+  ]
 
   useEffect(() => {
     // Check if user is authenticated using secure auth utils
@@ -183,6 +190,18 @@ const AdminDashboardPage = () => {
     if (userData) {
       setAdminUser(userData.username)
     }
+    
+    // Fetch applications count
+    const fetchApplicationsCount = async () => {
+      try {
+        const response = await apiService.getJobApplications()
+        setApplicationsCount(response.data.length)
+      } catch (error) {
+        console.error("Failed to fetch applications count:", error)
+      }
+    }
+    
+    fetchApplicationsCount()
     
     // Auto-refresh token expiry on activity
     const refreshInterval = setInterval(() => {
