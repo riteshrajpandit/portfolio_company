@@ -38,6 +38,26 @@ interface JobApplicationListResponse {
   previous: string | null
 }
 
+interface Message {
+  id?: number
+  name: string
+  email: string
+  company: string
+  message: string
+  meeting_tool: string
+  agenda: string
+  date_time: string
+  phone_number: string
+  website?: string
+  created_at?: string
+}
+
+interface MessageListResponse {
+  data: Message[]
+  message: string
+  success: boolean
+}
+
 interface ApiResponse<T> {
   data: T
   message: string
@@ -253,6 +273,48 @@ class ApiService {
       method: 'GET',
     }) as unknown as JobApplicationListResponse
   }
+
+  // Message API Methods
+  async sendMessage(messageData: Omit<Message, 'id' | 'created_at'>): Promise<ApiResponse<Message>> {
+    const url = `${this.baseUrl}/api/messages/`
+    
+    const config: RequestInit = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(messageData),
+    }
+
+    try {
+      const response = await fetch(url, config)
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`API Error: ${error.message}`)
+      }
+      throw new Error('An unexpected error occurred')
+    }
+  }
+
+  async getMessages(): Promise<MessageListResponse> {
+    return this.authenticatedRequest<MessageListResponse>('/api/messages/', {
+      method: 'GET',
+    }) as unknown as MessageListResponse
+  }
+
+  async getMessageById(id: number): Promise<ApiResponse<Message>> {
+    return this.authenticatedRequest<Message>(`/api/messages/${id}/`, {
+      method: 'GET',
+    })
+  }
 }
 
 export const apiService = new ApiService(API_BASE_URL)
@@ -265,5 +327,7 @@ export type {
   CareerUpdateData,
   CareersListResponse,
   JobApplication,
-  JobApplicationListResponse
+  JobApplicationListResponse,
+  Message,
+  MessageListResponse
 }

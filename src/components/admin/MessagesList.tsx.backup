@@ -55,9 +55,13 @@ export const MessagesList = () => {
     )
   }
 
+  }
+
   // Note: Status is not returned by API, so we'll treat all messages as "unread" by default
   // You can add status management later if needed
-  const filteredMessages = messages
+  const filteredMessages = messages.filter(
+    msg => messageStatusFilter === "all" || messageStatusFilter === "unread"
+  )
 
   return (
     <>

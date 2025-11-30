@@ -44,101 +44,6 @@ import { VisitorsChart, JobsApplicationsChart, MessagesChart } from "@/component
 
 const MotionBox = motion(Box)
 
-
-
-const recentMessages = [
-  { id: 1, name: "John Doe", email: "john@example.com", message: "Interested in your ERP solution...", time: "2 hours ago", status: "unread" },
-  { id: 2, name: "Jane Smith", email: "jane@example.com", message: "Need consultation for AI integration...", time: "5 hours ago", status: "unread" },
-  { id: 3, name: "Mike Johnson", email: "mike@example.com", message: "Request for demo of Amigaa platform...", time: "1 day ago", status: "read" },
-]
-
-const allMessages = [
-  {
-    id: 1,
-    name: "John Doe",
-    email: "john.doe@example.com",
-    company: "Tech Solutions Inc.",
-    phoneNumber: "+1 555-0123",
-    website: "https://techsolutions.com",
-    meetingTool: "zoom",
-    agenda: "erp-solutions",
-    dateTime: "2024-03-20T10:00",
-    message: "We are interested in implementing your ERP solution for our manufacturing business. We have about 200 employees and need a comprehensive system that can handle inventory, production planning, and financial management. Could we schedule a demo to discuss our specific requirements?",
-    submittedDate: "2024-03-18T14:30:00",
-    status: "unread"
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    email: "jane.smith@gmail.com",
-    company: "Startup",
-    phoneNumber: "+1 555-0456",
-    website: "",
-    meetingTool: "google-meet",
-    agenda: "ai-consulting",
-    dateTime: "2024-03-21T14:00",
-    message: "I'm working on a startup idea that involves AI-powered customer service automation. I've heard great things about your Amigaa platform and would love to learn more about how it could fit into our tech stack. Looking forward to connecting!",
-    submittedDate: "2024-03-18T09:15:00",
-    status: "unread"
-  },
-  {
-    id: 3,
-    name: "Mike Johnson",
-    email: "mike.johnson@enterprise.com",
-    company: "Enterprise Corp",
-    phoneNumber: "+1 555-0789",
-    website: "https://enterprisecorp.com",
-    meetingTool: "microsoft-teams",
-    agenda: "security-consulting",
-    dateTime: "2024-03-19T16:00",
-    message: "Our organization is looking to enhance our cybersecurity infrastructure. We need a comprehensive security audit and implementation of best practices. We have multiple offices and cloud infrastructure that needs to be secured. Can you help us with this?",
-    submittedDate: "2024-03-17T11:45:00",
-    status: "read"
-  },
-  {
-    id: 4,
-    name: "Sarah Williams",
-    email: "sarah.williams@retail.com",
-    company: "Retail Masters",
-    phoneNumber: "+1 555-0321",
-    website: "https://retailmasters.com",
-    meetingTool: "zoom",
-    agenda: "web-development",
-    dateTime: "2024-03-22T11:00",
-    message: "We need to revamp our e-commerce website with modern features including real-time inventory, personalized recommendations, and seamless checkout experience. Our current site is outdated and we're losing customers. What's your approach to e-commerce development?",
-    submittedDate: "2024-03-17T08:20:00",
-    status: "read"
-  },
-  {
-    id: 5,
-    name: "David Chen",
-    email: "david.chen@mobile.com",
-    company: "MobileFirst Solutions",
-    phoneNumber: "+1 555-0654",
-    website: "https://mobilefirstsolutions.com",
-    meetingTool: "phone",
-    agenda: "mobile-development",
-    dateTime: "2024-03-23T15:30",
-    message: "We're planning to launch a mobile app for our delivery service. Need both iOS and Android versions with features like real-time tracking, payment integration, and push notifications. What's your experience with similar projects?",
-    submittedDate: "2024-03-16T16:00:00",
-    status: "replied"
-  },
-  {
-    id: 6,
-    name: "Emily Rodriguez",
-    email: "emily.r@consulting.com",
-    company: "N/A",
-    phoneNumber: "+1 555-0987",
-    website: "",
-    meetingTool: "in-person",
-    agenda: "it-consulting",
-    dateTime: "2024-03-25T10:00",
-    message: "I'm an independent consultant looking to partner with your team for a large client project. They need IT infrastructure redesign and cloud migration. Would love to discuss collaboration opportunities.",
-    submittedDate: "2024-03-16T13:30:00",
-    status: "replied"
-  },
-]
-
 const recentApplications = [
   { id: 1, name: "Sarah Wilson", position: "Senior Software Engineer", department: "Engineering", time: "1 hour ago", status: "new" },
   { id: 2, name: "Tom Brown", position: "UI/UX Designer", department: "Design", time: "3 hours ago", status: "reviewing" },
@@ -156,12 +61,13 @@ const AdminDashboardPage = () => {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth())
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
   const [applicationsCount, setApplicationsCount] = useState(0)
+  const [messagesCount, setMessagesCount] = useState(0)
 
   // Menu items with dynamic applications count
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: HiHome, badge: null },
     { id: "analytics", label: "Analytics", icon: HiChartBar, badge: null },
-    { id: "messages", label: "Messages", icon: HiMail, badge: 24 },
+    { id: "messages", label: "Messages", icon: HiMail, badge: messagesCount || null },
     { id: "jobs", label: "Manage Jobs", icon: HiBriefcase, badge: null },
     { id: "applications", label: "Job Applications", icon: HiBriefcase, badge: applicationsCount || null },
     { id: "testimonials", label: "Testimonials", icon: HiStar, badge: null },
@@ -174,7 +80,7 @@ const AdminDashboardPage = () => {
   // Stats with dynamic applications count
   const stats = [
     { label: "Total Visitors", value: "12,456", change: "+12%", icon: HiChartBar, color: "blue" },
-    { label: "New Messages", value: "24", change: "+5", icon: HiMail, color: "green" },
+    { label: "New Messages", value: messagesCount.toString(), change: "+5", icon: HiMail, color: "green" },
     { label: "Job Applications", value: applicationsCount.toString(), change: "+8", icon: HiBriefcase, color: "purple" },
     { label: "Pending Reviews", value: "6", change: "-2", icon: HiClock, color: "orange" },
   ]
@@ -201,7 +107,18 @@ const AdminDashboardPage = () => {
       }
     }
     
+    // Fetch messages count
+    const fetchMessagesCount = async () => {
+      try {
+        const response = await apiService.getMessages()
+        setMessagesCount(response.data.length)
+      } catch (error) {
+        console.error("Failed to fetch messages count:", error)
+      }
+    }
+    
     fetchApplicationsCount()
+    fetchMessagesCount()
     
     // Auto-refresh token expiry on activity
     const refreshInterval = setInterval(() => {
@@ -337,7 +254,7 @@ const AdminDashboardPage = () => {
                 {activeMenu === "dashboard" && (
                   <DashboardOverview
                     stats={stats}
-                    recentMessages={recentMessages}
+                    recentMessages={[]}
                     recentApplications={recentApplications}
                     onViewAllMessages={() => setActiveMenu("messages")}
                     onViewAllApplications={() => setActiveMenu("applications")}
@@ -451,7 +368,7 @@ const AdminDashboardPage = () => {
 
                 {/* Messages View */}
                 {activeMenu === "messages" && (
-                  <MessagesList messages={allMessages} />
+                  <MessagesList />
                 )}
 
                 {/* Manage Jobs View */}

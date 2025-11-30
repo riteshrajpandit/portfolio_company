@@ -15,21 +15,7 @@ import {
 import { AnimatePresence, motion } from "framer-motion"
 import { HiX, HiMail, HiPhone, HiGlobeAlt, HiCalendar, HiClock } from "react-icons/hi"
 import { useEffect } from "react"
-
-interface Message {
-  id: number
-  name: string
-  email: string
-  company: string
-  phoneNumber: string
-  website: string
-  meetingTool: string
-  agenda: string
-  dateTime: string
-  message: string
-  submittedDate: string
-  status: string
-}
+import { type Message } from "@/services/api"
 
 interface MessageModalProps {
   isOpen: boolean
@@ -38,19 +24,6 @@ interface MessageModalProps {
 }
 
 const MotionBox = motion(Box)
-
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case "unread":
-      return "blue"
-    case "read":
-      return "gray"
-    case "replied":
-      return "green"
-    default:
-      return "gray"
-  }
-}
 
 const getMeetingToolLabel = (tool: string) => {
   const labels: Record<string, string> = {
@@ -180,13 +153,13 @@ export const MessageModal = ({ isOpen, onClose, message }: MessageModalProps) =>
                           </Text>
                         </VStack>
                       </HStack>
-                      {message.phoneNumber && (
+                      {message.phone_number && (
                         <HStack gap={2}>
                           <Icon as={HiPhone} color="primary.500" fontSize="lg" />
                           <VStack align="start" gap={0}>
                             <Text fontSize="xs" color="neutral.600">Phone</Text>
                             <Text fontSize="sm" fontWeight="600" color="neutral.900">
-                              {message.phoneNumber}
+                              {message.phone_number}
                             </Text>
                           </VStack>
                         </HStack>
@@ -214,7 +187,7 @@ export const MessageModal = ({ isOpen, onClose, message }: MessageModalProps) =>
                       <VStack align="start" gap={1}>
                         <Text fontSize="xs" color="neutral.600">Meeting Tool</Text>
                         <Badge colorScheme="purple" fontSize="sm">
-                          {getMeetingToolLabel(message.meetingTool)}
+                          {getMeetingToolLabel(message.meeting_tool)}
                         </Badge>
                       </VStack>
                       <VStack align="start" gap={1}>
@@ -229,7 +202,7 @@ export const MessageModal = ({ isOpen, onClose, message }: MessageModalProps) =>
                           <Text fontSize="xs" color="neutral.600">Requested Date & Time</Text>
                         </HStack>
                         <Text fontSize="sm" fontWeight="600" color="neutral.900">
-                          {new Date(message.dateTime).toLocaleString()}
+                          {new Date(message.date_time).toLocaleString()}
                         </Text>
                       </VStack>
                       <VStack align="start" gap={1}>
@@ -238,14 +211,8 @@ export const MessageModal = ({ isOpen, onClose, message }: MessageModalProps) =>
                           <Text fontSize="xs" color="neutral.600">Submitted On</Text>
                         </HStack>
                         <Text fontSize="sm" fontWeight="600" color="neutral.900">
-                          {new Date(message.submittedDate).toLocaleString()}
+                          {message.created_at ? new Date(message.created_at).toLocaleString() : 'N/A'}
                         </Text>
-                      </VStack>
-                      <VStack align="start" gap={1}>
-                        <Text fontSize="xs" color="neutral.600">Status</Text>
-                        <Badge colorScheme={getStatusColor(message.status)} fontSize="sm">
-                          {message.status.toUpperCase()}
-                        </Badge>
                       </VStack>
                     </Grid>
                   </Box>
@@ -283,12 +250,12 @@ export const MessageModal = ({ isOpen, onClose, message }: MessageModalProps) =>
                     >
                       Reply via Email
                     </Button>
-                    {message.phoneNumber && (
+                    {message.phone_number && (
                       <Button
                         colorScheme="blue"
                         variant="outline"
                         onClick={() => {
-                          window.location.href = `tel:${message.phoneNumber}`
+                          window.location.href = `tel:${message.phone_number}`
                         }}
                       >
                         Call

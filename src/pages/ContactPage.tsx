@@ -14,7 +14,10 @@ import {
 } from "@chakra-ui/react"
 import { FaPhone, FaEnvelope, FaMapMarkerAlt, FaClock, FaCheckCircle, FaRocket, FaTimes } from "react-icons/fa"
 import { useState } from "react"
+import SEO from "@/components/SEO"
 import { trackContactFormSubmit } from "@/utils/analytics"
+import { apiService } from "@/services/api"
+import { toaster } from "@/components/ui/toaster"
 
 const contactInfo = [
   {
@@ -72,6 +75,89 @@ export const ContactPage = () => {
   })
 
   const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errors, setErrors] = useState<Record<string, string>>({})
+
+  const validateForm = (): boolean => {
+    const newErrors: Record<string, string> = {}
+
+    // Name validation
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required"
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters"
+    } else if (!/^[a-zA-Z\s-]+$/.test(formData.name)) {
+      newErrors.name = "Name should only contain letters, spaces, and hyphens"
+    }
+
+    // Email validation
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required"
+    } else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address"
+    }
+
+    // Company validation
+    if (!formData.company.trim()) {
+      newErrors.company = "Company name is required"
+    } else if (formData.company.trim().length < 2) {
+      newErrors.company = "Company name must be at least 2 characters"
+    }
+
+    // Phone number validation
+    if (!formData.phoneNumber.trim()) {
+      newErrors.phoneNumber = "Phone number is required"
+    } else {
+      const digitsOnly = formData.phoneNumber.replace(/\D/g, '')
+      if (digitsOnly.length < 10) {
+        newErrors.phoneNumber = "Phone number must have at least 10 digits"
+      } else if (!/^[0-9+\s()-]+$/.test(formData.phoneNumber)) {
+        newErrors.phoneNumber = "Please enter a valid phone number"
+      }
+    }
+
+    // Meeting tool validation
+    if (!formData.meetingTool) {
+      newErrors.meetingTool = "Please select a meeting tool"
+    }
+
+    // Agenda validation
+    if (!formData.agenda) {
+      newErrors.agenda = "Please select an agenda"
+    }
+
+    // Date and time validation
+    if (!formData.dateTime) {
+      newErrors.dateTime = "Please select a date and time"
+    } else {
+      const selectedDate = new Date(formData.dateTime)
+      const now = new Date()
+      if (selectedDate < now) {
+        newErrors.dateTime = "Please select a future date and time"
+      }
+    }
+
+    // Website validation (optional)
+    if (formData.website.trim()) {
+      try {
+        new URL(formData.website)
+      } catch {
+        newErrors.website = "Please enter a valid URL (e.g., https://example.com)"
+      }
+    }
+
+    // Message validation
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required"
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = "Message must be at least 10 characters"
+    } else if (formData.message.trim().length > 2000) {
+      newErrors.message = "Message must not exceed 2000 characters"
+    }
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target
@@ -79,30 +165,86 @@ export const ContactPage = () => {
       ...prev,
       [name]: value
     }))
+    // Clear error for this field when user starts typing
+    if (errors[name]) {
+      setErrors(prev => {
+        const newErrors = { ...prev }
+        delete newErrors[name]
+        return newErrors
+      })
+    }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log("Form submitted:", formData)
     
-    // Track form submission in Google Analytics
-    trackContactFormSubmit()
-    
-    // Show success modal instead of alert
-    setShowSuccessModal(true)
-    
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      company: "",
-      message: "",
-      meetingTool: "",
-      agenda: "",
-      dateTime: "",
-      phoneNumber: "",
-      website: "",
-    })
+    // Validate form
+    if (!validateForm()) {
+      toaster.create({
+        title: "Validation Error",
+        description: "Please fix the errors in the form before submitting",
+        type: "error",
+        duration: 4000,
+      })
+      return
+    }
+
+    setIsSubmitting(true)
+
+    try {
+      // Prepare data for API (convert field names to match API)
+      const messageData = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        company: formData.company.trim(),
+        message: formData.message.trim(),
+        meeting_tool: formData.meetingTool,
+        agenda: formData.agenda,
+        date_time: new Date(formData.dateTime).toISOString(),
+        phone_number: formData.phoneNumber.trim(),
+        website: formData.website.trim() || undefined,
+      }
+
+      // Send message via API
+      await apiService.sendMessage(messageData)
+      
+      // Track form submission in Google Analytics
+      trackContactFormSubmit()
+      
+      // Show success modal
+      setShowSuccessModal(true)
+      
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        company: "",
+        message: "",
+        meetingTool: "",
+        agenda: "",
+        dateTime: "",
+        phoneNumber: "",
+        website: "",
+      })
+      setErrors({})
+      
+      toaster.create({
+        title: "Success!",
+        description: "Your message has been sent successfully",
+        type: "success",
+        duration: 3000,
+      })
+    } catch (error) {
+      console.error("Error sending message:", error)
+      toaster.create({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to send message. Please try again.",
+        type: "error",
+        duration: 5000,
+      })
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const closeSuccessModal = () => {
@@ -111,6 +253,10 @@ export const ContactPage = () => {
 
   return (
     <Box>
+      <SEO 
+        title="Contact Us - IOXET Labs"
+        description="Get in touch with IOXET Labs for IT consulting, web development, and digital solutions. Schedule a meeting with our team today."
+      />
       {/* Hero Section */}
       <Box py={{ base: 24, md: 20 }} bg="primary.50">
         <Container maxW="7xl" textAlign="center" px={{ base: 4, md: 6 }}>
@@ -168,6 +314,11 @@ export const ContactPage = () => {
                         ))}
                       </select>
                     </Box>
+                    {errors.meetingTool && (
+                      <Text fontSize="sm" color="red.500" mt={1}>
+                        {errors.meetingTool}
+                      </Text>
+                    )}
                   </Box>
 
                   {/* Agenda Dropdown */}
@@ -187,7 +338,7 @@ export const ContactPage = () => {
                           height: "48px",
                           padding: "0 16px",
                           backgroundColor: "#f9fafb",
-                          border: "1px solid #d1d5db",
+                          border: errors.agenda ? "1px solid #E53E3E" : "1px solid #d1d5db",
                           borderRadius: "8px",
                           fontSize: "16px",
                           color: "#374151",
@@ -204,6 +355,11 @@ export const ContactPage = () => {
                         ))}
                       </select>
                     </Box>
+                    {errors.agenda && (
+                      <Text fontSize="sm" color="red.500" mt={1}>
+                        {errors.agenda}
+                      </Text>
+                    )}
                   </Box>
 
                   {/* Date and Time */}
@@ -217,18 +373,23 @@ export const ContactPage = () => {
                       size="lg"
                       bg="neutral.50"
                       border="1px"
-                      borderColor="neutral.300"
+                      borderColor={errors.dateTime ? "red.500" : "neutral.300"}
                       _focus={{
-                        borderColor: "primary.500",
-                        boxShadow: "0 0 0 1px var(--chakra-colors-primary-500)"
+                        borderColor: errors.dateTime ? "red.500" : "primary.500",
+                        boxShadow: errors.dateTime ? "0 0 0 1px var(--chakra-colors-red-500)" : "0 0 0 1px var(--chakra-colors-primary-500)"
                       }}
                       required
                     />
+                    {errors.dateTime && (
+                      <Text fontSize="sm" color="red.500" mt={1}>
+                        {errors.dateTime}
+                      </Text>
+                    )}
                   </Box>
 
                   <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={6}>
                     <Box>
-                      <Text mb={2} fontWeight="medium" color="neutral.700">Full Name *</Text>
+                      <Text mb={2} fontWeight="medium" color="neutral.700">Name *</Text>
                       <Input
                         name="name"
                         value={formData.name}
@@ -237,13 +398,18 @@ export const ContactPage = () => {
                         size="lg"
                         bg="neutral.50"
                         border="1px"
-                        borderColor="neutral.300"
+                        borderColor={errors.name ? "red.500" : "neutral.300"}
                         _focus={{
-                          borderColor: "primary.500",
-                          boxShadow: "0 0 0 1px var(--chakra-colors-primary-500)"
+                          borderColor: errors.name ? "red.500" : "primary.500",
+                          boxShadow: errors.name ? "0 0 0 1px var(--chakra-colors-red-500)" : "0 0 0 1px var(--chakra-colors-primary-500)"
                         }}
                         required
                       />
+                      {errors.name && (
+                        <Text fontSize="sm" color="red.500" mt={1}>
+                          {errors.name}
+                        </Text>
+                      )}
                     </Box>
                     <Box>
                       <Text mb={2} fontWeight="medium" color="neutral.700">Email *</Text>
@@ -256,16 +422,22 @@ export const ContactPage = () => {
                         size="lg"
                         bg="neutral.50"
                         border="1px"
-                        borderColor="neutral.300"
+                        borderColor={errors.email ? "red.500" : "neutral.300"}
                         _focus={{
-                          borderColor: "primary.500",
-                          boxShadow: "0 0 0 1px var(--chakra-colors-primary-500)"
+                          borderColor: errors.email ? "red.500" : "primary.500",
+                          boxShadow: errors.email ? "0 0 0 1px var(--chakra-colors-red-500)" : "0 0 0 1px var(--chakra-colors-primary-500)"
                         }}
                         required
                       />
-                      <Text fontSize="sm" color="neutral.600" mt={1}>
-                        Please use gmail for Google Meet and hotmail or outlook if you choose Microsoft Teams as the Meeting Tool.
-                      </Text>
+                      {errors.email ? (
+                        <Text fontSize="sm" color="red.500" mt={1}>
+                          {errors.email}
+                        </Text>
+                      ) : (
+                        <Text fontSize="sm" color="neutral.600" mt={1}>
+                          Please use gmail for Google Meet and hotmail or outlook if you choose Microsoft Teams as the Meeting Tool.
+                        </Text>
+                      )}
                     </Box>
                   </Grid>
 
@@ -280,16 +452,22 @@ export const ContactPage = () => {
                         size="lg"
                         bg="neutral.50"
                         border="1px"
-                        borderColor="neutral.300"
+                        borderColor={errors.company ? "red.500" : "neutral.300"}
                         _focus={{
-                          borderColor: "primary.500",
-                          boxShadow: "0 0 0 1px var(--chakra-colors-primary-500)"
+                          borderColor: errors.company ? "red.500" : "primary.500",
+                          boxShadow: errors.company ? "0 0 0 1px var(--chakra-colors-red-500)" : "0 0 0 1px var(--chakra-colors-primary-500)"
                         }}
                         required
                       />
-                      <Text fontSize="sm" color="neutral.600" mt={1}>
-                        Please use N/A or Startup, if you do not represent a company yet.
-                      </Text>
+                      {errors.company ? (
+                        <Text fontSize="sm" color="red.500" mt={1}>
+                          {errors.company}
+                        </Text>
+                      ) : (
+                        <Text fontSize="sm" color="neutral.600" mt={1}>
+                          Please use N/A or Startup, if you do not represent a company yet.
+                        </Text>
+                      )}
                     </Box>
                     <Box>
                       <Text mb={2} fontWeight="medium" color="neutral.700">Phone Number</Text>
@@ -302,21 +480,28 @@ export const ContactPage = () => {
                         size="lg"
                         bg="neutral.50"
                         border="1px"
-                        borderColor="neutral.300"
+                        borderColor={errors.phoneNumber ? "red.500" : "neutral.300"}
                         _focus={{
-                          borderColor: "primary.500",
-                          boxShadow: "0 0 0 1px var(--chakra-colors-primary-500)"
+                          borderColor: errors.phoneNumber ? "red.500" : "primary.500",
+                          boxShadow: errors.phoneNumber ? "0 0 0 1px var(--chakra-colors-red-500)" : "0 0 0 1px var(--chakra-colors-primary-500)"
                         }}
+                        required
                       />
-                      <Text fontSize="sm" color="neutral.600" mt={1}>
-                        Please provide the mobile number with WhatsApp or Viber if you choose such Meeting Tool.
-                      </Text>
+                      {errors.phoneNumber ? (
+                        <Text fontSize="sm" color="red.500" mt={1}>
+                          {errors.phoneNumber}
+                        </Text>
+                      ) : (
+                        <Text fontSize="sm" color="neutral.600" mt={1}>
+                          Please provide the mobile number with WhatsApp or Viber if you choose such Meeting Tool.
+                        </Text>
+                      )}
                     </Box>
                   </Grid>
 
-                  {/* Website */}
+                  {/* Website (Optional) */}
                   <Box>
-                    <Text mb={2} fontWeight="medium" color="neutral.700">Your Website</Text>
+                    <Text mb={2} fontWeight="medium" color="neutral.700">Website (Optional)</Text>
                     <Input
                       name="website"
                       type="url"
@@ -326,16 +511,26 @@ export const ContactPage = () => {
                       size="lg"
                       bg="neutral.50"
                       border="1px"
-                      borderColor="neutral.300"
+                      borderColor={errors.website ? "red.500" : "neutral.300"}
                       _focus={{
-                        borderColor: "primary.500",
-                        boxShadow: "0 0 0 1px var(--chakra-colors-primary-500)"
+                        borderColor: errors.website ? "red.500" : "primary.500",
+                        boxShadow: errors.website ? "0 0 0 1px var(--chakra-colors-red-500)" : "0 0 0 1px var(--chakra-colors-primary-500)"
                       }}
                     />
+                    {errors.website && (
+                      <Text fontSize="sm" color="red.500" mt={1}>
+                        {errors.website}
+                      </Text>
+                    )}
                   </Box>
 
                   <Box>
-                    <Text mb={2} fontWeight="medium" color="neutral.700">Message *</Text>
+                    <HStack justify="space-between" mb={2}>
+                      <Text fontWeight="medium" color="neutral.700">Message *</Text>
+                      <Text fontSize="xs" color="neutral.500">
+                        {formData.message.length}/2000
+                      </Text>
+                    </HStack>
                     <Textarea
                       name="message"
                       value={formData.message}
@@ -344,13 +539,19 @@ export const ContactPage = () => {
                       rows={6}
                       bg="neutral.50"
                       border="1px"
-                      borderColor="neutral.300"
+                      borderColor={errors.message ? "red.500" : "neutral.300"}
                       _focus={{
-                        borderColor: "primary.500",
-                        boxShadow: "0 0 0 1px var(--chakra-colors-primary-500)"
+                        borderColor: errors.message ? "red.500" : "primary.500",
+                        boxShadow: errors.message ? "0 0 0 1px var(--chakra-colors-red-500)" : "0 0 0 1px var(--chakra-colors-primary-500)"
                       }}
                       required
+                      maxLength={2000}
                     />
+                    {errors.message && (
+                      <Text fontSize="sm" color="red.500" mt={1}>
+                        {errors.message}
+                      </Text>
+                    )}
                   </Box>
                   <Button
                     type="submit"
@@ -359,8 +560,10 @@ export const ContactPage = () => {
                     color="white"
                     _hover={{ bg: "primary.600" }}
                     alignSelf="flex-start"
+                    disabled={isSubmitting}
+                    loading={isSubmitting}
                   >
-                    Send Message
+                    {isSubmitting ? "Sending..." : "Send Message"}
                   </Button>
                 </Stack>
               </Box>
