@@ -58,6 +58,42 @@ interface MessageListResponse {
   success: boolean
 }
 
+interface SocialLink {
+  id?: number
+  url: string
+}
+
+interface TeamMember {
+  id?: number
+  name: string
+  position: string
+  bio: string
+  image: string
+  uploaded_links: SocialLink[]
+}
+
+interface TeamMemberListResponse {
+  data: TeamMember[]
+  message: string
+  success: boolean
+}
+
+interface TeamMemberCreateData {
+  name: string
+  position: string
+  bio: string
+  image: File
+  social_links: string[]
+}
+
+interface TeamMemberUpdateData {
+  name?: string
+  position?: string
+  bio?: string
+  image?: File
+  social_links?: string[]
+}
+
 interface ApiResponse<T> {
   data: T
   message: string
@@ -149,6 +185,15 @@ class ApiService {
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+      }
+
+      // Handle 204 No Content responses (e.g., DELETE operations)
+      if (response.status === 204 || response.headers.get('content-length') === '0') {
+        return {
+          success: true,
+          data: null as T,
+          message: 'Operation completed successfully'
+        }
       }
 
       const data = await response.json()
@@ -315,6 +360,151 @@ class ApiService {
       method: 'GET',
     })
   }
+
+  // Team Member API Methods
+  async getTeamMembers(): Promise<TeamMemberListResponse> {
+    const url = `${this.baseUrl}/api/team/`
+    
+    const config: RequestInit = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+
+    try {
+      const response = await fetch(url, config)
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`API Error: ${error.message}`)
+      }
+      throw new Error('An unexpected error occurred')
+    }
+  }
+
+  async getTeamMemberById(id: number): Promise<ApiResponse<TeamMember>> {
+    const url = `${this.baseUrl}/api/team/${id}/`
+    
+    const config: RequestInit = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }
+
+    try {
+      const response = await fetch(url, config)
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`API Error: ${error.message}`)
+      }
+      throw new Error('An unexpected error occurred')
+    }
+  }
+
+  async createTeamMember(teamMemberData: FormData): Promise<ApiResponse<TeamMember>> {
+    const token = localStorage.getItem('admin_token')
+    const url = `${this.baseUrl}/api/team/`
+    
+    const config: RequestInit = {
+      method: 'POST',
+      body: teamMemberData,
+      headers: token ? {
+        'Authorization': `Token ${token}`,
+      } : {},
+    }
+
+    try {
+      const response = await fetch(url, config)
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`API Error: ${error.message}`)
+      }
+      throw new Error('An unexpected error occurred')
+    }
+  }
+
+  async updateTeamMember(id: number, teamMemberData: Partial<TeamMemberUpdateData>): Promise<ApiResponse<TeamMember>> {
+    const token = localStorage.getItem('admin_token')
+    const url = `${this.baseUrl}/api/team/${id}/`
+    
+    // Create FormData if image is included, otherwise use JSON
+    let body: FormData | string
+    let contentType: string | undefined
+    
+    if (teamMemberData.image) {
+      const formData = new FormData()
+      if (teamMemberData.name) formData.append('name', teamMemberData.name)
+      if (teamMemberData.position) formData.append('position', teamMemberData.position)
+      if (teamMemberData.bio) formData.append('bio', teamMemberData.bio)
+      if (teamMemberData.image) formData.append('image', teamMemberData.image)
+      if (teamMemberData.social_links) {
+        teamMemberData.social_links.forEach(link => {
+          formData.append('social_links[]', link)
+        })
+      }
+      body = formData
+    } else {
+      body = JSON.stringify(teamMemberData)
+      contentType = 'application/json'
+    }
+    
+    const config: RequestInit = {
+      method: 'PATCH',
+      body: body,
+      headers: {
+        ...(contentType ? { 'Content-Type': contentType } : {}),
+        ...(token ? { 'Authorization': `Token ${token}` } : {}),
+      },
+    }
+
+    try {
+      const response = await fetch(url, config)
+      
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+      }
+
+      const data = await response.json()
+      return data
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`API Error: ${error.message}`)
+      }
+      throw new Error('An unexpected error occurred')
+    }
+  }
+
+  async deleteTeamMember(id: number): Promise<ApiResponse<null>> {
+    return this.authenticatedRequest<null>(`/api/team/${id}/`, {
+      method: 'DELETE',
+    })
+  }
 }
 
 export const apiService = new ApiService(API_BASE_URL)
@@ -329,5 +519,10 @@ export type {
   JobApplication,
   JobApplicationListResponse,
   Message,
-  MessageListResponse
+  MessageListResponse,
+  TeamMember,
+  TeamMemberListResponse,
+  TeamMemberCreateData,
+  TeamMemberUpdateData,
+  SocialLink
 }

@@ -10,10 +10,11 @@ import {
   Image,
   Icon,
   SimpleGrid,
+  Spinner,
 } from "@chakra-ui/react"
 import { Link } from "react-router-dom"
 import { motion, useAnimationFrame } from "framer-motion"
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { 
   FaLinkedin, 
   FaXTwitter,
@@ -26,157 +27,7 @@ import {
   HiTrophy,
   HiBriefcase,
 } from "react-icons/hi2"
-
-
-const teamMembers = [
-    {
-    name: "Suresh Bhandari",
-    role: "Founder & CEO",
-    bio: "Suresh leads us from all frontiers, leveraging over two decades of expertise in IT and management to lead teams effectively.",
-    image: "/teams/Suresh.png",
-    social: {
-      linkedin: "https://linkedin.com/in/sureshbhandari",
-      twitter: "https://x.com/sureshbhandari2",
-      github: "https://github.com"
-    }
-  },
-  {
-    name: "Divyendu Bhatt",
-    role: "CTO & CISO",
-    bio: "Divyendu drives our security and compliances while implementing frameworks, managing vulnerabilities, and ensuring regulatory compliance.",
-    image: "/teams/Divyendu.png",
-    social: {
-      linkedin: "https://linkedin.com/in/dm-bhatt-0bb8a48",
-      twitter: "https://x.com",
-      github: "https://github.com"
-    }
-  },
-    {
-    name: "Abiral Bhandari",
-    role: "Operations Manager, Engineer",
-    bio: "Abiral leads our technical vision with expertise in modern web technologies and scalable architecture design.",
-    image: "/teams/Abiral.png",
-    social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://x.com",
-      github: "https://github.com"
-    }
-  },
-      {
-    name: "Tejash Katuwal",
-    role: "AI Engineer",
-    bio: "Tejash builds AI models and data pipelines that help drive data-driven decisions across the organization.",
-    image: "/teams/Tejash.jpg",
-    social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://x.com",
-      github: "https://github.com"
-    }
-  },
-  {
-    name: "Nibesh Suwal",
-    role: "Lead Backend Developer",
-    bio: "Nibesh manages our infrastructure and deployment pipelines, ensuring reliable and scalable cloud solutions.",
-    image: "/teams/Nibesh.png",
-    social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://x.com",
-      github: "https://github.com"
-    }
-  },
-  {
-    name: "Ritesh Raj Pandit",
-    role: "Lead Frontend Developer",
-    bio: "Ritesh brings creative vision to life with user-centered design principles and a passion for beautiful, functional interfaces.",
-    image: "/teams/Ritesh.png",
-    social: {
-      linkedin: "https://linkedin.com/in/riteshrajpandit",
-      twitter: "https://x.com/riteshrajpandit",
-      github: "https://github.com"
-    }
-  },
-
-  {
-    name: "Ashim Thapa Magar",
-    role: "Frontend Developer",
-    bio: "Ashim brings creative vision to life with user-centered design principles and a passion for beautiful, functional interfaces.",
-    image: "/teams/ashim.jpeg",
-    social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://x.com",
-      github: "https://github.com"
-    }
-  },
-  
-  {
-    name: "Dipak Bohara",
-    role: "Backend Developer",
-    bio: "Dipak is passionate about building scalable applications and implementing best practices in software development.",
-    image: "/teams/dipakbohara.jpeg",
-    social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://x.com",
-      github: "https://github.com"
-    }
-  },
-  {
-    name: "Diwas Gauli",
-    role: "Backend Developer",
-    bio: "Diwas builds robust server-side solutions and ensures optimal performance and security of our applications.",
-    image: "/teams/diwas.jpeg",
-    social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://x.com",
-      github: "https://github.com"
-    }
-  },
-  {
-    name: "Kaustuv Bastakoti",
-    role: "Backend Developer",
-    bio: "Kaustuv builds robust server-side solutions and ensures optimal performance and security of our applications.",
-    image: "/teams/kaustuv.jpeg",
-    social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://x.com",
-      github: "https://github.com"
-    }
-  },
-  {
-    name: "Laxmi Regmi",
-    role: "Frontend Developer",
-    bio: "Laxmi crafts intuitive user experiences and beautiful interfaces that delight users and drive engagement.",
-    image: "/teams/laxmi.jpeg",
-    social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://x.com",
-      github: "https://github.com"
-    }
-  },
-
-  {
-    name: "Shubham Ghimire",
-    role: "Frontend Developer",
-    bio: "Shubham works across the entire stack, bringing ideas from conception to deployment with modern technologies.",
-    image: "/teams/shubham.jpeg",
-    social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://x.com",
-      github: "https://github.com"
-    }
-  },
-  {
-    name: "Suyog Bhattarai",
-    role: "Frontend Developer",
-    bio: "Suyog ensures our products meet the highest quality standards through comprehensive testing and quality processes.",
-    image: "/teams/suyog.jpeg",
-    social: {
-      linkedin: "https://linkedin.com",
-      twitter: "https://x.com",
-      github: "https://github.com"
-    }
-  }
-
-]
+import { apiService } from "@/services/api"
 
 const values = [
   {
@@ -211,8 +62,16 @@ const stats = [
 const MotionBox = motion(Box)
 const MotionContainer = motion(Container)
 
+interface TeamMemberType {
+  name: string
+  role: string
+  bio: string
+  image: string
+  social: { linkedin?: string; twitter?: string; github?: string }
+}
+
 // Carousel component with auto-play, hover pause, and manual controls
-const DevelopmentTeamCarousel = ({ members }: { members: typeof teamMembers }) => {
+const DevelopmentTeamCarousel = ({ members }: { members: TeamMemberType[] }) => {
   const [isHovered, setIsHovered] = useState(false)
   const [offset, setOffset] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
@@ -426,6 +285,69 @@ const DevelopmentTeamCarousel = ({ members }: { members: typeof teamMembers }) =
 }
 
 export const AboutPage = () => {
+  const [teamMembers, setTeamMembers] = useState<Array<{
+    name: string
+    role: string
+    bio: string
+    image: string
+    social: { linkedin?: string; twitter?: string; github?: string }
+  }>>([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchTeamMembers = async () => {
+      try {
+        setIsLoading(true)
+        const response = await apiService.getTeamMembers()
+        const API_BASE = import.meta.env.VITE_API_ENDPOINT || 'http://localhost:8000'
+        
+        const formattedMembers = response.data.map(member => {
+          const socialLinks = member.uploaded_links || []
+          const social: { linkedin?: string; twitter?: string; github?: string } = {}
+          
+          socialLinks.forEach(link => {
+            if (link.url.includes('linkedin')) {
+              social.linkedin = link.url
+            } else if (link.url.includes('x.com') || link.url.includes('twitter')) {
+              social.twitter = link.url
+            } else if (link.url.includes('github')) {
+              social.github = link.url
+            }
+          })
+          
+          return {
+            name: member.name,
+            role: member.position,
+            bio: member.bio,
+            image: member.image.startsWith('http') ? member.image : `${API_BASE}${member.image}`,
+            social
+          }
+        })
+        
+        setTeamMembers(formattedMembers)
+      } catch (error) {
+        console.error("Failed to fetch team members:", error)
+        // Fallback to empty array on error
+        setTeamMembers([])
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchTeamMembers()
+  }, [])
+
+  if (isLoading) {
+    return (
+      <Box minH="100vh" display="flex" alignItems="center" justifyContent="center">
+        <VStack gap={4}>
+          <Spinner size="xl" color="primary.500" />
+          <Text color="muted">Loading team information...</Text>
+        </VStack>
+      </Box>
+    )
+  }
+
   return (
     <Box overflowX="hidden">
       {/* Hero Section */}

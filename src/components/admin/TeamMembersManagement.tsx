@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import {
   Box,
   Button,
@@ -10,170 +10,26 @@ import {
   Table,
   Image,
   Badge,
+  Spinner,
 } from "@chakra-ui/react"
 import { Field } from "@chakra-ui/react"
 import { toaster } from "../ui/toaster"
+import { DeleteConfirmDialog } from "../ui/DeleteConfirmDialog"
 import { HiPhoto } from "react-icons/hi2"
+import { apiService, type TeamMember as ApiTeamMember } from "@/services/api"
 
 interface TeamMember {
+  id?: number
   name: string
   role: string
   bio: string
   image: string
-  social: {
-    linkedin: string
-    twitter: string
-    github: string
-  }
+  social: string[]
 }
 
 export const TeamMembersManagement = () => {
-  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([
-    {
-      name: "Suresh Bhandari",
-      role: "CEO & Founder",
-      bio: "Suresh leads us from all frontiers, leveraging over two decades of expertise in IT and management to lead teams effectively.",
-      image: "/teams/Suresh.png",
-      social: {
-        linkedin: "https://linkedin.com/in/sureshbhandari",
-        twitter: "https://x.com/sureshbhandari2",
-        github: "https://github.com"
-      }
-    },
-    {
-      name: "Divyendu Bhatt",
-      role: "CTO & Security Advisor",
-      bio: "Divyendu drives our security and compliances while implementing frameworks, managing vulnerabilities, and ensuring regulatory compliance.",
-      image: "/teams/Divyendu.png",
-      social: {
-        linkedin: "https://linkedin.com/in/dm-bhatt-0bb8a48",
-        twitter: "https://x.com",
-        github: "https://github.com"
-      }
-    },
-    {
-      name: "Abiral Bhandari",
-      role: "HR and Project Manager",
-      bio: "Abiral leads our technical vision with expertise in modern web technologies and scalable architecture design.",
-      image: "/teams/Abiral.png",
-      social: {
-        linkedin: "https://linkedin.com",
-        twitter: "https://x.com",
-        github: "https://github.com"
-      }
-    },
-    {
-      name: "Tejash Katuwal",
-      role: "AI Engineer",
-      bio: "Tejash builds AI models and data pipelines that help drive data-driven decisions across the organization.",
-      image: "/teams/Tejash.jpg",
-      social: {
-        linkedin: "https://linkedin.com",
-        twitter: "https://x.com",
-        github: "https://github.com"
-      }
-    },
-    {
-      name: "Nibesh Suwal",
-      role: "Lead Backend Developer",
-      bio: "Nibesh manages our infrastructure and deployment pipelines, ensuring reliable and scalable cloud solutions.",
-      image: "/teams/Nibesh.png",
-      social: {
-        linkedin: "https://linkedin.com",
-        twitter: "https://x.com",
-        github: "https://github.com"
-      }
-    },
-    {
-      name: "Ritesh Raj Pandit",
-      role: "Lead Frontend Developer",
-      bio: "Ritesh brings creative vision to life with user-centered design principles and a passion for beautiful, functional interfaces.",
-      image: "/teams/Ritesh.png",
-      social: {
-        linkedin: "https://linkedin.com/in/riteshrajpandit",
-        twitter: "https://x.com/riteshrajpandit",
-        github: "https://github.com"
-      }
-    },
-    {
-      name: "Ashim Thapa Magar",
-      role: "Frontend Developer",
-      bio: "Ashim brings creative vision to life with user-centered design principles and a passion for beautiful, functional interfaces.",
-      image: "/teams/ashim.jpeg",
-      social: {
-        linkedin: "https://linkedin.com",
-        twitter: "https://x.com",
-        github: "https://github.com"
-      }
-    },
-    {
-      name: "Dipak Bohara",
-      role: "Backend Developer",
-      bio: "Dipak is passionate about building scalable applications and implementing best practices in software development.",
-      image: "/teams/dipakbohara.jpeg",
-      social: {
-        linkedin: "https://linkedin.com",
-        twitter: "https://x.com",
-        github: "https://github.com"
-      }
-    },
-    {
-      name: "Diwas Gauli",
-      role: "Backend Developer",
-      bio: "Diwas builds robust server-side solutions and ensures optimal performance and security of our applications.",
-      image: "/teams/diwas.jpeg",
-      social: {
-        linkedin: "https://linkedin.com",
-        twitter: "https://x.com",
-        github: "https://github.com"
-      }
-    },
-    {
-      name: "Kaustuv Bastakoti",
-      role: "Backend Developer",
-      bio: "Kaustuv builds robust server-side solutions and ensures optimal performance and security of our applications.",
-      image: "/teams/kaustuv.jpeg",
-      social: {
-        linkedin: "https://linkedin.com",
-        twitter: "https://x.com",
-        github: "https://github.com"
-      }
-    },
-    {
-      name: "Laxmi Regmi",
-      role: "Frontend Developer",
-      bio: "Laxmi crafts intuitive user experiences and beautiful interfaces that delight users and drive engagement.",
-      image: "/teams/laxmi.jpeg",
-      social: {
-        linkedin: "https://linkedin.com",
-        twitter: "https://x.com",
-        github: "https://github.com"
-      }
-    },
-    {
-      name: "Shubham Ghimire",
-      role: "Frontend Developer",
-      bio: "Shubham works across the entire stack, bringing ideas from conception to deployment with modern technologies.",
-      image: "/teams/shubham.jpeg",
-      social: {
-        linkedin: "https://linkedin.com",
-        twitter: "https://x.com",
-        github: "https://github.com"
-      }
-    },
-    {
-      name: "Suyog Bhattarai",
-      role: "Frontend Developer",
-      bio: "Suyog ensures our products meet the highest quality standards through comprehensive testing and quality processes.",
-      image: "/teams/suyog.jpeg",
-      social: {
-        linkedin: "https://linkedin.com",
-        twitter: "https://x.com",
-        github: "https://github.com"
-      }
-    }
-  ])
-
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [isAdding, setIsAdding] = useState(false)
   const [editingIndex, setEditingIndex] = useState<number | null>(null)
   const [formData, setFormData] = useState<TeamMember>({
@@ -181,12 +37,46 @@ export const TeamMembersManagement = () => {
     role: "",
     bio: "",
     image: "",
-    social: {
-      linkedin: "",
-      twitter: "",
-      github: ""
-    }
+    social: []
   })
+  const [imageFile, setImageFile] = useState<File | null>(null)
+  const [deleteDialog, setDeleteDialog] = useState<{ isOpen: boolean; member: TeamMember | null; index: number | null }>({
+    isOpen: false,
+    member: null,
+    index: null
+  })
+  const [isDeleting, setIsDeleting] = useState(false)
+
+  // Fetch team members on component mount
+  useEffect(() => {
+    fetchTeamMembers()
+  }, [])
+
+  const fetchTeamMembers = async () => {
+    try {
+      setIsLoading(true)
+      const response = await apiService.getTeamMembers()
+      const formattedMembers = response.data.map((member: ApiTeamMember) => ({
+        id: member.id,
+        name: member.name,
+        role: member.position,
+        bio: member.bio,
+        image: member.image,
+        social: member.uploaded_links.map(link => link.url)
+      }))
+      setTeamMembers(formattedMembers)
+    } catch (error) {
+      console.error("Failed to fetch team members:", error)
+      toaster.create({
+        title: "Error",
+        description: "Failed to load team members",
+        type: "error",
+        duration: 3000
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -214,14 +104,17 @@ export const TeamMembersManagement = () => {
       return
     }
 
-    // Convert to base64
+    // Store file for later upload
+    setImageFile(file)
+    
+    // Create preview URL
     const reader = new FileReader()
     reader.onloadend = () => {
       const base64String = reader.result as string
       setFormData({ ...formData, image: base64String })
       toaster.create({
-        title: "Image Uploaded",
-        description: `${file.name} uploaded successfully`,
+        title: "Image Selected",
+        description: `${file.name} ready to upload`,
         type: "success",
         duration: 2000
       })
@@ -231,110 +124,204 @@ export const TeamMembersManagement = () => {
 
   const handleAdd = () => {
     setIsAdding(true)
+    setEditingIndex(null)
+    setImageFile(null)
     setFormData({
       name: "",
       role: "",
       bio: "",
       image: "",
-      social: {
-        linkedin: "",
-        twitter: "",
-        github: ""
-      }
+      social: []
     })
   }
 
   const handleEdit = (index: number) => {
     setEditingIndex(index)
-    setFormData(teamMembers[index])
+    setIsAdding(false)
+    setImageFile(null)
+    const member = teamMembers[index]
+    setFormData({
+      id: member.id,
+      name: member.name,
+      role: member.role,
+      bio: member.bio,
+      image: member.image,
+      social: [...member.social]
+    })
   }
 
-  const handleSave = () => {
-    if (!formData.name.trim() || !formData.role.trim() || !formData.bio.trim() || !formData.image.trim()) {
+  const handleSave = async () => {
+    if (!formData.name.trim() || !formData.role.trim() || !formData.bio.trim()) {
       toaster.create({
         title: "Missing Required Fields",
-        description: "Please fill in name, role, bio, and image",
+        description: "Please fill in name, role, and bio",
         type: "error",
         duration: 3000
       })
       return
     }
 
-    if (isAdding) {
-      setTeamMembers([...teamMembers, formData])
+    if (isAdding && !imageFile) {
       toaster.create({
-        title: "Team Member Added",
-        description: `${formData.name} has been added to the team`,
-        type: "success",
+        title: "Missing Image",
+        description: "Please upload an image",
+        type: "error",
         duration: 3000
       })
-    } else if (editingIndex !== null) {
-      const updated = [...teamMembers]
-      updated[editingIndex] = formData
-      setTeamMembers(updated)
+      return
+    }
+
+    try {
+      if (isAdding) {
+        // Create new team member
+        const formDataToSend = new FormData()
+        formDataToSend.append('name', formData.name)
+        formDataToSend.append('position', formData.role)
+        formDataToSend.append('bio', formData.bio)
+        if (imageFile) {
+          formDataToSend.append('image', imageFile)
+        }
+        formData.social.forEach(link => {
+          if (link.trim()) {
+            formDataToSend.append('social_links[]', link)
+          }
+        })
+
+        await apiService.createTeamMember(formDataToSend)
+        toaster.create({
+          title: "Team Member Added",
+          description: `${formData.name} has been added to the team`,
+          type: "success",
+          duration: 3000
+        })
+      } else if (editingIndex !== null && formData.id) {
+        // Update existing team member
+        const updateData: {
+          name: string
+          position: string
+          bio: string
+          social_links: string[]
+          image?: File
+        } = {
+          name: formData.name,
+          position: formData.role,
+          bio: formData.bio,
+          social_links: formData.social.filter(link => link.trim())
+        }
+
+        if (imageFile) {
+          updateData.image = imageFile
+        }
+
+        await apiService.updateTeamMember(formData.id, updateData)
+        toaster.create({
+          title: "Team Member Updated",
+          description: `${formData.name} has been updated`,
+          type: "success",
+          duration: 3000
+        })
+      }
+
+      // Refresh the list
+      await fetchTeamMembers()
+      handleCancel()
+    } catch (error) {
+      console.error("Failed to save team member:", error)
       toaster.create({
-        title: "Team Member Updated",
-        description: `${formData.name} has been updated`,
-        type: "success",
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to save team member",
+        type: "error",
         duration: 3000
       })
     }
-
-    setIsAdding(false)
-    setEditingIndex(null)
-    setFormData({
-      name: "",
-      role: "",
-      bio: "",
-      image: "",
-      social: {
-        linkedin: "",
-        twitter: "",
-        github: ""
-      }
-    })
   }
 
   const handleDelete = (index: number) => {
-    if (window.confirm(`Are you sure you want to delete ${teamMembers[index].name}?`)) {
-      const updated = teamMembers.filter((_, i) => i !== index)
-      setTeamMembers(updated)
+    const member = teamMembers[index]
+    if (!member.id) return
+    
+    setDeleteDialog({
+      isOpen: true,
+      member,
+      index
+    })
+  }
+
+  const confirmDelete = async () => {
+    if (!deleteDialog.member?.id) return
+
+    try {
+      setIsDeleting(true)
+      await apiService.deleteTeamMember(deleteDialog.member.id)
+      
+      // Immediately update local state to remove the deleted member
+      setTeamMembers(prevMembers => 
+        prevMembers.filter(m => m.id !== deleteDialog.member?.id)
+      )
+      
       toaster.create({
         title: "Team Member Deleted",
         description: "Team member has been removed",
         type: "success",
         duration: 3000
       })
+      
+      setDeleteDialog({ isOpen: false, member: null, index: null })
+    } catch (error) {
+      console.error("Failed to delete team member:", error)
+      toaster.create({
+        title: "Error",
+        description: "Failed to delete team member",
+        type: "error",
+        duration: 3000
+      })
+    } finally {
+      setIsDeleting(false)
     }
   }
 
   const handleCancel = () => {
     setIsAdding(false)
     setEditingIndex(null)
+    setImageFile(null)
     setFormData({
       name: "",
       role: "",
       bio: "",
       image: "",
-      social: {
-        linkedin: "",
-        twitter: "",
-        github: ""
-      }
+      social: []
     })
+  }
+
+  const addSocialLink = () => {
+    setFormData({ ...formData, social: [...formData.social, ""] })
+  }
+
+  const updateSocialLink = (index: number, value: string) => {
+    const newSocial = [...formData.social]
+    newSocial[index] = value
+    setFormData({ ...formData, social: newSocial })
+  }
+
+  const removeSocialLink = (index: number) => {
+    const newSocial = formData.social.filter((_, i) => i !== index)
+    setFormData({ ...formData, social: newSocial })
+  }
+
+  if (isLoading) {
+    return (
+      <Box textAlign="center" py={8}>
+        <Spinner size="xl" color="blue.500" />
+        <Text mt={4} color="gray.600">Loading team members...</Text>
+      </Box>
+    )
   }
 
   return (
     <VStack align="stretch" gap={6}>
-      <HStack justify="space-between">
-        <Box>
-          <Text fontSize="2xl" fontWeight="bold">Team Members Management</Text>
-          <Text color="gray.600" fontSize="sm">
-            Manage your team members displayed on the About page
-          </Text>
-        </Box>
+      <HStack justify="flex-end">
         {!isAdding && editingIndex === null && (
-          <Button colorScheme="blue" onClick={handleAdd}>
+          <Button colorScheme="blue" onClick={handleAdd} >
             Add New Member
           </Button>
         )}
@@ -452,41 +439,34 @@ export const TeamMembersManagement = () => {
 
             <Text fontSize="md" fontWeight="bold" mt={4}>Social Links</Text>
 
-            <Field.Root>
-              <Field.Label>LinkedIn URL</Field.Label>
-              <Input
-                value={formData.social.linkedin}
-                onChange={(e) => setFormData({
-                  ...formData,
-                  social: { ...formData.social, linkedin: e.target.value }
-                })}
-                placeholder="https://linkedin.com/in/username"
-              />
-            </Field.Root>
-
-            <Field.Root>
-              <Field.Label>Twitter/X URL</Field.Label>
-              <Input
-                value={formData.social.twitter}
-                onChange={(e) => setFormData({
-                  ...formData,
-                  social: { ...formData.social, twitter: e.target.value }
-                })}
-                placeholder="https://x.com/username"
-              />
-            </Field.Root>
-
-            <Field.Root>
-              <Field.Label>GitHub URL</Field.Label>
-              <Input
-                value={formData.social.github}
-                onChange={(e) => setFormData({
-                  ...formData,
-                  social: { ...formData.social, github: e.target.value }
-                })}
-                placeholder="https://github.com/username"
-              />
-            </Field.Root>
+            <VStack align="stretch" gap={3}>
+              {formData.social.map((link, index) => (
+                <HStack key={index} gap={2}>
+                  <Input
+                    value={link}
+                    onChange={(e) => updateSocialLink(index, e.target.value)}
+                    placeholder="https://linkedin.com/in/username or https://x.com/username"
+                    flex={1}
+                  />
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    colorScheme="red"
+                    onClick={() => removeSocialLink(index)}
+                  >
+                    Remove
+                  </Button>
+                </HStack>
+              ))}
+              <Button
+                size="sm"
+                variant="outline"
+                colorScheme="blue"
+                onClick={addSocialLink}
+              >
+                + Add Social Link
+              </Button>
+            </VStack>
 
             <HStack gap={3} mt={4}>
               <Button colorScheme="blue" onClick={handleSave}>
@@ -515,10 +495,10 @@ export const TeamMembersManagement = () => {
           </Table.Header>
           <Table.Body>
             {teamMembers.map((member, index) => (
-              <Table.Row key={index}>
+              <Table.Row key={member.id || index}>
                 <Table.Cell>
                   <Image
-                    src={member.image}
+                    src={member.image.startsWith('http') ? member.image : `${import.meta.env.VITE_API_ENDPOINT || 'http://localhost:8000'}${member.image}`}
                     alt={member.name}
                     boxSize="50px"
                     objectFit="cover"
@@ -534,20 +514,14 @@ export const TeamMembersManagement = () => {
                 </Table.Cell>
                 <Table.Cell>
                   <VStack align="start" gap={1} fontSize="xs">
-                    {member.social.linkedin && (
-                      <Text color="blue.600" truncate maxW="150px">
-                        LinkedIn: {member.social.linkedin}
-                      </Text>
-                    )}
-                    {member.social.twitter && (
-                      <Text color="gray.600" truncate maxW="150px">
-                        Twitter: {member.social.twitter}
-                      </Text>
-                    )}
-                    {member.social.github && (
-                      <Text color="gray.600" truncate maxW="150px">
-                        GitHub: {member.social.github}
-                      </Text>
+                    {member.social.length > 0 ? (
+                      member.social.map((link, idx) => (
+                        <Text key={idx} color="blue.600" truncate maxW="150px">
+                          {link}
+                        </Text>
+                      ))
+                    ) : (
+                      <Text color="gray.400">No social links</Text>
                     )}
                   </VStack>
                 </Table.Cell>
@@ -582,6 +556,15 @@ export const TeamMembersManagement = () => {
           <Text>No team members yet. Add your first team member to get started.</Text>
         </Box>
       )}
+
+      <DeleteConfirmDialog
+        isOpen={deleteDialog.isOpen}
+        onClose={() => setDeleteDialog({ isOpen: false, member: null, index: null })}
+        onConfirm={confirmDelete}
+        title="Delete Team Member"
+        message={`Are you sure you want to delete ${deleteDialog.member?.name}? This action cannot be undone.`}
+        isLoading={isDeleting}
+      />
     </VStack>
   )
 }
