@@ -1,8 +1,9 @@
-import { Box, Text, HStack, Icon, VStack } from "@chakra-ui/react"
+import { Box, Text, HStack, Icon, VStack, Spinner, Center } from "@chakra-ui/react"
 import { Bar } from "react-chartjs-2"
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 import { HiBriefcase, HiUsers } from "react-icons/hi"
 import { chartColors, createGradient, formatNumber } from "@/utils/chartConfig"
+import { apiService } from "@/services/api"
 import type { Chart, TooltipItem } from "chart.js"
 
 interface JobsApplicationsChartProps {
@@ -11,59 +12,174 @@ interface JobsApplicationsChartProps {
   year?: number
 }
 
-const generateJobsData = (period: string, month?: number, year?: number) => {
-  // Get number of days in the selected month
-  const getDaysInMonth = (m: number, y: number) => {
-    return new Date(y, m + 1, 0).getDate()
+// Aggregate real data by time period
+const aggregateDataByPeriod = (
+  jobs: Array<{ posted_at?: string }>,
+  applications: Array<{ created_at?: string }>,
+  period: string,
+  month?: number,
+  year?: number
+) => {
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  
+  if (period === 'week') {
+    const labels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    const jobsPosted = new Array(7).fill(0)
+    const applicationsCount = new Array(7).fill(0)
+    
+    const now = new Date()
+    const weekStart = new Date(now)
+    weekStart.setDate(now.getDate() - now.getDay() + 1) // Monday
+    
+    jobs.forEach(job => {
+      if (job.posted_at) {
+        const date = new Date(job.posted_at)
+        const dayDiff = Math.floor((date.getTime() - weekStart.getTime()) / (1000 * 60 * 60 * 24))
+        if (dayDiff >= 0 && dayDiff < 7) jobsPosted[dayDiff]++
+      }
+    })
+    
+    applications.forEach(app => {
+      if (app.created_at) {
+        const date = new Date(app.created_at)
+        const dayDiff = Math.floor((date.getTime() - weekStart.getTime()) / (1000 * 60 * 60 * 24))
+        if (dayDiff >= 0 && dayDiff < 7) applicationsCount[dayDiff]++
+      }
+    })
+    
+    return { labels, jobsPosted, applications: applicationsCount }
   }
   
-  // Format date as "Jan 15" or "15"
-  const formatDate = (day: number, monthNum: number) => {
-    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    return `${monthNames[monthNum]} ${day}`
+  if (period === 'month') {
+    const currentMonth = month !== undefined ? month : new Date().getMonth()
+    const currentYear = year !== undefined ? year : new Date().getFullYear()
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate()
+    const labels = Array.from({ length: daysInMonth }, (_, i) => `${monthNames[currentMonth]} ${i + 1}`)
+    const jobsPosted = new Array(daysInMonth).fill(0)
+    const applicationsCount = new Array(daysInMonth).fill(0)
+    
+    jobs.forEach(job => {
+      if (job.posted_at) {
+        const date = new Date(job.posted_at)
+        if (date.getMonth() === currentMonth && date.getFullYear() === currentYear) {
+          jobsPosted[date.getDate() - 1]++
+        }
+      }
+    })
+    
+    applications.forEach(app => {
+      if (app.created_at) {
+        const date = new Date(app.created_at)
+        if (date.getMonth() === currentMonth && date.getFullYear() === currentYear) {
+          applicationsCount[date.getDate() - 1]++
+        }
+      }
+    })
+    
+    return { labels, jobsPosted, applications: applicationsCount }
   }
   
-  switch (period) {
-    case "week":
-      return {
-        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-        jobsPosted: [5, 8, 6, 12, 9, 3, 4],
-        applications: [23, 45, 32, 67, 54, 18, 21],
+  if (period === 'year') {
+    const currentYear = year !== undefined ? year : new Date().getFullYear()
+    const labels = monthNames
+    const jobsPosted = new Array(12).fill(0)
+    const applicationsCount = new Array(12).fill(0)
+    
+    jobs.forEach(job => {
+      if (job.posted_at) {
+        const date = new Date(job.posted_at)
+        if (date.getFullYear() === currentYear) {
+          jobsPosted[date.getMonth()]++
+        }
       }
-    case "month": {
-      const currentMonth = month !== undefined ? month : new Date().getMonth()
-      const currentYear = year !== undefined ? year : new Date().getFullYear()
-      const daysInMonth = getDaysInMonth(currentMonth, currentYear)
-      const days = Array.from({ length: daysInMonth }, (_, i) => formatDate(i + 1, currentMonth))
-      return {
-        labels: days,
-        jobsPosted: Array.from({ length: daysInMonth }, () => Math.floor(Math.random() * 15) + 3),
-        applications: Array.from({ length: daysInMonth }, () => Math.floor(Math.random() * 80) + 20),
+    })
+    
+    applications.forEach(app => {
+      if (app.created_at) {
+        const date = new Date(app.created_at)
+        if (date.getFullYear() === currentYear) {
+          applicationsCount[date.getMonth()]++
+        }
       }
-    }
-    case "year":
-      return {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        jobsPosted: [45, 52, 48, 63, 58, 51, 49, 55, 62, 68, 71, 66],
-        applications: [234, 289, 256, 345, 312, 278, 267, 301, 334, 367, 389, 356],
-      }
-    default:
-      return {
-        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-        jobsPosted: [45, 52, 48, 63, 58, 51],
-        applications: [234, 289, 256, 345, 312, 278],
-      }
+    })
+    
+    return { labels, jobsPosted, applications: applicationsCount }
   }
+  
+  // Default: last 6 months
+  const labels = []
+  const jobsPosted = []
+  const applicationsCount = []
+  const now = new Date()
+  
+  for (let i = 5; i >= 0; i--) {
+    const date = new Date(now.getFullYear(), now.getMonth() - i, 1)
+    labels.push(monthNames[date.getMonth()])
+    
+    const monthJobs = jobs.filter(job => {
+      if (!job.posted_at) return false
+      const jobDate = new Date(job.posted_at)
+      return jobDate.getMonth() === date.getMonth() && jobDate.getFullYear() === date.getFullYear()
+    }).length
+    
+    const monthApps = applications.filter(app => {
+      if (!app.created_at) return false
+      const appDate = new Date(app.created_at)
+      return appDate.getMonth() === date.getMonth() && appDate.getFullYear() === date.getFullYear()
+    }).length
+    
+    jobsPosted.push(monthJobs)
+    applicationsCount.push(monthApps)
+  }
+  
+  return { labels, jobsPosted, applications: applicationsCount }
 }
 
 export const JobsApplicationsChart = ({ period, month, year }: JobsApplicationsChartProps) => {
   const chartRef = useRef<Chart<"bar">>(null)
-  const { labels, jobsPosted, applications } = generateJobsData(period, month, year)
+  const [isLoading, setIsLoading] = useState(true)
+  const [chartData, setChartData] = useState<{
+    labels: string[]
+    jobsPosted: number[]
+    applications: number[]
+  }>({ labels: [], jobsPosted: [], applications: [] })
+  
+  useEffect(() => {
+    fetchData()
+  }, [period, month, year])
+  
+  const fetchData = async () => {
+    try {
+      setIsLoading(true)
+      const [jobsResponse, applicationsResponse] = await Promise.all([
+        apiService.getCareers(),
+        apiService.getJobApplications()
+      ])
+      
+      const aggregated = aggregateDataByPeriod(
+        jobsResponse.data,
+        applicationsResponse.data,
+        period,
+        month,
+        year
+      )
+      
+      setChartData(aggregated)
+    } catch (error) {
+      console.error('Failed to fetch jobs/applications data:', error)
+      // Fallback to empty data
+      setChartData({ labels: [], jobsPosted: [], applications: [] })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+  
+  const { labels, jobsPosted, applications } = chartData
 
   // Calculate statistics
-  const totalJobs = jobsPosted.reduce((acc, val) => acc + val, 0)
-  const totalApplications = applications.reduce((acc, val) => acc + val, 0)
-  const avgApplicationsPerJob = (totalApplications / totalJobs).toFixed(1)
+  const totalJobs = jobsPosted.reduce((acc: number, val: number) => acc + val, 0)
+  const totalApplications = applications.reduce((acc: number, val: number) => acc + val, 0)
+  const avgApplicationsPerJob = totalJobs > 0 ? (totalApplications / totalJobs).toFixed(1) : '0'
 
   useEffect(() => {
     if (chartRef.current) {
@@ -176,6 +292,14 @@ export const JobsApplicationsChart = ({ period, month, year }: JobsApplicationsC
     },
   }
 
+  if (isLoading) {
+    return (
+      <Center py={20}>
+        <Spinner size="xl" color="primary.500" />
+      </Center>
+    )
+  }
+  
   return (
     <Box>
       {/* Statistics Summary */}

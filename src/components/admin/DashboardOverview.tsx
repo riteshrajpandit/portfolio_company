@@ -1,6 +1,9 @@
-import { Box, VStack, HStack, Text, Heading, Button, Badge, Grid, GridItem, Icon, Circle } from "@chakra-ui/react"
+import { Box, VStack, HStack, Text, Heading, Button, Badge, Grid, GridItem, Icon, Circle, Spinner, Center } from "@chakra-ui/react"
 import { HiMail, HiBriefcase } from "react-icons/hi"
+import { useState, useEffect } from "react"
 import { StatCard } from "./StatCard"
+import { apiService, type Message, type JobApplication } from "@/services/api"
+import { toaster } from "@/components/ui/toaster"
 import type { IconType } from "react-icons"
 
 interface Stat {
@@ -11,53 +14,82 @@ interface Stat {
   color: string
 }
 
-interface RecentMessage {
-  id: number
-  name: string
-  email: string
-  message: string
-  time: string
-  status: string
-}
-
-interface RecentApplication {
-  id: number
-  name: string
-  position: string
-  department: string
-  time: string
-  status: string
-}
-
 interface DashboardOverviewProps {
   stats: Stat[]
-  recentMessages: RecentMessage[]
-  recentApplications: RecentApplication[]
   onViewAllMessages: () => void
   onViewAllApplications: () => void
 }
 
-const getStatusColor = (status: string) => {
-  switch (status) {
-    case "unread":
-    case "new":
-      return "red"
-    case "reviewing":
-      return "blue"
-    case "shortlisted":
-      return "green"
-    default:
-      return "gray"
-  }
-}
-
 export const DashboardOverview = ({
   stats,
-  recentMessages,
-  recentApplications,
   onViewAllMessages,
   onViewAllApplications
 }: DashboardOverviewProps) => {
+  const [recentMessages, setRecentMessages] = useState<Message[]>([])
+  const [recentApplications, setRecentApplications] = useState<JobApplication[]>([])
+  const [isLoadingMessages, setIsLoadingMessages] = useState(true)
+  const [isLoadingApplications, setIsLoadingApplications] = useState(true)
+
+  useEffect(() => {
+    fetchRecentMessages()
+    fetchRecentApplications()
+  }, [])
+
+  const fetchRecentMessages = async () => {
+    try {
+      setIsLoadingMessages(true)
+      const response = await apiService.getMessages()
+      // Get only the 3 most recent messages
+      const recent = response.data.slice(0, 3)
+      setRecentMessages(recent)
+    } catch (error) {
+      console.error("Failed to fetch messages:", error)
+      toaster.create({
+        title: "Error",
+        description: "Failed to load recent messages",
+        type: "error",
+        duration: 3000,
+      })
+    } finally {
+      setIsLoadingMessages(false)
+    }
+  }
+
+  const fetchRecentApplications = async () => {
+    try {
+      setIsLoadingApplications(true)
+      const response = await apiService.getJobApplications()
+      // Get only the 3 most recent applications
+      const recent = response.data.slice(0, 3)
+      setRecentApplications(recent)
+    } catch (error) {
+      console.error("Failed to fetch applications:", error)
+      toaster.create({
+        title: "Error",
+        description: "Failed to load recent applications",
+        type: "error",
+        duration: 3000,
+      })
+    } finally {
+      setIsLoadingApplications(false)
+    }
+  }
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffMs = now.getTime() - date.getTime()
+    const diffMins = Math.floor(diffMs / 60000)
+    const diffHours = Math.floor(diffMs / 3600000)
+    const diffDays = Math.floor(diffMs / 86400000)
+
+    if (diffMins < 60) return `${diffMins} minute${diffMins !== 1 ? 's' : ''} ago`
+    if (diffHours < 24) return `${diffHours} hour${diffHours !== 1 ? 's' : ''} ago`
+    if (diffDays === 1) return 'Yesterday'
+    if (diffDays < 7) return `${diffDays} days ago`
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+  }
+
   return (
     <>
       {/* Stats Grid */}
@@ -102,57 +134,67 @@ export const DashboardOverview = ({
               </Button>
             </HStack>
 
-            <VStack gap={4} align="stretch">
-              {recentMessages.map((msg) => (
-                <Box
-                  key={msg.id}
-                  p={4}
-                  bg={msg.status === "unread" ? "blue.50" : "neutral.50"}
-                  borderRadius="lg"
-                  border="1px solid"
-                  borderColor={msg.status === "unread" ? "blue.200" : "neutral.200"}
-                  cursor="pointer"
-                  _hover={{ shadow: "sm", borderColor: "primary.300" }}
-                  transition="all 0.2s ease"
-                  onClick={onViewAllMessages}
-                >
-                  <HStack justify="space-between" mb={2}>
-                    <HStack gap={2}>
-                      <Circle size="24px" bg="primary.100" color="primary.600" fontWeight="600" fontSize="xs">
-                        {msg.name.charAt(0).toUpperCase()}
-                      </Circle>
-                      <Text fontSize="sm" fontWeight="600" color="neutral.900">
-                        {msg.name}
+            {isLoadingMessages ? (
+              <Center py={8}>
+                <Spinner size="md" color="primary.500" />
+              </Center>
+            ) : recentMessages.length === 0 ? (
+              <Box py={8} textAlign="center">
+                <Text fontSize="sm" color="neutral.500">No messages yet</Text>
+              </Box>
+            ) : (
+              <VStack gap={4} align="stretch">
+                {recentMessages.map((msg) => (
+                  <Box
+                    key={msg.id}
+                    p={4}
+                    bg="blue.50"
+                    borderRadius="lg"
+                    border="1px solid"
+                    borderColor="blue.200"
+                    cursor="pointer"
+                    _hover={{ shadow: "sm", borderColor: "primary.300" }}
+                    transition="all 0.2s ease"
+                    onClick={onViewAllMessages}
+                  >
+                    <HStack justify="space-between" mb={2}>
+                      <HStack gap={2}>
+                        <Circle size="24px" bg="primary.100" color="primary.600" fontWeight="600" fontSize="xs">
+                          {msg.name.charAt(0).toUpperCase()}
+                        </Circle>
+                        <Text fontSize="sm" fontWeight="600" color="neutral.900">
+                          {msg.name}
+                        </Text>
+                      </HStack>
+                      <Badge colorScheme="blue" fontSize="xs">
+                        New
+                      </Badge>
+                    </HStack>
+                    <Text 
+                      fontSize="sm" 
+                      color="neutral.700" 
+                      mb={2}
+                      css={{
+                        display: '-webkit-box',
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden'
+                      }}
+                    >
+                      {msg.message}
+                    </Text>
+                    <HStack justify="space-between">
+                      <Text fontSize="xs" color="neutral.500">
+                        {msg.email}
+                      </Text>
+                      <Text fontSize="xs" color="neutral.500">
+                        {msg.created_at ? formatDate(msg.created_at) : 'Just now'}
                       </Text>
                     </HStack>
-                    <Badge colorScheme={getStatusColor(msg.status)} fontSize="xs">
-                      {msg.status}
-                    </Badge>
-                  </HStack>
-                  <Text 
-                    fontSize="sm" 
-                    color="neutral.700" 
-                    mb={2}
-                    css={{
-                      display: '-webkit-box',
-                      WebkitLineClamp: 2,
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden'
-                    }}
-                  >
-                    {msg.message}
-                  </Text>
-                  <HStack justify="space-between">
-                    <Text fontSize="xs" color="neutral.500">
-                      {msg.email}
-                    </Text>
-                    <Text fontSize="xs" color="neutral.500">
-                      {msg.time}
-                    </Text>
-                  </HStack>
-                </Box>
-              ))}
-            </VStack>
+                  </Box>
+                ))}
+              </VStack>
+            )}
           </Box>
         </GridItem>
 
@@ -178,47 +220,57 @@ export const DashboardOverview = ({
               </Button>
             </HStack>
 
-            <VStack gap={4} align="stretch">
-              {recentApplications.map((app) => (
-                <Box
-                  key={app.id}
-                  p={4}
-                  bg="neutral.50"
-                  borderRadius="lg"
-                  border="1px solid"
-                  borderColor="neutral.200"
-                  cursor="pointer"
-                  _hover={{ shadow: "sm", borderColor: "primary.300" }}
-                  transition="all 0.2s ease"
-                  onClick={onViewAllApplications}
-                >
-                  <HStack justify="space-between" mb={2}>
-                    <HStack gap={2}>
-                      <Circle size="24px" bg="purple.100" color="purple.600" fontWeight="600" fontSize="xs">
-                        {app.name.charAt(0).toUpperCase()}
-                      </Circle>
-                      <Text fontSize="sm" fontWeight="600" color="neutral.900">
-                        {app.name}
+            {isLoadingApplications ? (
+              <Center py={8}>
+                <Spinner size="md" color="primary.500" />
+              </Center>
+            ) : recentApplications.length === 0 ? (
+              <Box py={8} textAlign="center">
+                <Text fontSize="sm" color="neutral.500">No applications yet</Text>
+              </Box>
+            ) : (
+              <VStack gap={4} align="stretch">
+                {recentApplications.map((app) => (
+                  <Box
+                    key={app.id}
+                    p={4}
+                    bg="neutral.50"
+                    borderRadius="lg"
+                    border="1px solid"
+                    borderColor="neutral.200"
+                    cursor="pointer"
+                    _hover={{ shadow: "sm", borderColor: "primary.300" }}
+                    transition="all 0.2s ease"
+                    onClick={onViewAllApplications}
+                  >
+                    <HStack justify="space-between" mb={2}>
+                      <HStack gap={2}>
+                        <Circle size="24px" bg="purple.100" color="purple.600" fontWeight="600" fontSize="xs">
+                          {app.first_name.charAt(0).toUpperCase()}
+                        </Circle>
+                        <Text fontSize="sm" fontWeight="600" color="neutral.900">
+                          {app.first_name} {app.last_name}
+                        </Text>
+                      </HStack>
+                      <Badge colorScheme="green" fontSize="xs">
+                        New
+                      </Badge>
+                    </HStack>
+                    <Text fontSize="sm" color="neutral.700" fontWeight="600" mb={1}>
+                      Applied via Career Page
+                    </Text>
+                    <HStack justify="space-between">
+                      <Text fontSize="xs" color="neutral.600">
+                        {app.email}
+                      </Text>
+                      <Text fontSize="xs" color="neutral.500">
+                        {app.created_at ? formatDate(app.created_at) : 'Just now'}
                       </Text>
                     </HStack>
-                    <Badge colorScheme={getStatusColor(app.status)} fontSize="xs">
-                      {app.status}
-                    </Badge>
-                  </HStack>
-                  <Text fontSize="sm" color="neutral.700" fontWeight="600" mb={1}>
-                    {app.position}
-                  </Text>
-                  <HStack justify="space-between">
-                    <Text fontSize="xs" color="neutral.600">
-                      {app.department}
-                    </Text>
-                    <Text fontSize="xs" color="neutral.500">
-                      {app.time}
-                    </Text>
-                  </HStack>
-                </Box>
-              ))}
-            </VStack>
+                  </Box>
+                ))}
+              </VStack>
+            )}
           </Box>
         </GridItem>
       </Grid>

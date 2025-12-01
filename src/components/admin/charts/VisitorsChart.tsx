@@ -1,6 +1,6 @@
 import { Box, Text, HStack, Icon, VStack } from "@chakra-ui/react"
 import { Line } from "react-chartjs-2"
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 import { HiTrendingUp, HiTrendingDown } from "react-icons/hi"
 import { chartColors, createGradient } from "@/utils/chartConfig"
 import type { Chart, TooltipItem } from "chart.js"
@@ -51,7 +51,9 @@ const generateVisitorsData = (period: string, month?: number, year?: number) => 
 
 export const VisitorsChart = ({ period, month, year }: VisitorsChartProps) => {
   const chartRef = useRef<Chart<"line">>(null)
+  const [showGANote] = useState(true)
   const { labels, visitors, uniqueVisitors } = generateVisitorsData(period, month, year)
+  const gaTrackingId = import.meta.env.VITE_GA_TRACKING_ID
 
   // Calculate statistics
   const totalVisitors = visitors.reduce((a, b) => a + b, 0)
@@ -180,6 +182,29 @@ export const VisitorsChart = ({ period, month, year }: VisitorsChartProps) => {
 
   return (
     <Box>
+      {/* Google Analytics Integration Notice */}
+      {showGANote && (
+        <Box
+          mb={4}
+          p={4}
+          bg="blue.50"
+          borderRadius="lg"
+          border="1px solid"
+          borderColor="blue.200"
+        >
+          <Text fontSize="sm" fontWeight="600" color="blue.800" mb={1}>
+            ℹ️ Visitor Tracking
+          </Text>
+          <Text fontSize="sm" color="blue.700">
+            {gaTrackingId ? (
+              <>Google Analytics is configured (ID: {gaTrackingId}). The chart below shows sample data. To display real visitor data, integrate the Google Analytics Data API with your backend.</>
+            ) : (
+              <>Configure Google Analytics tracking ID in .env (VITE_GA_TRACKING_ID) to start tracking visitors. Then integrate the GA4 Data API to display real data here.</>
+            )}
+          </Text>
+        </Box>
+      )}
+      
       {/* Statistics Summary */}
       <HStack justify="space-between" mb={6} flexWrap="wrap" gap={4}>
         <VStack align="start" gap={0}>

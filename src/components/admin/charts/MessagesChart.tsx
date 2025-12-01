@@ -1,7 +1,8 @@
-import { Box, Text, VStack, SimpleGrid } from "@chakra-ui/react"
+import { Box, Text, VStack, SimpleGrid, Spinner, Center } from "@chakra-ui/react"
 import { Doughnut } from "react-chartjs-2"
-import { useRef, useEffect } from "react"
+import { useRef, useEffect, useState } from "react"
 import { chartColors, formatNumber } from "@/utils/chartConfig"
+import { apiService, type Message } from "@/services/api"
 import type { Chart, TooltipItem } from "chart.js"
 
 interface MessagesChartProps {
@@ -10,43 +11,120 @@ interface MessagesChartProps {
   year?: number
 }
 
-// Sample data - would come from API in production
-const getMessagesByTool = () => ({
-  labels: ["Zoom", "Google Meet", "Microsoft Teams", "Phone Call", "In-Person"],
-  data: [145, 98, 67, 45, 23],
-  colors: [
-    chartColors.primary.main,
-    chartColors.success.main,
-    chartColors.warning.main,
-    chartColors.danger.main,
-    chartColors.purple.main,
-  ],
-})
+// Aggregate messages by meeting tool
+const aggregateByMeetingTool = (messages: Message[]) => {
+  const toolCounts: Record<string, number> = {}
+  
+  messages.forEach(msg => {
+    const tool = msg.meeting_tool || 'unknown'
+    toolCounts[tool] = (toolCounts[tool] || 0) + 1
+  })
+  
+  const sortedTools = Object.entries(toolCounts)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 5)
+  
+  return {
+    labels: sortedTools.map(([tool]) => {
+      // Capitalize and format tool names
+      return tool.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+    }),
+    data: sortedTools.map(([, count]) => count),
+    colors: [
+      chartColors.primary.main,
+      chartColors.success.main,
+      chartColors.warning.main,
+      chartColors.danger.main,
+      chartColors.purple.main,
+    ],
+  }
+}
 
-const getMessagesByAgenda = () => ({
-  labels: ["Job Application", "Interview Schedule", "Job Query", "Partnership", "General Inquiry"],
-  data: [156, 89, 67, 34, 32],
-  colors: [
-    chartColors.success.main,
-    chartColors.primary.main,
-    chartColors.purple.main,
-    chartColors.warning.main,
-    chartColors.danger.main,
-  ],
-})
+// Aggregate messages by agenda
+const aggregateByAgenda = (messages: Message[]) => {
+  const agendaCounts: Record<string, number> = {}
+  
+  messages.forEach(msg => {
+    const agenda = msg.agenda || 'unknown'
+    agendaCounts[agenda] = (agendaCounts[agenda] || 0) + 1
+  })
+  
+  const sortedAgendas = Object.entries(agendaCounts)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 5)
+  
+  return {
+    labels: sortedAgendas.map(([agenda]) => {
+      // Capitalize and format agenda names
+      return agenda.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+    }),
+    data: sortedAgendas.map(([, count]) => count),
+    colors: [
+      chartColors.success.main,
+      chartColors.primary.main,
+      chartColors.purple.main,
+      chartColors.warning.main,
+      chartColors.danger.main,
+    ],
+  }
+}
 
 export const MessagesChart = ({ period, month, year }: MessagesChartProps) => {
   const toolChartRef = useRef<Chart<"doughnut">>(null)
   const agendaChartRef = useRef<Chart<"doughnut">>(null)
-
-  const toolData = getMessagesByTool()
-  const agendaData = getMessagesByAgenda()
-
-  const totalMessages = toolData.data.reduce((acc, val) => acc + val, 0)
-
+  const [isLoading, setIsLoading] = useState(true)
+  const [messages, setMessages] = useState<Message[]>([])
+  
   useEffect(() => {
-    // Charts will auto-render with configured colors
+    fetchMessages()
   }, [period, month, year])
+  
+  const fetchMessages = async () => {
+    try {
+      setIsLoading(true)
+      const response = await apiService.getMessages()
+      
+      // Filter messages based on period
+      const filtered = response.data.filter(msg => {
+        if (!msg.created_at) return false
+        const msgDate = new Date(msg.created_at)
+        const now = new Date()
+        
+        if (period === 'week') {
+          const weekStart = new Date(now)
+          weekStart.setDate(now.getDate() - now.getDay() + 1)
+          return msgDate >= weekStart && msgDate <= now
+        }
+        
+        if (period === 'month') {
+          const currentMonth = month !== undefined ? month : now.getMonth()
+          const currentYear = year !== undefined ? year : now.getFullYear()
+          return msgDate.getMonth() === currentMonth && msgDate.getFullYear() === currentYear
+        }
+        
+        if (period === 'year') {
+          const currentYear = year !== undefined ? year : now.getFullYear()
+          return msgDate.getFullYear() === currentYear
+        }
+        
+        // Default: last 6 months
+        const sixMonthsAgo = new Date(now)
+        sixMonthsAgo.setMonth(now.getMonth() - 6)
+        return msgDate >= sixMonthsAgo
+      })
+      
+      setMessages(filtered)
+    } catch (error) {
+      console.error('Failed to fetch messages:', error)
+      setMessages([])
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const toolData = aggregateByMeetingTool(messages)
+  const agendaData = aggregateByAgenda(messages)
+  const totalMessages = messages.length
 
   const createChartData = (labels: string[], data: number[], colors: string[]) => ({
     labels,
@@ -120,6 +198,14 @@ export const MessagesChart = ({ period, month, year }: MessagesChartProps) => {
     cutout: '65%',
   }
 
+  if (isLoading) {
+    return (
+      <Center py={20}>
+        <Spinner size="xl" color="primary.500" />
+      </Center>
+    )
+  }
+  
   return (
     <Box>
       {/* Summary Stats */}

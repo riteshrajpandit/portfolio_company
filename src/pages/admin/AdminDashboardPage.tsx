@@ -44,14 +44,6 @@ import { VisitorsChart, JobsApplicationsChart, MessagesChart } from "@/component
 
 const MotionBox = motion(Box)
 
-const recentApplications = [
-  { id: 1, name: "Sarah Wilson", position: "Senior Software Engineer", department: "Engineering", time: "1 hour ago", status: "new" },
-  { id: 2, name: "Tom Brown", position: "UI/UX Designer", department: "Design", time: "3 hours ago", status: "reviewing" },
-  { id: 3, name: "Lisa Anderson", position: "Product Manager", department: "Product", time: "1 day ago", status: "shortlisted" },
-]
-
-
-
 const AdminDashboardPage = () => {
   const navigate = useNavigate()
   const [activeMenu, setActiveMenu] = useState("dashboard")
@@ -254,8 +246,6 @@ const AdminDashboardPage = () => {
                 {activeMenu === "dashboard" && (
                   <DashboardOverview
                     stats={stats}
-                    recentMessages={[]}
-                    recentApplications={recentApplications}
                     onViewAllMessages={() => setActiveMenu("messages")}
                     onViewAllApplications={() => setActiveMenu("applications")}
                   />
