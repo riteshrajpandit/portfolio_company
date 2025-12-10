@@ -1,6 +1,6 @@
 // API Service with security best practices
 
-const API_BASE_URL = import.meta.env.VITE_API_ENDPOINT || 'http://localhost:8000'
+export const API_BASE_URL = import.meta.env.VITE_API_ENDPOINT || 'http://localhost:8000'
 
 interface CareersListResponse {
   data: Career[]
@@ -156,6 +156,31 @@ interface CareersListResponse {
   count: number
   next: string | null
   previous: string | null
+}
+
+interface GalleryImage {
+  id?: number
+  image: string
+  caption: string
+}
+
+interface GalleryCategory {
+  id?: number
+  title: string
+  description: string
+  uploaded_images: GalleryImage[]
+}
+
+interface GalleryListResponse {
+  data: GalleryCategory[]
+  message: string
+  success: boolean
+}
+
+interface GalleryCreateData {
+  title: string
+  description: string
+  uploaded_images: { id?: number; image?: File; caption: string }[]
 }
 
 class ApiService {
@@ -505,6 +530,81 @@ class ApiService {
       method: 'DELETE',
     })
   }
+
+  // Gallery Endpoints
+  async getGallery(): Promise<GalleryListResponse> {
+    return this.request<GalleryCategory[]>('/api/gallery-images/')
+  }
+
+  async createGallery(galleryData: GalleryCreateData): Promise<ApiResponse<GalleryCategory>> {
+    const token = localStorage.getItem('admin_token')
+    const formData = new FormData()
+    formData.append('title', galleryData.title)
+    formData.append('description', galleryData.description)
+    
+    if (galleryData.uploaded_images) {
+      galleryData.uploaded_images.forEach((item) => {
+        if (item.image instanceof File) {
+          formData.append('images[]', item.image)
+          formData.append('captions[]', item.caption || "")
+        }
+      })
+    }
+
+    const config: RequestInit = {
+      method: 'POST',
+      body: formData,
+      headers: {
+        ...(token ? { 'Authorization': `Token ${token}` } : {}),
+      },
+    }
+
+    const response = await fetch(`${this.baseUrl}/api/gallery-images/`, config)
+    
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+    }
+    return await response.json()
+  }
+
+  async updateGallery(id: number, galleryData: Partial<GalleryCreateData>): Promise<ApiResponse<GalleryCategory>> {
+    const token = localStorage.getItem('admin_token')
+    const formData = new FormData()
+    if (galleryData.title) formData.append('title', galleryData.title)
+    if (galleryData.description) formData.append('description', galleryData.description)
+    
+    if (galleryData.uploaded_images) {
+      galleryData.uploaded_images.forEach((item) => {
+        if (item.image instanceof File) {
+          formData.append('images[]', item.image)
+          formData.append('captions[]', item.caption || "")
+        }
+      })
+    }
+
+    const config: RequestInit = {
+      method: 'PATCH',
+      body: formData,
+      headers: {
+        ...(token ? { 'Authorization': `Token ${token}` } : {}),
+      },
+    }
+
+    const response = await fetch(`${this.baseUrl}/api/gallery-images/${id}/`, config)
+    
+    if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+    }
+    return await response.json()
+  }
+
+  async deleteGallery(id: number): Promise<ApiResponse<null>> {
+    return this.authenticatedRequest<null>(`/api/gallery-images/${id}/`, {
+      method: 'DELETE',
+    })
+  }
 }
 
 export const apiService = new ApiService(API_BASE_URL)
@@ -524,5 +624,9 @@ export type {
   TeamMemberListResponse,
   TeamMemberCreateData,
   TeamMemberUpdateData,
-  SocialLink
+  SocialLink,
+  GalleryCategory,
+  GalleryImage,
+  GalleryCreateData,
+  GalleryListResponse
 }

@@ -7,62 +7,42 @@ import {
   Icon,
   VStack,
   Heading,
+  Spinner,
 } from "@chakra-ui/react"
 import { motion, AnimatePresence } from "framer-motion"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { HiXMark } from "react-icons/hi2"
+import { apiService, API_BASE_URL } from "@/services/api"
+import type { GalleryCategory, GalleryImage } from "@/services/api"
 
 const MotionBox = motion(Box)
 
-interface GalleryImage {
-  src: string
-  caption: string
-}
-
-interface GalleryCategory {
-  title: string
-  description: string
-  images: GalleryImage[]
-}
-
-const galleryCategories: GalleryCategory[] = [
-  {
-    title: "Interviewing at BroadwayInfosys",
-    description: "Hiring backend and frontend developers for IOXET Labs",
-    images: [
-      {
-        src: "/ioxet-gallery/image1.jpg",
-        caption: "Technical interview session with senior backend developer candidates discussing system architecture and scalability challenges"
-      },
-      {
-        src: "/ioxet-gallery/image2.jpg",
-        caption: "Frontend developer coding challenge - Building responsive UI components with React and TypeScript"
-      },
-      {
-        src: "/ioxet-gallery/image3.jpg",
-        caption: "Team collaboration round where candidates present their problem-solving approach and code review practices"
-      },
-      {
-        src: "/ioxet-gallery/image4.jpg",
-        caption: "Final round discussion about project experience, team dynamics, and career goals with IOXET Labs leadership"
-      },
-    ]
-  }
-//  {
-//     title: "Conference",
-//     description: "Our team at industry conferences and networking events",
-//     images: [
-//       "/ioxet-gallery/conference/image5.jpg",
-//       "/ioxet-gallery/conference/image6.jpg",
-//       "/ioxet-gallery/conference/image7.jpg",
-//       "/ioxet-gallery/conference/image8.jpg",
-//       "/ioxet-gallery/conference/image9.jpg",
-//     ]
-//   }
-]
-
 const GalleryPage = () => {
+  const [categories, setCategories] = useState<GalleryCategory[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null)
+
+  const getImageUrl = (path: string) => {
+    if (!path) return ""
+    if (path.startsWith("http")) return path
+    return `${API_BASE_URL}${path}`
+  }
+
+  useEffect(() => {
+    const fetchGallery = async () => {
+      try {
+        const response = await apiService.getGallery()
+        if (response.success) {
+          setCategories(response.data)
+        }
+      } catch (error) {
+        console.error("Failed to fetch gallery", error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    fetchGallery()
+  }, [])
 
   const handleImageClick = (image: GalleryImage) => {
     setSelectedImage(image)
@@ -72,12 +52,20 @@ const GalleryPage = () => {
     setSelectedImage(null)
   }
 
+  if (isLoading) {
+    return (
+      <Box pt={{ base: 28, md: 32 }} pb={{ base: 12, md: 16 }} display="flex" justifyContent="center">
+        <Spinner size="xl" />
+      </Box>
+    )
+  }
+
   return (
     <Box pt={{ base: 28, md: 32 }} pb={{ base: 12, md: 16 }}>
       {/* Gallery Categories */}
-      {galleryCategories.map((category, categoryIndex) => (
+      {categories.map((category, categoryIndex) => (
         <Box 
-          key={categoryIndex}
+          key={category.id || categoryIndex}
           py={{ base: 12, md: 16 }}
           bg={categoryIndex % 2 === 0 ? "white" : "neutral.50"}
         >
@@ -114,9 +102,9 @@ const GalleryPage = () => {
               columns={{ base: 1, sm: 2, lg: 3, xl: 4 }}
               gap={{ base: 4, md: 6 }}
             >
-              {category.images.map((image, index) => (
+              {category.uploaded_images.map((image, index) => (
                 <MotionBox
-                  key={index}
+                  key={image.id || index}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -137,7 +125,7 @@ const GalleryPage = () => {
                     shadow="md"
                   >
                     <Image
-                      src={image.src}
+                      src={getImageUrl(image.image)}
                       alt={`${category.title} - Image ${index + 1}`}
                       w="full"
                       h={{ base: "250px", md: "300px" }}
@@ -224,7 +212,7 @@ const GalleryPage = () => {
               position="relative"
             >
               <Image
-                src={selectedImage.src}
+                src={getImageUrl(selectedImage.image)}
                 alt="Gallery image full view"
                 w="full"
                 h="full"
