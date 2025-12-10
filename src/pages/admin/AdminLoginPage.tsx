@@ -381,14 +381,7 @@ const AdminLoginPage = () => {
                       />
                       <Text color="neutral.600" fontWeight="500">Remember me</Text>
                     </label>
-                    <Text
-                      color="primary.500"
-                      fontWeight="600"
-                      cursor="pointer"
-                      _hover={{ color: "primary.600", textDecoration: "underline" }}
-                    >
-                      Forgot password?
-                    </Text>
+                  
                   </HStack>
 
                   {/* Login Button */}
@@ -415,35 +408,8 @@ const AdminLoginPage = () => {
                     Sign In
                   </Button>
 
-                  {/* Divider */}
-                  <HStack gap={4} my={2}>
-                    <Box flex={1} h="1px" bg="neutral.200" />
-                    <Text fontSize="sm" color="neutral.500" fontWeight="500">
-                      OR
-                    </Text>
-                    <Box flex={1} h="1px" bg="neutral.200" />
-                  </HStack>
-
-                  {/* Demo Credentials */}
-                  <Box
-                    p={4}
-                    bg="blue.50"
-                    borderRadius="lg"
-                    border="1px solid"
-                    borderColor="blue.200"
-                  >
-                    <Text fontSize="sm" color="blue.900" fontWeight="600" mb={2}>
-                      🔑 Demo Credentials
-                    </Text>
-                    <VStack gap={1} align="start">
-                      <Text fontSize="xs" color="blue.800">
-                        <strong>Username:</strong> admin
-                      </Text>
-                      <Text fontSize="xs" color="blue.800">
-                        <strong>Password:</strong> admin123
-                      </Text>
-                    </VStack>
-                  </Box>
+                 
+    
                 </VStack>
               </form>
             </Box>

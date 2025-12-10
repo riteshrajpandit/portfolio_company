@@ -9,7 +9,6 @@ import {
   Text,
   Heading,
   Field,
-  Table,
   Badge,
   Image,
   Spinner,
@@ -19,7 +18,6 @@ import {
   HiTrash,
   HiPencil,
   HiPlus,
-  HiPhoto,
   HiEye,
   HiXMark,
 } from "react-icons/hi2"

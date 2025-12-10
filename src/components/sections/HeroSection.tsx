@@ -4,15 +4,16 @@ import {
   Text, 
   Button, 
   VStack, 
-  Grid,
-  Badge,
-  Flex,
-  GridItem
+  Heading,
+  SimpleGrid,
+  Image,
+  Stack,
+  Icon
 } from '@chakra-ui/react'
-import { Link } from 'react-router-dom'
-import { HiArrowRight, HiPlay } from 'react-icons/hi'
+import { useNavigate } from 'react-router-dom'
+import { HiArrowRight, HiPlay } from 'react-icons/hi2'
 import { useEffect, useState, useRef } from 'react'
-import { motion, AnimatePresence, useInView } from 'framer-motion'
+import { motion, useInView } from 'framer-motion'
 import { portfolioImages } from '../../data/portfolioData'
 import ProductModal from '../ui/ProductModal'
 
@@ -57,10 +58,11 @@ const AnimatedCounter = ({ value, suffix = "", duration = 2 }: { value: number; 
   return (
     <Text
       ref={countRef}
-      fontSize={{ base: "xl", md: "2xl" }}
-      fontWeight="700"
+      fontSize={{ base: "4xl", md: "5xl" }}
+      fontWeight="800"
       color="primary.500"
       lineHeight="1"
+      mb={2}
     >
       {count}{suffix}
     </Text>
@@ -72,16 +74,9 @@ interface HeroSectionProps {
 }
 
 const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
-  const [activeGridItem, setActiveGridItem] = useState(0)
   const [selectedProduct, setSelectedProduct] = useState<typeof portfolioImages[0] | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveGridItem((prev) => (prev + 1) % portfolioImages.length)
-    }, 3000)
-    return () => clearInterval(interval)
-  }, [])
+  const navigate = useNavigate()
 
   const handleProductClick = (product: typeof portfolioImages[0]) => {
     setSelectedProduct(product)
@@ -95,597 +90,259 @@ const HeroSection = ({ onProjectClick }: HeroSectionProps) => {
     setSelectedProduct(null)
   }
 
-  // Bento grid layout configuration
-  const gridAreas = [
-    { gridArea: "1 / 1 / 3 / 3" }, // Large top-left (2x2)
-    { gridArea: "1 / 3 / 2 / 4" }, // Top-right
-    { gridArea: "2 / 3 / 3 / 4" }, // Middle-right
-    { gridArea: "3 / 1 / 4 / 2" }, // Bottom-left
-    { gridArea: "3 / 2 / 4 / 4" }, // Bottom-right wide (1x2)
-    { gridArea: "4 / 1 / 5 / 3" }  // Bottom wide (1x2)
-  ]
-
   return (
-    <Box position="relative" minHeight="100vh" overflow="hidden" pt={{ base: 20, md: 0 }}>
+    <Box position="relative" minHeight="100vh" overflow="hidden" pt={{ base: 24, md: 32 }} pb={{ base: 12, md: 20 }}>
       {/* Background gradient */}
       <Box
         position="absolute"
         inset={0}
         bgGradient="linear(135deg, gray.50, white, gray.50)"
+        zIndex={0}
       />
 
-      <Container maxW="7xl" position="relative" zIndex={2} px={{ base: 4, md: 6 }}>
-        <Grid 
-          templateColumns={{ base: "1fr", lg: "1fr 1fr" }} 
-          minHeight="calc(100vh)" 
-          gap={{ base: 8, lg: 8 }} 
-          alignItems="center"
-        >
-          {/* Left Half - Content */}
-          <VStack align="start" gap={{ base: 4, md: 3 }} py={{ base: 8, lg: 20 }} px={{ base: 2, md: 0 }}>
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut" }}
-            >
-              
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            >
-              <Text
-                fontSize={{ base: "2xl", sm: "3xl", md: "5xl", lg: "6xl" }}
-                fontWeight="700"
-                lineHeight="1.2"
-                color="text"
-                mb={{ base: 3, md: 3 }}
-              >
-                Innovative{" "}
-                <Text as="span" color="primary.500">
-                  Digital
-                </Text>{" "}
-                Solutions That{" "}
-                <Text 
-                  as="span" 
-                  bgGradient="to-r" gradientFrom="primary.600" gradientTo="primary.200"
-                  bgClip="text"
-                >
-                  Transform
-                </Text>
-              </Text>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-            >
-              <Text
-                fontSize={{ base: "sm", md: "lg", lg: "xl" }}
-                color="muted"
-                lineHeight="1.6"
-                maxW={{ base: "full", lg: "500px" }}
-                mb={{ base: 5, md: 7 }}
-              >
-                We craft exceptional digital experiences that drive growth and success. 
-                From cutting-edge web applications to innovative mobile solutions, 
-                we bring your vision to life with precision and creativity.
-              </Text>
-            </motion.div>
-
-            {/* Action Buttons */}
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-            >
-              <Flex 
-                direction={{ base: "column", sm: "row" }} 
-                gap={4} 
-                mb={{ base: 6, md: 8 }}
-                width="full"
-              >
-                <Link to="/contact" style={{ textDecoration: 'none', width: '100%' }}>
-                  <Button
-                    size={{ base: "md", md: "lg" }}
-                    bg="primary.500"
-                    colorScheme="primary"
-                    borderRadius="full"
-                    px={{ base: 6, md: 8 }}
-                    py={{ base: 4, md: 6 }}
-                    fontSize={{ base: "md", md: "lg" }}
-                    fontWeight="600"
-                    shadow="lg"
-                    width={{ base: "full", sm: "auto" }}
-                    _hover={{
-                      transform: "translateY(-2px)",
-                      shadow: "xl"
-                    }}
-                    transition="all 0.3s ease"
-                  >
-                    Let's Meet <HiArrowRight style={{ marginLeft: '8px' }} />
-                  </Button>
-                </Link>
-                
-                <Link to="/products" style={{ textDecoration: 'none', width: '100%' }}>
-                  <Button
-                    size={{ base: "md", md: "lg" }}
-                    variant="outline"
-                    borderColor="primary.500"
-                    color="primary.500"
-                    borderRadius="full"
-                    px={{ base: 6, md: 8 }}
-                    py={{ base: 4, md: 6 }}
-                    fontSize={{ base: "md", md: "lg" }}
-                    fontWeight="600"
-                    width={{ base: "full", sm: "auto" }}
-                    _hover={{
-                      bg: "primary.50",
-                      transform: "translateY(-2px)"
-                    }}
-                    transition="all 0.3s ease"
-                  >
-                    View Our Products
-                  </Button>
-                </Link>
-              </Flex>
-            </motion.div>
-          </VStack>
-
-          {/* Right Half - Animated Bento Grid */}
-          <Box
-            position="relative"
-            height={{ base: "50vh", md: "70vh", lg: "80vh" }}
-            py={{ base: 2, lg: 24 }}
+      <Container maxW="7xl" position="relative" zIndex={1} px={{ base: 4, md: 6 }}>
+        
+        {/* 1. Hero Header Section */}
+        <VStack gap={8} textAlign="center" mb={{ base: 16, md: 20 }} maxW="4xl" mx="auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
           >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-              style={{ height: '100%' }}
+            <Heading
+              as="h1"
+              fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
+              fontWeight="800"
+              lineHeight="1.2"
+              color="text"
+              mb={6}
             >
-              {/* Desktop Bento Grid */}
-              <Box display={{ base: "none", lg: "block" }} height="100%">
-                <Grid
-                  templateColumns="repeat(3, 1fr)"
-                  templateRows="repeat(4, 1fr)"
-                  gap={4}
-                  height="100%"
-                  position="relative"
-                >
-                  {portfolioImages.map((item, index) => (
-                    <GridItem
-                      key={index}
-                      gridArea={gridAreas[index]?.gridArea}
-                    >
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ 
-                          opacity: 1, 
-                          scale: activeGridItem === index ? 1.02 : 1,
-                        }}
-                        transition={{ 
-                          duration: 0.6, 
-                          delay: index * 0.1,
-                          ease: "easeOut"
-                        }}
-                        style={{ height: '100%' }}
-                      >
-                        <Box
-                          position="relative"
-                          height="100%"
-                          borderRadius="2xl"
-                          overflow="hidden"
-                          cursor="pointer"
-                          transition="all 0.3s ease"
-                          onClick={() => handleProductClick(item)}
-                          _hover={{
-                            transform: "translateY(-4px)",
-                            shadow: "2xl"
-                          }}
-                        >
-                          {/* Background Image */}
-                          <Box
-                            position="absolute"
-                            inset={0}
-                            backgroundImage={`url(${item.url})`}
-                            backgroundSize="cover"
-                            backgroundPosition="center"
-                            filter={activeGridItem === index ? "brightness(1.1)" : "brightness(0.8)"}
-                            transition="all 0.5s ease"
-                          />
-                          
-                          {/* Gradient Overlay */}
-                          <Box
-                            position="absolute"
-                            inset={0}
-                            bgGradient={item.gradient}
-                            opacity={activeGridItem === index ? 0.85 : 0.7}
-                            mixBlendMode="multiply"
-                            transition="all 0.5s ease"
-                          />
+              Innovative Digital <Text as="span" color="primary.500">Solutions</Text> That Transform
+            </Heading>
+            
+            <Text
+              fontSize={{ base: "lg", md: "xl" }}
+              color="muted"
+              maxW="2xl"
+              mx="auto"
+              mb={8}
+              lineHeight="1.6"
+            >
+              We craft exceptional digital experiences that drive growth and success. From cutting-edge web applications to innovative mobile solutions, we bring your vision to life with precision and creativity.
+            </Text>
 
-                          {/* Content Overlay */}
-                          <Flex
-                            position="absolute"
-                            inset={0}
-                            p={6}
-                            direction="column"
-                            justify="flex-end"
-                            align="start"
-                            color="white"
-                          >
-                            <AnimatePresence>
-                              {activeGridItem === index && (
-                                <motion.div
-                                  initial={{ opacity: 0, y: 20 }}
-                                  animate={{ opacity: 1, y: 0 }}
-                                  exit={{ opacity: 0, y: 20 }}
-                                  transition={{ duration: 0.3 }}
-                                >
-                                  <Badge
-                                    bg="whiteAlpha.200"
-                                    color="white"
-                                    borderRadius="full"
-                                    px={3}
-                                    py={1}
-                                    fontSize="xs"
-                                    fontWeight="600"
-                                    mb={2}
-                                    backdropFilter="blur(10px)"
-                                  >
-                                    {item.category}
-                                  </Badge>
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-                            
-                            <Text
-                              fontSize={index === 0 ? "xl" : "lg"}
-                              fontWeight="700"
-                              textShadow="2px 2px 4px rgba(0,0,0,0.5)"
-                              opacity={activeGridItem === index ? 1 : 0.9}
-                              transition="all 0.3s ease"
-                            >
-                              {item.title}
-                            </Text>
+            <Stack 
+              direction={{ base: "column", sm: "row" }} 
+              gap={4} 
+              justify="center"
+              align="center"
+            >
+              <Button
+              onClick={() => navigate('/contact')}
+                size="lg"
+                colorScheme="primary"
+                px={8}
+                h={14}
+                fontSize="md"
+              >
+                Let's Meet <Icon as={HiArrowRight} ml={2} />
+              </Button>
+              <Button
+                onClick={() => navigate('/products')}
+                size="lg"
+                variant="outline"
+                px={8}
+                h={14}
+                fontSize="md"
+                bg="white"
+              >
+                View Our Products <Icon as={HiPlay} ml={2} />
+              </Button>
+            </Stack>
+          </motion.div>
+        </VStack>
 
-                            {/* Play button for active item */}
-                            <AnimatePresence>
-                              {activeGridItem === index && index === 0 && (
-                                <motion.div
-                                  initial={{ opacity: 0, scale: 0.8 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  exit={{ opacity: 0, scale: 0.8 }}
-                                  transition={{ 
-                                    duration: 0.4,
-                                    ease: "easeOut"
-                                  }}
-                                  style={{
-                                    position: "absolute",
-                                    top: "50%",
-                                    left: "50%",
-                                    transform: "translate(-50%, -50%)",
-                                  }}
-                                >
-                                  <Box
-                                    bg="whiteAlpha.200"
-                                    borderRadius="full"
-                                    p={4}
-                                    backdropFilter="blur(10px)"
-                                    cursor="pointer"
-                                    _hover={{ 
-                                      bg: "whiteAlpha.300",
-                                      transform: "scale(1.1)"
-                                    }}
-                                    transition="all 0.3s ease"
-                                  >
-                                    <HiPlay size="24px" />
-                                  </Box>
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-                          </Flex>
-                        </Box>
-                      </motion.div>
-                    </GridItem>
-                  ))}
-                </Grid>
-              </Box>
-
-              {/* Mobile/Tablet Grid - Clean 2x2 Layout */}
-              <Box display={{ base: "block", lg: "none" }} height="100%">
-                <Grid
-                  templateColumns="repeat(2, 1fr)"
-                  templateRows="repeat(2, 1fr)"
-                  gap={3}
-                  height="100%"
-                  position="relative"
-                >
-                  {portfolioImages.slice(0, 4).map((item, index) => (
-                    <GridItem key={index}>
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ 
-                          opacity: 1, 
-                          scale: activeGridItem === index ? 1.02 : 1,
-                        }}
-                        transition={{ 
-                          duration: 0.6, 
-                          delay: index * 0.1,
-                          ease: "easeOut"
-                        }}
-                        style={{ height: '100%' }}
-                      >
-                        <Box
-                          position="relative"
-                          height="100%"
-                          minHeight="150px"
-                          borderRadius="xl"
-                          overflow="hidden"
-                          cursor="pointer"
-                          transition="all 0.3s ease"
-                          onClick={() => handleProductClick(item)}
-                          _hover={{
-                            transform: "translateY(-2px)",
-                            shadow: "lg"
-                          }}
-                        >
-                          {/* Background Image */}
-                          <Box
-                            position="absolute"
-                            inset={0}
-                            backgroundImage={`url(${item.url})`}
-                            backgroundSize="cover"
-                            backgroundPosition="center"
-                            filter={activeGridItem === index ? "brightness(1.1)" : "brightness(0.8)"}
-                            transition="all 0.5s ease"
-                          />
-                          
-                          {/* Gradient Overlay */}
-                          <Box
-                            position="absolute"
-                            inset={0}
-                            bgGradient={item.gradient}
-                            opacity={activeGridItem === index ? 0.85 : 0.7}
-                            mixBlendMode="multiply"
-                            transition="all 0.5s ease"
-                          />
-
-                          {/* Content Overlay */}
-                          <Flex
-                            position="absolute"
-                            inset={0}
-                            p={3}
-                            direction="column"
-                            justify="flex-end"
-                            align="start"
-                            color="white"
-                          >
-                            <AnimatePresence>
-                              {activeGridItem === index && (
-                                <motion.div
-                                  initial={{ opacity: 0, y: 10 }}
-                                  animate={{ opacity: 1, y: 0 }}
-                                  exit={{ opacity: 0, y: 10 }}
-                                  transition={{ duration: 0.3 }}
-                                >
-                                  <Badge
-                                    bg="whiteAlpha.200"
-                                    color="white"
-                                    borderRadius="full"
-                                    px={2}
-                                    py={1}
-                                    fontSize="xs"
-                                    fontWeight="600"
-                                    mb={1}
-                                    backdropFilter="blur(10px)"
-                                  >
-                                    {item.category}
-                                  </Badge>
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-                            
-                            <Text
-                              fontSize="sm"
-                              fontWeight="700"
-                              textShadow="2px 2px 4px rgba(0,0,0,0.5)"
-                              opacity={activeGridItem === index ? 1 : 0.9}
-                              transition="all 0.3s ease"
-                              overflow="hidden"
-                              textOverflow="ellipsis"
-                              whiteSpace="nowrap"
-                            >
-                              {item.title}
-                            </Text>
-
-                            {/* Play button for first item only */}
-                            <AnimatePresence>
-                              {activeGridItem === index && index === 0 && (
-                                <motion.div
-                                  initial={{ opacity: 0, scale: 0.8 }}
-                                  animate={{ opacity: 1, scale: 1 }}
-                                  exit={{ opacity: 0, scale: 0.8 }}
-                                  transition={{ 
-                                    duration: 0.4,
-                                    ease: "easeOut"
-                                  }}
-                                  style={{
-                                    position: "absolute",
-                                    top: "50%",
-                                    left: "50%",
-                                    transform: "translate(-50%, -50%)",
-                                  }}
-                                >
-                                  <Box
-                                    bg="whiteAlpha.200"
-                                    borderRadius="full"
-                                    p={2}
-                                    backdropFilter="blur(10px)"
-                                    cursor="pointer"
-                                    _hover={{ 
-                                      bg: "whiteAlpha.300",
-                                      transform: "scale(1.1)"
-                                    }}
-                                    transition="all 0.3s ease"
-                                  >
-                                    <HiPlay size="16px" />
-                                  </Box>
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-                          </Flex>
-                        </Box>
-                      </motion.div>
-                    </GridItem>
-                  ))}
-                </Grid>
-              </Box>
-            </motion.div>
-
-            {/* Floating elements for extra visual appeal - Desktop only */}
-            <Box display={{ base: "none", lg: "block" }}>
+        {/* 2. Products Grid Section (3 items) */}
+        {/* Reduced mb from { base: 20, md: 32 } to { base: 14, md: 26 } to reduce gap by ~24px */}
+        <VStack gap={{ base: 8, md: 10 }} mb={{ base: 14, md: 16 }}>
+          <SimpleGrid 
+            columns={{ base: 1, md: 2, lg: 3 }} 
+            gap={{ base: 6, md: 6, lg: 8 }} 
+            w="full"
+            maxW="7xl"
+            mx="auto"
+          >
+            {portfolioImages.slice(0, 3).map((product, index) => (
               <motion.div
-                animate={{
-                  y: [0, -20, 0],
-                  rotate: [0, 5, 0],
-                }}
-                transition={{
-                  duration: 6,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-                style={{
-                  position: "absolute",
-                  top: "10%",
-                  right: "-5%",
-                  zIndex: -1
-                }}
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
+                style={{ height: '100%' }}
               >
                 <Box
-                  width="120px"
-                  height="120px"
-                  bg="primary.100"
+                  bg="rgba(255, 255, 255, 0.65)"
+                  backdropFilter="blur(24px)"
                   borderRadius="2xl"
-                  opacity={0.6}
-                />
-              </motion.div>
-
-              <motion.div
-                animate={{
-                  y: [0, 30, 0],
-                  rotate: [0, -10, 0],
-                }}
-                transition={{
-                  duration: 8,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 2
-                }}
-                style={{
-                  position: "absolute",
-                  bottom: "20%",
-                  left: "-8%",
-                  zIndex: -1
-                }}
-              >
-                <Box
-                  width="80px"
-                  height="80px"
-                  bg="purple.100"
-                  borderRadius="full"
-                  opacity={0.4}
-                />
-              </motion.div>
-            </Box>
-          </Box>
-        </Grid>
-
-        {/* Stats Section - Centered below both boxes */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1, ease: "easeOut" }}
-        >
-          <Box
-            py={{ base: 8, md: 8 }}
-            borderTop="1px solid"
-            borderColor="gray.200"
-            mt={{ base: 0, md: -2 }}
-          >
-            {/* Title and Subtitle */}
-            <VStack gap={2} mb={{ base: 6, md: 8 }} textAlign="center">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.1, ease: "easeOut" }}
-              >
-                <Text
-                  fontSize={{ base: "2xl", md: "3xl", lg: "4xl" }}
-                  fontWeight="700"
-                  color="text"
-                  lineHeight="1.2"
+                  overflow="hidden"
+                  boxShadow="0 4px 20px rgba(0, 0, 0, 0.06)"
+                  border="1px solid rgba(255, 255, 255, 0.5)"
+                  cursor="pointer"
+                  onClick={() => handleProductClick(product)}
+                  _hover={{ 
+                    transform: "translateY(-6px)", 
+                    boxShadow: "0 16px 40px rgba(0, 0, 0, 0.12)",
+                    borderColor: "rgba(255, 255, 255, 0.8)"
+                  }}
+                  transition="all 0.35s cubic-bezier(0.4, 0, 0.2, 1)"
+                  position="relative"
+                  role="group"
+                  display="flex"
+                  flexDirection={{ base: 'column', md: 'row' }}
+                  alignItems="stretch"
+                  h={{ base: "auto", md: "200px", lg: "220px" }}
                 >
-                  Our Impact in Numbers
-                </Text>
-              </motion.div>
-              
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 1.2, ease: "easeOut" }}
-              >
-                <Text
-                  fontSize={{ base: "md", md: "lg" }}
-                  color="muted"
-                  maxW="500px"
-                  mx="auto"
-                  lineHeight="1.6"
-                >
-                  Quantifiable results that demonstrate our success
-                </Text>
-              </motion.div>
-            </VStack>
+                  {/* Content Side (Left) */}
+                  <Box 
+                    flex="1"
+                    p={{ base: 5, md: 6 }} 
+                    display="flex" 
+                    flexDirection="column" 
+                    justifyContent="center"
+                    position="relative"
+                    zIndex={1}
+                    pr={{ md: 2 }}
+                  >
+                    {/* Category Badge - Top */}
+                    <Text 
+                      fontSize="xs" 
+                      fontWeight="700" 
+                      color="primary.600"
+                      textTransform="uppercase"
+                      letterSpacing="wider"
+                      mb={2}
+                    >
+                      {product.category}
+                    </Text>
 
-            {/* Stats Grid */}
-            <Grid 
-              templateColumns={{ base: "repeat(3, 1fr)" }} 
-              gap={{ base: 8, md: 16 }} 
-              maxW="600px"
+                    <Heading 
+                      size="md" 
+                      mb={2} 
+                      color="gray.900" 
+                      lineHeight="1.3"
+                      fontWeight="700"
+                      lineClamp={2}
+                    >
+                      {product.title}
+                    </Heading>
+                    
+                    <Text 
+                      color="gray.700" 
+                      fontSize="xs" 
+                      lineHeight="1.6"
+                      lineClamp={3}
+                    >
+                      {product.description}
+                    </Text>
+                  </Box>
+
+                  {/* Image Side (Right) - Boxed */}
+                  <Box 
+                    w={{ base: "100%", md: "45%" }}
+                    h={{ base: "200px", md: "auto" }}
+                    position="relative" 
+                    overflow="hidden"
+                    bg="gray.100"
+                    borderRadius="xl"
+                    m={{ base: 2, md: 3 }}
+                    mt={{ base: 0, md: 3 }}
+                    flexShrink={0}
+                  >
+                    <Image 
+                      src={product.url} 
+                      alt={product.title} 
+                      w="full" 
+                      h="full" 
+                      objectFit="cover" 
+                      transition="all 0.6s cubic-bezier(0.4, 0, 0.2, 1)"
+                      _groupHover={{ transform: "scale(1.08)" }}
+                    />
+                    
+                    {/* Hover Overlay with Blue Circle Button */}
+                    <Box
+                      position="absolute"
+                      inset={0}
+                      bg="rgba(0, 0, 0, 0.35)"
+                      opacity={0}
+                      _groupHover={{ opacity: 1 }}
+                      transition="opacity 0.35s ease"
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="center"
+                      backdropFilter="blur(1px)"
+                    >
+                      <Box
+                        bg="primary.500"
+                        color="white"
+                        w="60px"
+                        h="60px"
+                        borderRadius="full"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        boxShadow="0 8px 24px rgba(0, 0, 0, 0.25)"
+                        transform="scale(0.7) translateY(10px)"
+                        opacity={0}
+                        _groupHover={{ 
+                          transform: "scale(1) translateY(0)", 
+                          opacity: 1 
+                        }}
+                        transition="all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)"
+                      >
+                        <Icon as={HiArrowRight} boxSize={7} />
+                      </Box>
+                    </Box>
+                  </Box>
+                </Box>
+              </motion.div>
+            ))}
+          </SimpleGrid>
+        </VStack>
+
+        {/* 3. Stats Section */}
+        <Box>
+            <SimpleGrid 
+              columns={{ base: 1, sm: 3 }} 
+              gap={{ base: 12, md: 16 }} 
+              w="full" 
+              maxW="5xl"
               mx="auto"
               textAlign="center"
             >
               {stats.map((stat, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.6, delay: 1.4 + index * 0.1, ease: "easeOut" }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   <VStack gap={2}>
-                    <AnimatedCounter 
-                      value={stat.value} 
-                      suffix={stat.suffix} 
-                      duration={2.5 + index * 0.2}
-                    />
-                    <Text
-                      fontSize={{ base: "sm", md: "md" }}
-                      color="muted"
-                      fontWeight="500"
-                      textAlign="center"
+                    <AnimatedCounter value={stat.value} suffix={stat.suffix} />
+                    <Text 
+                      fontSize={{ base: "sm", md: "xl" }} 
+                      fontWeight="500" 
+                      color="gray.600"
                     >
                       {stat.label}
                     </Text>
                   </VStack>
                 </motion.div>
               ))}
-            </Grid>
-          </Box>
-        </motion.div>
+            </SimpleGrid>
+        </Box>
+
       </Container>
 
       {/* Product Modal */}

@@ -58,7 +58,7 @@ const ProductsShowcaseSection = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product>(products[0])
 
   return (
-    <Box py={{ base: 16, md: 24 }} bg="background">
+    <Box py={{ base: 16, md: 4 }} bg="background">
       <Container maxW="7xl">
         {/* Section Header */}
         <VStack gap={4} mb={{ base: 12, md: 16 }} textAlign="center">
