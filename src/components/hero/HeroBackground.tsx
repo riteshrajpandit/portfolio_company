@@ -20,7 +20,7 @@ const HeroBackground = () => {
         <MotionBox
           position="absolute"
           top="10%"
-          left="5%"
+          left="15%"
           w="120px"
           h="120px"
           bg="blue.100"
@@ -47,7 +47,7 @@ const HeroBackground = () => {
         <MotionBox
           position="absolute"
           top="15%"
-          right="10%"
+          right="20%"
           w="80px"
           h="80px"
           bg="cyan.100"
@@ -74,7 +74,7 @@ const HeroBackground = () => {
         <MotionBox
           position="absolute"
           top="35%"
-          right="5%"
+          right="25%"
           w="180px"
           h="180px"
           bg="purple.100"
@@ -102,7 +102,7 @@ const HeroBackground = () => {
         <MotionBox
           position="absolute"
           bottom="20%"
-          left="10%"
+          left="15%"
           w="150px"
           h="150px"
           bg="pink.100"
