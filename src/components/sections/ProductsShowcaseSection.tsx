@@ -180,7 +180,7 @@ const ProductCard = ({ product }: { product: Product }) => {
             fontWeight="bold"
             color="primary.500"
             lineHeight="1.2"
-            transform={isOpen ? "translateY(0)" : "translateY(0)"}
+            transform={isOpen ? "translateY(10px)" : "translateY(0)"}
             transition="transform 0.4s ease"
           >
             {product.name}
@@ -197,7 +197,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                   <Text
                     fontSize="md"
                     color="gray.700"
-                    lineHeight="1.6"
+                    lineHeight="1.2"
                     lineClamp={2}
                   >
                     {product.description}
@@ -218,7 +218,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                   <Text
                     fontSize="md"
                     color="gray.700"
-                    lineHeight="1.6"
+                    lineHeight="1.4"
                     lineClamp={2}
                     mb = {2}
                   >
@@ -228,7 +228,7 @@ const ProductCard = ({ product }: { product: Product }) => {
                       fontSize="sm"
                       color="gray.800"
                       lineHeight="1.7"
-                      mb={6}
+                      mb={4}
                     >
                       {product.longDescription}
                     </Text>
