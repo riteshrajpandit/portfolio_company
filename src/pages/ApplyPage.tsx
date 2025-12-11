@@ -453,6 +453,28 @@ export const ApplyPage = () => {
                   </Badge>
                 </HStack>
               )}
+
+              {job && (
+                <VStack align="start" gap={8} mt={8}>
+                  <Box>
+                    <Text fontSize="xl" fontWeight="700" color="text" mb={4}>
+                      About the Role
+                    </Text>
+                    <Text color="gray.600" lineHeight="1.8" whiteSpace="pre-wrap">
+                      {job.description}
+                    </Text>
+                  </Box>
+
+                  <Box>
+                    <Text fontSize="xl" fontWeight="700" color="text" mb={4}>
+                      Requirements
+                    </Text>
+                    <Text color="gray.600" lineHeight="1.8" whiteSpace="pre-wrap">
+                      {job.requirements}
+                    </Text>
+                  </Box>
+                </VStack>
+              )}
             </VStack>
           </MotionBox>
         </Container>
