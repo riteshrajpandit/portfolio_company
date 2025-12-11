@@ -14,7 +14,7 @@ import {
   Spinner,
   Center,
 } from "@chakra-ui/react"
-import { Link, useSearchParams, useNavigate } from "react-router-dom"
+import { Link, useSearchParams, useNavigate, useLocation } from "react-router-dom"
 import { motion } from "framer-motion"
 import { useState, useEffect } from "react"
 import {
@@ -52,17 +52,29 @@ interface FormData {
 export const ApplyPage = () => {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
+  const location = useLocation()
   const positionId = searchParams.get("position")
   const positionTitle = searchParams.get("title")
   
   // State for job details
-  const [job, setJob] = useState<Career | null>(null)
-  const [isLoadingJob, setIsLoadingJob] = useState(true)
+  const [job, setJob] = useState<Career | null>(() => {
+    if (location.state?.job && location.state.job.id.toString() === positionId) {
+      return location.state.job
+    }
+    return null
+  })
+  const [isLoadingJob, setIsLoadingJob] = useState(!job)
 
   // Fetch job details on component mount
   useEffect(() => {
     const fetchJob = async () => {
       if (!positionId) {
+        setIsLoadingJob(false)
+        return
+      }
+
+      // If we already have the job from state, don't fetch
+      if (job && job.id.toString() === positionId) {
         setIsLoadingJob(false)
         return
       }

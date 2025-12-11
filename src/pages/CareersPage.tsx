@@ -14,7 +14,7 @@ import {
   Spinner,
   Center,
 } from "@chakra-ui/react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
 import { useState, useEffect } from "react"
 import {
@@ -159,9 +159,13 @@ export const CareersPage = () => {
     ? jobs 
     : jobs.filter(job => mapDepartmentToCategory(job.department_name) === selectedDepartment)
 
+  const navigate = useNavigate()
+
   const handleApplyClick = (job: Career) => {
     // Redirect to apply page with job details
-    window.location.href = `/apply?position=${job.id}&title=${encodeURIComponent(job.job_name)}`
+    navigate(`/apply?position=${job.id}&title=${encodeURIComponent(job.job_name)}`, {
+      state: { job }
+    })
   }
   return (
     <Box>
