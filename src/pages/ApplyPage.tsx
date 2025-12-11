@@ -6,7 +6,6 @@ import {
   VStack,
   HStack,
   Input,
-  Textarea,
   Grid,
   Icon,
   Badge,
@@ -43,7 +42,6 @@ interface FormData {
   location: string
   linkedIn: string
   portfolio: string
-  coverLetter: string
   experience: string
   noticePeriod: string
   expectedSalary: string
@@ -107,15 +105,15 @@ export const ApplyPage = () => {
     location: "",
     linkedIn: "",
     portfolio: "",
-    coverLetter: "",
     experience: "",
     noticePeriod: "",
     expectedSalary: "",
   })
 
+  const [coverLetter, setCoverLetter] = useState<File | null>(null)
   const [resume, setResume] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [errors, setErrors] = useState<Partial<FormData>>({})
+  const [errors, setErrors] = useState<Partial<FormData> & { coverLetter?: string; resume?: string }>({})
 
   const handleInputChange = (field: keyof FormData, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }))
@@ -125,43 +123,57 @@ export const ApplyPage = () => {
     }
   }
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const validateFile = (file: File) => {
+    const allowedTypes = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+    ]
+    
+    if (!allowedTypes.includes(file.type)) {
+      toaster.create({
+        title: "Invalid file type",
+        description: "Please upload a PDF or Word document",
+        type: "error",
+        duration: 5000,
+      })
+      return false
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+      toaster.create({
+        title: "File too large",
+        description: "Please upload a file smaller than 5MB",
+        type: "error",
+        duration: 5000,
+      })
+      return false
+    }
+    return true
+  }
+
+  const handleResumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
-    if (file) {
-      // Validate file type
-      const allowedTypes = [
-        'application/pdf',
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-      ]
-      
-      if (!allowedTypes.includes(file.type)) {
-        toaster.create({
-          title: "Invalid file type",
-          description: "Please upload a PDF or Word document",
-          type: "error",
-          duration: 5000,
-        })
-        return
-      }
-
-      // Validate file size (5MB max)
-      if (file.size > 5 * 1024 * 1024) {
-        toaster.create({
-          title: "File too large",
-          description: "Please upload a file smaller than 5MB",
-          type: "error",
-          duration: 5000,
-        })
-        return
-      }
-
+    if (file && validateFile(file)) {
       setResume(file)
+      if (errors.resume) {
+        setErrors(prev => ({ ...prev, resume: undefined }))
+      }
+    }
+  }
+
+  const handleCoverLetterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file && validateFile(file)) {
+      setCoverLetter(file)
+      if (errors.coverLetter) {
+        setErrors(prev => ({ ...prev, coverLetter: undefined }))
+      }
     }
   }
 
   const validateForm = (): boolean => {
-    const newErrors: Partial<FormData> = {}
+    const newErrors: Partial<FormData> & { coverLetter?: string; resume?: string } = {}
 
     // First Name validation - only letters, spaces, hyphens
     if (!formData.firstName.trim()) {
@@ -271,24 +283,13 @@ export const ApplyPage = () => {
     }
 
     // Cover Letter validation
-    if (!formData.coverLetter.trim()) {
+    if (!coverLetter) {
       newErrors.coverLetter = "Cover letter is required"
-    } else if (formData.coverLetter.trim().length < 50) {
-      newErrors.coverLetter = "Cover letter must be at least 50 characters"
-    } else if (formData.coverLetter.trim().length > 2000) {
-      newErrors.coverLetter = "Cover letter must be less than 2000 characters"
     }
 
     // Resume validation
     if (!resume) {
-      toaster.create({
-        title: "Resume required",
-        description: "Please upload your resume to continue",
-        type: "error",
-        duration: 5000,
-      })
-      setErrors(newErrors)
-      return false
+      newErrors.resume = "Resume is required"
     }
 
     setErrors(newErrors)
@@ -312,7 +313,6 @@ export const ApplyPage = () => {
       applicationData.append('email', formData.email)
       applicationData.append('phone_number', formData.phone)
       applicationData.append('current_location', formData.location)
-      applicationData.append('cover_letter', formData.coverLetter)
       
       // Optional fields
       if (formData.linkedIn) applicationData.append('linkedin_profile', formData.linkedIn)
@@ -321,6 +321,11 @@ export const ApplyPage = () => {
       if (formData.noticePeriod) applicationData.append('notice_period', formData.noticePeriod)
       if (formData.expectedSalary) applicationData.append('expected_salary', formData.expectedSalary)
       
+      // Cover letter file
+      if (coverLetter) {
+        applicationData.append('cover_letter', coverLetter)
+      }
+
       // Resume file
       if (resume) {
         applicationData.append('resume', resume)
@@ -455,7 +460,7 @@ export const ApplyPage = () => {
               )}
 
               {job && (
-                <VStack align="start" gap={8} mt={8}>
+                <VStack align="start" gap={8} mt={4}>
                   <Box>
                     <Text fontSize="xl" fontWeight="700" color="text" mb={4}>
                       About the Role
@@ -481,7 +486,7 @@ export const ApplyPage = () => {
       </Box>
 
       {/* Application Form Section */}
-      <Container maxW="5xl" py={{ base: 12, md: 16 }}>
+      <Container maxW="5xl" py={{ base: 12, md: 2 }}>
         <MotionBox
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -597,23 +602,7 @@ export const ApplyPage = () => {
                       borderRadius="lg"
                     />
                   </Field>
-                </Grid>
-              </Box>
-
-              {/* Professional Information */}
-              <Box
-                p={8}
-                bg="white"
-                borderRadius="2xl"
-                border="1px solid"
-                borderColor="gray.200"
-                shadow="sm"
-              >
-                <Text fontSize="2xl" fontWeight="700" color="text" mb={6}>
-                  Professional Information
-                </Text>
-                
-                <VStack gap={6} align="stretch">
+                  
                   <Field
                     label="Portfolio/Website"
                     helperText="Optional - Link to your portfolio, GitHub, or personal website"
@@ -687,99 +676,148 @@ export const ApplyPage = () => {
                     required
                     invalid={!!errors.coverLetter}
                     errorText={errors.coverLetter}
-                    helperText="Tell us why you're a great fit for this position"
+                    helperText="Upload your cover letter (PDF, DOC, DOCX)"
                   >
-                    <Textarea
-                      placeholder="I am writing to express my interest in..."
-                      value={formData.coverLetter}
-                      onChange={(e) => handleInputChange("coverLetter", e.target.value)}
-                      rows={8}
-                      size="lg"
-                      borderRadius="lg"
-                    />
-                  </Field>
-                </VStack>
-              </Box>
-
-              {/* Resume Upload */}
-              <Box
-                p={8}
-                bg="white"
-                borderRadius="2xl"
-                border="1px solid"
-                borderColor="gray.200"
-                shadow="sm"
-              >
-                <Text fontSize="2xl" fontWeight="700" color="text" mb={6}>
-                  Resume/CV
-                </Text>
-                
-                <VStack gap={4} align="stretch">
-                  <Box
-                    position="relative"
-                    border="2px dashed"
-                    borderColor={resume ? "primary.300" : "gray.300"}
-                    borderRadius="xl"
-                    p={8}
-                    bg={resume ? "primary.50" : "gray.50"}
-                    transition="all 0.3s ease"
-                    _hover={{
-                      borderColor: "primary.400",
-                      bg: resume ? "primary.100" : "gray.100"
-                    }}
-                  >
-                    <Input
-                      type="file"
-                      accept=".pdf,.doc,.docx"
-                      onChange={handleFileChange}
-                      position="absolute"
-                      top={0}
-                      left={0}
-                      w="full"
-                      h="full"
-                      opacity={0}
-                      cursor="pointer"
-                    />
-                    
-                    <VStack gap={3}>
-                      <Icon
-                        as={resume ? HiCheckCircle : HiCloudArrowUp}
-                        fontSize="4xl"
-                        color={resume ? "primary.500" : "gray.400"}
+                    <Box
+                      position="relative"
+                      border="2px dashed"
+                      borderColor={coverLetter ? "primary.300" : (errors.coverLetter ? "red.300" : "gray.300")}
+                      borderRadius="xl"
+                      p={6}
+                      bg={coverLetter ? "primary.50" : "gray.50"}
+                      transition="all 0.3s ease"
+                      _hover={{
+                        borderColor: "primary.400",
+                        bg: coverLetter ? "primary.100" : "gray.100"
+                      }}
+                    >
+                      <Input
+                        type="file"
+                        accept=".pdf,.doc,.docx"
+                        onChange={handleCoverLetterChange}
+                        position="absolute"
+                        top={0}
+                        left={0}
+                        w="full"
+                        h="full"
+                        opacity={0}
+                        cursor="pointer"
                       />
-                      {resume ? (
-                        <>
-                          <Text fontSize="lg" fontWeight="600" color="text">
-                            {resume.name}
-                          </Text>
-                          <Text fontSize="sm" color="muted">
-                            {(resume.size / 1024).toFixed(2)} KB
-                          </Text>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            colorScheme="red"
-                            onClick={(e) => {
-                              e.stopPropagation()
-                              setResume(null)
-                            }}
-                          >
-                            <Icon as={HiXCircle} mr={2} />
-                            Remove File
-                          </Button>
-                        </>
-                      ) : (
-                        <>
-                          <Text fontSize="lg" fontWeight="600" color="text">
-                            Click to upload or drag and drop
-                          </Text>
-                          <Text fontSize="sm" color="muted">
-                            PDF, DOC, or DOCX (max 5MB)
-                          </Text>
-                        </>
-                      )}
-                    </VStack>
-                  </Box>
+                      
+                      <VStack gap={3}>
+                        <Icon
+                          as={coverLetter ? HiCheckCircle : HiCloudArrowUp}
+                          fontSize="3xl"
+                          color={coverLetter ? "primary.500" : "gray.400"}
+                        />
+                        {coverLetter ? (
+                          <>
+                            <Text fontSize="md" fontWeight="600" color="text">
+                              {coverLetter.name}
+                            </Text>
+                            <Text fontSize="xs" color="muted">
+                              {(coverLetter.size / 1024).toFixed(2)} KB
+                            </Text>
+                            <Button
+                              size="xs"
+                              variant="outline"
+                              colorScheme="red"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                setCoverLetter(null)
+                              }}
+                            >
+                              <Icon as={HiXCircle} mr={2} />
+                              Remove
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <Text fontSize="md" fontWeight="600" color="text">
+                              Click to upload Cover Letter
+                            </Text>
+                            <Text fontSize="xs" color="muted">
+                              PDF, DOC, or DOCX (max 5MB)
+                            </Text>
+                          </>
+                        )}
+                      </VStack>
+                    </Box>
+                  </Field>
+
+                  <Field
+                    label="Resume/CV"
+                    required
+                    invalid={!!errors.resume}
+                    errorText={errors.resume}
+                    helperText="Upload your resume (PDF, DOC, DOCX)"
+                  >
+                    <Box
+                      position="relative"
+                      border="2px dashed"
+                      borderColor={resume ? "primary.300" : (errors.resume ? "red.300" : "gray.300")}
+                      borderRadius="xl"
+                      p={6}
+                      bg={resume ? "primary.50" : "gray.50"}
+                      transition="all 0.3s ease"
+                      _hover={{
+                        borderColor: "primary.400",
+                        bg: resume ? "primary.100" : "gray.100"
+                      }}
+                    >
+                      <Input
+                        type="file"
+                        accept=".pdf,.doc,.docx"
+                        onChange={handleResumeChange}
+                        position="absolute"
+                        top={0}
+                        left={0}
+                        w="full"
+                        h="full"
+                        opacity={0}
+                        cursor="pointer"
+                      />
+                      
+                      <VStack gap={3}>
+                        <Icon
+                          as={resume ? HiCheckCircle : HiCloudArrowUp}
+                          fontSize="3xl"
+                          color={resume ? "primary.500" : "gray.400"}
+                        />
+                        {resume ? (
+                          <>
+                            <Text fontSize="md" fontWeight="600" color="text">
+                              {resume.name}
+                            </Text>
+                            <Text fontSize="xs" color="muted">
+                              {(resume.size / 1024).toFixed(2)} KB
+                            </Text>
+                            <Button
+                              size="xs"
+                              variant="outline"
+                              colorScheme="red"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                setResume(null)
+                              }}
+                            >
+                              <Icon as={HiXCircle} mr={2} />
+                              Remove
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <Text fontSize="md" fontWeight="600" color="text">
+                              Click to upload Resume/CV
+                            </Text>
+                            <Text fontSize="xs" color="muted">
+                              PDF, DOC, or DOCX (max 5MB)
+                            </Text>
+                          </>
+                        )}
+                      </VStack>
+                    </Box>
+                  </Field>
 
                   <HStack
                     gap={2}
@@ -788,14 +826,17 @@ export const ApplyPage = () => {
                     borderRadius="lg"
                     borderLeft="4px solid"
                     borderColor="blue.400"
+                    gridColumn={{ md: "span 2" }}
                   >
                     <Icon as={HiDocumentText} color="blue.600" fontSize="lg" />
                     <Text fontSize="sm" color="blue.800" lineHeight="1.6">
                       <strong>Tip:</strong> Make sure your resume is up-to-date and highlights relevant experience for this position.
                     </Text>
                   </HStack>
-                </VStack>
+                
+                </Grid>
               </Box>
+
 
               {/* Submit Section */}
               <Box
