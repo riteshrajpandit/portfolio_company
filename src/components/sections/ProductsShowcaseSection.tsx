@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import {
   Container,
@@ -8,11 +7,14 @@ import {
   Box,
   Grid,
   GridItem,
-  Image,
   Button,
   Badge,
+  Icon,
 } from '@chakra-ui/react'
-import { FaArrowRight, FaRocket, FaCog } from 'react-icons/fa'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { FaArrowRight, FaRocket, FaCog, FaExternalLinkAlt } from 'react-icons/fa'
+import { HiPlus, HiMinus } from 'react-icons/hi'
 
 interface Product {
   id: string
@@ -25,48 +27,279 @@ interface Product {
   logo: string
   icon: React.ComponentType<{ size?: number }>
   color: string
+  externalUrl: string
 }
 
 const products: Product[] = [
   {
     id: 'erp',
     name: 'ERP Solutions',
-    description: 'Enterprise Resource Planning for streamlined business operations',
-    longDescription: 'Comprehensive ERP solutions that integrate all your business processes into a unified system for improved efficiency and data-driven decision making.',
-    features: ['Financial Management', 'Inventory Control', 'Supply Chain', 'Reporting & Analytics'],
+    description: 'Enterprise Resource Planning for streamlined business operations.',
+    longDescription: 'Comprehensive ERP solutions that integrate all your business processes into a unified system for improved efficiency.',
+    features: ['Financial Management', 'Inventory Control', 'Supply Chain', 'Reporting'],
     status: 'live',
     image: '/product-images/ERP.png',
     logo: '/product-logos/ERP.svg',
     icon: FaCog,
-    color: 'blue.500'
+    color: 'blue.500',
+    externalUrl: 'https://oneerp.us'
   },
   {
     id: 'amigaa',
     name: 'Amigaa Platform',
-    description: 'AI-powered automation and intelligent workflow management',
-    longDescription: 'Advanced AI platform that revolutionizes business automation with intelligent agents, workflow optimization, and predictive analytics.',
+    description: 'AI-powered automation and intelligent workflow management.',
+    longDescription: 'Advanced AI platform that revolutionizes business automation with intelligent agents and predictive analytics.',
     features: ['AI Automation', 'Workflow Management', 'Predictive Analytics', 'Smart Integrations'],
     status: 'live',
     image: '/product-images/Amigaa.png',
     logo: '/product-logos/Amigaa.svg',
     icon: FaRocket,
-    color: 'purple.500'
+    color: 'purple.500',
+    externalUrl: 'https://agent.amigaa.com'
   }
 ]
 
-const ProductsShowcaseSection = () => {
-  const [selectedProduct, setSelectedProduct] = useState<Product>(products[0])
+const ProductCard = ({ product }: { product: Product }) => {
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
-    <Box py={{ base: 16, md: 4 }} bg="background">
+    <Box
+      position="relative"
+      borderRadius="2xl"
+      overflow="hidden"
+      cursor="pointer"
+      onMouseEnter={() => setIsOpen(true)}
+      onMouseLeave={() => setIsOpen(false)}
+      h={{ base: "450px", md: "500px" }}
+      bgImage={`url(${product.image})`}
+      bgSize="contain"
+      backgroundPosition="top center"
+      transition="all 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
+      _hover={{
+        transform: "translateY(-4px)",
+        boxShadow: "2xl"
+      }}
+      role="group"
+      border="1px solid"
+      borderColor="gray.100"
+    >
+      {/* Dark gradient overlay - Always present at bottom for text readability */}
+      <Box
+        position="absolute"
+        bottom={0}
+        left={0}
+        right={0}
+        h="60%"
+        bgGradient="linear(to-t, rgba(10,10,10,0.95) 10%, rgba(10,10,10,0.6) 50%, transparent 100%)"
+        backdropFilter="blur(20px)"
+        style={{
+          maskImage: "linear-gradient(to top, black 30%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to top, black 30%, transparent 100%)"
+        }}
+        transition="opacity 0.4s ease"
+        opacity={isOpen ? 0 : 1}
+        zIndex={1}
+      />
+
+      {/* Full Overlay on Hover - Gradient Blur */}
+      <Box
+        position="absolute"
+        inset={0}
+        bg="rgba(255, 255, 255, 0.85)"
+        backdropFilter="blur(80px)"
+        style={{
+          maskImage: "linear-gradient(to top, black 60%, transparent 100%)",
+          WebkitMaskImage: "linear-gradient(to top, black 60%, transparent 100%)"
+        }}
+        opacity={isOpen ? 1 : 0}
+        transition="all 0.4s ease"
+        zIndex={2}
+      />
+
+      {/* Floating Icon Button */}
+      <Box
+        position="absolute"
+        bottom={6}
+        right={6}
+        zIndex={4}
+      >
+        <Box
+          bg={isOpen ? "primary.500" : "white"}
+          color={isOpen ? "white" : "primary.500"}
+          w="56px"
+          h="56px"
+          borderRadius="full"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          boxShadow="xl"
+          transition="all 0.3s ease"
+        >
+            <AnimatePresence mode="wait">
+              {isOpen ? (
+                <motion.div
+                  key="minus"
+                  initial={{ rotate: -90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: 90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Icon as={HiMinus} boxSize={6} />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="plus"
+                  initial={{ rotate: 90, opacity: 0 }}
+                  animate={{ rotate: 0, opacity: 1 }}
+                  exit={{ rotate: -90, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Icon as={HiPlus} boxSize={6} />
+                </motion.div>
+              )}
+            </AnimatePresence>
+        </Box>
+      </Box>
+
+      {/* Content Container */}
+      <Box
+        position="absolute"
+        bottom={0}
+        left={0}
+        right={0}
+        p={{ base: 6, md: 8 }}
+        pr={{ base: 6, md: 24 }} // Space for icon
+        zIndex={3}
+        display="flex"
+        flexDirection="column"
+        justifyContent="flex-end"
+      >
+        <VStack align="start" gap={2}>
+          <Text
+            fontSize={{ base: "2xl", md: "3xl" }}
+            fontWeight="bold"
+            color="primary.500"
+            lineHeight="1.2"
+            transform={isOpen ? "translateY(0)" : "translateY(0)"}
+            transition="transform 0.4s ease"
+          >
+            {product.name}
+          </Text>
+
+          <AnimatePresence mode="wait">
+            {!isOpen && (
+               <motion.div
+                 key="short-desc"
+                 initial={{ opacity: 1, height: 'auto' }}
+                 exit={{ opacity: 0, height: 0 }}
+                 transition={{ duration: 0.3 }}
+               >
+                  <Text
+                    fontSize="md"
+                    color="gray.700"
+                    lineHeight="1.6"
+                    lineClamp={2}
+                  >
+                    {product.description}
+                  </Text>
+               </motion.div>
+            )}
+          
+            {isOpen && (
+              <motion.div
+                key="full-content"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                style={{ overflow: "hidden", width: '100%' }}
+              >
+                <Box pt={2}>
+                  <Text
+                    fontSize="md"
+                    color="gray.700"
+                    lineHeight="1.6"
+                    lineClamp={2}
+                    mb = {2}
+                  >
+                    {product.description}
+                  </Text>
+                    <Text
+                      fontSize="sm"
+                      color="gray.800"
+                      lineHeight="1.7"
+                      mb={6}
+                    >
+                      {product.longDescription}
+                    </Text>
+
+                    <VStack align="start" gap={3} mb={6}>
+                      <Text fontSize="xs" fontWeight="700" textTransform="uppercase" letterSpacing="wider" color="primary.600">
+                        Key Features
+                      </Text>
+                      <HStack wrap="wrap" gap={2}>
+                        {product.features.map((feature, index) => (
+                          <Badge
+                            key={index}
+                            bg="whiteAlpha.600"
+                            color="gray.800"
+                            fontSize="xs"
+                            px={3}
+                            py={1.5}
+                            borderRadius="full"
+                            textTransform="none"
+                            fontWeight="600"
+                            border="1px solid"
+                            borderColor="gray.300"
+                            boxShadow="sm"
+                          >
+                            {feature}
+                          </Badge>
+                        ))}
+                      </HStack>
+                    </VStack>
+
+                    <Text
+                      as="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        window.open(product.externalUrl, '_blank');
+                      }}
+                      fontSize="sm"
+                      fontWeight="700"
+                      color="primary.600"
+                      textDecoration="underline"
+                      textUnderlineOffset="4px"
+                      display="inline-flex"
+                      alignItems="center"
+                      transition="color 0.2s"
+                      _hover={{
+                        color: "primary.800"
+                      }}
+                    >
+                      Visit Website <Icon as={FaExternalLinkAlt} ml={2} boxSize={3} />
+                    </Text>
+                </Box>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </VStack>
+      </Box>
+    </Box>
+  )
+}
+
+const ProductsShowcaseSection = () => {
+  return (
+    <Box py={{ base: 16, md: 20 }} bg="#F2F9FF" position="relative" overflow="hidden">
       <Container maxW="7xl">
         {/* Section Header */}
         <VStack gap={4} mb={{ base: 12, md: 16 }} textAlign="center">
           <Box>
             <Text
               fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
-              fontWeight="bold"
-              color="text"
+              fontWeight="800"
+              color="gray.900"
               lineHeight="1.2"
             >
               Our Product
@@ -78,7 +311,7 @@ const ProductsShowcaseSection = () => {
           <Box>
             <Text
               fontSize={{ base: "lg", md: "xl" }}
-              color="muted"
+              color="gray.600"
               maxW="2xl"
               lineHeight="1.6"
             >
@@ -88,218 +321,45 @@ const ProductsShowcaseSection = () => {
           </Box>
         </VStack>
 
-        {/* Main Content Grid */}
+        {/* Products Grid */}
         <Grid
-          templateColumns={{ base: "1fr", lg: "1fr 1fr" }}
-          gap={{ base: 6, md: 8, lg: 12 }}
-          alignItems={{ base: "stretch", lg: "center" }}
+          templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }}
+          gap={{ base: 6, md: 8 }}
+          mb={{ base: 8, md: 12 }}
         >
-          {/* Left Side - Product Display */}
-          <GridItem>
-            <Box
-              position="relative"
-              bg="card"
-              p={{ base: 6, md: 8 }}
-              border="1px solid"
-              borderColor="border"
-              shadow="xl"
-              overflow="hidden"
-              borderRadius="xl"
-              transition="all 0.3s ease"
-              _hover={{
-                shadow: "2xl",
-                borderColor: "primary.200"
-              }}
-            >
-              {/* Product Image */}
-              <Box
-                position="relative"
-                h={{ base: "200px", md: "250px" }}
-                mb={4}
-                overflow="hidden"
-                bg="gray.50"
-                borderRadius="lg"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-              >
-                <Image
-                  src={selectedProduct.image}
-                  alt={selectedProduct.name}
-                  w="auto"
-                  h="auto"
-                  maxW="90%"
-                  maxH="90%"
-                  objectFit="contain"
-                  transition="all 0.5s ease"
-                />
-              </Box>
-
-              {/* Product Details */}
-              <VStack align="start" gap={3}>
-                <HStack gap={3} align="center">
-                  <Image
-                    src={selectedProduct.logo}
-                    alt={`${selectedProduct.name} logo`}
-                    w="32px"
-                    h="32px"
-                    objectFit="contain"
-                  />
-                  <Text
-                    fontSize={{ base: "lg", md: "xl" }}
-                    fontWeight="bold"
-                    color="text"
-                  >
-                    {selectedProduct.name}
-                  </Text>
-                </HStack>
-
-                <Text
-                  fontSize="sm"
-                  color="muted"
-                  lineHeight="1.5"
-                  overflow="hidden"
-                  display="-webkit-box"
-                  css={{
-                    WebkitLineClamp: 2,
-                    WebkitBoxOrient: "vertical",
-                  }}
-                >
-                  {selectedProduct.longDescription}
-                </Text>
-
-                {/* Features */}
-                <Box>
-                  <Text fontSize="xs" fontWeight="600" color="text" mb={1}>
-                    Key Features:
-                  </Text>
-                  <HStack wrap="wrap" gap={1}>
-                    {selectedProduct.features.slice(0, 3).map((feature, index) => (
-                      <Badge key={index} variant="outline" fontSize="xs" px={2} py={1}>
-                        {feature}
-                      </Badge>
-                    ))}
-                  </HStack>
-                </Box>
-              </VStack>
-            </Box>
-          </GridItem>
-
-          {/* Right Side - Product Grid */}
-          <GridItem>
-            <VStack gap={{ base: 4, md: 6 }} align="stretch">
-              <Grid
-                templateColumns="1fr"
-                gap={{ base: 3, md: 4 }}
-              >
-                {products.map((product) => {
-                  const isSelected = selectedProduct.id === product.id
-                  const IconComponent = product.icon
-
-                  return (
-                    <Box
-                      key={product.id}
-                    >
-                      <Box
-                        p={6}
-                        bg={isSelected ? "primary.50" : "card"}
-                        border="2px solid"
-                        borderColor={isSelected ? "primary.500" : "border"}
-                        borderRadius="xl"
-                        cursor="pointer"
-                        onClick={() => setSelectedProduct(product)}
-                        transition="all 0.3s ease"
-                        _hover={{
-                          borderColor: isSelected ? "primary.600" : "primary.300",
-                          shadow: "lg",
-                          bg: isSelected ? "primary.100" : "primary.25",
-                          transform: "translateY(-2px)"
-                        }}
-                        position="relative"
-                        overflow="hidden"
-                      >
-                        {/* Background Icon */}
-                        <Box
-                          position="absolute"
-                          top={2}
-                          right={2}
-                          opacity={0.1}
-                          color={product.color}
-                        >
-                          <IconComponent size={60} />
-                        </Box>
-
-                        <VStack align="start" gap={2} position="relative" zIndex={1}>
-                          <Box h="40px" display="flex" alignItems="center">
-                            <Image
-                              src={product.logo}
-                              alt={`${product.name} logo`}
-                              w="36px"
-                              h="36px"
-                              objectFit="contain"
-                            />
-                          </Box>
-
-                          <Text
-                            fontSize="lg"
-                            fontWeight="bold"
-                            color={isSelected ? "primary.600" : "text"}
-                            lineHeight="1.2"
-                          >
-                            {product.name}
-                          </Text>
-
-                          <Text
-                            fontSize="sm"
-                            color="muted"
-                            lineHeight="1.5"
-                            overflow="hidden"
-                            display="-webkit-box"
-                            css={{
-                              WebkitLineClamp: 3,
-                              WebkitBoxOrient: "vertical",
-                            }}
-                          >
-                            {product.description}
-                          </Text>
-                        </VStack>
-                      </Box>
-                    </Box>
-                  )
-                })}
-              </Grid>
-              
-              {/* Explore More Products Button */}
-              <Box>
-                <RouterLink to="/products" style={{ textDecoration: 'none' }}>
-                  <Button
-                    size="lg"
-                    colorScheme="primary"
-                    borderRadius="full"
-                    px={8}
-                    py={6}
-                    w="full"
-                    fontWeight="600"
-                    fontSize="md"
-                    _hover={{
-                      transform: "translateY(-2px)",
-                      shadow: "lg",
-                      bg: "primary.600"
-                    }}
-                    transition="all 0.3s ease"
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    gap={2}
-                  >
-                    Explore More Products
-                    <FaArrowRight />
-                  </Button>
-                </RouterLink>
-              </Box>
-            </VStack>
-          </GridItem>
+          {products.map((product) => (
+            <GridItem key={product.id}>
+              <ProductCard product={product} />
+            </GridItem>
+          ))}
         </Grid>
+
+        {/* Explore More Products Button */}
+        <Box textAlign="center">
+          <RouterLink to="/products" style={{ textDecoration: 'none' }}>
+            <Button
+              size="lg"
+              variant="outline"
+              borderColor="primary.500"
+              color="primary.600"
+              bg="white"
+              borderRadius="full"
+              px={8}
+              py={6}
+              fontWeight="600"
+              fontSize="md"
+              _hover={{
+                bg: "primary.500",
+                color: "white",
+                transform: "translateY(-2px)",
+                boxShadow: "lg"
+              }}
+              transition="all 0.3s ease"
+            >
+              Explore More Products <Icon as={FaArrowRight} ml={2} />
+            </Button>
+          </RouterLink>
+        </Box>
       </Container>
     </Box>
   )
