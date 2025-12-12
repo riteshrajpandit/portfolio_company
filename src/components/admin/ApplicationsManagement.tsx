@@ -42,10 +42,10 @@ export const ApplicationsManagement = () => {
     })
   }
 
-  const handleDownloadResume = async (resumeUrl: string, applicantName: string) => {
+  const handleDownloadFile = async (fileUrl: string, applicantName: string, fileType: 'resume' | 'cover_letter') => {
     try {
       // Construct the full URL if it's a relative path
-      const fullUrl = resumeUrl.startsWith('http') ? resumeUrl : `${API_BASE_URL}${resumeUrl}`
+      const fullUrl = fileUrl.startsWith('http') ? fileUrl : `${API_BASE_URL}${fileUrl}`
       
       // Fetch the file with proper headers
       const response = await fetch(fullUrl, {
@@ -56,7 +56,7 @@ export const ApplicationsManagement = () => {
       })
 
       if (!response.ok) {
-        throw new Error('Failed to download resume')
+        throw new Error(`Failed to download ${fileType.replace('_', ' ')}`)
       }
 
       // Get the blob from response
@@ -70,7 +70,8 @@ export const ApplicationsManagement = () => {
       link.href = blobUrl
       
       // Extract filename from the URL or create one
-      const filename = resumeUrl.split('/').pop() || `${applicantName.replace(/\s+/g, '_')}_resume.pdf`
+      const extension = fileUrl.split('.').pop() || 'pdf'
+      const filename = `${applicantName.replace(/\s+/g, '_')}_${fileType}.${extension}`
       link.download = filename
       
       document.body.appendChild(link)
@@ -82,14 +83,14 @@ export const ApplicationsManagement = () => {
       
       toaster.create({
         title: "Success",
-        description: "Resume downloaded successfully",
+        description: `${fileType.replace('_', ' ')} downloaded successfully`,
         type: "success",
         duration: 2000,
       })
     } catch (error) {
       toaster.create({
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to download resume",
+        description: error instanceof Error ? error.message : `Failed to download ${fileType.replace('_', ' ')}`,
         type: "error",
         duration: 3000,
       })
@@ -207,15 +208,25 @@ export const ApplicationsManagement = () => {
                     )}
                   </VStack>
 
-                  {/* Cover Letter */}
-                  <Box>
-                    <Text fontSize="sm" fontWeight="600" mb={2} color="text">
-                      Cover Letter:
-                    </Text>
-                    <Text fontSize="sm" color="muted" lineHeight="1.6">
-                      {application.cover_letter}
-                    </Text>
-                  </Box>
+                  {/* Cover Letter Download */}
+                  {application.cover_letter && (
+                    <Button
+                      variant="outline"
+                      colorScheme="primary"
+                      size="sm"
+                      w="full"
+                      onClick={() => handleDownloadFile(
+                        application.cover_letter,
+                        `${application.first_name} ${application.last_name}`,
+                        'cover_letter'
+                      )}
+                    >
+                      <HStack gap={2}>
+                        <HiDownload />
+                        <Text>Download Cover Letter</Text>
+                      </HStack>
+                    </Button>
+                  )}
                 </VStack>
 
                 {/* Right Column - Professional Info */}
@@ -259,9 +270,10 @@ export const ApplicationsManagement = () => {
                       colorScheme="primary"
                       size="sm"
                       w="full"
-                      onClick={() => handleDownloadResume(
+                      onClick={() => handleDownloadFile(
                         typeof application.resume === 'string' ? application.resume : '',
-                        `${application.first_name} ${application.last_name}`
+                        `${application.first_name} ${application.last_name}`,
+                        'resume'
                       )}
                     >
                       <HStack gap={2}>

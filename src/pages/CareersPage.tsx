@@ -16,7 +16,7 @@ import {
 } from "@chakra-ui/react"
 import { Link, useNavigate } from "react-router-dom"
 import { motion } from "framer-motion"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import {
   HiArrowRight,
   HiMapPin,
@@ -31,37 +31,21 @@ import {
 import { apiService, type Career } from "@/services/api"
 import { toaster } from "@/components/ui/toaster"
 
-// Department categories
-const departments = [
-  {
-    id: "all",
-    name: "All Positions",
-    icon: HiBriefcase,
-    color: "gray",
-    description: "View all available positions"
-  },
-  {
-    id: "technical",
-    name: "Technical",
-    icon: HiComputerDesktop,
-    color: "blue",
-    description: "Engineering, Development, DevOps"
-  },
-  {
-    id: "admin-hr",
-    name: "Admin/Finance",
-    icon: HiUserGroup,
-    color: "green",
-    description: "Human Resources, Administration"
-  },
-  {
-    id: "sales-marketing",
-    name: "Sales/Marketing",
-    icon: HiChartBar,
-    color: "purple",
-    description: "Sales, Marketing, Business Development"
-  }
-]
+// Department configuration for styling
+const departmentConfig: Record<string, { icon: any, color: string }> = {
+  "Engineering": { icon: HiComputerDesktop, color: "blue" },
+  "Design": { icon: HiComputerDesktop, color: "pink" },
+  "Product": { icon: HiComputerDesktop, color: "orange" },
+  "Sales": { icon: HiChartBar, color: "purple" },
+  "Marketing": { icon: HiChartBar, color: "cyan" },
+  "HR": { icon: HiUserGroup, color: "green" },
+  "Finance": { icon: HiUserGroup, color: "teal" },
+  "Operations": { icon: HiUserGroup, color: "yellow" }
+}
+
+const getDepartmentStyle = (name: string) => {
+  return departmentConfig[name] || { icon: HiBriefcase, color: "gray" }
+}
 
 const benefits = [
   {
@@ -88,21 +72,6 @@ const benefits = [
 
 const MotionBox = motion(Box)
 const MotionContainer = motion(Container)
-
-// Helper function to map backend department to frontend category
-const mapDepartmentToCategory = (department: string): string => {
-  const mapping: Record<string, string> = {
-    "Engineering": "technical",
-    "Design": "technical",
-    "Product": "technical",
-    "Sales": "sales-marketing",
-    "Marketing": "sales-marketing",
-    "HR": "admin-hr",
-    "Finance": "admin-hr",
-    "Operations": "admin-hr"
-  }
-  return mapping[department] || "all"
-}
 
 // Helper function to get job type label
 const getJobTypeLabel = (type: string): string => {
@@ -155,9 +124,15 @@ export const CareersPage = () => {
     fetchJobs()
   }, [])
 
+  // Derive unique departments from jobs
+  const uniqueDepartments = useMemo(() => {
+    const depts = new Set(jobs.map(job => job.department_name))
+    return Array.from(depts).sort()
+  }, [jobs])
+
   const filteredPositions = selectedDepartment === "all" 
     ? jobs 
-    : jobs.filter(job => mapDepartmentToCategory(job.department_name) === selectedDepartment)
+    : jobs.filter(job => job.department_name === selectedDepartment)
 
   const navigate = useNavigate()
 
@@ -289,28 +264,54 @@ export const CareersPage = () => {
                   Filter by Department
                 </Text>
                 <Wrap justify={{ base: "center", lg: "end" }} gap={3}>
-                  {departments.map((dept) => (
-                    <WrapItem key={dept.id}>
-                      <Button
-                        size="sm"
-                        variant={selectedDepartment === dept.id ? "solid" : "outline"}
-                        colorScheme={selectedDepartment === dept.id ? dept.color : "gray"}
-                        borderRadius="full"
-                        onClick={() => setSelectedDepartment(dept.id)}
-                        fontWeight="600"
-                        transition="all 0.3s ease"
-                        _hover={{
-                          transform: "translateY(-1px)",
-                          shadow: "sm"
-                        }}
-                      >
-                        <HStack gap={2}>
-                          <Icon as={dept.icon} fontSize="sm" />
-                          <Text>{dept.name}</Text>
-                        </HStack>
-                      </Button>
-                    </WrapItem>
-                  ))}
+                  {/* All Positions Button */}
+                  <WrapItem>
+                    <Button
+                      size="sm"
+                      variant={selectedDepartment === "all" ? "solid" : "outline"}
+                      colorScheme={selectedDepartment === "all" ? "gray" : "gray"}
+                      borderRadius="full"
+                      onClick={() => setSelectedDepartment("all")}
+                      fontWeight="600"
+                      transition="all 0.3s ease"
+                      _hover={{
+                        transform: "translateY(-1px)",
+                        shadow: "sm"
+                      }}
+                    >
+                      <HStack gap={2}>
+                        <Icon as={HiBriefcase} fontSize="sm" />
+                        <Text>All Positions</Text>
+                      </HStack>
+                    </Button>
+                  </WrapItem>
+
+                  {/* Dynamic Department Buttons */}
+                  {uniqueDepartments.map((deptName) => {
+                    const style = getDepartmentStyle(deptName)
+                    return (
+                      <WrapItem key={deptName}>
+                        <Button
+                          size="sm"
+                          variant={selectedDepartment === deptName ? "solid" : "outline"}
+                          colorScheme={selectedDepartment === deptName ? style.color : "gray"}
+                          borderRadius="full"
+                          onClick={() => setSelectedDepartment(deptName)}
+                          fontWeight="600"
+                          transition="all 0.3s ease"
+                          _hover={{
+                            transform: "translateY(-1px)",
+                            shadow: "sm"
+                          }}
+                        >
+                          <HStack gap={2}>
+                            <Icon as={style.icon} fontSize="sm" />
+                            <Text>{deptName}</Text>
+                          </HStack>
+                        </Button>
+                      </WrapItem>
+                    )
+                  })}
                 </Wrap>
                 
                 {/* Positions Count */}
@@ -321,7 +322,7 @@ export const CareersPage = () => {
                   {selectedDepartment !== "all" && (
                     <Text as="span">
                       {" "}in <Text as="span" fontWeight="600" color="primary.500">
-                        {departments.find(d => d.id === selectedDepartment)?.name}
+                        {selectedDepartment}
                       </Text>
                     </Text>
                   )}
@@ -369,7 +370,7 @@ export const CareersPage = () => {
                               </Text>
                               <HStack gap={3} wrap="wrap">
                                 <Badge 
-                                  colorScheme={departments.find(d => d.id === mapDepartmentToCategory(position.department_name))?.color || "primary"} 
+                                  colorScheme={getDepartmentStyle(position.department_name).color} 
                                   variant="subtle" 
                                   px={3} 
                                   py={1} 

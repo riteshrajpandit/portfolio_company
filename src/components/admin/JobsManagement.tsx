@@ -12,6 +12,8 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
   const [isLoading, setIsLoading] = useState(true)
   const [isCreatingJob, setIsCreatingJob] = useState(false)
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const [isCustomDepartment, setIsCustomDepartment] = useState(false)
+  const [isCustomJobType, setIsCustomJobType] = useState(false)
   const [editingJob, setEditingJob] = useState<Career | null>(null)
   const [newJob, setNewJob] = useState({
     job_name: "",
@@ -220,6 +222,8 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
       requirements: ""
     })
     setEditingJob(null)
+    setIsCustomDepartment(false)
+    setIsCustomJobType(false)
   }
 
   const handleCancel = () => {
@@ -244,6 +248,18 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
     }
     return mode ? modes[mode] || mode : "Onsite"
   }
+
+  // Get unique departments from existing jobs + default ones
+  const uniqueDepartments = Array.from(new Set([
+    "Engineering", "Design", "Product", "Sales", "Marketing", "HR", "Finance", "Operations",
+    ...jobs.map(j => j.department_name)
+  ])).sort()
+
+  // Get unique job types from existing jobs + default ones
+  const uniqueJobTypes = Array.from(new Set([
+    "full_time", "part_time", "freelance", "remote",
+    ...jobs.map(j => j.job_type)
+  ])).sort()
 
   if (isLoading) {
     return (
@@ -293,25 +309,49 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
               </VStack>
               <VStack align="stretch" gap={2}>
                 <Text fontSize="sm" fontWeight="600">Department *</Text>
-                <select
-                  value={newJob.department_name}
-                  onChange={(e) => setNewJob({...newJob, department_name: e.target.value})}
-                  style={{
-                    padding: "8px 12px",
-                    borderRadius: "6px",
-                    border: "1px solid #E2E8F0",
-                    fontSize: "14px"
-                  }}
-                >
-                  <option value="Engineering">Engineering</option>
-                  <option value="Design">Design</option>
-                  <option value="Product">Product</option>
-                  <option value="Sales">Sales</option>
-                  <option value="Marketing">Marketing</option>
-                  <option value="HR">HR</option>
-                  <option value="Finance">Finance</option>
-                  <option value="Operations">Operations</option>
-                </select>
+                {isCustomDepartment ? (
+                  <HStack>
+                    <Input
+                      placeholder="Enter department name"
+                      value={newJob.department_name}
+                      onChange={(e) => setNewJob({...newJob, department_name: e.target.value})}
+                      autoFocus
+                    />
+                    <Button 
+                      size="sm" 
+                      variant="ghost" 
+                      onClick={() => {
+                        setIsCustomDepartment(false)
+                        setNewJob({...newJob, department_name: "Engineering"})
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </HStack>
+                ) : (
+                  <select
+                    value={newJob.department_name}
+                    onChange={(e) => {
+                      if (e.target.value === '__new__') {
+                        setIsCustomDepartment(true)
+                        setNewJob({...newJob, department_name: ""})
+                      } else {
+                        setNewJob({...newJob, department_name: e.target.value})
+                      }
+                    }}
+                    style={{
+                      padding: "8px 12px",
+                      borderRadius: "6px",
+                      border: "1px solid #E2E8F0",
+                      fontSize: "14px"
+                    }}
+                  >
+                    {uniqueDepartments.map(dept => (
+                      <option key={dept} value={dept}>{dept}</option>
+                    ))}
+                    <option value="__new__">+ Create New Department</option>
+                  </select>
+                )}
               </VStack>
               <VStack align="stretch" gap={2}>
                 <Text fontSize="sm" fontWeight="600">Location</Text>
@@ -342,21 +382,49 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
               )}
               <VStack align="stretch" gap={2}>
                 <Text fontSize="sm" fontWeight="600">Job Type *</Text>
-                <select
-                  value={newJob.job_type}
-                  onChange={(e) => setNewJob({...newJob, job_type: e.target.value})}
-                  style={{
-                    padding: "8px 12px",
-                    borderRadius: "6px",
-                    border: "1px solid #E2E8F0",
-                    fontSize: "14px"
-                  }}
-                >
-                  <option value="full_time">Full-time</option>
-                  <option value="part_time">Part-time</option>
-                  <option value="freelance">Freelance</option>
-                  <option value="remote">Remote</option>
-                </select>
+                {isCustomJobType ? (
+                  <HStack>
+                    <Input
+                      placeholder="Enter job type (e.g. Contract)"
+                      value={newJob.job_type}
+                      onChange={(e) => setNewJob({...newJob, job_type: e.target.value})}
+                      autoFocus
+                    />
+                    <Button 
+                      size="sm" 
+                      variant="ghost" 
+                      onClick={() => {
+                        setIsCustomJobType(false)
+                        setNewJob({...newJob, job_type: "full_time"})
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                  </HStack>
+                ) : (
+                  <select
+                    value={newJob.job_type}
+                    onChange={(e) => {
+                      if (e.target.value === '__new__') {
+                        setIsCustomJobType(true)
+                        setNewJob({...newJob, job_type: ""})
+                      } else {
+                        setNewJob({...newJob, job_type: e.target.value})
+                      }
+                    }}
+                    style={{
+                      padding: "8px 12px",
+                      borderRadius: "6px",
+                      border: "1px solid #E2E8F0",
+                      fontSize: "14px"
+                    }}
+                  >
+                    {uniqueJobTypes.map(type => (
+                      <option key={type} value={type}>{getJobTypeLabel(type)}</option>
+                    ))}
+                    <option value="__new__">+ Create New Job Type</option>
+                  </select>
+                )}
               </VStack>
               <VStack align="stretch" gap={2}>
                 <Text fontSize="sm" fontWeight="600">Experience Required *</Text>
