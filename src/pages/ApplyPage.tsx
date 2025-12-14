@@ -303,11 +303,26 @@ export const ApplyPage = () => {
       return
     }
 
+    // Ensure we have a valid job/career ID
+    if (!job || !job.id) {
+      toaster.create({
+        title: "Invalid Job",
+        description: "Unable to identify the job position. Please go back and select a job again.",
+        type: "error",
+        duration: 5000,
+      })
+      return
+    }
+
     setIsSubmitting(true)
 
     try {
       // Create FormData for file upload
       const applicationData = new FormData()
+      
+      // Career ID - required to identify which job the user is applying for
+      applicationData.append('career', job.id.toString())
+      
       applicationData.append('first_name', formData.firstName)
       applicationData.append('last_name', formData.lastName)
       applicationData.append('email', formData.email)
