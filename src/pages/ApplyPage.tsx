@@ -490,13 +490,23 @@ export const ApplyPage = () => {
                       <Text fontSize="xl" fontWeight="700" color="text" mb={4}>
                         Required Skills
                       </Text>
-                      <HStack gap={2} wrap="wrap">
+                      <VStack align="start" gap={2} pl={2}>
                         {job.job.skills.required.map((skill, index) => (
-                          <Badge key={index} colorScheme="blue" variant="subtle" px={3} py={1} borderRadius="md">
-                            {skill}
-                          </Badge>
+                          <HStack key={index} gap={3} align="start">
+                            <Box
+                              w={2}
+                              h={2}
+                              borderRadius="full"
+                              bg="primary.500"
+                              mt={2}
+                              flexShrink={0}
+                            />
+                            <Text color="gray.700" lineHeight="1.6">
+                              {skill}
+                            </Text>
+                          </HStack>
                         ))}
-                      </HStack>
+                      </VStack>
                     </Box>
                   )}
 
@@ -505,13 +515,23 @@ export const ApplyPage = () => {
                       <Text fontSize="xl" fontWeight="700" color="text" mb={4}>
                         Preferred Skills
                       </Text>
-                      <HStack gap={2} wrap="wrap">
+                      <VStack align="start" gap={2} pl={2}>
                         {job.job.skills.preferred.map((skill, index) => (
-                          <Badge key={index} colorScheme="green" variant="subtle" px={3} py={1} borderRadius="md">
-                            {skill}
-                          </Badge>
+                          <HStack key={index} gap={3} align="start">
+                            <Box
+                              w={2}
+                              h={2}
+                              borderRadius="full"
+                              bg="green.500"
+                              mt={2}
+                              flexShrink={0}
+                            />
+                            <Text color="gray.700" lineHeight="1.6">
+                              {skill}
+                            </Text>
+                          </HStack>
                         ))}
-                      </HStack>
+                      </VStack>
                     </Box>
                   )}
                 </VStack>
