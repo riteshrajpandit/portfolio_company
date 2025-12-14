@@ -76,6 +76,7 @@ interface TeamMember {
   position: string
   bio: string
   image: string
+  role: 'leader' | 'member'
   uploaded_links: SocialLink[]
 }
 
@@ -90,6 +91,7 @@ interface TeamMemberCreateData {
   position: string
   bio: string
   image: File
+  role: 'leader' | 'member'
   social_links: string[]
 }
 
@@ -98,6 +100,7 @@ interface TeamMemberUpdateData {
   position?: string
   bio?: string
   image?: File
+  role?: 'leader' | 'member'
   social_links?: string[]
 }
 

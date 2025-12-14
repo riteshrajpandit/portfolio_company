@@ -1,4 +1,4 @@
-import { Box, VStack, HStack, Text, Heading, Grid, Spinner, Center, Button, Link as ChakraLink, Badge, Input, Dialog, Portal, CloseButton } from "@chakra-ui/react"
+import { Box, VStack, HStack, Text, Grid, Spinner, Center, Button, Link as ChakraLink, Badge, Input, Dialog, Portal, CloseButton } from "@chakra-ui/react"
 import { useState, useEffect, useMemo } from "react"
 import { toaster } from "@/components/ui/toaster"
 import { apiService, type JobApplication } from "@/services/api"
@@ -199,9 +199,6 @@ export const ApplicationsManagement = () => {
       {/* Header */}
       <HStack justify="space-between" wrap="wrap" gap={4}>
         <VStack align="start" gap={1}>
-          <Heading fontSize="2xl" fontWeight="700" color="text">
-            Job Applications
-          </Heading>
           <Text fontSize="sm" color="muted">
             {filteredApplications.length} of {applications.length} application{applications.length !== 1 ? 's' : ''}
           </Text>
@@ -846,10 +843,10 @@ export const ApplicationsManagement = () => {
                                           `${selectedApplication.first_name} ${selectedApplication.last_name}`
                                         )}
                                       >
-                                        <HStack gap={1}>
+                                        {/* <HStack gap={1}>
                                           <HiEye size={14} />
                                           <Text>View</Text>
-                                        </HStack>
+                                        </HStack> */}
                                       </Button>
                                       <Button
                                         size="sm"
@@ -913,10 +910,10 @@ export const ApplicationsManagement = () => {
                                           `${selectedApplication.first_name} ${selectedApplication.last_name}`
                                         )}
                                       >
-                                        <HStack gap={1}>
+                                        {/* <HStack gap={1}>
                                           <HiEye size={14} />
                                           <Text>View</Text>
-                                        </HStack>
+                                        </HStack> */}
                                       </Button>
                                       <Button
                                         size="sm"

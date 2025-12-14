@@ -64,7 +64,8 @@ const MotionContainer = motion(Container)
 
 interface TeamMemberType {
   name: string
-  role: string
+  role: 'leader' | 'member'
+  position: string
   bio: string
   image: string
   social: { linkedin?: string; twitter?: string; github?: string }
@@ -79,13 +80,18 @@ const DevelopmentTeamCarousel = ({ members }: { members: TeamMemberType[] }) => 
   const [dragOffset, setDragOffset] = useState(0)
   const constraintsRef = useRef<HTMLDivElement>(null)
   
-  const developmentTeam = members.slice(6)
+  // Filter only team members (not leaders)
+  const teamMembers = members.filter(m => m.role === 'member')
   const itemWidth = 184 // 160px + 24px gap
-  const totalWidth = developmentTeam.length * itemWidth
+  const totalWidth = teamMembers.length * itemWidth
   
-  // Auto-scroll animation - continuous marquee
+  // Minimum members needed for carousel effect (otherwise looks repetitive)
+  const minMembersForCarousel = 4
+  const useCarousel = teamMembers.length >= minMembersForCarousel
+  
+  // Auto-scroll animation - continuous marquee (only if carousel mode)
   useAnimationFrame((_t, delta) => {
-    if (!isHovered && !isDragging) {
+    if (useCarousel && !isHovered && !isDragging) {
       setOffset(prev => {
         const newOffset = prev + (-30 / 1000) * delta
         // Use modulo to wrap seamlessly - when we scroll one full width, reset to 0
@@ -125,7 +131,82 @@ const DevelopmentTeamCarousel = ({ members }: { members: TeamMemberType[] }) => 
       setDragOffset(0)
     }
   }
+
+  // Static grid for small teams (less than 4 members)
+  if (!useCarousel) {
+    return (
+      <Grid 
+        templateColumns={{ base: "repeat(2, 1fr)", md: "repeat(3, 1fr)", lg: `repeat(${Math.min(teamMembers.length, 4)}, 1fr)` }}
+        gap={8}
+        justifyItems="center"
+        w="full"
+        maxW="800px"
+        mx="auto"
+      >
+        {teamMembers.map((member, index) => (
+          <VStack key={`static-team-${index}`} gap={3} textAlign="center">
+            <Box
+              position="relative"
+              _hover={{ transform: "scale(1.05)" }}
+              transition="all 0.3s ease"
+            >
+              <Image
+                src={member.image}
+                alt={member.name}
+                borderRadius="xl"
+                boxSize={{ base: "120px", md: "140px" }}
+                objectFit="cover"
+                shadow="md"
+              />
+            </Box>
+            <VStack gap={1}>
+              <Text 
+                fontSize={{ base: "sm", md: "md" }} 
+                fontWeight="700" 
+                color="text"
+              >
+                {member.name}
+              </Text>
+              <Text 
+                color="primary.500" 
+                fontWeight="600" 
+                fontSize="xs"
+              >
+                {member.position}
+              </Text>
+              <Text 
+                fontSize="xs" 
+                color="muted" 
+                lineHeight="1.4" 
+                textAlign="center"
+                maxW="150px"
+              >
+                {member.bio}
+              </Text>
+            </VStack>
+            <HStack gap={2} justify="center">
+              {member.social.linkedin && (
+                <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer">
+                  <Box p={1} color="muted" _hover={{ color: "primary.500" }} cursor="pointer" transition="color 0.2s">
+                    <FaLinkedin size={14} />
+                  </Box>
+                </a>
+              )}
+              {member.social.twitter && (
+                <a href={member.social.twitter} target="_blank" rel="noopener noreferrer">
+                  <Box p={1} color="muted" _hover={{ color: "#000000" }} cursor="pointer" transition="color 0.2s">
+                    <FaXTwitter size={14} />
+                  </Box>
+                </a>
+              )}
+            </HStack>
+          </VStack>
+        ))}
+      </Grid>
+    )
+  }
   
+  // Carousel for larger teams (4+ members)
   return (
     <Box 
       position="relative"
@@ -180,7 +261,7 @@ const DevelopmentTeamCarousel = ({ members }: { members: TeamMemberType[] }) => 
         }}
       >
         {/* Render items three times for seamless infinite scroll - like stones in a circle */}
-        {[...developmentTeam, ...developmentTeam, ...developmentTeam].map((member, index) => (
+        {[...teamMembers, ...teamMembers, ...teamMembers].map((member, index) => (
           <Box
             key={`team-${index}`}
             minW={{ base: "140px", md: "160px" }}
@@ -224,7 +305,7 @@ const DevelopmentTeamCarousel = ({ members }: { members: TeamMemberType[] }) => 
                   whiteSpace="nowrap"
                   w={{ base: "130px", md: "150px" }}
                 >
-                  {member.role}
+                  {member.position}
                 </Text>
                 <Text 
                   fontSize="xs" 
@@ -287,7 +368,8 @@ const DevelopmentTeamCarousel = ({ members }: { members: TeamMemberType[] }) => 
 export const AboutPage = () => {
   const [teamMembers, setTeamMembers] = useState<Array<{
     name: string
-    role: string
+    role: 'leader' | 'member'
+    position: string
     bio: string
     image: string
     social: { linkedin?: string; twitter?: string; github?: string }
@@ -317,7 +399,8 @@ export const AboutPage = () => {
           
           return {
             name: member.name,
-            role: member.position,
+            role: member.role,
+            position: member.position,
             bio: member.bio,
             image: member.image.startsWith('http') ? member.image : `${API_BASE}${member.image}`,
             social
@@ -614,84 +697,90 @@ export const AboutPage = () => {
             </Text>
           </MotionBox>
           
-          {/* Leadership Team - First 6 members */}
+          {/* Leadership Team - Members with role 'leader' */}
           <VStack gap={12} overflow={"hidden"}>
-            <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={12}>
-              {teamMembers.slice(0, 6).map((member, index) => (
-                <MotionBox
-                  key={index}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: index * 0.1 }}
-                  viewport={{ once: true }}
-                  textAlign="center"
-                >
-                  <VStack gap={6}>
-                    <Box position="relative">
-                      <Image
-                        src={member.image}
-                        alt={member.name}
-                        borderRadius="2xl"
-                        w="280px"
-                        h="360px"
-                        objectFit="cover"
-                        shadow="xl"
-                        _hover={{ transform: "scale(1.02)" }}
-                        transition="all 0.3s ease"
-                      />
-                      <Box
-                        position="absolute"
-                        inset={0}
-                        bg="linear-gradient(180deg, transparent 60%, blackAlpha.700)"
-                        borderRadius="2xl"
-                      />
-                    </Box>
-                    <VStack gap={3} maxW="280px">
-                      <Text fontSize="xl" fontWeight="700" color="text">
-                        {member.name}
-                      </Text>
-                      <Text color="primary.500" fontWeight="600" fontSize="md">
-                        {member.role}
-                      </Text>
-                      <Text fontSize="sm" color="muted" lineHeight="1.6" textAlign="center">
-                        {member.bio}
-                      </Text>
+            {teamMembers.filter(m => m.role === 'leader').length > 0 && (
+              <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={12}>
+                {teamMembers.filter(m => m.role === 'leader').map((member, index) => (
+                  <MotionBox
+                    key={index}
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                    textAlign="center"
+                  >
+                    <VStack gap={6}>
+                      <Box position="relative">
+                        <Image
+                          src={member.image}
+                          alt={member.name}
+                          borderRadius="2xl"
+                          w="280px"
+                          h="360px"
+                          objectFit="cover"
+                          shadow="xl"
+                          _hover={{ transform: "scale(1.02)" }}
+                          transition="all 0.3s ease"
+                        />
+                        <Box
+                          position="absolute"
+                          inset={0}
+                          bg="linear-gradient(180deg, transparent 60%, blackAlpha.700)"
+                          borderRadius="2xl"
+                        />
+                      </Box>
+                      <VStack gap={3} maxW="280px">
+                        <Text fontSize="xl" fontWeight="700" color="text">
+                          {member.name}
+                        </Text>
+                        <Text color="primary.500" fontWeight="600" fontSize="md">
+                          {member.position}
+                        </Text>
+                        <Text fontSize="sm" color="muted" lineHeight="1.6" textAlign="center">
+                          {member.bio}
+                        </Text>
+                      </VStack>
+                      <HStack gap={4} justify="center">
+                        {member.social.linkedin && (
+                          <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer">
+                            <Box
+                              p={3}
+                              bg="gray.100"
+                              borderRadius="lg"
+                              color="muted"
+                              _hover={{ color: "primary.500", bg: "primary.50" }}
+                              cursor="pointer"
+                              transition="all 0.2s"
+                            >
+                              <FaLinkedin size={20} />
+                            </Box>
+                          </a>
+                        )}
+                        {member.social.twitter && (
+                          <a href={member.social.twitter} target="_blank" rel="noopener noreferrer">
+                            <Box
+                              p={3}
+                              bg="gray.100"
+                              borderRadius="lg"
+                              color="muted"
+                              _hover={{ color: "#000000", bg: "gray.200" }}
+                              cursor="pointer"
+                              transition="all 0.2s"
+                            >
+                              <FaXTwitter size={20} />
+                            </Box>
+                          </a>
+                        )}
+                      </HStack>
                     </VStack>
-                    <HStack gap={4} justify="center">
-                      <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer">
-                        <Box
-                          p={3}
-                          bg="gray.100"
-                          borderRadius="lg"
-                          color="muted"
-                          _hover={{ color: "primary.500", bg: "primary.50" }}
-                          cursor="pointer"
-                          transition="all 0.2s"
-                        >
-                          <FaLinkedin size={20} />
-                        </Box>
-                      </a>
-                      <a href={member.social.twitter} target="_blank" rel="noopener noreferrer">
-                        <Box
-                          p={3}
-                          bg="gray.100"
-                          borderRadius="lg"
-                          color="muted"
-                          _hover={{ color: "#000000", bg: "gray.200" }}
-                          cursor="pointer"
-                          transition="all 0.2s"
-                        >
-                          <FaXTwitter size={20} />
-                        </Box>
-                      </a>
-                    </HStack>
-                  </VStack>
-                </MotionBox>
-              ))}
-            </Grid>
+                  </MotionBox>
+                ))}
+              </Grid>
+            )}
 
-            {/* Development Team - Remaining members */}
-            {teamMembers.length > 6 && (
+            {/* Development Team - Members with role 'member' */}
+            {teamMembers.filter(m => m.role === 'member').length > 0 && (
               <VStack gap={8} w="full">
                 <Box textAlign="center">
                   <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight="700" mb={2} color="text">

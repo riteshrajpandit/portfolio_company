@@ -1,7 +1,7 @@
 // Google Analytics utility functions
 // Respects user cookie consent preferences
 
-import { isCookieAllowed, hasConsent, getConsentPreferences } from './cookieConsent'
+import { isCookieAllowed, hasConsent } from './cookieConsent'
 
 declare global {
   interface Window {

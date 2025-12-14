@@ -21,7 +21,8 @@ import { apiService, type TeamMember as ApiTeamMember } from "@/services/api"
 interface TeamMember {
   id?: number
   name: string
-  role: string
+  role: 'leader' | 'member'
+  position: string
   bio: string
   image: string
   social: string[]
@@ -34,7 +35,8 @@ export const TeamMembersManagement = () => {
   const [editingIndex, setEditingIndex] = useState<number | null>(null)
   const [formData, setFormData] = useState<TeamMember>({
     name: "",
-    role: "",
+    role: "member",
+    position: "",
     bio: "",
     image: "",
     social: []
@@ -59,7 +61,8 @@ export const TeamMembersManagement = () => {
       const formattedMembers = response.data.map((member: ApiTeamMember) => ({
         id: member.id,
         name: member.name,
-        role: member.position,
+        role: member.role,
+        position: member.position,
         bio: member.bio,
         image: member.image,
         social: member.uploaded_links.map(link => link.url)
@@ -128,7 +131,8 @@ export const TeamMembersManagement = () => {
     setImageFile(null)
     setFormData({
       name: "",
-      role: "",
+      role: "member",
+      position: "",
       bio: "",
       image: "",
       social: []
@@ -144,6 +148,7 @@ export const TeamMembersManagement = () => {
       id: member.id,
       name: member.name,
       role: member.role,
+      position: member.position,
       bio: member.bio,
       image: member.image,
       social: [...member.social]
@@ -151,10 +156,10 @@ export const TeamMembersManagement = () => {
   }
 
   const handleSave = async () => {
-    if (!formData.name.trim() || !formData.role.trim() || !formData.bio.trim()) {
+    if (!formData.name.trim() || !formData.position.trim() || !formData.bio.trim()) {
       toaster.create({
         title: "Missing Required Fields",
-        description: "Please fill in name, role, and bio",
+        description: "Please fill in name, position, and bio",
         type: "error",
         duration: 3000
       })
@@ -176,8 +181,9 @@ export const TeamMembersManagement = () => {
         // Create new team member
         const formDataToSend = new FormData()
         formDataToSend.append('name', formData.name)
-        formDataToSend.append('position', formData.role)
+        formDataToSend.append('position', formData.position)
         formDataToSend.append('bio', formData.bio)
+        formDataToSend.append('role', formData.role)
         if (imageFile) {
           formDataToSend.append('image', imageFile)
         }
@@ -200,12 +206,14 @@ export const TeamMembersManagement = () => {
           name: string
           position: string
           bio: string
+          role: 'leader' | 'member'
           social_links: string[]
           image?: File
         } = {
           name: formData.name,
-          position: formData.role,
+          position: formData.position,
           bio: formData.bio,
+          role: formData.role,
           social_links: formData.social.filter(link => link.trim())
         }
 
@@ -286,7 +294,8 @@ export const TeamMembersManagement = () => {
     setImageFile(null)
     setFormData({
       name: "",
-      role: "",
+      role: "member",
+      position: "",
       bio: "",
       image: "",
       social: []
@@ -344,14 +353,41 @@ export const TeamMembersManagement = () => {
               />
             </Field.Root>
 
-            <Field.Root>
-              <Field.Label>Role *</Field.Label>
-              <Input
-                value={formData.role}
-                onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                placeholder="e.g., CEO & Founder, Frontend Developer"
-              />
-            </Field.Root>
+            <HStack gap={4} align="start">
+              <Field.Root flex={1}>
+                <Field.Label>Position *</Field.Label>
+                <Input
+                  value={formData.position}
+                  onChange={(e) => setFormData({ ...formData, position: e.target.value })}
+                  placeholder="e.g., CEO & Founder, Frontend Developer"
+                />
+              </Field.Root>
+
+              <Field.Root w="200px">
+                <Field.Label>Role *</Field.Label>
+                <Box position="relative">
+                  <select
+                    value={formData.role}
+                    onChange={(e) => setFormData({ ...formData, role: e.target.value as 'leader' | 'member' })}
+                    style={{
+                      width: "100%",
+                      padding: "8px 12px",
+                      borderRadius: "6px",
+                      border: "1px solid #E2E8F0",
+                      fontSize: "14px",
+                      backgroundColor: "white",
+                      cursor: "pointer"
+                    }}
+                  >
+                    <option value="member">Member</option>
+                    <option value="leader">Leader</option>
+                  </select>
+                </Box>
+                <Text fontSize="xs" color="gray.500" mt={1}>
+                  Leaders appear in leadership section
+                </Text>
+              </Field.Root>
+            </HStack>
 
             <Field.Root>
               <Field.Label>Bio *</Field.Label>
@@ -487,6 +523,7 @@ export const TeamMembersManagement = () => {
             <Table.Row>
               <Table.ColumnHeader>Image</Table.ColumnHeader>
               <Table.ColumnHeader>Name</Table.ColumnHeader>
+              <Table.ColumnHeader>Position</Table.ColumnHeader>
               <Table.ColumnHeader>Role</Table.ColumnHeader>
               <Table.ColumnHeader>Bio</Table.ColumnHeader>
               <Table.ColumnHeader>Social Links</Table.ColumnHeader>
@@ -507,7 +544,15 @@ export const TeamMembersManagement = () => {
                 </Table.Cell>
                 <Table.Cell fontWeight="600">{member.name}</Table.Cell>
                 <Table.Cell>
-                  <Badge colorScheme="blue">{member.role}</Badge>
+                  <Badge colorScheme="blue">{member.position}</Badge>
+                </Table.Cell>
+                <Table.Cell>
+                  <Badge 
+                    colorScheme={member.role === 'leader' ? 'purple' : 'gray'}
+                    variant={member.role === 'leader' ? 'solid' : 'subtle'}
+                  >
+                    {member.role === 'leader' ? '👑 Leader' : 'Member'}
+                  </Badge>
                 </Table.Cell>
                 <Table.Cell maxW="300px" truncate>
                   {member.bio}
