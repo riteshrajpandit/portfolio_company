@@ -4,7 +4,7 @@ import { Box } from '@chakra-ui/react'
 import ErrorBoundary from './components/ErrorBoundary'
 import SEO from './components/SEO'
 import Navbar from './components/Navbar'
-import LoadingScreen from './components/LoadingScreen'
+import PageLoader from './components/PageLoader'
 import ScrollToTopButton from './components/ScrollToTopButton'
 import ScrollToTop from './components/ScrollToTop'
 import Footer from './components/Footer'
@@ -48,7 +48,7 @@ const PublicLayout = () => (
   <Box minH="100vh" bg="background">
     <Navbar />
     <Box>
-      <Suspense fallback={<LoadingScreen />}>
+      <Suspense fallback={<PageLoader />}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/products" element={<ProductsPage />} />
@@ -80,7 +80,7 @@ function App() {
         <SEO />
         <ScrollToTop />
         <AnalyticsTracker />
-        <Suspense fallback={<LoadingScreen />}>
+        <Suspense fallback={<PageLoader />}>
           <Routes>
             {/* Admin Routes - No Navbar/Footer */}
             <Route path="/ioxet-labs-admin" element={<AdminLoginPage />} />

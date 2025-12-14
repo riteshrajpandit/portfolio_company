@@ -275,43 +275,7 @@ export const DashboardOverview = ({
         </GridItem>
       </Grid>
 
-      {/* Quick Actions */}
-      <Box
-        mt={6}
-        p={6}
-        bg="gradient-to-r"
-        bgGradient="linear(135deg, primary.500, primary.600)"
-        borderRadius="xl"
-        color="white"
-      >
-        <HStack justify="space-between" flexWrap="wrap" gap={4}>
-          <VStack align="start" gap={2}>
-            <Heading fontSize="xl" fontWeight="700">
-              Need Help?
-            </Heading>
-            <Text fontSize="sm" opacity={0.9}>
-              Check out our documentation or contact support
-            </Text>
-          </VStack>
-          <HStack gap={3}>
-            <Button
-              bg="white"
-              color="primary.600"
-              _hover={{ bg: "whiteAlpha.900" }}
-            >
-              Documentation
-            </Button>
-            <Button
-              variant="outline"
-              borderColor="white"
-              color="white"
-              _hover={{ bg: "whiteAlpha.200" }}
-            >
-              Contact Support
-            </Button>
-          </HStack>
-        </HStack>
-      </Box>
+      
     </>
   )
 }
