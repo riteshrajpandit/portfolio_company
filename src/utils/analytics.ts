@@ -1,18 +1,44 @@
 // Google Analytics utility functions
+// Respects user cookie consent preferences
+
+import { isCookieAllowed, hasConsent, getConsentPreferences } from './cookieConsent'
 
 declare global {
   interface Window {
     dataLayer: unknown[]
     gtag: (...args: unknown[]) => void
+    gaInitialized?: boolean
   }
 }
 
 export const GA_TRACKING_ID = 'G-661LL04SJZ'
 
-// Initialize Google Analytics
+// Initialize Google Analytics (only if consent given)
 export const initGA = () => {
   if (typeof window === 'undefined') return
+  
+  // Check if analytics cookies are allowed
+  if (!hasConsent() || !isCookieAllowed('analytics')) {
+    // Set up listener for consent changes
+    window.addEventListener('cookieConsentChange', handleConsentChange as EventListener)
+    return
+  }
 
+  loadGoogleAnalytics()
+}
+
+// Handle consent changes
+const handleConsentChange = (event: CustomEvent) => {
+  const preferences = event.detail
+  if (preferences.analytics && !window.gaInitialized) {
+    loadGoogleAnalytics()
+  }
+}
+
+// Load Google Analytics scripts
+const loadGoogleAnalytics = () => {
+  if (window.gaInitialized) return
+  
   // Create script elements
   const script1 = document.createElement('script')
   script1.async = true
@@ -26,14 +52,22 @@ export const initGA = () => {
     gtag('js', new Date());
     gtag('config', '${GA_TRACKING_ID}', {
       page_path: window.location.pathname,
+      anonymize_ip: true
     });
   `
   document.head.appendChild(script2)
+  
+  window.gaInitialized = true
+}
+
+// Check if analytics is enabled before tracking
+const isAnalyticsEnabled = (): boolean => {
+  return hasConsent() && isCookieAllowed('analytics') && typeof window.gtag !== 'undefined'
 }
 
 // Track page views
 export const trackPageView = (url: string) => {
-  if (typeof window.gtag === 'undefined') return
+  if (!isAnalyticsEnabled()) return
   
   window.gtag('config', GA_TRACKING_ID, {
     page_path: url,
@@ -42,7 +76,7 @@ export const trackPageView = (url: string) => {
 
 // Track events
 export const trackEvent = (action: string, category: string, label?: string, value?: number) => {
-  if (typeof window.gtag === 'undefined') return
+  if (!isAnalyticsEnabled()) return
 
   window.gtag('event', action, {
     event_category: category,

@@ -73,25 +73,39 @@ const benefits = [
 const MotionBox = motion(Box)
 const MotionContainer = motion(Container)
 
-// Helper function to get job type label
-const getJobTypeLabel = (type: string): string => {
+// Helper function to get employment type label
+const getEmploymentTypeLabel = (type: string): string => {
   const types: Record<string, string> = {
     full_time: "Full-time",
     part_time: "Part-time",
     freelance: "Freelance",
-    remote: "Remote",
+    contract: "Contract",
+    internship: "Internship",
   }
   return types[type] || type
 }
 
-// Helper function to get remote mode label
-const getRemoteModeLabel = (mode: string | null | undefined): string => {
-  if (!mode) return "Onsite"
+// Helper function to get work arrangement label
+const getWorkArrangementLabel = (mode: string): string => {
   const modes: Record<string, string> = {
     onsite: "Onsite",
     hybrid: "Hybrid",
+    remote: "Remote",
   }
   return modes[mode] || mode
+}
+
+// Helper function to get experience level label
+const getExperienceLevelLabel = (level: string): string => {
+  const levels: Record<string, string> = {
+    entry: "Entry Level",
+    junior: "Junior",
+    mid: "Mid Level",
+    senior: "Senior",
+    lead: "Lead",
+    manager: "Manager",
+  }
+  return levels[level] || level
 }
 
 export const CareersPage = () => {
@@ -105,8 +119,8 @@ export const CareersPage = () => {
       try {
         setIsLoading(true)
         const response = await apiService.getCareers()
-        // Filter out expired jobs
-        const activeJobs = response.data.filter((job: Career) => !job.expire)
+        // Filter out closed/draft jobs - only show open jobs
+        const activeJobs = response.data.filter((job: Career) => job.job.status === "open")
         setJobs(activeJobs)
       } catch (error) {
         toaster.create({
@@ -126,19 +140,19 @@ export const CareersPage = () => {
 
   // Derive unique departments from jobs
   const uniqueDepartments = useMemo(() => {
-    const depts = new Set(jobs.map(job => job.department_name))
+    const depts = new Set(jobs.map(job => job.job.department))
     return Array.from(depts).sort()
   }, [jobs])
 
   const filteredPositions = selectedDepartment === "all" 
     ? jobs 
-    : jobs.filter(job => job.department_name === selectedDepartment)
+    : jobs.filter(job => job.job.department === selectedDepartment)
 
   const navigate = useNavigate()
 
   const handleApplyClick = (job: Career) => {
     // Redirect to apply page with job details
-    navigate(`/apply?position=${job.id}&title=${encodeURIComponent(job.job_name)}`, {
+    navigate(`/apply?position=${job.id}&title=${encodeURIComponent(job.job.title)}`, {
       state: { job }
     })
   }
@@ -366,38 +380,36 @@ export const CareersPage = () => {
                           <HStack justify="space-between" w="full" align="start">
                             <VStack align="start" gap={1}>
                               <Text fontSize="xl" fontWeight="700" color="text">
-                                {position.job_name}
+                                {position.job.title}
                               </Text>
                               <HStack gap={3} wrap="wrap">
                                 <Badge 
-                                  colorScheme={getDepartmentStyle(position.department_name).color} 
+                                  colorScheme={getDepartmentStyle(position.job.department).color} 
                                   variant="subtle" 
                                   px={3} 
                                   py={1} 
                                   borderRadius="full"
                                 >
-                                  {position.department_name}
+                                  {position.job.department}
                                 </Badge>
                                 <Badge colorScheme="gray" variant="subtle" px={3} py={1} borderRadius="full">
-                                  {getJobTypeLabel(position.job_type)}
+                                  {getEmploymentTypeLabel(position.job.employment_type)}
                                 </Badge>
-                                {position.location && (
+                                <Badge colorScheme="purple" variant="subtle" px={3} py={1} borderRadius="full">
+                                  {getWorkArrangementLabel(position.job.work_arrangement)}
+                                </Badge>
+                                {position.job.location.city && (
                                   <HStack gap={1}>
                                     <Icon as={HiMapPin} color="muted" fontSize="sm" />
                                     <Text fontSize="sm" color="muted">
-                                      {position.location}
+                                      {position.job.location.city}, {position.job.location.country}
                                     </Text>
                                   </HStack>
-                                )}
-                                {position.job_type === 'remote' && position.remote_mode && (
-                                  <Badge colorScheme="purple" variant="subtle" px={3} py={1} borderRadius="full">
-                                    {getRemoteModeLabel(position.remote_mode)}
-                                  </Badge>
                                 )}
                                 <HStack gap={1}>
                                   <Icon as={HiBriefcase} color="muted" fontSize="sm" />
                                   <Text fontSize="sm" color="muted">
-                                    {position.experience_level}
+                                    {position.job.experience.min_years}-{position.job.experience.max_years} years ({getExperienceLevelLabel(position.job.experience.level)})
                                   </Text>
                                 </HStack>
                               </HStack>
@@ -415,24 +427,36 @@ export const CareersPage = () => {
                           </HStack>
                           
                           <Text color="muted" lineHeight="1.6">
-                            {position.description}
+                            {position.job.description}
                           </Text>
                           
-                          {position.requirements && (
+                          {position.job.skills.required.length > 0 && (
                             <VStack align="start" gap={2} w="full">
                               <Text fontSize="sm" fontWeight="600" color="text">
-                                Requirements:
+                                Required Skills:
                               </Text>
-                              <VStack align="start" gap={1} pl={4}>
-                                {position.requirements.split('\n').filter(req => req.trim()).map((req, reqIndex) => (
-                                  <HStack key={reqIndex} gap={2} align="start">
-                                    <Box w={1} h={1} bg="primary.500" borderRadius="full" mt={2} />
-                                    <Text fontSize="sm" color="muted">
-                                      {req.trim()}
-                                    </Text>
-                                  </HStack>
+                              <HStack gap={2} wrap="wrap">
+                                {position.job.skills.required.map((skill, skillIndex) => (
+                                  <Badge key={skillIndex} colorScheme="blue" variant="subtle" px={2} py={1} borderRadius="md">
+                                    {skill}
+                                  </Badge>
                                 ))}
-                              </VStack>
+                              </HStack>
+                            </VStack>
+                          )}
+                          
+                          {position.job.skills.preferred.length > 0 && (
+                            <VStack align="start" gap={2} w="full">
+                              <Text fontSize="sm" fontWeight="600" color="text">
+                                Preferred Skills:
+                              </Text>
+                              <HStack gap={2} wrap="wrap">
+                                {position.job.skills.preferred.map((skill, skillIndex) => (
+                                  <Badge key={skillIndex} colorScheme="green" variant="subtle" px={2} py={1} borderRadius="md">
+                                    {skill}
+                                  </Badge>
+                                ))}
+                              </HStack>
                             </VStack>
                           )}
                         </VStack>
@@ -459,7 +483,7 @@ export const CareersPage = () => {
                     </Text>
                     <Text fontSize="lg" color="muted" maxW="md" lineHeight="1.6">
                       {selectedDepartment !== "all" 
-                        ? `Currently, we don't have any open positions in ${departments.find(d => d.id === selectedDepartment)?.name}.`
+                        ? `Currently, we don't have any open positions in ${selectedDepartment}.`
                         : "We currently don't have any open positions."
                       } However, we're always looking for talented individuals to join our team.
                     </Text>

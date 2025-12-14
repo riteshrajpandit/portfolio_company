@@ -8,6 +8,7 @@ import LoadingScreen from './components/LoadingScreen'
 import ScrollToTopButton from './components/ScrollToTopButton'
 import ScrollToTop from './components/ScrollToTop'
 import Footer from './components/Footer'
+import CookieConsent from './components/CookieConsent'
 import { trackPageView } from './utils/analytics'
 
 // Lazy load pages for better performance
@@ -68,6 +69,7 @@ const PublicLayout = () => (
     </Box>
     <ScrollToTopButton />
     <Footer />
+    <CookieConsent />
   </Box>
 )
 

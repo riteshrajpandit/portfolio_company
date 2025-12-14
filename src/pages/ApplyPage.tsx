@@ -335,7 +335,7 @@ export const ApplyPage = () => {
       await apiService.applyForJob(applicationData)
       
       // Track application submission in Google Analytics
-      trackCareerApplication(job?.job_name || positionTitle || "Unknown Position")
+      trackCareerApplication(job?.job.title || positionTitle || "Unknown Position")
 
       toaster.create({
         title: "Application submitted successfully!",
@@ -403,7 +403,7 @@ export const ApplyPage = () => {
                     lineHeight="1.1"
                     color="text"
                   >
-                    Apply for {positionTitle || job?.job_name || "Position"}
+                    Apply for {positionTitle || job?.job.title || "Position"}
                   </Text>
                   
                   {job && (
@@ -417,7 +417,7 @@ export const ApplyPage = () => {
                   >
                     <HStack gap={1}>
                       <Icon as={HiBriefcase} fontSize="sm" />
-                      <Text>{job.department_name}</Text>
+                      <Text>{job.job.department}</Text>
                     </HStack>
                   </Badge>
                   <Badge
@@ -429,7 +429,7 @@ export const ApplyPage = () => {
                   >
                     <HStack gap={1}>
                       <Icon as={HiMapPin} fontSize="sm" />
-                      <Text>{job.location || (job.job_type === 'remote' ? 'Remote' : 'On-site')}</Text>
+                      <Text>{job.job.location.city ? `${job.job.location.city}, ${job.job.location.country}` : job.job.work_arrangement}</Text>
                     </HStack>
                   </Badge>
                   <Badge
@@ -441,7 +441,7 @@ export const ApplyPage = () => {
                   >
                     <HStack gap={1}>
                       <Icon as={HiClock} fontSize="sm" />
-                      <Text>{job.job_type === 'full_time' ? 'Full-time' : job.job_type === 'part_time' ? 'Part-time' : job.job_type === 'freelance' ? 'Freelance' : 'Remote'}</Text>
+                      <Text>{job.job.employment_type === 'full_time' ? 'Full-time' : job.job.employment_type === 'part_time' ? 'Part-time' : job.job.employment_type === 'freelance' ? 'Freelance' : job.job.employment_type}</Text>
                     </HStack>
                   </Badge>
                   <Badge
@@ -453,7 +453,7 @@ export const ApplyPage = () => {
                   >
                     <HStack gap={1}>
                       <Icon as={HiAcademicCap} fontSize="sm" />
-                      <Text>{job.experience_level}</Text>
+                      <Text>{job.job.experience.min_years}-{job.job.experience.max_years} years</Text>
                     </HStack>
                   </Badge>
                 </HStack>
@@ -466,18 +466,39 @@ export const ApplyPage = () => {
                       About the Role
                     </Text>
                     <Text color="gray.600" lineHeight="1.8" whiteSpace="pre-wrap">
-                      {job.description}
+                      {job.job.description}
                     </Text>
                   </Box>
 
-                  <Box>
-                    <Text fontSize="xl" fontWeight="700" color="text" mb={4}>
-                      Requirements
-                    </Text>
-                    <Text color="gray.600" lineHeight="1.8" whiteSpace="pre-wrap">
-                      {job.requirements}
-                    </Text>
-                  </Box>
+                  {job.job.skills.required.length > 0 && (
+                    <Box>
+                      <Text fontSize="xl" fontWeight="700" color="text" mb={4}>
+                        Required Skills
+                      </Text>
+                      <HStack gap={2} wrap="wrap">
+                        {job.job.skills.required.map((skill, index) => (
+                          <Badge key={index} colorScheme="blue" variant="subtle" px={3} py={1} borderRadius="md">
+                            {skill}
+                          </Badge>
+                        ))}
+                      </HStack>
+                    </Box>
+                  )}
+
+                  {job.job.skills.preferred.length > 0 && (
+                    <Box>
+                      <Text fontSize="xl" fontWeight="700" color="text" mb={4}>
+                        Preferred Skills
+                      </Text>
+                      <HStack gap={2} wrap="wrap">
+                        {job.job.skills.preferred.map((skill, index) => (
+                          <Badge key={index} colorScheme="green" variant="subtle" px={3} py={1} borderRadius="md">
+                            {skill}
+                          </Badge>
+                        ))}
+                      </HStack>
+                    </Box>
+                  )}
                 </VStack>
               )}
             </VStack>

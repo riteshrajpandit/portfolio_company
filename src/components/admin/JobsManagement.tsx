@@ -7,6 +7,41 @@ interface JobsManagementProps {
   onJobsUpdate?: () => void
 }
 
+// Form state for creating/editing jobs
+interface JobFormState {
+  title: string
+  department: string
+  employment_type: string
+  work_arrangement: string
+  location_city: string
+  location_area: string
+  location_country: string
+  experience_min_years: number
+  experience_max_years: number
+  experience_level: string
+  skills_required: string
+  skills_preferred: string
+  description: string
+  status: string
+}
+
+const initialFormState: JobFormState = {
+  title: "",
+  department: "Engineering",
+  employment_type: "full_time",
+  work_arrangement: "onsite",
+  location_city: "",
+  location_area: "",
+  location_country: "Nepal",
+  experience_min_years: 0,
+  experience_max_years: 2,
+  experience_level: "entry",
+  skills_required: "",
+  skills_preferred: "",
+  description: "",
+  status: "open"
+}
+
 export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
   const [jobs, setJobs] = useState<Career[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -15,16 +50,7 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
   const [isCustomDepartment, setIsCustomDepartment] = useState(false)
   const [isCustomJobType, setIsCustomJobType] = useState(false)
   const [editingJob, setEditingJob] = useState<Career | null>(null)
-  const [newJob, setNewJob] = useState({
-    job_name: "",
-    department_name: "Engineering",
-    location: "",
-    job_type: "full_time",
-    remote_mode: "onsite",
-    experience_level: "",
-    description: "",
-    requirements: ""
-  })
+  const [newJob, setNewJob] = useState<JobFormState>(initialFormState)
 
   // Fetch jobs on component mount
   useEffect(() => {
@@ -50,7 +76,7 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
 
   const handlePostJob = async () => {
     // Validation
-    if (!newJob.job_name || !newJob.department_name || !newJob.experience_level || !newJob.description) {
+    if (!newJob.title || !newJob.department || !newJob.description) {
       toaster.create({
         title: "Validation Error",
         description: "Please fill in all required fields",
@@ -63,35 +89,37 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
     try {
       setIsSubmitting(true)
       
-      // Only include remote_mode if job_type is 'remote'
-      const jobData: {
-        job_name: string
-        department_name: string
-        job_type: string
-        experience_level: string
-        requirements: string
-        description: string
-        location?: string
-        remote_mode?: string
-      } = {
-        job_name: newJob.job_name,
-        department_name: newJob.department_name,
-        location: newJob.location,
-        job_type: newJob.job_type,
-        experience_level: newJob.experience_level,
-        description: newJob.description,
-        requirements: newJob.requirements,
-      }
-      
-      if (newJob.job_type === 'remote') {
-        jobData.remote_mode = newJob.remote_mode
+      // Build the job data according to new API structure
+      const jobData = {
+        job: {
+          title: newJob.title,
+          department: newJob.department,
+          employment_type: newJob.employment_type,
+          work_arrangement: newJob.work_arrangement,
+          location: {
+            city: newJob.location_city,
+            area: newJob.location_area,
+            country: newJob.location_country,
+          },
+          experience: {
+            min_years: newJob.experience_min_years,
+            max_years: newJob.experience_max_years,
+            level: newJob.experience_level,
+          },
+          skills: {
+            required: newJob.skills_required.split(',').map(s => s.trim()).filter(s => s),
+            preferred: newJob.skills_preferred.split(',').map(s => s.trim()).filter(s => s),
+          },
+          description: newJob.description,
+          status: newJob.status,
+        }
       }
       
       await apiService.createCareer(jobData)
       
       toaster.create({
         title: "Success",
-        description: `${newJob.job_name} has been posted`,
+        description: `${newJob.title} has been posted`,
         type: "success",
         duration: 3000,
       })
@@ -118,35 +146,37 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
     try {
       setIsSubmitting(true)
       
-      // Only include remote_mode if job_type is 'remote'
-      const updateData: {
-        job_name?: string
-        department_name?: string
-        job_type?: string
-        experience_level?: string
-        requirements?: string
-        description?: string
-        location?: string
-        remote_mode?: string
-      } = {
-        job_name: newJob.job_name,
-        department_name: newJob.department_name,
-        location: newJob.location,
-        job_type: newJob.job_type,
-        experience_level: newJob.experience_level,
-        description: newJob.description,
-        requirements: newJob.requirements,
-      }
-      
-      if (newJob.job_type === 'remote') {
-        updateData.remote_mode = newJob.remote_mode
+      // Build the update data according to new API structure
+      const updateData = {
+        job: {
+          title: newJob.title,
+          department: newJob.department,
+          employment_type: newJob.employment_type,
+          work_arrangement: newJob.work_arrangement,
+          location: {
+            city: newJob.location_city,
+            area: newJob.location_area,
+            country: newJob.location_country,
+          },
+          experience: {
+            min_years: newJob.experience_min_years,
+            max_years: newJob.experience_max_years,
+            level: newJob.experience_level,
+          },
+          skills: {
+            required: newJob.skills_required.split(',').map(s => s.trim()).filter(s => s),
+            preferred: newJob.skills_preferred.split(',').map(s => s.trim()).filter(s => s),
+          },
+          description: newJob.description,
+          status: newJob.status,
+        }
       }
       
       await apiService.updateCareer(editingJob.id, updateData)
       
       toaster.create({
         title: "Success",
-        description: `${newJob.job_name} has been updated`,
+        description: `${newJob.title} has been updated`,
         type: "success",
         duration: 3000,
       })
@@ -198,29 +228,26 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
   const handleEditJob = (job: Career) => {
     setEditingJob(job)
     setNewJob({
-      job_name: job.job_name,
-      department_name: job.department_name,
-      location: job.location || "",
-      job_type: job.job_type,
-      remote_mode: job.remote_mode || "onsite",
-      experience_level: job.experience_level,
-      description: job.description,
-      requirements: job.requirements,
+      title: job.job.title,
+      department: job.job.department,
+      employment_type: job.job.employment_type,
+      work_arrangement: job.job.work_arrangement,
+      location_city: job.job.location.city,
+      location_area: job.job.location.area,
+      location_country: job.job.location.country,
+      experience_min_years: job.job.experience.min_years,
+      experience_max_years: job.job.experience.max_years,
+      experience_level: job.job.experience.level,
+      skills_required: job.job.skills.required.join(', '),
+      skills_preferred: job.job.skills.preferred.join(', '),
+      description: job.job.description,
+      status: job.job.status,
     })
     setIsCreatingJob(true)
   }
 
   const resetForm = () => {
-    setNewJob({
-      job_name: "",
-      department_name: "Engineering",
-      location: "",
-      job_type: "full_time",
-      remote_mode: "onsite",
-      experience_level: "",
-      description: "",
-      requirements: ""
-    })
+    setNewJob(initialFormState)
     setEditingJob(null)
     setIsCustomDepartment(false)
     setIsCustomJobType(false)
@@ -231,34 +258,48 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
     resetForm()
   }
 
-  const getJobTypeLabel = (type: string) => {
+  const getEmploymentTypeLabel = (type: string) => {
     const types: Record<string, string> = {
       full_time: "Full-time",
       part_time: "Part-time",
       freelance: "Freelance",
-      remote: "Remote",
+      contract: "Contract",
+      internship: "Internship",
     }
     return types[type] || type
   }
 
-  const getRemoteModeLabel = (mode: string | null | undefined) => {
+  const getWorkArrangementLabel = (mode: string) => {
     const modes: Record<string, string> = {
       onsite: "Onsite",
       hybrid: "Hybrid",
+      remote: "Remote",
     }
-    return mode ? modes[mode] || mode : "Onsite"
+    return modes[mode] || mode
+  }
+
+  const getExperienceLevelLabel = (level: string) => {
+    const levels: Record<string, string> = {
+      entry: "Entry Level",
+      junior: "Junior",
+      mid: "Mid Level",
+      senior: "Senior",
+      lead: "Lead",
+      manager: "Manager",
+    }
+    return levels[level] || level
   }
 
   // Get unique departments from existing jobs + default ones
   const uniqueDepartments = Array.from(new Set([
     "Engineering", "Design", "Product", "Sales", "Marketing", "HR", "Finance", "Operations",
-    ...jobs.map(j => j.department_name)
+    ...jobs.map(j => j.job.department)
   ])).sort()
 
-  // Get unique job types from existing jobs + default ones
-  const uniqueJobTypes = Array.from(new Set([
-    "full_time", "part_time", "freelance", "remote",
-    ...jobs.map(j => j.job_type)
+  // Get unique employment types from existing jobs + default ones
+  const uniqueEmploymentTypes = Array.from(new Set([
+    "full_time", "part_time", "freelance", "contract", "internship",
+    ...jobs.map(j => j.job.employment_type)
   ])).sort()
 
   if (isLoading) {
@@ -303,8 +344,8 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
                 <Text fontSize="sm" fontWeight="600">Job Title *</Text>
                 <Input
                   placeholder="e.g., Senior Full Stack Developer"
-                  value={newJob.job_name}
-                  onChange={(e) => setNewJob({...newJob, job_name: e.target.value})}
+                  value={newJob.title}
+                  onChange={(e) => setNewJob({...newJob, title: e.target.value})}
                 />
               </VStack>
               <VStack align="stretch" gap={2}>
@@ -313,8 +354,8 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
                   <HStack>
                     <Input
                       placeholder="Enter department name"
-                      value={newJob.department_name}
-                      onChange={(e) => setNewJob({...newJob, department_name: e.target.value})}
+                      value={newJob.department}
+                      onChange={(e) => setNewJob({...newJob, department: e.target.value})}
                       autoFocus
                     />
                     <Button 
@@ -322,7 +363,7 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
                       variant="ghost" 
                       onClick={() => {
                         setIsCustomDepartment(false)
-                        setNewJob({...newJob, department_name: "Engineering"})
+                        setNewJob({...newJob, department: "Engineering"})
                       }}
                     >
                       Cancel
@@ -330,13 +371,13 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
                   </HStack>
                 ) : (
                   <select
-                    value={newJob.department_name}
+                    value={newJob.department}
                     onChange={(e) => {
                       if (e.target.value === '__new__') {
                         setIsCustomDepartment(true)
-                        setNewJob({...newJob, department_name: ""})
+                        setNewJob({...newJob, department: ""})
                       } else {
-                        setNewJob({...newJob, department_name: e.target.value})
+                        setNewJob({...newJob, department: e.target.value})
                       }
                     }}
                     style={{
@@ -354,40 +395,13 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
                 )}
               </VStack>
               <VStack align="stretch" gap={2}>
-                <Text fontSize="sm" fontWeight="600">Location</Text>
-                <Input
-                  placeholder="e.g., Bengaluru, India"
-                  value={newJob.location}
-                  onChange={(e) => setNewJob({...newJob, location: e.target.value})}
-                />
-              </VStack>
-              {/* Only show Remote Mode field when job type is 'remote' */}
-              {newJob.job_type === 'remote' && (
-                <VStack align="stretch" gap={2}>
-                  <Text fontSize="sm" fontWeight="600">Remote Mode *</Text>
-                  <select
-                    value={newJob.remote_mode}
-                    onChange={(e) => setNewJob({...newJob, remote_mode: e.target.value})}
-                    style={{
-                      padding: "8px 12px",
-                      borderRadius: "6px",
-                      border: "1px solid #E2E8F0",
-                      fontSize: "14px"
-                    }}
-                  >
-                    <option value="onsite">Onsite</option>
-                    <option value="hybrid">Hybrid</option>
-                  </select>
-                </VStack>
-              )}
-              <VStack align="stretch" gap={2}>
-                <Text fontSize="sm" fontWeight="600">Job Type *</Text>
+                <Text fontSize="sm" fontWeight="600">Employment Type *</Text>
                 {isCustomJobType ? (
                   <HStack>
                     <Input
-                      placeholder="Enter job type (e.g. Contract)"
-                      value={newJob.job_type}
-                      onChange={(e) => setNewJob({...newJob, job_type: e.target.value})}
+                      placeholder="Enter employment type"
+                      value={newJob.employment_type}
+                      onChange={(e) => setNewJob({...newJob, employment_type: e.target.value})}
                       autoFocus
                     />
                     <Button 
@@ -395,7 +409,7 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
                       variant="ghost" 
                       onClick={() => {
                         setIsCustomJobType(false)
-                        setNewJob({...newJob, job_type: "full_time"})
+                        setNewJob({...newJob, employment_type: "full_time"})
                       }}
                     >
                       Cancel
@@ -403,13 +417,13 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
                   </HStack>
                 ) : (
                   <select
-                    value={newJob.job_type}
+                    value={newJob.employment_type}
                     onChange={(e) => {
                       if (e.target.value === '__new__') {
                         setIsCustomJobType(true)
-                        setNewJob({...newJob, job_type: ""})
+                        setNewJob({...newJob, employment_type: ""})
                       } else {
-                        setNewJob({...newJob, job_type: e.target.value})
+                        setNewJob({...newJob, employment_type: e.target.value})
                       }
                     }}
                     style={{
@@ -419,22 +433,128 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
                       fontSize: "14px"
                     }}
                   >
-                    {uniqueJobTypes.map(type => (
-                      <option key={type} value={type}>{getJobTypeLabel(type)}</option>
+                    {uniqueEmploymentTypes.map(type => (
+                      <option key={type} value={type}>{getEmploymentTypeLabel(type)}</option>
                     ))}
-                    <option value="__new__">+ Create New Job Type</option>
+                    <option value="__new__">+ Create New Type</option>
                   </select>
                 )}
               </VStack>
               <VStack align="stretch" gap={2}>
-                <Text fontSize="sm" fontWeight="600">Experience Required *</Text>
+                <Text fontSize="sm" fontWeight="600">Work Arrangement *</Text>
+                <select
+                  value={newJob.work_arrangement}
+                  onChange={(e) => setNewJob({...newJob, work_arrangement: e.target.value})}
+                  style={{
+                    padding: "8px 12px",
+                    borderRadius: "6px",
+                    border: "1px solid #E2E8F0",
+                    fontSize: "14px"
+                  }}
+                >
+                  <option value="onsite">Onsite</option>
+                  <option value="hybrid">Hybrid</option>
+                  <option value="remote">Remote</option>
+                </select>
+              </VStack>
+            </Grid>
+
+            {/* Location Fields */}
+            <Text fontSize="sm" fontWeight="600" color="neutral.700">Location</Text>
+            <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={4}>
+              <VStack align="stretch" gap={2}>
+                <Text fontSize="xs" color="neutral.600">City</Text>
                 <Input
-                  placeholder="e.g., 2-5 years"
-                  value={newJob.experience_level}
-                  onChange={(e) => setNewJob({...newJob, experience_level: e.target.value})}
+                  placeholder="e.g., Lalitpur"
+                  value={newJob.location_city}
+                  onChange={(e) => setNewJob({...newJob, location_city: e.target.value})}
+                />
+              </VStack>
+              <VStack align="stretch" gap={2}>
+                <Text fontSize="xs" color="neutral.600">Area</Text>
+                <Input
+                  placeholder="e.g., Hattiban"
+                  value={newJob.location_area}
+                  onChange={(e) => setNewJob({...newJob, location_area: e.target.value})}
+                />
+              </VStack>
+              <VStack align="stretch" gap={2}>
+                <Text fontSize="xs" color="neutral.600">Country</Text>
+                <Input
+                  placeholder="e.g., Nepal"
+                  value={newJob.location_country}
+                  onChange={(e) => setNewJob({...newJob, location_country: e.target.value})}
                 />
               </VStack>
             </Grid>
+
+            {/* Experience Fields */}
+            <Text fontSize="sm" fontWeight="600" color="neutral.700">Experience Requirements</Text>
+            <Grid templateColumns={{ base: "1fr", md: "repeat(3, 1fr)" }} gap={4}>
+              <VStack align="stretch" gap={2}>
+                <Text fontSize="xs" color="neutral.600">Min Years</Text>
+                <Input
+                  type="number"
+                  min={0}
+                  placeholder="0"
+                  value={newJob.experience_min_years}
+                  onChange={(e) => setNewJob({...newJob, experience_min_years: parseInt(e.target.value) || 0})}
+                />
+              </VStack>
+              <VStack align="stretch" gap={2}>
+                <Text fontSize="xs" color="neutral.600">Max Years</Text>
+                <Input
+                  type="number"
+                  min={0}
+                  placeholder="5"
+                  value={newJob.experience_max_years}
+                  onChange={(e) => setNewJob({...newJob, experience_max_years: parseInt(e.target.value) || 0})}
+                />
+              </VStack>
+              <VStack align="stretch" gap={2}>
+                <Text fontSize="xs" color="neutral.600">Level</Text>
+                <select
+                  value={newJob.experience_level}
+                  onChange={(e) => setNewJob({...newJob, experience_level: e.target.value})}
+                  style={{
+                    padding: "8px 12px",
+                    borderRadius: "6px",
+                    border: "1px solid #E2E8F0",
+                    fontSize: "14px"
+                  }}
+                >
+                  <option value="entry">Entry Level</option>
+                  <option value="junior">Junior</option>
+                  <option value="mid">Mid Level</option>
+                  <option value="senior">Senior</option>
+                  <option value="lead">Lead</option>
+                  <option value="manager">Manager</option>
+                </select>
+              </VStack>
+            </Grid>
+
+            {/* Skills Fields */}
+            <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)" }} gap={4}>
+              <VStack align="stretch" gap={2}>
+                <Text fontSize="sm" fontWeight="600">Required Skills</Text>
+                <Text fontSize="xs" color="neutral.600">Comma-separated list</Text>
+                <Input
+                  placeholder="e.g., Python, Django, REST APIs"
+                  value={newJob.skills_required}
+                  onChange={(e) => setNewJob({...newJob, skills_required: e.target.value})}
+                />
+              </VStack>
+              <VStack align="stretch" gap={2}>
+                <Text fontSize="sm" fontWeight="600">Preferred Skills</Text>
+                <Text fontSize="xs" color="neutral.600">Comma-separated list</Text>
+                <Input
+                  placeholder="e.g., TensorFlow, AWS, Docker"
+                  value={newJob.skills_preferred}
+                  onChange={(e) => setNewJob({...newJob, skills_preferred: e.target.value})}
+                />
+              </VStack>
+            </Grid>
+
             <VStack align="stretch" gap={2}>
               <Text fontSize="sm" fontWeight="600">Job Description *</Text>
               <textarea
@@ -451,23 +571,25 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
                 }}
               />
             </VStack>
+
             <VStack align="stretch" gap={2}>
-              <Text fontSize="sm" fontWeight="600">Requirements *</Text>
-              <Text fontSize="xs" color="neutral.600">Use new lines to separate requirements</Text>
-              <textarea
-                placeholder="e.g., 3+ years experience with React&#10;Strong TypeScript skills&#10;Experience with REST APIs"
-                value={newJob.requirements}
-                onChange={(e) => setNewJob({...newJob, requirements: e.target.value})}
-                rows={6}
+              <Text fontSize="sm" fontWeight="600">Status</Text>
+              <select
+                value={newJob.status}
+                onChange={(e) => setNewJob({...newJob, status: e.target.value})}
                 style={{
                   padding: "8px 12px",
                   borderRadius: "6px",
                   border: "1px solid #E2E8F0",
-                  fontSize: "14px",
-                  fontFamily: "inherit"
+                  fontSize: "14px"
                 }}
-              />
+              >
+                <option value="open">Open</option>
+                <option value="closed">Closed</option>
+                <option value="draft">Draft</option>
+              </select>
             </VStack>
+
             <HStack gap={3} pt={4}>
               <Button
                 colorScheme="primary"
@@ -517,34 +639,42 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
                 <HStack justify="space-between">
                   <VStack align="start" gap={1}>
                     <Heading fontSize="lg" fontWeight="700" color="neutral.900">
-                      {job.job_name}
+                      {job.job.title}
                     </Heading>
                     <Text fontSize="sm" color="neutral.600">
-                      {job.department_name}
+                      {job.job.department}
                     </Text>
                   </VStack>
                   <Badge
-                    colorScheme={job.expire ? "gray" : "green"}
+                    colorScheme={job.job.status === "open" ? "green" : "gray"}
                     fontSize="xs"
                   >
-                    {job.expire ? "Expired" : "Active"}
+                    {job.job.status === "open" ? "Open" : job.job.status === "closed" ? "Closed" : "Draft"}
                   </Badge>
                 </HStack>
                 <VStack align="stretch" gap={2}>
-                  <HStack gap={2}>
+                  <HStack gap={2} flexWrap="wrap">
                     <Badge colorScheme="blue" fontSize="xs">
-                      {getJobTypeLabel(job.job_type)}
+                      {getEmploymentTypeLabel(job.job.employment_type)}
                     </Badge>
                     <Badge colorScheme="purple" fontSize="xs">
-                      {getRemoteModeLabel(job.remote_mode)}
+                      {getWorkArrangementLabel(job.job.work_arrangement)}
+                    </Badge>
+                    <Badge colorScheme="orange" fontSize="xs">
+                      {getExperienceLevelLabel(job.job.experience.level)}
                     </Badge>
                   </HStack>
                   <Text fontSize="sm" color="neutral.600">
-                    <strong>Experience:</strong> {job.experience_level}
+                    <strong>Experience:</strong> {job.job.experience.min_years}-{job.job.experience.max_years} years
                   </Text>
-                  {job.location && (
+                  {job.job.location.city && (
                     <Text fontSize="sm" color="neutral.600">
-                      <strong>Location:</strong> {job.location}
+                      <strong>Location:</strong> {job.job.location.area}, {job.job.location.city}, {job.job.location.country}
+                    </Text>
+                  )}
+                  {job.job.skills.required.length > 0 && (
+                    <Text fontSize="sm" color="neutral.600">
+                      <strong>Skills:</strong> {job.job.skills.required.join(', ')}
                     </Text>
                   )}
                   <Text fontSize="xs" color="neutral.500">
@@ -565,7 +695,7 @@ export const JobsManagement = ({ onJobsUpdate }: JobsManagementProps) => {
                     size="sm" 
                     variant="outline" 
                     colorScheme="red"
-                    onClick={() => handleDeleteJob(job.id, job.job_name)}
+                    onClick={() => handleDeleteJob(job.id, job.job.title)}
                   >
                     Delete
                   </Button>

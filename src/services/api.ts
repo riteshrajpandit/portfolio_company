@@ -13,6 +13,13 @@ interface CareersListResponse {
 
 interface JobApplication {
   id?: number
+  // Job details from API
+  job_title: string
+  department: string
+  employment_type: string
+  work_arrangement: string
+  career: number // Career ID reference
+  // Applicant details
   first_name: string
   last_name: string
   email: string
@@ -111,42 +118,91 @@ interface LoginCredentials {
   password: string
 }
 
+// New nested structure for Career
+interface JobLocation {
+  city: string
+  area: string
+  country: string
+}
+
+interface JobExperience {
+  min_years: number
+  max_years: number
+  level: string
+}
+
+interface JobSkills {
+  required: string[]
+  preferred: string[]
+}
+
+interface JobDetails {
+  title: string
+  department: string
+  employment_type: string
+  work_arrangement: string
+  location: JobLocation
+  experience: JobExperience
+  skills: JobSkills
+  description: string
+  status: string
+}
+
 interface Career {
   id: number
-  job_name: string
-  department_name: string
-  job_type: string
-  remote_mode?: string | null
-  location?: string
-  experience_level: string
-  requirements: string
-  description: string
-  expire: boolean
+  job: JobDetails
   posted_at: string
   updated_at: string
 }
 
 interface CareerCreateData {
-  job_name: string
-  department_name: string
-  job_type: string
-  experience_level: string
-  requirements: string
-  description: string
-  remote_mode?: string
-  location?: string
+  job: {
+    title: string
+    department: string
+    employment_type: string
+    work_arrangement: string
+    location: {
+      city: string
+      area: string
+      country: string
+    }
+    experience: {
+      min_years: number
+      max_years: number
+      level: string
+    }
+    skills: {
+      required: string[]
+      preferred: string[]
+    }
+    description: string
+    status: string
+  }
 }
 
 interface CareerUpdateData {
-  job_name?: string
-  department_name?: string
-  job_type?: string
-  experience_level?: string
-  requirements?: string
-  description?: string
-  remote_mode?: string
-  location?: string
-  expire?: boolean
+  job?: {
+    title?: string
+    department?: string
+    employment_type?: string
+    work_arrangement?: string
+    location?: {
+      city?: string
+      area?: string
+      country?: string
+    }
+    experience?: {
+      min_years?: number
+      max_years?: number
+      level?: string
+    }
+    skills?: {
+      required?: string[]
+      preferred?: string[]
+    }
+    description?: string
+    status?: string
+  }
 }
 
 interface CareersListResponse {
@@ -616,6 +672,10 @@ export type {
   CareerCreateData,
   CareerUpdateData,
   CareersListResponse,
+  JobDetails,
+  JobLocation,
+  JobExperience,
+  JobSkills,
   JobApplication,
   JobApplicationListResponse,
   Message,
