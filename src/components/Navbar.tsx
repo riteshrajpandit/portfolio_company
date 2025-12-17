@@ -93,7 +93,7 @@ const megaMenuItems: MegaMenuItem[] = [
       title: 'New: AI-Powered ERP',
       description: 'Experience the future of business management with our AI-enhanced ERP platform.',
       cta: 'Learn More',
-      link: '/products#ai-erp'
+      link: '/products#erp'
     }
   },
   {

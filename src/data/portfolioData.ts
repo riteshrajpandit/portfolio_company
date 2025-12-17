@@ -151,3 +151,147 @@ export const portfolioImages = [
     productId: "cloud"
   }
 ]
+
+
+export const PersonalData = [
+
+  {
+  name: "Suresh Bhandari",
+  title: "Founder & CEO",
+  bio: "Suresh leads us from all frontiers, leveraging over two decades of expertise in IT and management to lead teams effectively.",
+  linkedin: "https://linkedin.com/in/sureshbhandari",
+  x: "https://x.com/sureshbhandari2",
+
+  },
+  {
+name: "Divyendu Bhatt",
+  title: "CTO & CISO",
+  bio: "Divyendu drives our security and compliances while implementing frameworks, managing vulnerabilities, and ensuring regulatory compliance.",
+  linkedin: "https://linkedin.com/in/dm-bhatt-0bb8a48",
+  x: "",
+  },
+  {
+name: "Abiral Bhandari",
+  title: "Operations Manager, Engineer",
+  bio: "Abiral leads our technical vision with expertise in modern web technologies and scalable architecture design.",
+  linkedin: "https://www.linkedin.com/in/abiral-bhandari-b9a454199/",
+  x: "",
+  },
+  {
+name: "Tejash Katuwal",
+  title: "AI Engineer",
+  bio: "Tejash builds AI models and data pipelines that help drive data-driven decisions across the organization.",
+  linkedin: "https://www.linkedin.com/in/tejash-katuwal-784b27244/",
+  x: "",
+  },
+  {
+name: "Nibesh Suwal",
+  title: "Lead Backend Developer",
+  bio: "Nibesh manages our infrastructure and deployment pipelines, ensuring reliable and scalable cloud solutions.",
+  linkedin: "https://www.linkedin.com/in/roshan-suwal-309660156/",
+  x: "",
+  },
+  {
+  name: "Ritesh Raj Pandit",
+  title: "Lead Frontend Developer",
+  bio: "Ritesh brings creative vision to life with user-centered design principles and a passion for beautiful, functional interfaces.",
+  linkedin: "https://www.linkedin.com/in/riteshrajpandit/",
+  x: "https://x.com/riteshrajpandit",
+  },
+  {
+  name: "",
+  title: "",
+  bio: "",
+  linkedin: "",
+  x: "",
+  },
+  {
+  name: "",
+  title: "",
+  bio: "",
+  linkedin: "",
+  x: "",
+  },
+  {
+  name: "",
+  title: "",
+  bio: "",
+  linkedin: "",
+  x: "",
+  },
+  {
+  name: "",
+  title: "",
+  bio: "",
+  linkedin: "",
+  x: "",
+  },
+  {
+  name: "",
+  title: "",
+  bio: "",
+  linkedin: "",
+  x: "",
+  },
+  {
+  name: "",
+  title: "",
+  bio: "",
+  linkedin: "",
+  x: "",
+  },
+  {
+  name: "",
+  title: "",
+  bio: "",
+  linkedin: "",
+  x: "",
+  },
+  {
+  name: "",
+  title: "",
+  bio: "",
+  linkedin: "",
+  x: "",
+  },
+  {
+  name: "",
+  title: "",
+  bio: "",
+  linkedin: "",
+  x: "",
+  },
+  {
+  name: "",
+  title: "",
+  bio: "",
+  linkedin: "",
+  x: "",
+  },
+  {
+  name: "",
+  title: "",
+  bio: "",
+  linkedin: "",
+  x: "",
+  },
+]
+
+Subham,
+Laxmi, 
+Nabin,
+Pradiksha,
+Suyog,
+Biwash,
+Rohan,
+Kranti,
+Ritesh,
+Nibesh,
+Tejash,
+Abiral,
+Kaustuv,
+
+
+Diwash,
+Ashim,
+Dipak,

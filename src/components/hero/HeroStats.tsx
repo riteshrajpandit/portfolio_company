@@ -2,7 +2,7 @@ import {
   Box, 
   SimpleGrid, 
   VStack, 
-  Text 
+  Text
 } from '@chakra-ui/react'
 import { motion, useInView } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
@@ -50,7 +50,7 @@ const AnimatedCounter = ({ value, suffix = "", duration = 2 }: { value: number; 
       ref={countRef}
       fontSize={{ base: "4xl", md: "5xl" }}
       fontWeight="800"
-      color="primary.500"
+      color="white"
       lineHeight="1"
       mb={2}
     >
@@ -61,7 +61,11 @@ const AnimatedCounter = ({ value, suffix = "", duration = 2 }: { value: number; 
 
 const HeroStats = () => {
   return (
-    <Box>
+    <Box
+    bg = "primary.500"
+    py={20}
+    minHeight="25vh"
+    >
         <SimpleGrid 
           columns={{ base: 1, sm: 3 }} 
           gap={{ base: 12, md: 16 }} 
@@ -69,6 +73,7 @@ const HeroStats = () => {
           maxW="5xl"
           mx="auto"
           textAlign="center"
+       
         >
           {stats.map((stat, index) => (
             <motion.div
@@ -83,7 +88,7 @@ const HeroStats = () => {
                 <Text 
                   fontSize={{ base: "sm", md: "xl" }} 
                   fontWeight="500" 
-                  color="gray.600"
+                  color="white"
                 >
                   {stat.label}
                 </Text>

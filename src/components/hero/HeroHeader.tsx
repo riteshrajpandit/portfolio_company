@@ -2,24 +2,24 @@ import {
   VStack, 
   Heading, 
   Text, 
-  Stack, 
-  Button, 
-  Icon 
+  Stack
 } from '@chakra-ui/react'
-import { useNavigate } from 'react-router-dom'
-import { HiArrowRight, HiPlay } from 'react-icons/hi2'
+// import { useNavigate } from 'react-router-dom'
+
 import { motion } from 'framer-motion'
 
 const HeroHeader = () => {
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   return (
-    <VStack gap={8} textAlign="center" mb={{ base: 16, md: 20 }} maxW="4xl" mx="auto">
+    <VStack gap={80}  textAlign="center" maxW="4xl" mx="auto" mt={40}  >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
       >
+
+       
         <Heading
           as="h1"
           fontSize={{ base: "4xl", md: "5xl", lg: "6xl" }}
@@ -27,6 +27,7 @@ const HeroHeader = () => {
           lineHeight="1.2"
           color="text"
           mb={6}
+          
         >
           Innovative Digital <Text as="span" color="primary.500">Solutions</Text> That Transform
         </Heading>
@@ -48,17 +49,17 @@ const HeroHeader = () => {
           justify="center"
           align="center"
         >
-          <Button
+          {/* <Button
             onClick={() => navigate('/contact')}
             size="lg"
-            colorScheme="primary"
+            bg="primary.500"
             px={8}
             h={14}
             fontSize="md"
           >
             Let's Meet <Icon as={HiArrowRight} ml={2} />
-          </Button>
-          <Button
+          </Button> */}
+          {/* <Button
             onClick={() => navigate('/products')}
             size="lg"
             variant="outline"
@@ -68,7 +69,7 @@ const HeroHeader = () => {
             bg="white"
           >
             View Our Products <Icon as={HiPlay} ml={2} />
-          </Button>
+          </Button> */}
         </Stack>
       </motion.div>
     </VStack>

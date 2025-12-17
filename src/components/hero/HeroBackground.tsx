@@ -15,7 +15,7 @@ const HeroBackground = () => {
       />
 
       {/* Animated Background Blocks */}
-      <Box position="absolute" inset={0} overflow="hidden" pointerEvents="none" zIndex={0}>
+      <Box position="absolute"  inset={0} overflow="hidden" pointerEvents="none" zIndex={0}>
         {/* Top Left Block - Blue */}
         <MotionBox
           position="absolute"

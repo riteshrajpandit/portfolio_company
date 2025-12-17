@@ -17,7 +17,7 @@ interface HeroProductsProps {
 
 const HeroProducts = ({ onProductClick }: HeroProductsProps) => {
   return (
-    <VStack gap={{ base: 8, md: 10 }} mb={{ base: 14, md: 16 }}>
+    <VStack gap={{ base: 8, md: 10 }} mb={{ base: 14, md: 8 }} py={20}>
       <SimpleGrid 
         columns={{ base: 1, md: 2, lg: 3 }} 
         gap={{ base: 6, md: 6, lg: 8 }} 

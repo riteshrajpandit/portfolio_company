@@ -9,9 +9,15 @@ import TestimonialsSection from '../components/sections/TestimonialsSection'
 import CTASection from '../components/sections/CTASection'
 import LoadingScreen from '../components/LoadingScreen'
 import { usePageTracking } from '../utils/usePageTracking'
+import HeroProducts from '@/components/hero/HeroProducts'
+import { HeroStats } from '@/components/hero'
+import ProductModal from '@/components/ui/ProductModal'
+import { portfolioImages } from '../data/portfolioData'
 
 const HomePage = () => {
   const [isLoading, setIsLoading] = useState(true)
+  const [selectedProduct, setSelectedProduct] = useState<typeof portfolioImages[0] | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   
   // Track page views, scroll depth, and time on page
   usePageTracking('Home')
@@ -26,6 +32,16 @@ const HomePage = () => {
     return () => clearTimeout(timer)
   }, [])
 
+  const handleProductClick = (product: typeof portfolioImages[0]) => {
+    setSelectedProduct(product)
+    setIsModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+    setSelectedProduct(null)
+  }
+
   if (isLoading) {
     return <LoadingScreen />
   }
@@ -33,6 +49,14 @@ const HomePage = () => {
   return (
     <Box>
       <HeroSection />
+      <HeroProducts onProductClick={handleProductClick} />
+      <HeroStats />
+      {/* Product Modal */}
+      <ProductModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        product={selectedProduct}
+      />      
       <ProductsShowcaseSection />
       <BrandsSection />
       {/* <FeaturesSection /> */}
