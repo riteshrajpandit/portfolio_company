@@ -276,22 +276,3 @@ name: "Nibesh Suwal",
   x: "",
   },
 ]
-
-Subham,
-Laxmi, 
-Nabin,
-Pradiksha,
-Suyog,
-Biwash,
-Rohan,
-Kranti,
-Ritesh,
-Nibesh,
-Tejash,
-Abiral,
-Kaustuv,
-
-
-Diwash,
-Ashim,
-Dipak,
