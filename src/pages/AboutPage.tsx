@@ -12,7 +12,7 @@ import {
   SimpleGrid,
   Spinner,
 } from "@chakra-ui/react"
-import { Link } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { motion, useAnimationFrame } from "framer-motion"
 import { useState, useRef, useEffect } from "react"
 import { 
@@ -366,6 +366,7 @@ const DevelopmentTeamCarousel = ({ members }: { members: TeamMemberType[] }) => 
 }
 
 export const AboutPage = () => {
+  const { hash } = useLocation()
   const [teamMembers, setTeamMembers] = useState<Array<{
     name: string
     role: 'leader' | 'member'
@@ -375,6 +376,18 @@ export const AboutPage = () => {
     social: { linkedin?: string; twitter?: string; github?: string }
   }>>([])
   const [isLoading, setIsLoading] = useState(true)
+
+  // Handle hash navigation after loading
+  useEffect(() => {
+    if (!isLoading && hash) {
+      const element = document.getElementById(hash.slice(1))
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }, 100)
+      }
+    }
+  }, [isLoading, hash])
 
   useEffect(() => {
     const fetchTeamMembers = async () => {
@@ -679,7 +692,7 @@ export const AboutPage = () => {
       </Box>
 
       {/* Team Section */}
-      <Box id="team" py={{ base: 12, md: 20 }} bg="white">
+      <Box id="team" scrollMarginTop="120px" py={{ base: 12, md: 20 }} bg="white">
         <Container maxW="7xl" px={{ base: 4, md: 6 }}>
           <MotionBox
             initial={{ opacity: 0, y: 30 }}
