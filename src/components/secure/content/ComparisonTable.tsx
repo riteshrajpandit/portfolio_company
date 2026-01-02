@@ -28,8 +28,8 @@ export const ComparisonTable = ({ features }: ComparisonTableProps) => {
       bg="whiteAlpha.50"
     >
       <Table.Root variant="line">
-        <Table.Header>
-          <Table.Row>
+        <Table.Header bg="transparent">
+          <Table.Row bg="transparent">
             <Table.ColumnHeader color="gray.400" w="40%">Feature</Table.ColumnHeader>
             <Table.ColumnHeader color="blue.400" textAlign="center" fontSize="md">Us</Table.ColumnHeader>
             <Table.ColumnHeader color="gray.400" textAlign="center">Comp A</Table.ColumnHeader>
@@ -38,7 +38,7 @@ export const ComparisonTable = ({ features }: ComparisonTableProps) => {
         </Table.Header>
         <Table.Body>
           {features.map((feature, index) => (
-            <Table.Row key={index} _hover={{ bg: "whiteAlpha.50" }}>
+            <Table.Row key={index} bg="transparent" _hover={{ bg: "whiteAlpha.50" }}>
               <Table.Cell fontWeight="medium" color="whiteAlpha.900">{feature.name}</Table.Cell>
               <Table.Cell textAlign="center">
                 <StatusIcon active={feature.us} />

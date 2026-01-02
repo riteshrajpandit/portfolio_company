@@ -33,8 +33,8 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
       bg="whiteAlpha.50"
     >
       <Table.Root variant="line">
-        <Table.Header>
-          <Table.Row>
+        <Table.Header bg="transparent">
+          <Table.Row bg="transparent">
             <Table.ColumnHeader color="gray.400">Period</Table.ColumnHeader>
             <Table.ColumnHeader color="gray.400" textAlign="right">Revenue</Table.ColumnHeader>
             <Table.ColumnHeader color="gray.400" textAlign="right">Growth</Table.ColumnHeader>
@@ -43,7 +43,7 @@ export const RevenueTable = ({ data }: RevenueTableProps) => {
         </Table.Header>
         <Table.Body>
           {data.map((row, index) => (
-            <Table.Row key={index} _hover={{ bg: "whiteAlpha.50" }}>
+            <Table.Row key={index} bg="transparent" _hover={{ bg: "whiteAlpha.50" }}>
               <Table.Cell fontWeight="medium" color="whiteAlpha.900">{row.period}</Table.Cell>
               <Table.Cell textAlign="right" color="whiteAlpha.900">{row.revenue}</Table.Cell>
               <Table.Cell textAlign="right" color="green.300">{row.growth}</Table.Cell>
