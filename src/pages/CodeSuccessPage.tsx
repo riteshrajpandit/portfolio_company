@@ -11,8 +11,10 @@ import { useNavigate } from "react-router-dom"
 import { HiCheckCircle, HiHome } from "react-icons/hi"
 import SEO from "@/components/SEO"
 import { FlowingCurvesBackground } from "@/components/ui/flowing-curves"
+import { useHideChatbot } from "@/hooks/useHideChatbot"
 
 const CodeSuccessPage = () => {
+  useHideChatbot()
   const navigate = useNavigate()
 
   return (

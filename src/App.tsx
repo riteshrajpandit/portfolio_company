@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom'
 import { Box } from '@chakra-ui/react'
+import { Toaster } from "@/components/ui/toaster"
 import ErrorBoundary from './components/ErrorBoundary'
 import SEO from './components/SEO'
 import Navbar from './components/Navbar'
@@ -79,6 +80,7 @@ function App() {
   return (
     <ErrorBoundary>
       <Router>
+        <Toaster />
         <SEO />
         <ScrollToTop />
         <AnalyticsTracker />

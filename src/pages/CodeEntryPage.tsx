@@ -18,70 +18,43 @@ import SEO from "@/components/SEO"
 import { toaster } from "@/components/ui/toaster"
 import { PinInput } from "@/components/ui/pin-input"
 import { FlowingCurvesBackground } from "@/components/ui/flowing-curves"
+import { useHideChatbot } from "@/hooks/useHideChatbot"
 
 // Memoized background component
 const MemoizedBackground = memo(FlowingCurvesBackground)
 MemoizedBackground.displayName = "MemoizedBackground"
 
-// Security badge component - memoized to prevent re-renders
-const SecurityBadge = memo(({ icon, label }: { icon: any; label: string }) => (
-  <HStack gap={2}>
-    <Icon as={icon} color="gray.500" />
-    <Text
-      fontSize="xs"
-      color="gray.500"
-      fontWeight="medium"
-      textTransform="uppercase"
-      letterSpacing="widest"
-    >
-      {label}
-    </Text>
+// Security badge component - memoized
+const SecurityBadge = memo(({ icon, label, description }: { icon: any; label: string; description: string }) => (
+  <HStack gap={2} align="flex-start">
+    <Icon as={icon} color="gray.500" flexShrink={0} mt={0.5} />
+    <VStack align="flex-start" gap={0.5}>
+      <Text
+        fontSize="xs"
+        color="gray.500"
+        fontWeight="medium"
+        textTransform="uppercase"
+        letterSpacing="widest"
+      >
+        {label}
+      </Text>
+      <Text fontSize="xs" color="gray.400" lineHeight="short">
+        {description}
+      </Text>
+    </VStack>
   </HStack>
 ))
 SecurityBadge.displayName = "SecurityBadge"
-
-// Error message component - extracted for better separation of concerns
-const ErrorMessage = memo(({ message }: { message: string | null }) => (
-  <Box
-    width="100%"
-    transition="all 0.3s ease-in-out"
-    opacity={message ? 1 : 0}
-    transform={message ? "translateY(0)" : "translateY(-10px)"}
-    maxHeight={message ? "100px" : "0px"}
-    overflow="hidden"
-  >
-    {message && (
-      <Box
-        role="alert"
-        aria-live="polite"
-        px={4}
-        py={2}
-        bg="red.900/20"
-        border="1px solid"
-        borderColor="red.500/30"
-        borderRadius="lg"
-        width="auto"
-        mx="auto"
-        textAlign="center"
-      >
-        <Text color="red.300" fontWeight="medium" fontSize="sm">
-          {message}
-        </Text>
-      </Box>
-    )}
-  </Box>
-))
-ErrorMessage.displayName = "ErrorMessage"
 
 interface CodeForm {
   code: string
 }
 
-// Pin input style configuration - extracted as constant
+// Pin input style configuration
 const PIN_INPUT_STYLES = {
-  width: "64px",
-  height: "72px",
-  fontSize: "2xl",
+  width: { base: "48px", sm: "56px", md: "64px" },
+  height: { base: "56px", sm: "64px", md: "72px" },
+  fontSize: { base: "xl", md: "2xl" },
   fontWeight: "semibold",
   borderRadius: "2xl",
   bg: "whiteAlpha.50",
@@ -103,46 +76,86 @@ const PIN_INPUT_STYLES = {
 } as const
 
 const CodeEntryPage = () => {
+  useHideChatbot()
   const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-  const { handleSubmit, control } = useForm<CodeForm>({
+  const { handleSubmit, control, reset, watch } = useForm<CodeForm>({
     defaultValues: { code: "" },
     mode: "onSubmit",
   })
 
-  // Optimized submit handler with proper error handling
+  const code = watch("code")
+
+  // Optimized submit handler with toast notifications
   const onSubmit = useCallback(
     async (data: CodeForm) => {
+      // Validate code length
+      if (!data.code || data.code.length !== 6) {
+        toaster.create({
+          title: "Invalid Code",
+          description: "Please enter all 6 digits of your security code.",
+          type: "error",
+          duration: 4000,
+        })
+        return
+      }
+
       setIsLoading(true)
-      setErrorMessage(null)
 
       try {
         const response = await apiService.useCode(data.code)
+        
         if (response.success) {
           toaster.create({
             title: "Access Granted",
             description: "Your secure session is now active.",
             type: "success",
+            duration: 3000,
           })
           navigate("/code-success")
         } else {
-          setErrorMessage(response.message || "Invalid or expired code.")
+          // Show error as toast for wrong or used codes
+          toaster.create({
+            title: "Verification Failed",
+            description: response.message || "Invalid or expired code. Please check and try again.",
+            type: "error",
+            duration: 5000,
+          })
+          // Clear the form after error
+          setTimeout(() => reset(), 100)
         }
       } catch (error: any) {
-        const msg =
-          error.message?.replace("API Error: ", "") || "Validation failed."
-        setErrorMessage(msg)
+        // Handle API errors
+        const errorMsg = error.message?.replace("API Error: ", "") || "Validation failed. Please try again."
+        toaster.create({
+          title: "Error",
+          description: errorMsg,
+          type: "error",
+          duration: 5000,
+        })
+        // Clear the form after error
+        setTimeout(() => reset(), 100)
       } finally {
         setIsLoading(false)
       }
     },
-    [navigate]
+    [navigate, reset]
   )
 
-  // Memoize pin indices to prevent array recreation
+  // Memoize pin indices
   const pinIndices = useMemo(() => [0, 1, 2, 3, 4, 5], [])
+
+  // Handle keyboard enter key
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === "Enter" && !isLoading) {
+        e.preventDefault()
+        handleSubmit(onSubmit)()
+      }
+    },
+    [handleSubmit, onSubmit, isLoading]
+  )
 
   return (
     <>
@@ -159,12 +172,13 @@ const CodeEntryPage = () => {
         display="flex"
         alignItems="center"
         justifyContent="center"
+        py={{ base: 6, md: 8 }}
       >
         <MemoizedBackground />
 
-        <Container maxW="600px" position="relative" zIndex={1} px={4}>
+        <Container maxW="700px" position="relative" zIndex={1} px={{ base: 4, sm: 6 }}>
           <Box
-            p={{ base: 8, md: 10 }}
+            p={{ base: 6, sm: 8, md: 10 }}
             borderRadius="3xl"
             bg="whiteAlpha.100"
             backdropFilter="blur(12px)"
@@ -184,7 +198,7 @@ const CodeEntryPage = () => {
               opacity: 0.4,
             }}
           >
-            <VStack gap={10} align="stretch">
+            <VStack gap={{ base: 6, md: 10 }} align="stretch">
               {/* Header Section */}
               <VStack textAlign="center" gap={3}>
                 <Center
@@ -198,39 +212,62 @@ const CodeEntryPage = () => {
                   <Icon as={HiLockClosed} fontSize="2xl" color="blue.400" />
                 </Center>
                 <Heading
-                  size="2xl"
+                  size={{ base: "xl", md: "2xl" }}
                   fontWeight="bold"
                   letterSpacing="tight"
                   color="white"
                 >
                   Verification Required
                 </Heading>
-                <Text fontSize="lg" color="gray.400" maxW="xs" mx="auto">
-                  Enter the 6-digit security code sent to your authorized
-                  device.
+                <Text 
+                  fontSize={{ base: "md", md: "lg" }} 
+                  color="gray.400" 
+                  maxW="sm" 
+                  mx="auto"
+                  px={{ base: 2, sm: 0 }}
+                >
+                  Input your 6-digit access code.
                 </Text>
               </VStack>
 
               {/* Input Section */}
-              <form onSubmit={handleSubmit(onSubmit)} noValidate>
+              <form 
+                onSubmit={handleSubmit(onSubmit)} 
+                onKeyDown={handleKeyDown}
+                noValidate
+              >
                 <VStack gap={8}>
                   <Controller
                     control={control}
                     name="code"
-                    rules={{ required: true, minLength: 6 }}
+                    rules={{ required: true, minLength: 6, maxLength: 6 }}
                     render={({ field }) => (
                       <PinInput
                         value={Array.from(
                           { length: 6 },
                           (_, i) => (field.value || "")[i] || ""
                         )}
-                        onValueChange={(e) => field.onChange(e.value.join(""))}
+                        onValueChange={(e) => {
+                          const newValue = e.value.join("")
+                          const currentValue = field.value || ""
+                          
+                          // Prevent overwriting if already full
+                          if (currentValue.length === 6 && newValue.length === 6 && currentValue !== newValue) {
+                            return
+                          }
+                          
+                          field.onChange(newValue)
+                        }}
                         count={6}
                         size="xl"
                         otp
                         attached={false}
                       >
-                        <HStack gap={3} justify="center">
+                        <HStack 
+                          gap={{ base: 2, sm: 3 }} 
+                          justify="center"
+                          flexWrap="wrap"
+                        >
                           {pinIndices.map((id) => (
                             <PinInput.Input
                               key={id}
@@ -243,20 +280,19 @@ const CodeEntryPage = () => {
                     )}
                   />
 
-                  <ErrorMessage message={errorMessage} />
-
                   <Button
                     type="submit"
                     variant="solid"
                     bg="white"
                     color="black"
-                    size="xl"
-                    px={12}
+                    size={{ base: "lg", md: "xl" }}
+                    px={{ base: 8, md: 12 }}
                     borderRadius="full"
                     fontWeight="bold"
                     loading={isLoading}
                     loadingText="Verifying..."
                     transition="all 0.2s"
+                    w={{ base: "100%", sm: "auto" }}
                     _hover={{
                       bg: "gray.100",
                       transform: "translateY(-1px)",
@@ -266,23 +302,32 @@ const CodeEntryPage = () => {
                       transform: "translateY(0)",
                       bg: "gray.200",
                     }}
+                    disabled={isLoading || !code || code.length !== 6}
                   >
                     Verify Access
                   </Button>
                 </VStack>
               </form>
 
-              {/* Security Info */}
-              <HStack
-                justify="center"
-                gap={8}
-                pt={8}
+              {/* Security Info - Updated with descriptions */}
+              <VStack
+                gap={4}
+                pt={{ base: 6, md: 8 }}
                 borderTop="1px solid"
                 borderColor="whiteAlpha.100"
+                align="stretch"
               >
-                <SecurityBadge icon={HiClock} label="Valid 24h" />
-                <SecurityBadge icon={HiShieldCheck} label="End-to-End Secure" />
-              </HStack>
+                <SecurityBadge 
+                  icon={HiClock} 
+                  label="24-Hour Validity" 
+                  description="Once activated, your access session remains valid for 24 hours."
+                />
+                <SecurityBadge 
+                  icon={HiShieldCheck} 
+                  label="One-Time Activation" 
+                  description="Each code can only be activated once. Please ensure you are ready to use it."
+                />
+              </VStack>
             </VStack>
           </Box>
         </Container>
