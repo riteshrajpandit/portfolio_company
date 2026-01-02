@@ -682,13 +682,13 @@ class ApiService {
   }
 
   async generateCodes(): Promise<CodeListResponse> {
-    return this.authenticatedRequest<CodeListResponse>('/api/codes/generate/', {
+    return this.authenticatedRequest<Code[]>('/api/codes/generate/', {
       method: 'POST',
     })
   }
 
   async getCodes(): Promise<CodeListResponse> {
-    return this.authenticatedRequest<CodeListResponse>('/api/codes/list/', {
+    return this.authenticatedRequest<Code[]>('/api/codes/list/', {
       method: 'GET',
     })
   }
