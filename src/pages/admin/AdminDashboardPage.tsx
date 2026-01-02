@@ -25,6 +25,7 @@ import {
   HiMenu,
   HiX,
   HiClock,
+  HiKey,
 } from "react-icons/hi"
 import SEO from "@/components/SEO"
 import { toaster } from "@/components/ui/toaster"
@@ -40,6 +41,7 @@ import { ProductsManagement } from "@/components/admin/ProductsManagement"
 import { ServicesManagement } from "@/components/admin/ServicesManagement"
 import { GalleryManagement } from "@/components/admin/GalleryManagement"
 import { TeamMembersManagement } from "@/components/admin/TeamMembersManagement"
+import { CodesManagement } from "@/components/admin/CodesManagement"
 import { VisitorsChart, JobsApplicationsChart, MessagesChart } from "@/components/admin/charts"
 
 const MotionBox = motion(Box)
@@ -67,6 +69,7 @@ const AdminDashboardPage = () => {
     { id: "services", label: "Services", icon: HiCog, badge: null },
     { id: "gallery", label: "Gallery", icon: HiPhotograph, badge: null },
     { id: "team", label: "Team Members", icon: HiUsers, badge: null },
+    { id: "codes", label: "Codes", icon: HiKey, badge: null },
   ]
 
   // Stats with dynamic applications count
@@ -394,6 +397,11 @@ const AdminDashboardPage = () => {
                 {/* Team Members View */}
                 {activeMenu === "team" && (
                   <TeamMembersManagement />
+                )}
+
+                {/* Codes View */}
+                {activeMenu === "codes" && (
+                  <CodesManagement />
                 )}
               </MotionBox>
             </Container>

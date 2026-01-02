@@ -242,6 +242,22 @@ interface GalleryCreateData {
   uploaded_images: { id?: number; image?: File; caption: string }[]
 }
 
+interface Code {
+  id: number
+  code: string
+  is_used: boolean
+  used_at: string | null
+  created_at: string
+  status: "Unused" | "Active" | "Expired"
+  is_expired: boolean
+}
+
+interface CodeListResponse {
+  data: Code[]
+  message: string
+  success: boolean
+}
+
 class ApiService {
   private baseUrl: string
 
@@ -664,6 +680,25 @@ class ApiService {
       method: 'DELETE',
     })
   }
+
+  async generateCodes(): Promise<CodeListResponse> {
+    return this.authenticatedRequest<CodeListResponse>('/api/codes/generate/', {
+      method: 'POST',
+    })
+  }
+
+  async getCodes(): Promise<CodeListResponse> {
+    return this.authenticatedRequest<CodeListResponse>('/api/codes/list/', {
+      method: 'GET',
+    })
+  }
+
+  async useCode(code: string): Promise<ApiResponse<Code>> {
+    return this.request<Code>('/api/codes/use/', {
+      method: 'POST',
+      body: JSON.stringify({ code }),
+    })
+  }
 }
 
 export const apiService = new ApiService(API_BASE_URL)
@@ -691,5 +726,7 @@ export type {
   GalleryCategory,
   GalleryImage,
   GalleryCreateData,
-  GalleryListResponse
+  GalleryListResponse,
+  Code,
+  CodeListResponse
 }

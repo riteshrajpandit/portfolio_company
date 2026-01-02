@@ -26,6 +26,8 @@ const TermsOfServicePage = lazy(() => import('./pages/TermsOfServicePage'))
 const SitemapPage = lazy(() => import('./pages/SitemapPage'))
 const ROICalculatorPage = lazy(() => import('./pages/ROICalculatorPage'))
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
+const CodeEntryPage = lazy(() => import('./pages/CodeEntryPage'))
+const CodeSuccessPage = lazy(() => import('./pages/CodeSuccessPage'))
 
 // Admin pages
 const AdminLoginPage = lazy(() => import('./pages/admin/AdminLoginPage'))
@@ -86,6 +88,10 @@ function App() {
             <Route path="/ioxet-labs-admin" element={<AdminLoginPage />} />
             <Route path="/ioxet-labs-admin/dashboard" element={<AdminDashboardPage />} />
             
+            {/* Code Entry Routes - No Navbar/Footer */}
+            <Route path="/secode" element={<CodeEntryPage />} />
+            <Route path="/code-success" element={<CodeSuccessPage />} />
+
             {/* Public Routes - With Navbar/Footer */}
             <Route path="/*" element={<PublicLayout />} />
           </Routes>
