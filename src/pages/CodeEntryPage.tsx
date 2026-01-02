@@ -113,7 +113,7 @@ const CodeEntryPage = () => {
             type: "success",
             duration: 3000,
           })
-          navigate("/code-success")
+          navigate("/code-success", { state: { verified: true }, replace: true })
         } else {
           // Show error as toast for wrong or used codes
           toaster.create({

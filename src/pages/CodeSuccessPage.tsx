@@ -7,7 +7,8 @@ import {
   Button,
   Icon,
 } from "@chakra-ui/react"
-import { useNavigate } from "react-router-dom"
+import { useEffect } from "react"
+import { useNavigate, useLocation } from "react-router-dom"
 import { HiCheckCircle, HiHome } from "react-icons/hi"
 import SEO from "@/components/SEO"
 import { FlowingCurvesBackground } from "@/components/ui/flowing-curves"
@@ -16,6 +17,17 @@ import { useHideChatbot } from "@/hooks/useHideChatbot"
 const CodeSuccessPage = () => {
   useHideChatbot()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  useEffect(() => {
+    if (!location.state?.verified) {
+      navigate("/secode", { replace: true })
+    }
+  }, [location, navigate])
+
+  if (!location.state?.verified) {
+    return null
+  }
 
   return (
     <>
