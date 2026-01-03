@@ -12,21 +12,21 @@ import { DataChart } from "@/components/secure/content/DataChart"
 
 const TOPICS = [
   { id: "topic-1", title: "Executive Summary" },
-  { id: "topic-2", title: "Market Analysis" },
-  { id: "topic-3", title: "Revenue Projections" },
-  { id: "topic-4", title: "Competitor Comparison" },
-  { id: "topic-5", title: "User Growth Strategy" },
-  { id: "topic-6", title: "Product Roadmap" },
-  { id: "topic-7", title: "Technical Architecture" },
-  { id: "topic-8", title: "Security & Compliance" },
-  { id: "topic-9", title: "Team Structure" },
-  { id: "topic-10", title: "Funding History" },
-  { id: "topic-11", title: "Strategic Partnerships" },
-  { id: "topic-12", title: "Risk Assessment" },
-  { id: "topic-13", title: "Marketing Channels" },
-  { id: "topic-14", title: "Sales Funnel Metrics" },
-  { id: "topic-15", title: "Customer Feedback" },
-  { id: "topic-16", title: "Future Outlook" },
+  { id: "topic-2", title: "Problem Statement" },
+  { id: "topic-3", title: "The Solution:Secode" },
+  { id: "topic-4", title: "Product Overview" },
+  { id: "topic-5", title: "Technology & Architecture" },
+  { id: "topic-6", title: "Market Opportunity" },
+  { id: "topic-7", title: "Competitive Landscape" },
+  { id: "topic-8", title: "Business Model" },
+  { id: "topic-9", title: "Go-To-Market Strategy" },
+  { id: "topic-10", title: "Traction and Validation" },
+  { id: "topic-11", title: "Team" },
+  { id: "topic-12", title: "Financial Projections (3-Year Summary)" },
+  { id: "topic-13", title: "Captital Requirements" },
+  { id: "topic-14", title: "Exit Strategy" },
+  { id: "topic-15", title: "Investment Proposition" },
+  { id: "topic-16", title: "Conclusion" },
 ]
 
 export default function CodeSuccessPage() {
@@ -73,7 +73,7 @@ export default function CodeSuccessPage() {
           />
         </TopicSection>
 
-        <TopicSection id="topic-2" title="2. Market Analysis">
+        <TopicSection id="topic-2" title="2.Problem Statement">
           <Text color="gray.300" mb={6}>
             The total addressable market (TAM) has grown significantly. Our penetration in the mid-market segment shows promising upward trends.
           </Text>
@@ -92,7 +92,7 @@ export default function CodeSuccessPage() {
           />
         </TopicSection>
 
-        <TopicSection id="topic-3" title="3. Revenue Projections">
+        <TopicSection id="topic-3" title="3. The Solution: Secode™">
           <Text color="gray.300" mb={6}>
             Projected revenue breakdown by quarter for the upcoming fiscal year, highlighting seasonal adjustments.
           </Text>
@@ -106,7 +106,7 @@ export default function CodeSuccessPage() {
           />
         </TopicSection>
 
-        <TopicSection id="topic-4" title="4. Competitor Comparison">
+        <TopicSection id="topic-4" title="4. Product Overview">
           <Text color="gray.300" mb={6}>
             A direct comparison of feature sets against key market competitors.
           </Text>
@@ -121,7 +121,7 @@ export default function CodeSuccessPage() {
           />
         </TopicSection>
 
-        <TopicSection id="topic-5" title="5. User Growth Strategy">
+        <TopicSection id="topic-5" title="5.  Technology & Architecture">
           <Text color="gray.300" mb={6}>
             User acquisition channels are performing above expectations. Organic search remains our strongest driver.
           </Text>
@@ -141,7 +141,7 @@ export default function CodeSuccessPage() {
           />
         </TopicSection>
 
-        <TopicSection id="topic-6" title="6. Product Roadmap">
+        <TopicSection id="topic-6" title="6. Market Opportunity">
           <Text color="gray.300" mb={6}>
             Key milestones for product development over the next 12 months.
           </Text>
@@ -155,14 +155,14 @@ export default function CodeSuccessPage() {
           />
         </TopicSection>
 
-        <TopicSection id="topic-7" title="7. Technical Architecture">
+        <TopicSection id="topic-7" title="7. Competitive Landscape">
           <Text color="gray.300" mb={6}>
             Our microservices architecture ensures high availability and scalability. We are migrating legacy services to Kubernetes clusters to improve orchestration.
             Database sharding is implemented for high-volume transaction tables.
           </Text>
         </TopicSection>
 
-        <TopicSection id="topic-8" title="8. Security & Compliance">
+        <TopicSection id="topic-8" title="8. Business Model">
           <Text color="gray.300" mb={6}>
             We adhere to the strictest industry standards to protect customer data.
           </Text>
@@ -176,14 +176,14 @@ export default function CodeSuccessPage() {
           />
         </TopicSection>
 
-        <TopicSection id="topic-9" title="9. Team Structure">
+        <TopicSection id="topic-9" title="9. Go-To-Market Strategy">
           <Text color="gray.300" mb={6}>
             Our team is organized into cross-functional squads focused on specific product verticals.
             Engineering comprises 45% of the workforce, with Sales and Marketing at 30%.
           </Text>
         </TopicSection>
 
-        <TopicSection id="topic-10" title="10. Funding History">
+        <TopicSection id="topic-10" title="10. Traction & Validation">
           <Text color="gray.300" mb={6}>
             Overview of capital raised to date and valuation milestones.
           </Text>
@@ -196,7 +196,7 @@ export default function CodeSuccessPage() {
           />
         </TopicSection>
 
-        <TopicSection id="topic-11" title="11. Strategic Partnerships">
+        <TopicSection id="topic-11" title="11. Teams">
           <Text color="gray.300" mb={6}>
             Key alliances that drive distribution and technology integration.
           </Text>
@@ -210,7 +210,7 @@ export default function CodeSuccessPage() {
           />
         </TopicSection>
 
-        <TopicSection id="topic-12" title="12. Risk Assessment">
+        <TopicSection id="topic-12" title="12. Financial Projections (3-Year Summary">
           <Text color="gray.300" mb={6}>
             Evaluation of potential risks and mitigation strategies.
           </Text>
@@ -226,14 +226,14 @@ export default function CodeSuccessPage() {
           </Text>
         </TopicSection>
 
-        <TopicSection id="topic-13" title="13. Marketing Channels">
+        <TopicSection id="topic-13" title="13. Capital Requirements">
           <Text color="gray.300" mb={6}>
             We are diversifying our marketing mix to reduce dependency on paid acquisition.
             Content marketing and community building are becoming primary drivers.
           </Text>
         </TopicSection>
 
-        <TopicSection id="topic-14" title="14. Sales Funnel Metrics">
+        <TopicSection id="topic-14" title="14. Exit Strategy">
           <Text color="gray.300" mb={6}>
             Conversion rates at each stage of the sales funnel.
           </Text>
@@ -257,7 +257,7 @@ export default function CodeSuccessPage() {
           />
         </TopicSection>
 
-        <TopicSection id="topic-15" title="15. Customer Feedback">
+        <TopicSection id="topic-15" title="15. Investment Proposition">
           <Text color="gray.300" mb={6}>
             Recent feedback from enterprise clients highlights ease of use and support quality.
           </Text>
@@ -271,13 +271,16 @@ export default function CodeSuccessPage() {
           />
         </TopicSection>
 
-        <TopicSection id="topic-16" title="16. Future Outlook">
+        <TopicSection id="topic-16" title="16. Conclusion">
           <Text color="gray.300" mb={6}>
-            We are positioned to become the market leader in the next 24 months. 
-            Continued investment in R&D and customer success will drive this growth.
+            AI safety is no longer optional—it is a regulatory and operational requirement. Secode™ fills the most
+critical gap in the AI lifecycle by securing development itself. With increasing global mandates, strong
+technical validation, and zero competition in its category, Secode™ is uniquely positioned for rapid
+adoption and scale.
           </Text>
-          <Text color="gray.300">
-            End of confidential memorandum.
+          <Text color="gray.300" fontWeight={"bold"}>
+            Investing now provides early ownership in a category-defining platform at the moment the market is
+forming.
           </Text>
         </TopicSection>
 
