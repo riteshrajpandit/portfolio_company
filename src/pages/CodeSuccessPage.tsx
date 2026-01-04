@@ -100,12 +100,12 @@ export default function CodeSuccessPage() {
             Current Industry Gap
           </Heading>
           <VStack align="start" gap={2} mb={6}>
-            <Text color="green.400">✔ MLOps tools validate after training</Text>
-            <Text color="green.400">✔ Guardrails defend after inference</Text>
-            <Text color="green.400">✔ Monitoring tools alert after misuse</Text>
-            <Text color="red.400">❌ Nothing protects AI during creation — where 70% of AI risks actually originate.</Text>
+            <Text color="gray.400">✔ MLOps tools validate after training</Text>
+            <Text color="gray.400">✔ Guardrails defend after inference</Text>
+            <Text color="gray.400" mb={4}>✔ Monitoring tools alert after misuse</Text>
+            <Text color="gray.200" fontWeight={"bold"}>❌ Nothing protects AI during creation — where 70% of AI risks actually originate.</Text>
           </VStack>
-          <Text color="white" fontWeight="bold" fontSize="lg">
+          <Text color="red.500" fontWeight="bold" fontSize="lg">
             The AI industry is missing the “DevSecOps for AI” layer.
           </Text>
         </TopicSection>
@@ -242,7 +242,7 @@ export default function CodeSuccessPage() {
             ]}
           />
 
-          <Box display="grid" gridTemplateColumns={{ base: "1fr", md: "1fr 1fr 1fr" }} gap={4} my={6}>
+          <Box display="grid"  gap={4} my={6}>
             <Box bg="whiteAlpha.50" p={4} borderRadius="lg">
               <Heading size="sm" color="blue.300" mb={2}>TAM (Total Addressable Market): $12.5B</Heading>
               <Text fontSize="sm" color="gray.400">AI developers, AI-first enterprises, regulated industries</Text>
@@ -272,7 +272,7 @@ export default function CodeSuccessPage() {
               "USA NIST AI RMF adopted widely"
             ]}
           />
-          <Text color="white" fontWeight="bold" mt={4}>
+          <Text color="green" fontWeight="bold" mt={4}>
             The timing for Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> is ideal.
           </Text>
         </TopicSection>
