@@ -1,9 +1,10 @@
 import { Box, Table } from "@chakra-ui/react"
+import type { ReactNode } from "react"
 
 interface LandscapeRow {
   category: string
   companies: string
-  gap: string
+  gap: ReactNode
   highlight?: boolean
 }
 

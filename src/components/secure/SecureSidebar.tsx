@@ -1,11 +1,12 @@
 import { Box, VStack, Text, Button, Drawer } from "@chakra-ui/react"
 import { Link as ScrollLink } from "react-scroll"
 import { useState } from "react"
+import type { ReactNode } from "react"
 import { HiMenu } from "react-icons/hi"
 
 interface Topic {
   id: string
-  title: string
+  title: ReactNode
 }
 
 interface SecureSidebarProps {

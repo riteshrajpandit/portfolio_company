@@ -3,7 +3,7 @@ import type { ReactNode } from "react"
 
 interface TopicSectionProps {
   id: string
-  title: string
+  title: ReactNode
   description?: string
   children: ReactNode
 }

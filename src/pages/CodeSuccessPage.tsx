@@ -1,20 +1,18 @@
 import { useEffect } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
-import { VStack, Text, Heading, Box, Table } from "@chakra-ui/react"
+import { VStack, Text, Heading, Box, Table, Link } from "@chakra-ui/react"
 import { useHideChatbot } from "@/hooks/useHideChatbot"
 import { SecureLayout } from "@/components/secure/SecureLayout"
 import { SecureSidebar } from "@/components/secure/SecureSidebar"
 import { TopicSection } from "@/components/secure/TopicSection"
 import { BulletList } from "@/components/secure/content/BulletList"
-import { ComparisonTable } from "@/components/secure/content/ComparisonTable"
 import { CompetitiveLandscapeTable } from "@/components/secure/content/CompetitiveLandscapeTable"
-import { RevenueTable } from "@/components/secure/content/RevenueTable"
 import { DataChart } from "@/components/secure/content/DataChart"
 
 const TOPICS = [
   { id: "topic-1", title: "Executive Summary" },
   { id: "topic-2", title: "Problem Statement" },
-  { id: "topic-3", title: "The Solution: Secode™" },
+  { id: "topic-3", title: <span>The Solution: Secode<sup style={{ fontSize: '0.6em' }}>TM</sup></span> },
   { id: "topic-4", title: "Product Overview" },
   { id: "topic-5", title: "Technology & Architecture" },
   { id: "topic-6", title: "Market Opportunity" },
@@ -112,7 +110,7 @@ export default function CodeSuccessPage() {
           </Text>
         </TopicSection>
 
-        <TopicSection id="topic-3" title="3. The Solution: Secode™">
+        <TopicSection id="topic-3" title={<span>3. The Solution: Secode<sup style={{ fontSize: '0.6em' }}>TM</sup></span>}>
           <Text color="gray.300" mb={6}>
             Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> is a Secure Vibe Code Generator and Pre-MLOps AI Security Platform that enforces trusted AI
             development at the source.
@@ -179,7 +177,7 @@ export default function CodeSuccessPage() {
               />
             </Box>
             <Box bg="whiteAlpha.50" p={6} borderRadius="lg">
-              <Heading size="sm" color="blue.300" mb={4}>2. Dataset Guardian™</Heading>
+              <Heading size="sm" color="blue.300" mb={4}>2. Dataset Guardian<sup style={{ fontSize: '0.6em' }}>TM</sup></Heading>
               <BulletList
                 items={[
                   "Detects malicious or biased datasets",
@@ -286,7 +284,7 @@ export default function CodeSuccessPage() {
               { category: "MLOps Safety", companies: "Weights & Biases, TruEra, Arthur", gap: "Validate models post-training" },
               { category: "Data Scanning", companies: "Snorkel, Cleanlab", gap: "Limited to dataset quality" },
               { category: "DevSecOps Tools", companies: "Snyk, GitGuardian", gap: "Not AI-specific" },
-              { category: "Pre-MLOps AI Safety", companies: "None", gap: "Secode™ is first mover", highlight: true },
+              { category: "Pre-MLOps AI Safety", companies: "None", gap: <span>Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> is first mover</span>, highlight: true },
             ]}
           />
 
@@ -444,9 +442,9 @@ export default function CodeSuccessPage() {
                 challenges at scale, working closely with global tech
                 and cybersecurity leaders.
               </Text>
-              <Box as="a" href="https://www.linkedin.com/in/rameshbhandari1/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+              <Link href="https://www.linkedin.com/in/rameshbhandari1/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
                 LinkedIn Profile
-              </Box>
+              </Link>
             </Box>
 
             {/* Manoj Neupane */}
@@ -468,9 +466,9 @@ export default function CodeSuccessPage() {
                 Secode’s credibility with regulators, financial
                 institutions, and institutional investors.
               </Text>
-              <Box as="a" href="https://www.linkedin.com/in/manoj-neupane-b87542b1/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+              <Link href="https://www.linkedin.com/in/manoj-neupane-b87542b1/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
                 LinkedIn Profile
-              </Box>
+              </Link>
             </Box>
 
             {/* Divyendu Bhatt */}
@@ -494,9 +492,9 @@ export default function CodeSuccessPage() {
                 is built with real-world attacker awareness and
                 enterprise-grade rigor.
               </Text>
-              <Box as="a" href="https://www.linkedin.com/in/dm-bhatt-0bb8a48/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+              <Link href="https://www.linkedin.com/in/dm-bhatt-0bb8a48/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
                 LinkedIn Profile
-              </Box>
+              </Link>
             </Box>
 
             {/* Suresh Bhandari */}
@@ -516,9 +514,9 @@ export default function CodeSuccessPage() {
                 strengthens Secode’s ability to execute sustainably
                 while navigating complex commercial environments.
               </Text>
-              <Box as="a" href="https://www.linkedin.com/in/sureshbhandari/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+              <Link href="https://www.linkedin.com/in/sureshbhandari/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
                 LinkedIn Profile
-              </Box>
+              </Link>
             </Box>
 
             {/* Tejash Raj Katuwal */}
@@ -539,9 +537,9 @@ export default function CodeSuccessPage() {
                 resources, enabling Secode to innovate rapidly while
                 maintaining engineering efficiency.
               </Text>
-              <Box as="a" href="https://www.linkedin.com/in/tejash-katuwal/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+              <Link href="https://www.linkedin.com/in/tejash-katuwal/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
                 LinkedIn Profile
-              </Box>
+              </Link>
             </Box>
 
             {/* Nibesh Suwal */}
@@ -561,9 +559,9 @@ export default function CodeSuccessPage() {
                 optimization, and security underpins Secode’s ability
                 to operate as a trusted enterprise security platform.
               </Text>
-              <Box as="a" href="https://www.linkedin.com/in/nibesh-suwal/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+              <Link href="https://www.linkedin.com/in/nibesh-suwal/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
                 LinkedIn Profile
-              </Box>
+              </Link>
             </Box>
 
             {/* Ritesh Raj Pandit */}
@@ -582,9 +580,9 @@ export default function CodeSuccessPage() {
                 advanced security capabilities remain accessible,
                 usable, and adoption-ready for enterprise customers.
               </Text>
-              <Box as="a" href="https://www.linkedin.com/in/riteshrajpandit/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+              <Link href="https://www.linkedin.com/in/riteshrajpandit/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
                 LinkedIn Profile
-              </Box>
+              </Link>
             </Box>
 
             {/* Abiral Bhandari */}
@@ -604,9 +602,9 @@ export default function CodeSuccessPage() {
                 that meet performance, reliability, and scalability
                 standards.
               </Text>
-              <Box as="a" href="https://www.linkedin.com/in/abiralbhandari/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+              <Link href="https://www.linkedin.com/in/abiralbhandari/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
                 LinkedIn Profile
-              </Box>
+              </Link>
             </Box>
           </Box>
           <Text color="white" fontWeight="bold" fontSize="lg">
