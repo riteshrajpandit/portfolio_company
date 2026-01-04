@@ -49,11 +49,17 @@ export default function CodeSuccessPage() {
     >
       <VStack gap={12} align="stretch">
         <Box mb={8}>
-          <Heading size="2xl" mb={4} bgGradient="linear(to-r, blue.400, purple.500)" bgClip="text">
-            Confidential Information Memorandum
+          <Text fontSize="md" fontWeight={"bold"} color="gray.400">
+            Investor Memorandum
+          </Text>
+          <Text fontSize="md"  color="gray.500">
+            Confidential – For Investor Review Only
+          </Text>
+          <Heading size="2xl" mt={4} mb={2} color={"white"}>
+            Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> - Clean AI Security
           </Heading>
-          <Text fontSize="xl" color="gray.400">
-            Strictly confidential. For authorized eyes only.
+          <Text fontSize="md" color="gray.400">
+            Stage: Proof of Concept Completed | Funding: Bootstrapped
           </Text>
         </Box>
 
@@ -665,17 +671,16 @@ export default function CodeSuccessPage() {
         </TopicSection>
 
         <TopicSection id="topic-13" title="13. Capital Requirements">
-          <Box mb={8}>
-            <Heading size="md" color="white" mb={2}>
-              Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> is opening a Pre-Seed Round of $1.1M
-            </Heading>
-            <Text color="blue.300" fontSize="lg" fontWeight="bold">
-              Valuation: USD 5.5M, Pre-Money
-            </Text>
-          </Box>
-
           <Box display="grid" gridTemplateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={8} mb={8}>
             <Box>
+              <Box mb={8}>
+                <Heading size="md" color="white" mb={2}>
+                  Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> is opening a Pre-Seed Round of $1.1M
+                </Heading>
+                <Text color="blue.300" fontSize="lg" fontWeight="bold">
+                  Valuation: USD 5.5M, Pre-Money
+                </Text>
+              </Box>
               <Heading size="sm" color="white" mb={4}>Use of Funds</Heading>
               <BulletList 
                 items={[
@@ -686,42 +691,97 @@ export default function CodeSuccessPage() {
                 ]} 
               />
             </Box>
-            <Box bg="whiteAlpha.50" p={4} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
+            <Box bg="whiteAlpha.50"  borderRadius="xl">
                <DataChart 
                 type="bar"
                 data={{
-                  labels: ['Product Dev', 'Compliance', 'GTM', 'Legal/Ops'],
-                  datasets: [{
-                    label: 'Allocation %',
-                    data: [45, 25, 20, 10],
-                    backgroundColor: [
-                      'rgba(103, 232, 249, 0.8)', // Cyan
-                      'rgba(34, 211, 238, 0.8)',  // Cyan Darker
-                      'rgba(59, 130, 246, 0.8)',  // Blue
-                      'rgba(30, 58, 138, 0.8)',   // Dark Blue
-                    ],
-                    borderWidth: 0,
-                    borderRadius: 4,
-                  }]
+                  labels: [''],
+                  datasets: [
+                    {
+                      label: 'Product Development & Engineering',
+                      data: [45],
+                      backgroundColor: '#67e8f9',
+                      borderColor: '#67e8f9',
+                      borderWidth: 1,
+                      barPercentage: 0.8,
+                      categoryPercentage: 0.8
+                    },
+                    {
+                      label: 'Compliance frameworks & certifications',
+                      data: [25],
+                      backgroundColor: '#22d3ee',
+                      borderColor: '#22d3ee',
+                      borderWidth: 1,
+                      barPercentage: 0.8,
+                      categoryPercentage: 0.8
+                    },
+                    {
+                      label: 'Go-to-market (sales, marketing)',
+                      data: [20],
+                      backgroundColor: '#3b82f6',
+                      borderColor: '#3b82f6',
+                      borderWidth: 1,
+                      barPercentage: 0.8,
+                      categoryPercentage: 0.8
+                    },
+                    {
+                      label: 'Legal, patenting, operations',
+                      data: [10],
+                      backgroundColor: '#1e3a8a',
+                      borderColor: '#1e3a8a',
+                      borderWidth: 1,
+                      barPercentage: 0.8,
+                      categoryPercentage: 0.8
+                    }
+                  ]
                 }}
                 options={{
+                  responsive: true,
+                  maintainAspectRatio: false,
                   plugins: {
-                    legend: { display: false },
-                    tooltip: { 
+                    legend: {
+                      position: 'top',
+                      align: 'center',
+                      labels: {
+                        color: 'white',
+                        usePointStyle: true,
+                        boxWidth: 10,
+                        padding: 15,
+                        font: { size: 10 }
+                      }
+                    },
+                    datalabels: {
+                      display: true,
+                      color: 'white',
+                      anchor: 'end',
+                      align: 'end',
+                      offset: -5,
+                      font: {
+                        weight: 'bold',
+                        size: 12
+                      }
+                    },
+                    tooltip: {
                       callbacks: {
-                        label: (context) => `${context.raw}%`
+                        label: (context) => `${context.dataset.label}: ${context.raw}%`
                       }
                     }
                   },
                   scales: {
-                    y: { 
-                      beginAtZero: true, 
-                      grid: { color: 'rgba(255,255,255,0.1)' }, 
-                      ticks: { color: '#cbd5e0' } 
+                    x: {
+                      display: false,
+                      grid: { display: false }
                     },
-                    x: { 
-                      grid: { display: false }, 
-                      ticks: { color: '#cbd5e0', font: { size: 10 } } 
+                    y: {
+                      display: true,
+                      grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                      ticks: { color: 'rgba(255, 255, 255, 0.7)' },
+                      suggestedMax: 55
+                    }
+                  },
+                  layout: {
+                    padding: {
+                      top: -10,
                     }
                   }
                 }}

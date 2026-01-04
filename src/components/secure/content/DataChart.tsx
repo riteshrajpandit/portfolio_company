@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
+import ChartDataLabels from 'chartjs-plugin-datalabels'
 import type { ChartData, ChartOptions } from 'chart.js'
 import { Bar, Line } from 'react-chartjs-2'
 
@@ -21,7 +22,8 @@ ChartJS.register(
   PointElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ChartDataLabels
 )
 
 interface DataChartProps {
