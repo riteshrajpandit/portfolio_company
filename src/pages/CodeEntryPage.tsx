@@ -105,7 +105,7 @@ const CodeEntryPage = () => {
 
       try {
         const response = await apiService.useCode(data.code)
-        
+
         if (response.success) {
           toaster.create({
             title: "Access Granted",
@@ -217,22 +217,23 @@ const CodeEntryPage = () => {
                   letterSpacing="tight"
                   color="white"
                 >
-                  Verification Required
+                  Welcome to Secode
                 </Heading>
-                <Text 
-                  fontSize={{ base: "md", md: "lg" }} 
-                  color="gray.400" 
-                  maxW="sm" 
+                <Text
+                  fontSize={{ base: "md", md: "lg" }}
+                  color="gray.400"
+                  maxW="sm"
                   mx="auto"
                   px={{ base: 2, sm: 0 }}
                 >
-                  Input your 6-digit access code.
+                  {/* Input your 6-digit access code. */}
+                  Please enter your 6-digit secure PIN to unlock the confidential business pitch and financial data. 
                 </Text>
               </VStack>
 
               {/* Input Section */}
-              <form 
-                onSubmit={handleSubmit(onSubmit)} 
+              <form
+                onSubmit={handleSubmit(onSubmit)}
                 onKeyDown={handleKeyDown}
                 noValidate
               >
@@ -250,12 +251,12 @@ const CodeEntryPage = () => {
                         onValueChange={(e) => {
                           const newValue = e.value.join("")
                           const currentValue = field.value || ""
-                          
+
                           // Prevent overwriting if already full
                           if (currentValue.length === 6 && newValue.length === 6 && currentValue !== newValue) {
                             return
                           }
-                          
+
                           field.onChange(newValue)
                         }}
                         count={6}
@@ -263,8 +264,8 @@ const CodeEntryPage = () => {
                         otp
                         attached={false}
                       >
-                        <HStack 
-                          gap={{ base: 2, sm: 3 }} 
+                        <HStack
+                          gap={{ base: 2, sm: 3 }}
                           justify="center"
                           flexWrap="wrap"
                         >
@@ -317,14 +318,14 @@ const CodeEntryPage = () => {
                 borderColor="whiteAlpha.100"
                 align="stretch"
               >
-                <SecurityBadge 
-                  icon={HiClock} 
-                  label="24-Hour Validity" 
+                <SecurityBadge
+                  icon={HiClock}
+                  label="24-Hour Validity"
                   description="Once activated, your access session remains valid for 24 hours."
                 />
-                <SecurityBadge 
-                  icon={HiShieldCheck} 
-                  label="One-Time Activation" 
+                <SecurityBadge
+                  icon={HiShieldCheck}
+                  label="One-Time Activation"
                   description="Each code can only be activated once. Please ensure you are ready to use it."
                 />
               </VStack>
