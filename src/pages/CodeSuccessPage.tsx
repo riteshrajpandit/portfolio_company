@@ -25,7 +25,8 @@ const TOPICS = [
   { id: "topic-13", title: "Captital Requirements" },
   { id: "topic-14", title: "Exit Strategy" },
   { id: "topic-15", title: "Investment Proposition" },
-  { id: "topic-16", title: "Conclusion" },
+  { id: "topic-16", title: "Fund Commitment" },
+  { id: "topic-17", title: "Conclusion" },
 ]
 
 export default function CodeSuccessPage() {
@@ -427,10 +428,34 @@ export default function CodeSuccessPage() {
           </Heading>
 
           <Box display="grid" gridTemplateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6} mb={8}>
+            {/* Manoj Neupane */}
+            <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
+              <Heading size="md" color="white" mb={1}>Mr. Manoj Neupane</Heading>
+              <Text color="blue.300" fontWeight="bold" mb={3}>Founder Chairman & CFO
+</Text>
+              <Text color="gray.300" fontSize="sm" mb={4}>
+                Mr. Manoj Neupane is a highly respected banking and
+                finance leader with over 20 years of experience in
+                Nepal’s financial sector. He previously served as the
+                Chief Executive Officer of a Class A Commercial
+                Bank , where he led large-scale operations,
+                regulatory compliance, risk governance, and
+                balance-sheet management. As Chairman of the
+                Board at Secode, he provides strategic oversight,
+                institutional governance discipline, and deep insight
+                into enterprise risk, regulatory expectations, and
+                financial system security. His leadership anchors
+                Secode’s credibility with regulators, financial
+                institutions, and institutional investors.
+              </Text>
+              <Link href="https://www.linkedin.com/in/manoj-neupane-b87542b1/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+                LinkedIn Profile
+              </Link>
+            </Box>
             {/* Ramesh Bhandari */}
             <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
-              <Heading size="md" color="white" mb={1}>Ramesh Bhandari</Heading>
-              <Text color="blue.300" fontWeight="bold" mb={3}>Founder</Text>
+              <Heading size="md" color="white" mb={1}>Mr. Ramesh Bhandari</Heading>
+              <Text color="blue.300" fontWeight="bold" mb={3}>Founder & CEO</Text>
               <Text color="gray.300" fontSize="sm" mb={4}>
                 Ramesh Bhandari is a serial entrepreneur with a
                 strong track record of building and scaling
@@ -453,34 +478,13 @@ export default function CodeSuccessPage() {
               </Link>
             </Box>
 
-            {/* Manoj Neupane */}
-            <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
-              <Heading size="md" color="white" mb={1}>Mr. Manoj Neupane</Heading>
-              <Text color="blue.300" fontWeight="bold" mb={3}>Co-Founder</Text>
-              <Text color="gray.300" fontSize="sm" mb={4}>
-                Mr. Manoj Neupane is a highly respected banking and
-                finance leader with over 20 years of experience in
-                Nepal’s financial sector. He previously served as the
-                Chief Executive Officer of a Class A Commercial
-                Bank , where he led large-scale operations,
-                regulatory compliance, risk governance, and
-                balance-sheet management. As Chairman of the
-                Board at Secode, he provides strategic oversight,
-                institutional governance discipline, and deep insight
-                into enterprise risk, regulatory expectations, and
-                financial system security. His leadership anchors
-                Secode’s credibility with regulators, financial
-                institutions, and institutional investors.
-              </Text>
-              <Link href="https://www.linkedin.com/in/manoj-neupane-b87542b1/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
-                LinkedIn Profile
-              </Link>
-            </Box>
+            
 
             {/* Divyendu Bhatt */}
             <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
               <Heading size="md" color="white" mb={1}>Mr. Divyendu Bhatt</Heading>
-              <Text color="blue.300" fontWeight="bold" mb={3}>Co-Founder & CTO</Text>
+              <Text color="blue.300" fontWeight="bold" mb={3}>Founder, CTO & CISO
+</Text>
               <Text color="gray.300" fontSize="sm" mb={4}>
                 Mr. Divyendu Bhatt is a globally seasoned
                 cybersecurity executive with over 25 years of
@@ -506,7 +510,7 @@ export default function CodeSuccessPage() {
             {/* Suresh Bhandari */}
             <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
               <Heading size="md" color="white" mb={1}>Mr. Suresh Bhandari</Heading>
-              <Text color="blue.300" fontWeight="bold" mb={3}>Co-Founder</Text>
+              <Text color="blue.300" fontWeight="bold" mb={3}>Founder & COO</Text>
               <Text color="gray.300" fontSize="sm" mb={4}>
                 Mr. Suresh Bhandari brings over 25 years of
                 experience across business consulting, ICT, and
@@ -528,7 +532,7 @@ export default function CodeSuccessPage() {
             {/* Tejash Raj Katuwal */}
             <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
               <Heading size="md" color="white" mb={1}>Mr. Tejash Raj Katuwal</Heading>
-              <Text color="blue.300" fontWeight="bold" mb={3}>Co-Founder & Engineer</Text>
+              <Text color="blue.300" fontWeight="bold" mb={3}>Founder & Engineer</Text>
               <Text color="gray.300" fontSize="sm" mb={4}>
                 Mr. Tejash Raj Katuwal is an AI engineer focused on
                 building practical, production-ready intelligence
@@ -551,7 +555,7 @@ export default function CodeSuccessPage() {
             {/* Nibesh Suwal */}
             <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
               <Heading size="md" color="white" mb={1}>Mr. Nibesh Suwal</Heading>
-              <Text color="blue.300" fontWeight="bold" mb={3}>Co-Founder & Engineer</Text>
+              <Text color="blue.300" fontWeight="bold" mb={3}>Founder & Engineer</Text>
               <Text color="gray.300" fontSize="sm" mb={4}>
                 Mr. Nibesh Suwal is a backend-focused architecture
                 engineer with deep involvement in designing secure,
@@ -573,7 +577,7 @@ export default function CodeSuccessPage() {
             {/* Ritesh Raj Pandit */}
             <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
               <Heading size="md" color="white" mb={1}>Mr. Ritesh Raj Pandit</Heading>
-              <Text color="blue.300" fontWeight="bold" mb={3}>Co-Founder & Engineer</Text>
+              <Text color="blue.300" fontWeight="bold" mb={3}>Founder & Engineer</Text>
               <Text color="gray.300" fontSize="sm" mb={4}>
                 Mr. Ritesh Raj Pandit leads product experience and
                 interface design at Secode, bridging business logic
@@ -594,7 +598,7 @@ export default function CodeSuccessPage() {
             {/* Abiral Bhandari */}
             <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
               <Heading size="md" color="white" mb={1}>Mr. Abiral Bhandari</Heading>
-              <Text color="blue.300" fontWeight="bold" mb={3}>Co-Founder & Engineer</Text>
+              <Text color="blue.300" fontWeight="bold" mb={3}>Founder & Engineer</Text>
               <Text color="gray.300" fontSize="sm" mb={4}>
                 Mr. Abiral Bhandari brings a strong background in
                 system analysis, architecture planning, and project
@@ -867,7 +871,19 @@ export default function CodeSuccessPage() {
           </Text>
         </TopicSection>
 
-        <TopicSection id="topic-16" title="16. Conclusion">
+        {/* {* Fund Commitment*} */}
+        <TopicSection id="topic-16" title="16. Fund Commitment">
+          <Text color="gray.300" mb={6}>
+            USD 200,000.00 has been committed to invest in Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> on the terms outlined in this deck. We
+            invite you to join us in this opportunity to lead the future of secure AI development.
+          </Text>
+          <Text color="gray.300" fontWeight={"bold"}>
+            Total Commitment: USD 200,000.00
+          </Text>
+          
+        </TopicSection>
+
+        <TopicSection id="topic-17" title="Conclusion">
           <Text color="gray.300" mb={6}>
             AI safety is no longer optional—it is a regulatory and operational requirement. Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> fills the most
             critical gap in the AI lifecycle by securing development itself. With increasing global mandates, strong
