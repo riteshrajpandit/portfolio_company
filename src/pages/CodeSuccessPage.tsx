@@ -1,6 +1,6 @@
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
-import { VStack, Text, Heading, Box, Table, Link } from "@chakra-ui/react"
+import { VStack, Text, Heading, Box, Table, Link, HStack, Slider, NumberInput } from "@chakra-ui/react"
 import { useHideChatbot } from "@/hooks/useHideChatbot"
 import { SecureLayout } from "@/components/secure/SecureLayout"
 import { SecureSidebar } from "@/components/secure/SecureSidebar"
@@ -33,6 +33,7 @@ export default function CodeSuccessPage() {
   useHideChatbot()
   const navigate = useNavigate()
   const location = useLocation()
+  const [amount, setAmount] = useState(200000)
 
   useEffect(() => {
     if (!location.state?.verified) {
@@ -53,7 +54,7 @@ export default function CodeSuccessPage() {
           <Text fontSize="md" fontWeight={"bold"} color="gray.400">
             Investor Memorandum
           </Text>
-          <Text fontSize="md"  color="gray.500">
+          <Text fontSize="md" color="gray.500">
             Confidential – For Investor Review Only
           </Text>
           <Heading size="2xl" mt={4} mb={2} color={"white"}>
@@ -249,23 +250,113 @@ export default function CodeSuccessPage() {
             ]}
           />
 
-          <Box display="grid"  gap={4} my={6}>
+          <Box display="grid" gap={4} my={6}>
             <Box bg="whiteAlpha.50" p={4} borderRadius="lg">
-              <Heading size="sm" color="blue.300" mb={2}>TAM (Total Addressable Market): $12.5B</Heading>
-              <Text fontSize="sm" color="gray.400">AI developers, AI-first enterprises, regulated industries</Text>
+              <HStack gap={6} align="center">
+                <Text
+                  fontSize="5xl"
+                  fontWeight="extrabold"
+                  lineHeight="1"
+                  letterSpacing="tight"
+                  // The core technique:
+                  // 1. Make the actual text color transparent so the background shows through.
+                  color="transparent"
+                  // 2. Define the white border (stroke).
+                  css={{
+                    WebkitTextStroke: "1px #a3cfff",
+                    // 3. Create the "Fold" effect using a hard-stop linear gradient.
+                    // We go from White -> Transparent/Blue Shadow to mimic a fold line.
+                    backgroundImage: "linear-gradient(75deg, white 0%, white 20%, #3eb5ffff 45%, #000000ff 100%)",
+                    // 4. Clip the background to the text shape.
+                    backgroundClip: "text",
+                    WebkitBackgroundClip: "text",
+                    // Optional: Add a subtle drop shadow to lift it off the page
+                    filter: "drop-shadow(0px 10px 20px rgba(0, 119, 255, 0.3))",
+                  }}
+                >
+                  $ 12.50<Text as="span" fontSize="3xl">B</Text>
+                </Text>
+                <Box>
+                  <Heading size="sm" color="blue.300" mb={1}>TAM (Total Addressable Market)</Heading>
+                  <Text fontSize="sm" color="gray.400">AI developers, AI-first enterprises, regulated industries</Text>
+                </Box>
+              </HStack>
             </Box>
+
             <Box bg="whiteAlpha.50" p={4} borderRadius="lg">
-              <Heading size="sm" color="blue.300" mb={2}>SAM (Serviceable Available Market): $3.4B</Heading>
-              <Text fontSize="sm" color="gray.400">Fintech, healthcare, autonomous systems, defense, GovTech</Text>
+              <HStack gap={6} align="center">
+                <Text
+                  fontSize="5xl"
+                  fontWeight="extrabold"
+                  lineHeight="1"
+                  letterSpacing="tight"
+                  // The core technique:
+                  // 1. Make the actual text color transparent so the background shows through.
+                  color="transparent"
+                  // 2. Define the white border (stroke).
+                  css={{
+                    WebkitTextStroke: "1px #a3cfff",
+                    // 3. Create the "Fold" effect using a hard-stop linear gradient.
+                    // We go from White -> Transparent/Blue Shadow to mimic a fold line.
+                    backgroundImage: "linear-gradient(75deg, white 0%, white 20%, #3eb5ffff 45%, #000000ff 100%)",
+                    // 4. Clip the background to the text shape.
+                    backgroundClip: "text",
+                    WebkitBackgroundClip: "text",
+                    // Optional: Add a subtle drop shadow to lift it off the page
+                    filter: "drop-shadow(0px 10px 20px rgba(0, 119, 255, 0.3))",
+                  }}
+                >
+                  $ 3.40<Text as="span" fontSize="3xl">B</Text>
+                </Text>
+                <Box>
+                  <Heading size="sm" color="blue.300" mb={1}>SAM (Serviceable Available Market)</Heading>
+                  <Text fontSize="sm" color="gray.400">Fintech, healthcare, autonomous systems, defense, GovTech</Text>
+                </Box>
+              </HStack>
             </Box>
+
             <Box bg="whiteAlpha.50" p={4} borderRadius="lg">
-              <Heading size="sm" color="blue.300" mb={2}>SOM (Serviceable Obtainable Market): $150M</Heading>
-              <Text fontSize="sm" color="gray.400">in 3–5 years (5,000 enterprises → 500,000 developers)</Text>
+              <HStack gap={6} align="center">
+                <Text
+                  fontSize="5xl"
+                  fontWeight="extrabold"
+                  lineHeight="1"
+                  letterSpacing="tight"
+                  // The core technique:
+                  // 1. Make the actual text color transparent so the background shows through.
+                  color="transparent"
+                  // 2. Define the white border (stroke).
+                  css={{
+                    WebkitTextStroke: "1px #a3cfff",
+                    // 3. Create the "Fold" effect using a hard-stop linear gradient.
+                    // We go from White -> Transparent/Blue Shadow to mimic a fold line.
+                    backgroundImage: "linear-gradient(75deg, white 0%, white 20%, #3eb5ffff 45%, #000000ff 100%)",
+                    // 4. Clip the background to the text shape.
+                    backgroundClip: "text",
+                    WebkitBackgroundClip: "text",
+                    // Optional: Add a subtle drop shadow to lift it off the page
+                    filter: "drop-shadow(0px 10px 20px rgba(0, 119, 255, 0.3))",
+                  }}
+                >
+                  $ 150<Text as="span" fontSize="3xl">M</Text>
+                </Text>
+                <Box>
+                  <Heading size="sm" color="blue.300" mb={1}>SOM (Serviceable Obtainable Market)</Heading>
+                  <Text fontSize="sm" color="gray.400">in 3–5 years (5,000 enterprises → 500,000 developers)</Text>
+                </Box>
+              </HStack>
             </Box>
           </Box>
 
-          <Text color="blue.200" fontWeight="bold" mb={6}>
-            Zero direct competitors in the Pre-MLOps category
+          <Text color="blue.200" fontWeight="bold" mb={6} fontSize="lg">
+            <Text as="span" fontSize="3xl" color="white" mr={1}
+            css={{
+              WebkitTextStroke: "1px #a3cfff",
+            }}
+            >
+
+              Zero
+              </Text> direct competitors in the Pre-MLOps category
           </Text>
 
           <Heading size="md" color="white" mb={4}>
@@ -432,7 +523,7 @@ export default function CodeSuccessPage() {
             <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
               <Heading size="md" color="white" mb={1}>Mr. Manoj Neupane</Heading>
               <Text color="blue.300" fontWeight="bold" mb={3}>Founder Chairman & CFO
-</Text>
+              </Text>
               <Text color="gray.300" fontSize="sm" mb={4}>
                 Mr. Manoj Neupane is a highly respected banking and
                 finance leader with over 20 years of experience in
@@ -478,13 +569,13 @@ export default function CodeSuccessPage() {
               </Link>
             </Box>
 
-            
+
 
             {/* Divyendu Bhatt */}
             <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
               <Heading size="md" color="white" mb={1}>Mr. Divyendu Bhatt</Heading>
               <Text color="blue.300" fontWeight="bold" mb={3}>Founder, CTO & CISO
-</Text>
+              </Text>
               <Text color="gray.300" fontSize="sm" mb={4}>
                 Mr. Divyendu Bhatt is a globally seasoned
                 cybersecurity executive with over 25 years of
@@ -686,17 +777,17 @@ export default function CodeSuccessPage() {
                 </Text>
               </Box>
               <Heading size="sm" color="white" mb={4}>Use of Funds</Heading>
-              <BulletList 
+              <BulletList
                 items={[
                   "45% → Product development & engineering",
                   "25% → Compliance frameworks & certifications",
                   "20% → Go-to-market (sales, marketing)",
                   "10% → Legal, patenting, operations"
-                ]} 
+                ]}
               />
             </Box>
-            <Box bg="whiteAlpha.50"  borderRadius="xl">
-               <DataChart 
+            <Box bg="whiteAlpha.50" borderRadius="xl">
+              <DataChart
                 type="bar"
                 data={{
                   labels: [''],
@@ -744,8 +835,8 @@ export default function CodeSuccessPage() {
                   maintainAspectRatio: false,
                   plugins: {
                     legend: {
-                      position: 'top',
-                      align: 'center',
+                      position: 'bottom',
+                      align: 'start',
                       labels: {
                         color: 'white',
                         usePointStyle: true,
@@ -785,7 +876,7 @@ export default function CodeSuccessPage() {
                   },
                   layout: {
                     padding: {
-                      top: -10,
+                      bottom: 0,
                     }
                   }
                 }}
@@ -795,7 +886,7 @@ export default function CodeSuccessPage() {
 
           <Box>
             <Heading size="sm" color="white" mb={4}>Milestones Post-Funding</Heading>
-            <BulletList 
+            <BulletList
               items={[
                 "Patent and IP protection activities",
                 "Full v1.0 release",
@@ -803,7 +894,7 @@ export default function CodeSuccessPage() {
                 "Launch of Compliance & Dataset products",
                 "U.S., EU, and India regulatory alignment",
                 "MLOps partner integrations"
-              ]} 
+              ]}
             />
           </Box>
         </TopicSection>
@@ -812,18 +903,18 @@ export default function CodeSuccessPage() {
           <Heading size="md" color="white" mb={4}>
             Potential exit paths include:
           </Heading>
-          
+
           <Box mb={6}>
             <Heading size="md" color="blue.300" mb={2}>
               1. Acquisition by
             </Heading>
-            <BulletList 
+            <BulletList
               items={[
                 "Cloud providers (AWS, Azure, GCP)",
                 "MLOps platforms",
                 "AI governance/enterprise security leaders",
                 "Compliance tech platforms"
-              ]} 
+              ]}
             />
           </Box>
 
@@ -854,8 +945,8 @@ export default function CodeSuccessPage() {
           <Heading size="md" color="white" mb={4}>
             Investors in Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> gain exposure to:
           </Heading>
-          
-          <BulletList 
+
+          <BulletList
             items={[
               "A new and rapidly expanding category (Pre-MLOps AI Safety)",
               "First-mover advantage with high defensibility",
@@ -863,7 +954,7 @@ export default function CodeSuccessPage() {
               "Regulatory alignment and compliance-driven demand",
               "Scalable architecture and strong GTM strategy",
               "Team with cross-domain expertise in AI and security"
-            ]} 
+            ]}
           />
 
           <Text color="white" fontWeight="bold" mt={6}>
@@ -871,16 +962,101 @@ export default function CodeSuccessPage() {
           </Text>
         </TopicSection>
 
-        {/* {* Fund Commitment*} */}
+        {/* Fund Commitment */}
         <TopicSection id="topic-16" title="16. Fund Commitment">
-          <Text color="gray.300" mb={6}>
-            USD 200,000.00 has been committed to invest in Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> on the terms outlined in this deck. We
+          <Text color="gray.300" mb={8}>
+            USD {amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} has been committed to invest in Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> on the terms outlined in this deck. We
             invite you to join us in this opportunity to lead the future of secure AI development.
           </Text>
-          <Text color="gray.300" fontWeight={"bold"}>
-            Total Commitment: USD 200,000.00
-          </Text>
-          
+
+          <Box
+            p={{ base: 6, md: 8 }}
+            bg="whiteAlpha.50"
+            borderRadius="xl"
+            border="1px solid"
+            borderColor="whiteAlpha.500"
+          >
+            <VStack gap={2} align="stretch" mb={4}>
+              <HStack justify="space-between" align="baseline">
+                <Text color="gray.400" fontSize="sm">Committed</Text>
+                <Text color="gray.400" fontSize="sm">Target</Text>
+              </HStack>
+              <HStack justify="space-between" align="baseline">
+                <HStack>
+                  <Text color="blue.300" fontSize={{ base: "xl", md: "2xl" }} fontWeight="bold">$</Text>
+                  <NumberInput.Root
+                    value={amount.toString()}
+                    min={0}
+                    max={1100000}
+                    step={1000}
+                    onValueChange={(e) => setAmount(e.valueAsNumber || 0)}
+                    width="180px"
+                  >
+                    <NumberInput.Input
+                      color="blue.300"
+                      fontSize={{ base: "xl", md: "2xl" }}
+                      fontWeight="bold"
+                      padding={0}
+                      border="none"
+                      _focus={{ boxShadow: "none" }}
+                    />
+                  </NumberInput.Root>
+                </HStack>
+                <Text color="gray.500" fontSize={{ base: "md", md: "lg" }}>$1,100,000</Text>
+              </HStack>
+            </VStack>
+
+            <HStack gap={6} align="center" direction={{ base: "column", sm: "row" }}>
+              <Slider.Root
+                width="full"
+                thumbAlignment="center"
+                value={[amount]}
+                min={0}
+                max={1100000}
+                step={1000}
+                onValueChange={(e) => setAmount(e.value[0])}
+                h="48px"
+              >
+                <Slider.Control h="48px">
+                  <Slider.Track
+                    h="48px"
+                    borderRadius="full"
+                    bg="whiteAlpha.100"
+                    overflow="hidden"
+                    backgroundImage="linear-gradient(45deg,rgba(255,255,255,.05) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.05) 50%,rgba(255,255,255,.05) 75%,transparent 75%,transparent)"
+                    backgroundSize="24px 24px"
+                  >
+                    <Slider.Range
+                      bg={"white"}
+                      bgGradient="linear(to-r, blue.400, blue.500)"
+                      boxShadow="0 0 20px rgba(59, 130, 246, 0.4)"
+                    />
+                  </Slider.Track>
+                  <Slider.Thumb
+                    index={0}
+                    boxSize={8}
+                    bg="white"
+                    boxShadow="0 0 10px rgba(0,0,0,0.5)"
+                    _focus={{ boxShadow: "0 0 0 3px rgba(66, 153, 225, 0.6)" }}
+                  />
+                </Slider.Control>
+              </Slider.Root>
+
+              <Text
+                fontSize={{ base: "3xl", md: "5xl" }}
+                fontWeight="light"
+                lineHeight="1"
+                color="white"
+                minW="fit-content"
+              >
+                {(amount / 1100000 * 100).toFixed(2)}%
+              </Text>
+            </HStack>
+
+            <Text color="gray.400" fontSize="sm" mt={6} textAlign="center">
+              Pre-Seed Round Progress
+            </Text>
+          </Box>
         </TopicSection>
 
         <TopicSection id="topic-17" title="Conclusion">
@@ -890,7 +1066,7 @@ export default function CodeSuccessPage() {
             technical validation, and zero competition in its category, Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> is uniquely positioned for rapid
             adoption and scale.
           </Text>
-          <Text color="gray.300" fontWeight={"bold"}>
+          <Text color="gray.300" fontWeight={"bold"} mb={400}>
             Investing now provides early ownership in a category-defining platform at the moment the market is
             forming.
           </Text>
