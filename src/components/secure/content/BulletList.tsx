@@ -13,7 +13,7 @@ export const BulletList = ({ items }: BulletListProps) => {
           <List.Indicator asChild>
             <Icon as={HiCheckCircle} color="green.400" mt={1} />
           </List.Indicator>
-          <Text color="gray.300" lineHeight="tall">
+          <Text color="gray.600" lineHeight="tall">
             {item}
           </Text>
         </List.Item>

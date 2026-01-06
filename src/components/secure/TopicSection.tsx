@@ -20,11 +20,11 @@ export const TopicSection = ({ id, title, description, children }: TopicSectionP
     >
       <VStack align="stretch" gap={6}>
         <Box>
-          <Heading size="2xl" color="white" mb={3}>
+          <Heading size="2xl" color="blackAlpha.800" mb={3}>
             {title}
           </Heading>
           {description && (
-            <Text fontSize="lg" color="gray.400" lineHeight="relaxed">
+            <Text fontSize="lg" color="gray.600" lineHeight="relaxed">
               {description}
             </Text>
           )}

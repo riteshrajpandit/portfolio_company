@@ -51,43 +51,43 @@ export default function CodeSuccessPage() {
     >
       <VStack gap={12} align="stretch">
         <Box mb={8}>
-          <Text fontSize="md" fontWeight={"bold"} color="gray.400">
+          <Text fontSize="md" fontWeight={"bold"} color="gray.500">
             Investor Memorandum
           </Text>
-          <Text fontSize="md" color="gray.500">
+          <Text fontSize="md" color="gray.600">
             Confidential – For Investor Review Only
           </Text>
-          <Heading size="2xl" mt={4} mb={2} color={"white"}>
+          <Heading size="2xl" mt={4} mb={2} color={"blackAlpha.800"}>
             Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> - Clean AI Security
           </Heading>
-          <Text fontSize="md" color="gray.400">
+          <Text fontSize="md" color="gray.600">
             Stage: Proof of Concept Completed | Funding: Bootstrapped
           </Text>
         </Box>
 
         <TopicSection id="topic-1" title="1. Executive Summary">
-          <Text color="gray.300" mb={4}>
+          <Text color="gray.600" mb={4}>
             Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> is the world’s first Pre-MLOps AI Security Platform, securing AI systems before they are built.
             AI failures such as hallucination, bias, privacy breaches, insecure code, and harmful datasets originate
             during the development process—not in production. Today’s AI safety market focuses almost entirely
             on runtime guardrails, model firewalls, and post-deployment monitoring.
           </Text>
-          <Text color="white" fontWeight="bold" fontSize="lg" mb={4}>
+          <Text color="blackAlpha.700" fontWeight="bold" fontSize="lg" mb={4}>
             Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> introduces a new category: AI safety at the point of creation.
           </Text>
-          <Text color="gray.300" mb={4}>
+          <Text color="gray.600" mb={4}>
             By integrating directly into the developer’s workflow, Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> enforces safety, security, fairness,
             privacy, and compliance as code, prompts, and datasets are being created—preventing unsafe artifacts
             from ever entering the MLOps pipeline.
           </Text>
-          <Text color="gray.300">
+          <Text color="gray.600">
             This memorandum outlines the market opportunity, product strategy, competitive position, team
             capability, and proposed investment structure.
           </Text>
         </TopicSection>
 
         <TopicSection id="topic-2" title="2. Problem Statement">
-          <Text color="gray.300" mb={4}>
+          <Text color="gray.700" mb={4}>
             As enterprises accelerate AI adoption, they face increasing risks:
           </Text>
           <BulletList
@@ -100,18 +100,18 @@ export default function CodeSuccessPage() {
               "Lack of compliance traceability → regulatory nonconformity"
             ]}
           />
-          <Text color="gray.300" mt={4}>
+          <Text color="gray.600" mt={4}>
             Yet all mainstream AI safety tools activate after deployment or late in the MLOps lifecycle.
           </Text>
 
-          <Heading size="md" color="white" mt={8} mb={4}>
+          <Heading size="md" color="blackAlpha.800" mt={8} mb={4}>
             Current Industry Gap
           </Heading>
           <VStack align="start" gap={2} mb={6}>
-            <Text color="gray.400">✔ MLOps tools validate after training</Text>
-            <Text color="gray.400">✔ Guardrails defend after inference</Text>
-            <Text color="gray.400" mb={4}>✔ Monitoring tools alert after misuse</Text>
-            <Text color="gray.200" fontWeight={"bold"}>❌ Nothing protects AI during creation — where 70% of AI risks actually originate.</Text>
+            <Text color="gray.600">✔ MLOps tools validate after training</Text>
+            <Text color="gray.600">✔ Guardrails defend after inference</Text>
+            <Text color="gray.600" mb={4}>✔ Monitoring tools alert after misuse</Text>
+            <Text color="gray.600" fontWeight={"bold"}>❌ Nothing protects AI during creation — where 70% of AI risks actually originate.</Text>
           </VStack>
           <Text color="red.500" fontWeight="bold" fontSize="lg">
             The AI industry is missing the “DevSecOps for AI” layer.
@@ -119,15 +119,15 @@ export default function CodeSuccessPage() {
         </TopicSection>
 
         <TopicSection id="topic-3" title={<span>3. The Solution: Secode<sup style={{ fontSize: '0.6em' }}>TM</sup></span>}>
-          <Text color="gray.300" mb={6}>
+          <Text color="gray.700" mb={6}>
             Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> is a Secure Vibe Code Generator and Pre-MLOps AI Security Platform that enforces trusted AI
             development at the source.
           </Text>
 
-          <Heading size="md" color="white" mb={4}>
+          <Heading size="md" color="blackAlpha.800" mb={4}>
             How Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> Works
           </Heading>
-          <Text color="gray.300" mb={2}>Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> plugs directly into:</Text>
+          <Text color="gray.700" mb={2}>Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> plugs directly into:</Text>
           <BulletList
             items={[
               "Developer IDEs",
@@ -137,7 +137,7 @@ export default function CodeSuccessPage() {
             ]}
           />
 
-          <Text color="gray.300" mt={4} mb={2}>It applies real-time checks for:</Text>
+          <Text color="gray.700" mt={4} mb={2}>It applies real-time checks for:</Text>
           <BulletList
             items={[
               "Hallucination prevention",
@@ -150,15 +150,15 @@ export default function CodeSuccessPage() {
             ]}
           />
 
-          <Heading size="md" color="white" mt={8} mb={4}>
+          <Heading size="md" color="blackAlpha.800" mt={8} mb={4}>
             Key Value Proposition
           </Heading>
           <Box borderLeft="4px solid" borderColor="blue.400" pl={4} py={2} mb={6} bg="whiteAlpha.50">
-            <Text color="white" fontSize="lg" fontStyle="italic">
+            <Text color="blackAlpha.800" fontSize="lg" fontStyle="italic">
               “Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> prevents unsafe AI before it is built.”
             </Text>
           </Box>
-          <Text color="gray.300" mb={2}>This makes it:</Text>
+          <Text color="gray.700" mb={2}>This makes it:</Text>
           <BulletList
             items={[
               "Preventive instead of corrective",
@@ -169,12 +169,12 @@ export default function CodeSuccessPage() {
         </TopicSection>
 
         <TopicSection id="topic-4" title="4. Product Overview">
-          <Heading size="md" color="white" mb={6}>
+          <Heading size="md" color="blackAlpha.800" mb={6}>
             Core Components
           </Heading>
           <Box display="grid" gridTemplateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6}>
-            <Box bg="whiteAlpha.50" p={6} borderRadius="lg">
-              <Heading size="sm" color="blue.300" mb={4}>1. Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> IDE Plug-in (Developer Integration)</Heading>
+            <Box bg="blackAlpha.50" p={6} borderRadius="lg">
+              <Heading size="sm" color="blue.500" mb={4}>1. Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> IDE Plug-in (Developer Integration)</Heading>
               <BulletList
                 items={[
                   "Safe prompt generation",
@@ -184,8 +184,8 @@ export default function CodeSuccessPage() {
                 ]}
               />
             </Box>
-            <Box bg="whiteAlpha.50" p={6} borderRadius="lg">
-              <Heading size="sm" color="blue.300" mb={4}>2. Dataset Guardian<sup style={{ fontSize: '0.6em' }}>TM</sup></Heading>
+            <Box bg="blackAlpha.50" p={6} borderRadius="lg">
+              <Heading size="sm" color="blue.500" mb={4}>2. Dataset Guardian<sup style={{ fontSize: '0.6em' }}>TM</sup></Heading>
               <BulletList
                 items={[
                   "Detects malicious or biased datasets",
@@ -194,8 +194,8 @@ export default function CodeSuccessPage() {
                 ]}
               />
             </Box>
-            <Box bg="whiteAlpha.50" p={6} borderRadius="lg">
-              <Heading size="sm" color="blue.300" mb={4}>3. Compliance Engine</Heading>
+            <Box bg="blackAlpha.50" p={6} borderRadius="lg">
+              <Heading size="sm" color="blue.500" mb={4}>3. Compliance Engine</Heading>
               <BulletList
                 items={[
                   "ISO 42001 AI Management",
@@ -205,8 +205,8 @@ export default function CodeSuccessPage() {
                 ]}
               />
             </Box>
-            <Box bg="whiteAlpha.50" p={6} borderRadius="lg">
-              <Heading size="sm" color="blue.300" mb={4}>4. Governance Dashboard</Heading>
+            <Box bg="blackAlpha.50" p={6} borderRadius="lg">
+              <Heading size="sm" color="blue.500" mb={4}>4. Governance Dashboard</Heading>
               <BulletList
                 items={[
                   "AI risk register",
@@ -220,7 +220,7 @@ export default function CodeSuccessPage() {
         </TopicSection>
 
         <TopicSection id="topic-5" title="5. Technology & Architecture">
-          <Text color="gray.300" mb={4}>
+          <Text color="gray.700" mb={4}>
             Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> is built on:
           </Text>
           <BulletList
@@ -233,13 +233,13 @@ export default function CodeSuccessPage() {
               "Plugin architecture compatible with VS Code, JetBrains, Jupyter, etc."
             ]}
           />
-          <Text color="gray.300" mt={4}>
+          <Text color="gray.700" mt={4}>
             The architecture is modular and built for enterprise expansion, including on-premise deployments.
           </Text>
         </TopicSection>
 
         <TopicSection id="topic-6" title="6. Market Opportunity">
-          <Text color="gray.300" mb={4}>
+          <Text color="gray.700" mb={4}>
             AI development is accelerating globally:
           </Text>
           <BulletList
@@ -251,7 +251,7 @@ export default function CodeSuccessPage() {
           />
 
           <Box display="grid" gap={4} my={6}>
-            <Box bg="whiteAlpha.50" p={4} borderRadius="lg">
+            <Box bg="whiteAlpha.900" p={4} borderRadius="lg">
               <HStack gap={6} align="center">
                 <Text
                   fontSize="5xl"
@@ -263,27 +263,27 @@ export default function CodeSuccessPage() {
                   color="transparent"
                   // 2. Define the white border (stroke).
                   css={{
-                    WebkitTextStroke: "1px #a3cfff",
+                    WebkitTextStroke: "1px #000000ff",
                     // 3. Create the "Fold" effect using a hard-stop linear gradient.
                     // We go from White -> Transparent/Blue Shadow to mimic a fold line.
-                    backgroundImage: "linear-gradient(75deg, white 0%, white 20%, #3eb5ffff 45%, #000000ff 100%)",
+                    backgroundImage: "linear-gradient(75deg, white 0%, white 20%, #000000ff 45%, #000000ff 100%)",
                     // 4. Clip the background to the text shape.
                     backgroundClip: "text",
                     WebkitBackgroundClip: "text",
                     // Optional: Add a subtle drop shadow to lift it off the page
-                    filter: "drop-shadow(0px 10px 20px rgba(0, 119, 255, 0.3))",
+                    // filter: "drop-shadow(0px 10px 20px rgba(0, 119, 255, 0.3))",
                   }}
                 >
                   $ 12.50<Text as="span" fontSize="3xl">B</Text>
                 </Text>
                 <Box>
-                  <Heading size="sm" color="blue.300" mb={1}>TAM (Total Addressable Market)</Heading>
-                  <Text fontSize="sm" color="gray.400">AI developers, AI-first enterprises, regulated industries</Text>
+                  <Heading size="sm" color="blue.500" mb={1}>TAM (Total Addressable Market)</Heading>
+                  <Text fontSize="sm" color="gray.600">AI developers, AI-first enterprises, regulated industries</Text>
                 </Box>
               </HStack>
             </Box>
 
-            <Box bg="whiteAlpha.50" p={4} borderRadius="lg">
+            <Box bg="whiteAlpha.900" p={4} borderRadius="lg">
               <HStack gap={6} align="center">
                 <Text
                   fontSize="5xl"
@@ -295,27 +295,27 @@ export default function CodeSuccessPage() {
                   color="transparent"
                   // 2. Define the white border (stroke).
                   css={{
-                    WebkitTextStroke: "1px #a3cfff",
+                    WebkitTextStroke: "1px #000000ff",
                     // 3. Create the "Fold" effect using a hard-stop linear gradient.
                     // We go from White -> Transparent/Blue Shadow to mimic a fold line.
-                    backgroundImage: "linear-gradient(75deg, white 0%, white 20%, #3eb5ffff 45%, #000000ff 100%)",
+                    backgroundImage: "linear-gradient(75deg, white 0%, white 20%, #000000ff 45%, #000000ff 100%)",
                     // 4. Clip the background to the text shape.
                     backgroundClip: "text",
                     WebkitBackgroundClip: "text",
                     // Optional: Add a subtle drop shadow to lift it off the page
-                    filter: "drop-shadow(0px 10px 20px rgba(0, 119, 255, 0.3))",
+                    // filter: "drop-shadow(0px 10px 20px rgba(0, 119, 255, 0.3))",
                   }}
                 >
                   $ 3.40<Text as="span" fontSize="3xl">B</Text>
                 </Text>
                 <Box>
-                  <Heading size="sm" color="blue.300" mb={1}>SAM (Serviceable Available Market)</Heading>
-                  <Text fontSize="sm" color="gray.400">Fintech, healthcare, autonomous systems, defense, GovTech</Text>
+                  <Heading size="sm" color="blue.500" mb={1}>SAM (Serviceable Available Market)</Heading>
+                  <Text fontSize="sm" color="gray.600">Fintech, healthcare, autonomous systems, defense, GovTech</Text>
                 </Box>
               </HStack>
             </Box>
 
-            <Box bg="whiteAlpha.50" p={4} borderRadius="lg">
+            <Box bg="whiteAlpha.900" p={4} borderRadius="lg">
               <HStack gap={6} align="center">
                 <Text
                   fontSize="5xl"
@@ -327,31 +327,31 @@ export default function CodeSuccessPage() {
                   color="transparent"
                   // 2. Define the white border (stroke).
                   css={{
-                    WebkitTextStroke: "1px #a3cfff",
+                    WebkitTextStroke: "1px #000000ff",
                     // 3. Create the "Fold" effect using a hard-stop linear gradient.
                     // We go from White -> Transparent/Blue Shadow to mimic a fold line.
-                    backgroundImage: "linear-gradient(75deg, white 0%, white 20%, #3eb5ffff 45%, #000000ff 100%)",
+                    backgroundImage: "linear-gradient(75deg, white 0%, white 20%, #000000ff 45%, #000000ff 100%)",
                     // 4. Clip the background to the text shape.
                     backgroundClip: "text",
                     WebkitBackgroundClip: "text",
                     // Optional: Add a subtle drop shadow to lift it off the page
-                    filter: "drop-shadow(0px 10px 20px rgba(0, 119, 255, 0.3))",
+                    // filter: "drop-shadow(0px 10px 20px rgba(0, 119, 255, 0.3))",
                   }}
                 >
                   $ 150<Text as="span" fontSize="3xl">M</Text>
                 </Text>
                 <Box>
-                  <Heading size="sm" color="blue.300" mb={1}>SOM (Serviceable Obtainable Market)</Heading>
-                  <Text fontSize="sm" color="gray.400">in 3–5 years (5,000 enterprises → 500,000 developers)</Text>
+                  <Heading size="sm" color="blue.500" mb={1}>SOM (Serviceable Obtainable Market)</Heading>
+                  <Text fontSize="sm" color="gray.600">in 3–5 years (5,000 enterprises → 500,000 developers)</Text>
                 </Box>
               </HStack>
             </Box>
           </Box>
 
-          <Text color="blue.200" fontWeight="bold" mb={6} fontSize="lg">
-            <Text as="span" fontSize="3xl" color="white" mr={1}
+          <Text color="blue.400" fontWeight="bold" mb={6} fontSize="lg">
+            <Text as="span" fontSize="4xl" color="blue.500" mr={1}
             css={{
-              WebkitTextStroke: "1px #a3cfff",
+              // WebkitTextStroke: "1px #000000",
             }}
             >
 
@@ -359,7 +359,7 @@ export default function CodeSuccessPage() {
               </Text> direct competitors in the Pre-MLOps category
           </Text>
 
-          <Heading size="md" color="white" mb={4}>
+          <Heading size="md" color="black" mb={4}>
             Market Timing
           </Heading>
           <BulletList
@@ -371,7 +371,8 @@ export default function CodeSuccessPage() {
             ]}
           />
           <Text color="green" fontWeight="bold" mt={4}>
-            The timing for Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> is ideal.
+            The timing for Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> is 
+            <Text as="span" fontSize="2xl" color="green.700"> ideal</Text>.
           </Text>
         </TopicSection>
 
@@ -386,57 +387,57 @@ export default function CodeSuccessPage() {
             ]}
           />
 
-          <Text color="white" fontWeight="bold" fontSize="lg" mt={6} mb={4}>
+          <Text color="blackAlpha.900" fontWeight="bold" fontSize="lg" mt={6} mb={4}>
             Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> is the only product securing AI before creation.
           </Text>
-          <Text color="gray.300">
+          <Text color="gray.600">
             This gives Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> a defensible early-mover advantage and category ownership strategy.
           </Text>
         </TopicSection>
 
         <TopicSection id="topic-8" title="8. Business Model">
-          <Heading size="md" color="white" mb={4}>
+          <Heading size="md" color="black" mb={4}>
             SaaS + Enterprise Licensing
           </Heading>
 
-          <Box overflowX="auto" mb={8} border="1px solid" borderColor="whiteAlpha.200" borderRadius="xl" bg="whiteAlpha.50">
+          <Box overflowX="auto" mb={8} border="1px solid" borderColor="blackAlpha.200" borderRadius="xl" bg="whiteAlpha.50">
             <Table.Root variant="line">
               <Table.Header bg="transparent">
                 <Table.Row bg="transparent">
-                  <Table.ColumnHeader color="blue.300">Revenue Stream</Table.ColumnHeader>
-                  <Table.ColumnHeader color="blue.300">Price</Table.ColumnHeader>
+                  <Table.ColumnHeader color="blue.400">Revenue Stream</Table.ColumnHeader>
+                  <Table.ColumnHeader color="blue.400">Price</Table.ColumnHeader>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
                 <Table.Row bg="transparent" _hover={{ bg: "whiteAlpha.50" }}>
-                  <Table.Cell color="white">Developer Seat</Table.Cell>
-                  <Table.Cell color="gray.300">$75 per user/month</Table.Cell>
+                  <Table.Cell color="black">Developer Seat</Table.Cell>
+                  <Table.Cell color="gray.600">$75 per user/month</Table.Cell>
                 </Table.Row>
                 <Table.Row bg="transparent" _hover={{ bg: "whiteAlpha.50" }}>
-                  <Table.Cell color="white">Enterprise License(200+ seats)</Table.Cell>
-                  <Table.Cell color="gray.300">$60k–$150k/year</Table.Cell>
+                  <Table.Cell color="black">Enterprise License(200+ seats)</Table.Cell>
+                  <Table.Cell color="gray.600">$60k–$150k/year</Table.Cell>
                 </Table.Row>
                 <Table.Row bg="transparent" _hover={{ bg: "whiteAlpha.50" }}>
-                  <Table.Cell color="white">Compliance Add-Ons</Table.Cell>
-                  <Table.Cell color="gray.300">$20k/year</Table.Cell>
+                  <Table.Cell color="black">Compliance Add-Ons</Table.Cell>
+                  <Table.Cell color="gray.600">$20k/year</Table.Cell>
                 </Table.Row>
                 <Table.Row bg="transparent" _hover={{ bg: "whiteAlpha.50" }}>
-                  <Table.Cell color="white">Dataset Guardian Pro</Table.Cell>
-                  <Table.Cell color="gray.300">$30k/year</Table.Cell>
+                  <Table.Cell color="black">Dataset Guardian Pro</Table.Cell>
+                  <Table.Cell color="gray.600">$30k/year</Table.Cell>
                 </Table.Row>
                 <Table.Row bg="transparent" _hover={{ bg: "whiteAlpha.50" }}>
-                  <Table.Cell color="white">On-Premise Deployment</Table.Cell>
-                  <Table.Cell color="gray.300">Starting $120k/year</Table.Cell>
+                  <Table.Cell color="black">On-Premise Deployment</Table.Cell>
+                  <Table.Cell color="gray.600">Starting $120k/year</Table.Cell>
                 </Table.Row>
                 <Table.Row bg="transparent" _hover={{ bg: "whiteAlpha.50" }}>
-                  <Table.Cell color="white">Professional Services</Table.Cell>
-                  <Table.Cell color="gray.300">$200/hour</Table.Cell>
+                  <Table.Cell color="black">Professional Services</Table.Cell>
+                  <Table.Cell color="gray.600">$200/hour</Table.Cell>
                 </Table.Row>
               </Table.Body>
             </Table.Root>
           </Box>
 
-          <Heading size="md" color="white" mb={4}>
+          <Heading size="md" color="black" mb={4}>
             Projected Revenue Mix (Year 3)
           </Heading>
           <BulletList
@@ -447,22 +448,22 @@ export default function CodeSuccessPage() {
             ]}
           />
 
-          <Text color="white" fontWeight="bold" mt={6}>
+          <Text color="black" fontWeight="bold" mt={6}>
             High predictability & enterprise appeal.
           </Text>
         </TopicSection>
 
         <TopicSection id="topic-9" title="9. Go-To-Market Strategy">
-          <Heading size="md" color="white" mb={4}>
+          <Heading size="md" color="black" mb={4}>
             Dual-Motion Strategy: PLG + Enterprise Sales
           </Heading>
 
-          <Text color="gray.300" mb={4}>
+          <Text color="gray.600" mb={4}>
             Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> leverages a developer-first adoption model to build a user base, converting usage into enterprise contracts via CISO-level sales.
           </Text>
 
           <Box mb={6}>
-            <Heading size="md" color="blue.300" mb={2}>
+            <Heading size="md" color="blue.500" mb={2}>
               Phase 1: Developer First
             </Heading>
             <BulletList
@@ -475,7 +476,7 @@ export default function CodeSuccessPage() {
           </Box>
 
           <Box mb={6}>
-            <Heading size="md" color="blue.300" mb={2}>
+            <Heading size="md" color="blue.500" mb={2}>
               Phase 2: Enterprise Sales
             </Heading>
             <BulletList
@@ -488,7 +489,7 @@ export default function CodeSuccessPage() {
           </Box>
 
           <Box>
-            <Heading size="md" color="blue.300" mb={2}>
+            <Heading size="md" color="blue.500" mb={2}>
               Phase 3: Ecosystem Integration
             </Heading>
             <BulletList
@@ -514,17 +515,17 @@ export default function CodeSuccessPage() {
         </TopicSection>
 
         <TopicSection id="topic-11" title="11. Team">
-          <Heading size="md" color="white" mb={6}>
+          <Heading size="md" color="black" mb={6}>
             The Founding Team of Secode<sup style={{ fontSize: '0.6em' }}>TM</sup>
           </Heading>
 
           <Box display="grid" gridTemplateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={6} mb={8}>
             {/* Manoj Neupane */}
-            <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
-              <Heading size="md" color="white" mb={1}>Mr. Manoj Neupane</Heading>
-              <Text color="blue.300" fontWeight="bold" mb={3}>Founder Chairman & CFO
+            <Box bg="blackAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="blackAlpha.100">
+              <Heading size="md" color="black" mb={1}>Mr. Manoj Neupane</Heading>
+              <Text color="blue.500" fontWeight="bold" mb={3}>Founder Chairman & CFO
               </Text>
-              <Text color="gray.300" fontSize="sm" mb={4}>
+              <Text color="gray.600" fontSize="sm" mb={4}>
                 Mr. Manoj Neupane is a highly respected banking and
                 finance leader with over 20 years of experience in
                 Nepal’s financial sector. He previously served as the
@@ -539,15 +540,15 @@ export default function CodeSuccessPage() {
                 Secode’s credibility with regulators, financial
                 institutions, and institutional investors.
               </Text>
-              <Link href="https://www.linkedin.com/in/manoj-neupane-b87542b1/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+              <Link href="https://www.linkedin.com/in/manoj-neupane-b87542b1/" target="_blank" color="blue.500" fontSize="sm" _hover={{ textDecoration: "underline" }}>
                 LinkedIn Profile
               </Link>
             </Box>
             {/* Ramesh Bhandari */}
-            <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
-              <Heading size="md" color="white" mb={1}>Mr. Ramesh Bhandari</Heading>
-              <Text color="blue.300" fontWeight="bold" mb={3}>Founder & CEO</Text>
-              <Text color="gray.300" fontSize="sm" mb={4}>
+            <Box bg="blackAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="blackAlpha.100">
+              <Heading size="md" color="black" mb={1}>Mr. Ramesh Bhandari</Heading>
+              <Text color="blue.500" fontWeight="bold" mb={3}>Founder & CEO</Text>
+              <Text color="gray.600" fontSize="sm" mb={4}>
                 Ramesh Bhandari is a serial entrepreneur with a
                 strong track record of building and scaling
                 technology-driven ventures across Nepal and the
@@ -564,7 +565,7 @@ export default function CodeSuccessPage() {
                 challenges at scale, working closely with global tech
                 and cybersecurity leaders.
               </Text>
-              <Link href="https://www.linkedin.com/in/rameshbhandari1/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+              <Link href="https://www.linkedin.com/in/rameshbhandari1/" target="_blank" color="blue.500" fontSize="sm" _hover={{ textDecoration: "underline" }}>
                 LinkedIn Profile
               </Link>
             </Box>
@@ -572,11 +573,11 @@ export default function CodeSuccessPage() {
 
 
             {/* Divyendu Bhatt */}
-            <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
-              <Heading size="md" color="white" mb={1}>Mr. Divyendu Bhatt</Heading>
-              <Text color="blue.300" fontWeight="bold" mb={3}>Founder, CTO & CISO
+            <Box bg="blackAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="blackAlpha.100">
+              <Heading size="md" color="black" mb={1}>Mr. Divyendu Bhatt</Heading>
+              <Text color="blue.500" fontWeight="bold" mb={3}>Founder, CTO & CISO
               </Text>
-              <Text color="gray.300" fontSize="sm" mb={4}>
+              <Text color="gray.600" fontSize="sm" mb={4}>
                 Mr. Divyendu Bhatt is a globally seasoned
                 cybersecurity executive with over 25 years of
                 experience securing large-scale enterprise and
@@ -593,16 +594,16 @@ export default function CodeSuccessPage() {
                 is built with real-world attacker awareness and
                 enterprise-grade rigor.
               </Text>
-              <Link href="https://www.linkedin.com/in/dm-bhatt-0bb8a48/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+              <Link href="https://www.linkedin.com/in/dm-bhatt-0bb8a48/" target="_blank" color="blue.500" fontSize="sm" _hover={{ textDecoration: "underline" }}>
                 LinkedIn Profile
               </Link>
             </Box>
 
             {/* Suresh Bhandari */}
-            <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
-              <Heading size="md" color="white" mb={1}>Mr. Suresh Bhandari</Heading>
-              <Text color="blue.300" fontWeight="bold" mb={3}>Founder & COO</Text>
-              <Text color="gray.300" fontSize="sm" mb={4}>
+            <Box bg="blackAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="blackAlpha.100">
+              <Heading size="md" color="black" mb={1}>Mr. Suresh Bhandari</Heading>
+              <Text color="blue.500" fontWeight="bold" mb={3}>Founder & COO</Text>
+              <Text color="gray.600" fontSize="sm" mb={4}>
                 Mr. Suresh Bhandari brings over 25 years of
                 experience across business consulting, ICT, and
                 alternative energy sectors. He has advised and
@@ -615,16 +616,16 @@ export default function CodeSuccessPage() {
                 strengthens Secode’s ability to execute sustainably
                 while navigating complex commercial environments.
               </Text>
-              <Link href="https://www.linkedin.com/in/sureshbhandari/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+              <Link href="https://www.linkedin.com/in/sureshbhandari/" target="_blank" color="blue.500" fontSize="sm" _hover={{ textDecoration: "underline" }}>
                 LinkedIn Profile
               </Link>
             </Box>
 
             {/* Tejash Raj Katuwal */}
-            <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
-              <Heading size="md" color="white" mb={1}>Mr. Tejash Raj Katuwal</Heading>
-              <Text color="blue.300" fontWeight="bold" mb={3}>Founder & Engineer</Text>
-              <Text color="gray.300" fontSize="sm" mb={4}>
+            <Box bg="blackAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="blackAlpha.100">
+              <Heading size="md" color="black" mb={1}>Mr. Tejash Raj Katuwal</Heading>
+              <Text color="blue.500" fontWeight="bold" mb={3}>Founder & Engineer</Text>
+              <Text color="gray.600" fontSize="sm" mb={4}>
                 Mr. Tejash Raj Katuwal is an AI engineer focused on
                 building practical, production-ready intelligence
                 systems. He has developed multiple AI-driven
@@ -638,16 +639,16 @@ export default function CodeSuccessPage() {
                 resources, enabling Secode to innovate rapidly while
                 maintaining engineering efficiency.
               </Text>
-              <Link href="https://www.linkedin.com/in/tejash-katuwal/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+              <Link href="https://www.linkedin.com/in/tejash-katuwal/" target="_blank" color="blue.500" fontSize="sm" _hover={{ textDecoration: "underline" }}>
                 LinkedIn Profile
               </Link>
             </Box>
 
             {/* Nibesh Suwal */}
-            <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
-              <Heading size="md" color="white" mb={1}>Mr. Nibesh Suwal</Heading>
-              <Text color="blue.300" fontWeight="bold" mb={3}>Founder & Engineer</Text>
-              <Text color="gray.300" fontSize="sm" mb={4}>
+            <Box bg="blackAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="blackAlpha.100">
+              <Heading size="md" color="black" mb={1}>Mr. Nibesh Suwal</Heading>
+              <Text color="blue.500" fontWeight="bold" mb={3}>Founder & Engineer</Text>
+              <Text color="gray.600" fontSize="sm" mb={4}>
                 Mr. Nibesh Suwal is a backend-focused architecture
                 engineer with deep involvement in designing secure,
                 scalable system infrastructures. He combines
@@ -660,16 +661,16 @@ export default function CodeSuccessPage() {
                 optimization, and security underpins Secode’s ability
                 to operate as a trusted enterprise security platform.
               </Text>
-              <Link href="https://www.linkedin.com/in/nibesh-suwal/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+              <Link href="https://www.linkedin.com/in/nibesh-suwal/" target="_blank" color="blue.500" fontSize="sm" _hover={{ textDecoration: "underline" }}>
                 LinkedIn Profile
               </Link>
             </Box>
 
             {/* Ritesh Raj Pandit */}
-            <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
-              <Heading size="md" color="white" mb={1}>Mr. Ritesh Raj Pandit</Heading>
-              <Text color="blue.300" fontWeight="bold" mb={3}>Founder & Engineer</Text>
-              <Text color="gray.300" fontSize="sm" mb={4}>
+            <Box bg="blackAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="blackAlpha.100">
+              <Heading size="md" color="black" mb={1}>Mr. Ritesh Raj Pandit</Heading>
+              <Text color="blue.500" fontWeight="bold" mb={3}>Founder & Engineer</Text>
+              <Text color="gray.600" fontSize="sm" mb={4}>
                 Mr. Ritesh Raj Pandit leads product experience and
                 interface design at Secode, bridging business logic
                 with user-centered engineering. He specializes in
@@ -681,16 +682,16 @@ export default function CodeSuccessPage() {
                 advanced security capabilities remain accessible,
                 usable, and adoption-ready for enterprise customers.
               </Text>
-              <Link href="https://www.linkedin.com/in/riteshrajpandit/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+              <Link href="https://www.linkedin.com/in/riteshrajpandit/" target="_blank" color="blue.500" fontSize="sm" _hover={{ textDecoration: "underline" }}>
                 LinkedIn Profile
               </Link>
             </Box>
 
             {/* Abiral Bhandari */}
-            <Box bg="whiteAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="whiteAlpha.100">
-              <Heading size="md" color="white" mb={1}>Mr. Abiral Bhandari</Heading>
-              <Text color="blue.300" fontWeight="bold" mb={3}>Founder & Engineer</Text>
-              <Text color="gray.300" fontSize="sm" mb={4}>
+            <Box bg="blackAlpha.50" p={6} borderRadius="xl" border="1px solid" borderColor="blackAlpha.100">
+              <Heading size="md" color="black" mb={1}>Mr. Abiral Bhandari</Heading>
+              <Text color="blue.500" fontWeight="bold" mb={3}>Founder & Engineer</Text>
+              <Text color="gray.600" fontSize="sm" mb={4}>
                 Mr. Abiral Bhandari brings a strong background in
                 system analysis, architecture planning, and project
                 execution, complemented by early experience in
@@ -703,63 +704,63 @@ export default function CodeSuccessPage() {
                 that meet performance, reliability, and scalability
                 standards.
               </Text>
-              <Link href="https://www.linkedin.com/in/abiralbhandari/" target="_blank" color="blue.400" fontSize="sm" _hover={{ textDecoration: "underline" }}>
+              <Link href="https://www.linkedin.com/in/abiralbhandari/" target="_blank" color="blue.500" fontSize="sm" _hover={{ textDecoration: "underline" }}>
                 LinkedIn Profile
               </Link>
             </Box>
           </Box>
-          <Text color="white" fontWeight="bold" fontSize="lg">
+          <Text color="black" fontWeight="bold" fontSize="lg">
             Augmented by advisors in cybersecurity and regulatory compliance.
           </Text>
         </TopicSection>
 
         <TopicSection id="topic-12" title="12. Financial Projections (3-Year Summary)">
-          <Box overflowX="auto" mb={8} border="1px solid" borderColor="whiteAlpha.200" borderRadius="xl" bg="whiteAlpha.50">
+          <Box overflowX="auto" mb={8} border="1px solid" borderColor="blackAlpha.200" borderRadius="xl" bg="whiteAlpha.50">
             <Table.Root variant="line">
               <Table.Header bg="transparent">
                 <Table.Row bg="transparent">
-                  <Table.ColumnHeader color="blue.300" fontWeight="bold">Metric</Table.ColumnHeader>
-                  <Table.ColumnHeader color="blue.300" fontWeight="bold" textAlign="center">Development Duration</Table.ColumnHeader>
-                  <Table.ColumnHeader color="blue.300" fontWeight="bold">Year 2</Table.ColumnHeader>
-                  <Table.ColumnHeader color="blue.300" fontWeight="bold">Year 3</Table.ColumnHeader>
-                  <Table.ColumnHeader color="blue.300" fontWeight="bold">Year 4</Table.ColumnHeader>
+                  <Table.ColumnHeader color="blue.500" fontWeight="bold">Metric</Table.ColumnHeader>
+                  <Table.ColumnHeader color="blue.500" fontWeight="bold" textAlign="center">Development Duration</Table.ColumnHeader>
+                  <Table.ColumnHeader color="blue.500" fontWeight="bold">Year 2</Table.ColumnHeader>
+                  <Table.ColumnHeader color="blue.500" fontWeight="bold">Year 3</Table.ColumnHeader>
+                  <Table.ColumnHeader color="blue.500" fontWeight="bold">Year 4</Table.ColumnHeader>
                 </Table.Row>
               </Table.Header>
               <Table.Body>
                 <Table.Row bg="transparent" _hover={{ bg: "whiteAlpha.50" }}>
-                  <Table.Cell color="white" fontWeight="bold">Revenue (ARR)</Table.Cell>
-                  <Table.Cell color="white" textAlign="center" rowSpan={4} verticalAlign="middle" borderRight="1px solid" borderLeft="1px solid" borderColor="whiteAlpha.200" bg="whiteAlpha.100">1 Year</Table.Cell>
-                  <Table.Cell color="gray.300">$1.8M</Table.Cell>
-                  <Table.Cell color="gray.300">$5.6M</Table.Cell>
-                  <Table.Cell color="gray.300">$10.8M</Table.Cell>
+                  <Table.Cell color="black" fontWeight="bold">Revenue (ARR)</Table.Cell>
+                  <Table.Cell color="black" textAlign="center" rowSpan={4} verticalAlign="middle" borderRight="1px solid" borderLeft="1px solid" borderColor="blackAlpha.200" bg="whiteAlpha.100">1 Year</Table.Cell>
+                  <Table.Cell color="gray.600">$1.8M</Table.Cell>
+                  <Table.Cell color="gray.600">$5.6M</Table.Cell>
+                  <Table.Cell color="gray.600">$10.8M</Table.Cell>
                 </Table.Row>
                 <Table.Row bg="transparent" _hover={{ bg: "whiteAlpha.50" }}>
-                  <Table.Cell color="white" fontWeight="bold">Gross Margin</Table.Cell>
-                  <Table.Cell color="gray.300">82%</Table.Cell>
-                  <Table.Cell color="gray.300">84%</Table.Cell>
-                  <Table.Cell color="gray.300">86%</Table.Cell>
+                  <Table.Cell color="black" fontWeight="bold">Gross Margin</Table.Cell>
+                  <Table.Cell color="gray.600">82%</Table.Cell>
+                  <Table.Cell color="gray.600">84%</Table.Cell>
+                  <Table.Cell color="gray.600">86%</Table.Cell>
                 </Table.Row>
                 <Table.Row bg="transparent" _hover={{ bg: "whiteAlpha.50" }}>
-                  <Table.Cell color="white" fontWeight="bold">Enterprise Clients</Table.Cell>
-                  <Table.Cell color="gray.300">12</Table.Cell>
-                  <Table.Cell color="gray.300">60</Table.Cell>
-                  <Table.Cell color="gray.300">220</Table.Cell>
+                  <Table.Cell color="black" fontWeight="bold">Enterprise Clients</Table.Cell>
+                  <Table.Cell color="gray.600">12</Table.Cell>
+                  <Table.Cell color="gray.600">60</Table.Cell>
+                  <Table.Cell color="gray.600">220</Table.Cell>
                 </Table.Row>
                 <Table.Row bg="transparent" _hover={{ bg: "whiteAlpha.50" }}>
-                  <Table.Cell color="white" fontWeight="bold">Developer Seats</Table.Cell>
-                  <Table.Cell color="gray.300">6000</Table.Cell>
-                  <Table.Cell color="gray.300">40000</Table.Cell>
-                  <Table.Cell color="gray.300">150000</Table.Cell>
+                  <Table.Cell color="black" fontWeight="bold">Developer Seats</Table.Cell>
+                  <Table.Cell color="gray.600">6000</Table.Cell>
+                  <Table.Cell color="gray.600">40000</Table.Cell>
+                  <Table.Cell color="gray.600">150000</Table.Cell>
                 </Table.Row>
               </Table.Body>
             </Table.Root>
           </Box>
 
           <Box mt={6}>
-            <Text color="gray.300" mb={2}>
+            <Text color="gray.600" mb={2}>
               Projected break-even: <strong>Month 26</strong>
             </Text>
-            <Text color="gray.300">
+            <Text color="gray.600">
               Revenue model validated by industry benchmarks.
             </Text>
           </Box>
@@ -769,14 +770,14 @@ export default function CodeSuccessPage() {
           <Box display="grid" gridTemplateColumns={{ base: "1fr", md: "1fr 1fr" }} gap={8} mb={8}>
             <Box>
               <Box mb={8}>
-                <Heading size="md" color="white" mb={2}>
+                <Heading size="md" color="black" mb={2}>
                   Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> is opening a Pre-Seed Round of $1.1M
                 </Heading>
-                <Text color="blue.300" fontSize="lg" fontWeight="bold">
+                <Text color="blue.500" fontSize="lg" fontWeight="bold">
                   Valuation: USD 5.5M, Pre-Money
                 </Text>
               </Box>
-              <Heading size="sm" color="white" mb={4}>Use of Funds</Heading>
+              <Heading size="sm" color="black" mb={4}>Use of Funds</Heading>
               <BulletList
                 items={[
                   "45% → Product development & engineering",
@@ -786,7 +787,7 @@ export default function CodeSuccessPage() {
                 ]}
               />
             </Box>
-            <Box bg="whiteAlpha.50" borderRadius="xl">
+            <Box bg="blackAlpha.50" borderRadius="xl">
               <DataChart
                 type="bar"
                 data={{
@@ -838,7 +839,7 @@ export default function CodeSuccessPage() {
                       position: 'bottom',
                       align: 'start',
                       labels: {
-                        color: 'white',
+                        color: 'black',
                         usePointStyle: true,
                         boxWidth: 10,
                         padding: 15,
@@ -847,7 +848,7 @@ export default function CodeSuccessPage() {
                     },
                     datalabels: {
                       display: true,
-                      color: 'white',
+                      color: 'black',
                       anchor: 'end',
                       align: 'end',
                       offset: -5,
@@ -869,8 +870,8 @@ export default function CodeSuccessPage() {
                     },
                     y: {
                       display: true,
-                      grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                      ticks: { color: 'rgba(255, 255, 255, 0.7)' },
+                      grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                      ticks: { color: 'rgba(0, 0, 0, 0.7)' },
                       suggestedMax: 55
                     }
                   },
@@ -885,7 +886,7 @@ export default function CodeSuccessPage() {
           </Box>
 
           <Box>
-            <Heading size="sm" color="white" mb={4}>Milestones Post-Funding</Heading>
+            <Heading size="sm" color="black" mb={4}>Milestones Post-Funding</Heading>
             <BulletList
               items={[
                 "Patent and IP protection activities",
@@ -900,12 +901,12 @@ export default function CodeSuccessPage() {
         </TopicSection>
 
         <TopicSection id="topic-14" title="14. Exit Strategy">
-          <Heading size="md" color="white" mb={4}>
+          <Heading size="md" color="black" mb={4}>
             Potential exit paths include:
           </Heading>
 
           <Box mb={6}>
-            <Heading size="md" color="blue.300" mb={2}>
+            <Heading size="md" color="blue.500" mb={2}>
               1. Acquisition by
             </Heading>
             <BulletList
@@ -919,30 +920,30 @@ export default function CodeSuccessPage() {
           </Box>
 
           <Box mb={6}>
-            <Heading size="md" color="blue.300" mb={2}>
+            <Heading size="md" color="blue.500" mb={2}>
               2. Strategic Merger
             </Heading>
-            <Text color="gray.300">
+            <Text color="gray.600">
               With cybersecurity vendors expanding into AI safety.
             </Text>
           </Box>
 
           <Box mb={6}>
-            <Heading size="md" color="blue.300" mb={2}>
+            <Heading size="md" color="blue.500" mb={2}>
               3. Long-term IPO
             </Heading>
-            <Text color="gray.300">
+            <Text color="gray.600">
               If category leadership is maintained.
             </Text>
           </Box>
 
-          <Text color="white" fontWeight="bold">
+          <Text color="black" fontWeight="bold">
             Given the regulatory tailwind, AI security is expected to consolidate significantly within 4–7 years.
           </Text>
         </TopicSection>
 
         <TopicSection id="topic-15" title="15. Investment Proposition">
-          <Heading size="md" color="white" mb={4}>
+          <Heading size="md" color="black" mb={4}>
             Investors in Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> gain exposure to:
           </Heading>
 
@@ -957,33 +958,33 @@ export default function CodeSuccessPage() {
             ]}
           />
 
-          <Text color="white" fontWeight="bold" mt={6}>
+          <Text color="black" fontWeight="bold" mt={6}>
             Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> is positioned to become the global standard for Trusted AI Development.
           </Text>
         </TopicSection>
 
         {/* Fund Commitment */}
         <TopicSection id="topic-16" title="16. Fund Commitment">
-          <Text color="gray.300" mb={8}>
+          <Text color="gray.600" mb={8}>
             USD {amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} has been committed to invest in Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> on the terms outlined in this deck. We
             invite you to join us in this opportunity to lead the future of secure AI development.
           </Text>
 
           <Box
             p={{ base: 6, md: 8 }}
-            bg="whiteAlpha.50"
+            bg="blackAlpha.50"
             borderRadius="xl"
             border="1px solid"
-            borderColor="whiteAlpha.500"
+            borderColor="blackAlpha.100"
           >
             <VStack gap={2} align="stretch" mb={4}>
               <HStack justify="space-between" align="baseline">
-                <Text color="gray.400" fontSize="sm">Committed</Text>
-                <Text color="gray.400" fontSize="sm">Target</Text>
+                <Text color="gray.600" fontSize="sm">Committed</Text>
+                <Text color="gray.600" fontSize="sm">Target</Text>
               </HStack>
               <HStack justify="space-between" align="baseline">
                 <HStack>
-                  <Text color="blue.300" fontSize={{ base: "xl", md: "2xl" }} fontWeight="bold">$</Text>
+                  <Text color="blue.500" fontSize={{ base: "xl", md: "2xl" }} fontWeight="bold">$</Text>
                   <NumberInput.Root
                     value={amount.toString()}
                     min={0}
@@ -993,7 +994,7 @@ export default function CodeSuccessPage() {
                     width="180px"
                   >
                     <NumberInput.Input
-                      color="blue.300"
+                      color="blue.500"
                       fontSize={{ base: "xl", md: "2xl" }}
                       fontWeight="bold"
                       padding={0}
@@ -1002,7 +1003,7 @@ export default function CodeSuccessPage() {
                     />
                   </NumberInput.Root>
                 </HStack>
-                <Text color="gray.500" fontSize={{ base: "md", md: "lg" }}>$1,100,000</Text>
+                <Text color="gray.800" fontSize={{ base: "md", md: "lg" }} >$1,100,000</Text>
               </HStack>
             </VStack>
 
@@ -1021,13 +1022,13 @@ export default function CodeSuccessPage() {
                   <Slider.Track
                     h="48px"
                     borderRadius="full"
-                    bg="whiteAlpha.100"
+                    bg="blackAlpha.500"
                     overflow="hidden"
                     backgroundImage="linear-gradient(45deg,rgba(255,255,255,.05) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.05) 50%,rgba(255,255,255,.05) 75%,transparent 75%,transparent)"
                     backgroundSize="24px 24px"
                   >
                     <Slider.Range
-                      bg={"white"}
+                      bg={"gray.700"}
                       bgGradient="linear(to-r, blue.400, blue.500)"
                       boxShadow="0 0 20px rgba(59, 130, 246, 0.4)"
                     />
@@ -1046,27 +1047,27 @@ export default function CodeSuccessPage() {
                 fontSize={{ base: "3xl", md: "5xl" }}
                 fontWeight="light"
                 lineHeight="1"
-                color="white"
+                color="black"
                 minW="fit-content"
               >
                 {(amount / 1100000 * 100).toFixed(2)}%
               </Text>
             </HStack>
 
-            <Text color="gray.400" fontSize="sm" mt={6} textAlign="center">
+            <Text color="gray.600" fontSize="sm" mt={6} textAlign="center">
               Pre-Seed Round Progress
             </Text>
           </Box>
         </TopicSection>
 
         <TopicSection id="topic-17" title="Conclusion">
-          <Text color="gray.300" mb={6}>
+          <Text color="gray.600" mb={6}>
             AI safety is no longer optional—it is a regulatory and operational requirement. Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> fills the most
             critical gap in the AI lifecycle by securing development itself. With increasing global mandates, strong
             technical validation, and zero competition in its category, Secode<sup style={{ fontSize: '0.6em' }}>TM</sup> is uniquely positioned for rapid
             adoption and scale.
           </Text>
-          <Text color="gray.300" fontWeight={"bold"} mb={400}>
+          <Text color="gray.600" fontWeight={"bold"} mb={400}>
             Investing now provides early ownership in a category-defining platform at the moment the market is
             forming.
           </Text>

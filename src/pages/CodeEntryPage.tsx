@@ -38,7 +38,7 @@ const SecurityBadge = memo(({ icon, label, description }: { icon: any; label: st
       >
         {label}
       </Text>
-      <Text fontSize="xs" color="gray.400" lineHeight="short">
+      <Text fontSize="xs" color="gray.600" lineHeight="short">
         {description}
       </Text>
     </VStack>
@@ -57,22 +57,22 @@ const PIN_INPUT_STYLES = {
   fontSize: { base: "xl", md: "2xl" },
   fontWeight: "semibold",
   borderRadius: "2xl",
-  bg: "whiteAlpha.50",
+  bg: "blackAlpha.50",
   border: "2px solid",
   borderColor: "whiteAlpha.100",
-  color: "white",
+  color: "black",
   transition: "all 0.2s cubic-bezier(0.4, 0, 0.2, 1)",
   _focus: {
-    borderColor: "whiteAlpha.400",
-    bg: "whiteAlpha.100",
-    boxShadow: "0 0 20px rgba(255, 255, 255, 0.05)",
+    borderColor: "blackAlpha.400",
+    bg: "blackAlpha.100",
+    boxShadow: "0 0 20px rgba(0, 0, 0, 0.05)",
     transform: "scale(1.05)",
     outline: "none",
   },
   _hover: {
-    borderColor: "whiteAlpha.200",
+    borderColor: "blackAlpha.200",
   },
-  _placeholder: { color: "gray.500" },
+  _placeholder: { color: "gray.600" },
 } as const
 
 const CodeEntryPage = () => {
@@ -167,7 +167,7 @@ const CodeEntryPage = () => {
       <Box
         position="relative"
         minH="100vh"
-        bg="gray.950"
+        bg="whiteAlpha.950"
         overflow="hidden"
         display="flex"
         alignItems="center"
@@ -180,10 +180,10 @@ const CodeEntryPage = () => {
           <Box
             p={{ base: 6, sm: 8, md: 10 }}
             borderRadius="3xl"
-            bg="whiteAlpha.100"
+            bg="blackAlpha.100"
             backdropFilter="blur(12px)"
             border="1px solid"
-            borderColor="whiteAlpha.100"
+            borderColor="blackAlpha.100"
             boxShadow="2xl"
             position="relative"
             overflow="hidden"
@@ -204,24 +204,24 @@ const CodeEntryPage = () => {
                 <Center
                   p={3}
                   borderRadius="full"
-                  bg="whiteAlpha.50"
+                  bg="blackAlpha.50"
                   border="1px solid"
-                  borderColor="whiteAlpha.200"
+                  borderColor="blackAlpha.200"
                   mb={2}
                 >
-                  <Icon as={HiLockClosed} fontSize="2xl" color="blue.400" />
+                  <Icon as={HiLockClosed} fontSize="2xl" color="blue.500" />
                 </Center>
                 <Heading
                   size={{ base: "xl", md: "2xl" }}
                   fontWeight="bold"
                   letterSpacing="tight"
-                  color="white"
+                  color="black"
                 >
                   Welcome to Secode
                 </Heading>
                 <Text
                   fontSize={{ base: "md", md: "lg" }}
-                  color="gray.400"
+                  color="gray.600"
                   maxW="sm"
                   mx="auto"
                   px={{ base: 2, sm: 0 }}

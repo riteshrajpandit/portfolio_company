@@ -35,10 +35,10 @@ export const SecureSidebar = ({ topics }: SecureSidebarProps) => {
             justifyContent="flex-start"
             w="full"
             size="sm"
-            color={activeId === topic.id ? "blue.400" : "gray.400"}
+            color={activeId === topic.id ? "blue.400" : "gray.800"}
             bg={activeId === topic.id ? "blue.400/10" : "transparent"}
             _hover={{
-              color: "blue.300",
+              color: "blue.600",
               bg: "blue.400/5",
             }}
             fontWeight={activeId === topic.id ? "semibold" : "medium"}
@@ -106,9 +106,9 @@ export const SecureSidebar = ({ topics }: SecureSidebarProps) => {
           </Drawer.Trigger>
           <Drawer.Backdrop />
           <Drawer.Positioner>
-            <Drawer.Content bg="gray.900" borderRight="1px solid" borderColor="whiteAlpha.200">
-              <Drawer.Header>
-                <Drawer.Title color="white">Table of Contents</Drawer.Title>
+            <Drawer.Content bg="whiteAlpha.900" >
+              <Drawer.Header bg="gray.600">
+                <Drawer.Title color="whiteAlpha.900">Table of Contents</Drawer.Title>
                 <Drawer.CloseTrigger color="gray.400" />
               </Drawer.Header>
               <Drawer.Body>

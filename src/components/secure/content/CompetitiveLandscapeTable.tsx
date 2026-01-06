@@ -18,15 +18,15 @@ export const CompetitiveLandscapeTable = ({ data }: CompetitiveLandscapeTablePro
       overflowX="auto" 
       borderRadius="xl" 
       border="1px solid" 
-      borderColor="whiteAlpha.200"
+      borderColor="blackAlpha.200"
       bg="whiteAlpha.50"
     >
       <Table.Root variant="line">
         <Table.Header bg="transparent">
           <Table.Row bg="transparent">
-            <Table.ColumnHeader color="blue.400" w="25%">Category</Table.ColumnHeader>
-            <Table.ColumnHeader color="gray.400" w="40%">Companies</Table.ColumnHeader>
-            <Table.ColumnHeader color="gray.400">Gap</Table.ColumnHeader>
+            <Table.ColumnHeader color="gray.600" w="25%">Category</Table.ColumnHeader>
+            <Table.ColumnHeader color="gray.600" w="40%">Companies</Table.ColumnHeader>
+            <Table.ColumnHeader color="gray.600">Gap</Table.ColumnHeader>
           </Table.Row>
         </Table.Header>
         <Table.Body>
@@ -36,13 +36,13 @@ export const CompetitiveLandscapeTable = ({ data }: CompetitiveLandscapeTablePro
               bg={row.highlight ? "whiteAlpha.100" : "transparent"} 
               _hover={{ bg: "whiteAlpha.50" }}
             >
-              <Table.Cell fontWeight="bold" color={row.highlight ? "blue.200" : "whiteAlpha.900"}>
+              <Table.Cell fontWeight="bold" color={row.highlight ? "blue.400" : "blackAlpha.600"}>
                 {row.category}
               </Table.Cell>
-              <Table.Cell color={row.highlight ? "blue.200" : "gray.300"} fontWeight={row.highlight ? "bold" : "normal"}>
+              <Table.Cell color={row.highlight ? "blue.400" : "gray.600"} fontWeight={row.highlight ? "bold" : "normal"}>
                 {row.companies}
               </Table.Cell>
-              <Table.Cell color={row.highlight ? "blue.200" : "gray.300"} fontWeight={row.highlight ? "bold" : "normal"}>
+              <Table.Cell color={row.highlight ? "blue.400" : "gray.600"} fontWeight={row.highlight ? "bold" : "normal"}>
                 {row.gap}
               </Table.Cell>
             </Table.Row>

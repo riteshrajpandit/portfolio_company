@@ -10,7 +10,7 @@ const Curve = ({ delay, yStart, yEnd, amplitude }: { delay: number, yStart: numb
     <motion.path
       d={path}
       fill="none"
-      stroke="white"
+      stroke="gray"
       strokeWidth="0.2"
       initial={{ pathLength: 0, opacity: 0 }}
       animate={{ 
