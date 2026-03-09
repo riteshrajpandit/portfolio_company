@@ -105,7 +105,7 @@ const CodeEntryPage = () => {
 
       try {
         // Default access code for direct frontend access
-        if (data.code === "010101") {
+        if (data.code === "440335") {
           toaster.create({
             title: "Access Granted",
             description: "Your secure session is now active.",
