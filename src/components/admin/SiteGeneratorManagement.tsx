@@ -113,8 +113,8 @@ export const SiteGeneratorManagement = () => {
             colorScheme="blue"
             size="lg"
             onClick={handleCreateSite}
-            leftIcon={<Icon as={HiGlobe} />}
           >
+            <Icon as={HiGlobe} />
             Create New Site
           </Button>
         </HStack>

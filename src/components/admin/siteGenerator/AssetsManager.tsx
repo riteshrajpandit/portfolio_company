@@ -101,8 +101,8 @@ export const AssetsManager = ({ siteId, assets, onAssetUploaded }: AssetsManager
               size="sm"
               onClick={() => fileInputRef.current?.click()}
               loading={uploading}
-              leftIcon={<Icon as={HiUpload} />}
             >
+              <Icon as={HiUpload} />
               Upload Files
             </Button>
           </HStack>
@@ -188,7 +188,7 @@ export const AssetsManager = ({ siteId, assets, onAssetUploaded }: AssetsManager
 
                   <Box p={3}>
                     <VStack align="stretch" gap={2}>
-                      <Text fontSize="sm" fontWeight="600" color="gray.800" noOfLines={1}>
+                      <Text fontSize="sm" fontWeight="600" color="gray.800" lineClamp={1}>
                         {asset.original_filename}
                       </Text>
                       <Text fontSize="xs" color="gray.500">
@@ -199,8 +199,8 @@ export const AssetsManager = ({ siteId, assets, onAssetUploaded }: AssetsManager
                         variant="outline"
                         colorScheme="blue"
                         onClick={() => copyToClipboard(asset.url)}
-                        leftIcon={<Icon as={HiClipboardCopy} />}
                       >
+                        <Icon as={HiClipboardCopy} />
                         Copy URL
                       </Button>
                     </VStack>

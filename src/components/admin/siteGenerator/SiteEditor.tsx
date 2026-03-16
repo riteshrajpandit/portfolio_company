@@ -179,8 +179,8 @@ export const SiteEditor = ({ site, onSave, onCancel, onDelete }: SiteEditorProps
               size="sm"
               variant="outline"
               onClick={() => setPreviewMode(!previewMode)}
-              leftIcon={<Icon as={previewMode ? HiCode : HiEye} />}
             >
+              <Icon as={previewMode ? HiCode : HiEye} />
               {previewMode ? "Edit" : "Preview"}
             </Button>
             {site && (
@@ -189,12 +189,13 @@ export const SiteEditor = ({ site, onSave, onCancel, onDelete }: SiteEditorProps
                 variant="ghost"
                 colorScheme="red"
                 onClick={handleDelete}
-                leftIcon={<Icon as={HiTrash} />}
               >
+                <Icon as={HiTrash} />
                 Delete Site
               </Button>
             )}
-            <Button size="sm" variant="outline" onClick={onCancel} leftIcon={<Icon as={HiX} />}>
+            <Button size="sm" variant="outline" onClick={onCancel}>
+              <Icon as={HiX} />
               Cancel
             </Button>
             <Button
@@ -202,8 +203,8 @@ export const SiteEditor = ({ site, onSave, onCancel, onDelete }: SiteEditorProps
               colorScheme="blue"
               onClick={handleSubmit}
               loading={saving}
-              leftIcon={<Icon as={HiSave} />}
             >
+              <Icon as={HiSave} />
               {site ? "Update" : "Create"}
             </Button>
           </HStack>
