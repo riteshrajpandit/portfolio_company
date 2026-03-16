@@ -162,3 +162,4 @@ public/.DS_Store
 user_data.json
 package-lock.json
 public/teams/
+.DS_Store
