@@ -258,6 +258,68 @@ interface CodeListResponse {
   success: boolean
 }
 
+// Site Generator Interfaces
+interface Site {
+  id?: number
+  user?: number
+  slug: string
+  title: string
+  description: string
+  is_public: boolean
+  is_published: boolean
+  html_content?: string
+  css_content?: string
+  js_content?: string
+  assets?: Asset[]
+  url?: string
+  username?: string
+  created_at?: string
+  updated_at?: string
+}
+
+interface SiteCreateData {
+  slug: string
+  title: string
+  description: string
+  is_public: boolean
+  is_published: boolean
+  html_content?: string
+  css_content?: string
+  js_content?: string
+}
+
+interface SiteUpdateData {
+  title?: string
+  description?: string
+  is_public?: boolean
+  is_published?: boolean
+  html_content?: string
+  css_content?: string
+  js_content?: string
+}
+
+interface SiteListResponse {
+  data: Site[]
+  message: string
+  success: boolean
+}
+
+interface Asset {
+  id?: number
+  file: string
+  original_filename: string
+  file_type: string
+  file_size: number
+  url: string
+  created_at?: string
+}
+
+interface AssetListResponse {
+  data: Asset[]
+  message: string
+  success: boolean
+}
+
 class ApiService {
   private baseUrl: string
 
@@ -699,12 +761,78 @@ class ApiService {
       body: JSON.stringify({ code }),
     })
   }
+
+  // Site Generator API Methods
+
+  // Sites
+  async getSites(): Promise<SiteListResponse> {
+    return this.authenticatedRequest<Site[]>('/api/sites/', {
+      method: 'GET',
+    }) as unknown as SiteListResponse
+  }
+
+  async getSiteById(id: number): Promise<ApiResponse<Site>> {
+    return this.authenticatedRequest<Site>(`/api/sites/detail/?id=${id}`, {
+      method: 'GET',
+    })
+  }
+
+  async createSite(siteData: SiteCreateData): Promise<ApiResponse<Site>> {
+    return this.authenticatedRequest<Site>('/api/sites/', {
+      method: 'POST',
+      body: JSON.stringify(siteData),
+    })
+  }
+
+  async updateSite(id: number, siteData: SiteUpdateData): Promise<ApiResponse<Site>> {
+    return this.authenticatedRequest<Site>(`/api/sites/detail/?id=${id}`, {
+      method: 'PATCH',
+      body: JSON.stringify(siteData),
+    })
+  }
+
+  async deleteSite(id: number): Promise<ApiResponse<null>> {
+    return this.authenticatedRequest<null>(`/api/sites/detail/?id=${id}`, {
+      method: 'DELETE',
+    })
+  }
+
+  // Assets
+  async getAssets(siteId: number): Promise<AssetListResponse> {
+    return this.authenticatedRequest<Asset[]>(`/api/sites/assets/?site_id=${siteId}`, {
+      method: 'GET',
+    }) as unknown as AssetListResponse
+  }
+
+  async uploadAsset(siteId: number, file: File): Promise<ApiResponse<Asset>> {
+    const token = localStorage.getItem('admin_token')
+    const formData = new FormData()
+    formData.append('site', siteId.toString())
+    formData.append('file', file)
+
+    const config: RequestInit = {
+      method: 'POST',
+      body: formData,
+      headers: token ? {
+        'Authorization': `Token ${token}`,
+      } : {},
+    }
+
+    const response = await fetch(`${this.baseUrl}/api/sites/assets/`, config)
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}))
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`)
+    }
+
+    return await response.json()
+  }
 }
 
 export const apiService = new ApiService(API_BASE_URL)
-export type { 
-  LoginResponse, 
-  LoginCredentials, 
+export type {
+  LoginResponse,
+  LoginCredentials,
   ApiResponse,
   Career,
   CareerCreateData,
@@ -728,5 +856,11 @@ export type {
   GalleryCreateData,
   GalleryListResponse,
   Code,
-  CodeListResponse
+  CodeListResponse,
+  Site,
+  SiteCreateData,
+  SiteUpdateData,
+  SiteListResponse,
+  Asset,
+  AssetListResponse
 }

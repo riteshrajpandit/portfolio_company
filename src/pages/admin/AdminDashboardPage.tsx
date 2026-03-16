@@ -26,6 +26,7 @@ import {
   HiX,
   HiClock,
   HiKey,
+  HiGlobe,
 } from "react-icons/hi"
 import SEO from "@/components/SEO"
 import { toaster } from "@/components/ui/toaster"
@@ -42,6 +43,7 @@ import { ServicesManagement } from "@/components/admin/ServicesManagement"
 import { GalleryManagement } from "@/components/admin/GalleryManagement"
 import { TeamMembersManagement } from "@/components/admin/TeamMembersManagement"
 import { CodesManagement } from "@/components/admin/CodesManagement"
+import { SiteGeneratorManagement } from "@/components/admin/SiteGeneratorManagement"
 import { VisitorsChart, JobsApplicationsChart, MessagesChart } from "@/components/admin/charts"
 
 const MotionBox = motion(Box)
@@ -69,6 +71,7 @@ const AdminDashboardPage = () => {
     { id: "services", label: "Services", icon: HiCog, badge: null },
     { id: "gallery", label: "Gallery", icon: HiPhotograph, badge: null },
     { id: "team", label: "Team Members", icon: HiUsers, badge: null },
+    { id: "sitegenerator", label: "Site Generator", icon: HiGlobe, badge: null },
     { id: "codes", label: "Codes", icon: HiKey, badge: null },
   ]
 
@@ -225,6 +228,7 @@ const AdminDashboardPage = () => {
                         {activeMenu === "services" && "Manage Services"}
                         {activeMenu === "gallery" && "Manage Gallery"}
                         {activeMenu === "team" && "Manage Team Members"}
+                        {activeMenu === "sitegenerator" && "Site Generator"}
                       </Heading>
                       <Text color="neutral.600">
                         {activeMenu === "dashboard" && "Here's what's happening with your platform today."}
@@ -237,6 +241,7 @@ const AdminDashboardPage = () => {
                         {activeMenu === "services" && "Add, edit, and manage your service offerings"}
                         {activeMenu === "gallery" && "Manage gallery categories and images"}
                         {activeMenu === "team" && "Add, edit, and manage your team members displayed on About page"}
+                        {activeMenu === "sitegenerator" && "Create and manage custom websites with HTML, CSS, and JavaScript"}
                       </Text>
                     </VStack>
                     <Text fontSize="sm" color="neutral.500">
@@ -397,6 +402,11 @@ const AdminDashboardPage = () => {
                 {/* Team Members View */}
                 {activeMenu === "team" && (
                   <TeamMembersManagement />
+                )}
+
+                {/* Site Generator View */}
+                {activeMenu === "sitegenerator" && (
+                  <SiteGeneratorManagement />
                 )}
 
                 {/* Codes View */}
