@@ -165,3 +165,4 @@ public/teams/
 .DS_Store
 POSTMAN_COLLECTION.json
 nginx.conf
+frontend.config
