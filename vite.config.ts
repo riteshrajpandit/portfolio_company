@@ -22,6 +22,8 @@ const FRONTEND_SEGMENTS = new Set([
   'terms',
   'roi-calculator',
   'sitemap',
+  // Block Django admin from being proxied — React Router serves 404 instead
+  'admin',
 ])
 
 // https://vite.dev/config/
