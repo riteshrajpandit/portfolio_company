@@ -426,7 +426,16 @@ export const CareersPage = () => {
                             </Button>
                           </HStack>
                           
-                          <Text color="muted" lineHeight="1.6">
+                          <Text
+                            color="muted"
+                            lineHeight="1.6"
+                            style={{
+                              display: '-webkit-box',
+                              WebkitLineClamp: 2,
+                              WebkitBoxOrient: 'vertical',
+                              overflow: 'hidden',
+                            }}
+                          >
                             {position.job.description}
                           </Text>
                           
